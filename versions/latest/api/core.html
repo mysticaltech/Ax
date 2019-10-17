@@ -2814,6 +2814,8 @@ and checks that the sum is less than the bound.</p>
 <dt id="ax.core.parameter_constraint.SumConstraint.clone">
 <code class="sig-name descname">clone</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/parameter_constraint.html#SumConstraint.clone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.parameter_constraint.SumConstraint.clone" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clone.</p>
+<p>To use the same constraint, we need to reconstruct the original bound.
+We do this by re-applying the original bound weighting.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#ax.core.parameter_constraint.SumConstraint" title="ax.core.parameter_constraint.SumConstraint"><code class="xref py py-class docutils literal notranslate"><span class="pre">SumConstraint</span></code></a></p>

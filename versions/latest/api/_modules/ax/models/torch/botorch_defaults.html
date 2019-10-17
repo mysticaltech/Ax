@@ -274,6 +274,21 @@ src="/js/documentation_options.js">
         <span class="k">if</span> <span class="s2">"method"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">"method"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"SLSQP"</span>
 
+    <span class="c1"># pyre-fixme[29]: `Union[(acq_function: AcquisitionFunction, bounds: Tensor, q:</span>
+    <span class="c1">#  int, num_restarts: int, raw_samples: int, options: Optional[Dict[str,</span>
+    <span class="c1">#  Union[bool, float, int]]] = ..., inequality_constraints:</span>
+    <span class="c1">#  Optional[List[Tuple[Tensor, Tensor, float]]] = ..., equality_constraints:</span>
+    <span class="c1">#  Optional[List[Tuple[Tensor, Tensor, float]]] = ..., fixed_features:</span>
+    <span class="c1">#  Optional[Dict[int, float]] = ..., post_processing_func: Optional[(Tensor) -&gt;</span>
+    <span class="c1">#  Tensor] = ..., batch_initial_conditions: Optional[Tensor] = ...,</span>
+    <span class="c1">#  return_best_only: bool = ...) -&gt; Tuple[Tensor, Tensor], (acq_function:</span>
+    <span class="c1">#  AcquisitionFunction, bounds: Tensor, q: int, num_restarts: int, raw_samples:</span>
+    <span class="c1">#  int, options: Optional[Dict[str, Union[bool, float, int]]] = ...,</span>
+    <span class="c1">#  inequality_constraints: Optional[List[Tuple[Tensor, Tensor, float]]] = ...,</span>
+    <span class="c1">#  equality_constraints: Optional[List[Tuple[Tensor, Tensor, float]]] = ...,</span>
+    <span class="c1">#  fixed_features: Optional[Dict[int, float]] = ..., post_processing_func:</span>
+    <span class="c1">#  Optional[(Tensor) -&gt; Tensor] = ...) -&gt; Tuple[Tensor, Tensor]]` is not a</span>
+    <span class="c1">#  function.</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">optimize</span><span class="p">(</span>
         <span class="n">acq_function</span><span class="o">=</span><span class="n">acq_function</span><span class="p">,</span>
         <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
@@ -328,7 +343,6 @@ src="/js/documentation_options.js">
             <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">gp_model</span> <span class="o">=</span> <span class="n">model_list</span><span class="p">[</span><span class="n">fidelity_model_id</span><span class="p">]</span>
-        <span class="c1"># pyre-ignore [29]</span>
         <span class="n">gp</span> <span class="o">=</span> <span class="n">gp_model</span><span class="p">(</span><span class="n">train_X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">train_Y</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">train_data_fidelity</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">gp</span>
 </pre></div>

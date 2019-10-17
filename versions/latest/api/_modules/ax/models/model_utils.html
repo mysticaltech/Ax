@@ -307,9 +307,17 @@ src="/js/documentation_options.js">
     <span class="c1"># Parse options</span>
     <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># pyre-fixme[9]: method has type `str`; used as `Union[AcquisitionFunction,</span>
+    <span class="c1">#  float, int, str]`.</span>
     <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"best_point_method"</span><span class="p">,</span> <span class="s2">"max_utility"</span><span class="p">)</span>
+    <span class="c1"># pyre-fixme[9]: B has type `Optional[float]`; used as</span>
+    <span class="c1">#  `Optional[Union[AcquisitionFunction, float, int, str]]`.</span>
     <span class="n">B</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"utility_baseline"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="c1"># pyre-fixme[9]: threshold has type `float`; used as `Union[AcquisitionFunction,</span>
+    <span class="c1">#  float, int, str]`.</span>
     <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"probability_threshold"</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">)</span>
+    <span class="c1"># pyre-fixme[9]: nsamp has type `int`; used as `Union[AcquisitionFunction,</span>
+    <span class="c1">#  float, int, str]`.</span>
     <span class="n">nsamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"feasibility_mc_samples"</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
     <span class="c1"># Get points observed for all objective and constraint outcomes</span>
     <span class="k">if</span> <span class="n">objective_weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>

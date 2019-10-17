@@ -37,6 +37,8 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">torch</span> <span class="k">import</span> <span class="n">Tensor</span>
 
 
+<span class="c1"># pyre-fixme[13]: Attribute `device` is never initialized.</span>
+<span class="c1"># pyre-fixme[13]: Attribute `dtype` is never initialized.</span>
 <div class="viewcode-block" id="TorchModel"><a class="viewcode-back" href="../../../models.html#ax.models.torch_base.TorchModel">[docs]</a><span class="k">class</span> <span class="nc">TorchModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="sd">"""This class specifies the interface for a torch-based model.</span>
 
@@ -44,9 +46,7 @@ src="/js/documentation_options.js">
 <span class="sd">    of Ax.</span>
 <span class="sd">    """</span>
 
-    <span class="c1"># pyre-fixme[13]: Attribute `dtype` is never initialized.</span>
     <span class="n">dtype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">dtype</span><span class="p">]</span>
-    <span class="c1"># pyre-fixme[13]: Attribute `device` is never initialized.</span>
     <span class="n">device</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">]</span>
 
 <div class="viewcode-block" id="TorchModel.fit"><a class="viewcode-back" href="../../../models.html#ax.models.torch_base.TorchModel.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>

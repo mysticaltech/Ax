@@ -105,7 +105,6 @@ src="/js/documentation_options.js">
                 <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
                     <span class="n">equal</span> <span class="o">=</span> <span class="kc">False</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">SQABase</span><span class="p">):</span>
-                    <span class="c1"># pyre-fixme[6]: Expected `SQABase` for 1st param but got `T`.</span>
                     <span class="n">equal</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">Enum</span><span class="p">)):</span>
                     <span class="c1"># pyre-fixme[29]: `Union[Callable[[object], bool],</span>

@@ -50,19 +50,19 @@ src="/js/documentation_options.js">
 <span class="n">FIT_MODEL_ERROR</span> <span class="o">=</span> <span class="s2">"Model must be fit before </span><span class="si">{action}</span><span class="s2">."</span>
 
 
+<span class="c1"># pyre-fixme[13]: Attribute `model` is never initialized.</span>
+<span class="c1"># pyre-fixme[13]: Attribute `outcomes` is never initialized.</span>
+<span class="c1"># pyre-fixme[13]: Attribute `parameters` is never initialized.</span>
+<span class="c1"># pyre-fixme[13]: Attribute `search_space` is never initialized.</span>
 <div class="viewcode-block" id="DiscreteModelBridge"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.discrete.DiscreteModelBridge">[docs]</a><span class="k">class</span> <span class="nc">DiscreteModelBridge</span><span class="p">(</span><span class="n">ModelBridge</span><span class="p">):</span>
     <span class="sd">"""A model bridge for using models based on discrete parameters.</span>
 
 <span class="sd">    Requires that all parameters have been transformed to ChoiceParameters.</span>
 <span class="sd">    """</span>
 
-    <span class="c1"># pyre-fixme[13]: Attribute `model` is never initialized.</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">DiscreteModel</span>
-    <span class="c1"># pyre-fixme[13]: Attribute `outcomes` is never initialized.</span>
     <span class="n">outcomes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1"># pyre-fixme[13]: Attribute `parameters` is never initialized.</span>
     <span class="n">parameters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1"># pyre-fixme[13]: Attribute `search_space` is never initialized.</span>
     <span class="n">search_space</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SearchSpace</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_fit</span><span class="p">(</span>

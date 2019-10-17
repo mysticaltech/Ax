@@ -35,6 +35,9 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">ax.models.numpy_base</span> <span class="k">import</span> <span class="n">NumpyModel</span>
 
 
+<span class="c1"># pyre-fixme[13]: Attribute `model` is never initialized.</span>
+<span class="c1"># pyre-fixme[13]: Attribute `outcomes` is never initialized.</span>
+<span class="c1"># pyre-fixme[13]: Attribute `parameters` is never initialized.</span>
 <div class="viewcode-block" id="NumpyModelBridge"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.numpy.NumpyModelBridge">[docs]</a><span class="k">class</span> <span class="nc">NumpyModelBridge</span><span class="p">(</span><span class="n">ArrayModelBridge</span><span class="p">):</span>
     <span class="sd">"""A model bridge for using numpy array-based models.</span>
 
@@ -44,11 +47,8 @@ src="/js/documentation_options.js">
 <span class="sd">    or FixedParameters with float type and no log scale.</span>
 <span class="sd">    """</span>
 
-    <span class="c1"># pyre-fixme[13]: Attribute `model` is never initialized.</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">NumpyModel</span>
-    <span class="c1"># pyre-fixme[13]: Attribute `outcomes` is never initialized.</span>
     <span class="n">outcomes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="c1"># pyre-fixme[13]: Attribute `parameters` is never initialized.</span>
     <span class="n">parameters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></div>
 </pre></div>
 </div>
