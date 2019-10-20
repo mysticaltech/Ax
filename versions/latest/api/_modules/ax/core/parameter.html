@@ -70,6 +70,7 @@ src="/js/documentation_options.js">
 
 <div class="viewcode-block" id="Parameter"><a class="viewcode-back" href="../../../core.html#ax.Parameter">[docs]</a><span class="k">class</span> <span class="nc">Parameter</span><span class="p">(</span><span class="n">Base</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
     <span class="n">_is_fidelity</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">_target_value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TParamValue</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">_cast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">TParamValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TParamValue</span><span class="p">:</span>

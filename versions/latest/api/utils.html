@@ -359,6 +359,20 @@ This is necessary because some of our transforms return Numpy values.</p>
 <p>Branin function (2-dimensional with 3 global minima).</p>
 </dd></dl>
 <dl class="class">
+<dt id="ax.utils.measurement.synthetic_functions.FromBotorch">
+<em class="property">class </em><code class="sig-prename descclassname">ax.utils.measurement.synthetic_functions.</code><code class="sig-name descname">FromBotorch</code><span class="sig-paren">(</span><em class="sig-param">botorch_synthetic_function</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/measurement/synthetic_functions.html#FromBotorch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.FromBotorch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ax.utils.measurement.synthetic_functions.SyntheticFunction" title="ax.utils.measurement.synthetic_functions.SyntheticFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.utils.measurement.synthetic_functions.SyntheticFunction</span></code></a></p>
+<dl class="method">
+<dt id="ax.utils.measurement.synthetic_functions.FromBotorch.name">
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.FromBotorch.name" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="class">
 <dt id="ax.utils.measurement.synthetic_functions.Hartmann6">
 <em class="property">class </em><code class="sig-prename descclassname">ax.utils.measurement.synthetic_functions.</code><code class="sig-name descname">Hartmann6</code><a class="reference internal" href="_modules/ax/utils/measurement/synthetic_functions.html#Hartmann6"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.Hartmann6" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ax.utils.measurement.synthetic_functions.SyntheticFunction" title="ax.utils.measurement.synthetic_functions.SyntheticFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.utils.measurement.synthetic_functions.SyntheticFunction</span></code></a></p>
@@ -537,7 +551,7 @@ of observations and d is the dimensionality of the inputs.</p>
 </dd></dl>
 <dl class="function">
 <dt id="ax.utils.report.render.render_report_elements">
-<code class="sig-prename descclassname">ax.utils.report.render.</code><code class="sig-name descname">render_report_elements</code><span class="sig-paren">(</span><em class="sig-param">experiment_name</em>, <em class="sig-param">html_elements</em>, <em class="sig-param">header=True</em>, <em class="sig-param">offline=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/report/render.html#render_report_elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.report.render.render_report_elements" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ax.utils.report.render.</code><code class="sig-name descname">render_report_elements</code><span class="sig-paren">(</span><em class="sig-param">experiment_name</em>, <em class="sig-param">html_elements</em>, <em class="sig-param">header=True</em>, <em class="sig-param">offline=False</em>, <em class="sig-param">notebook_env=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/report/render.html#render_report_elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.report.render.render_report_elements" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate Ax HTML report for a given experiment from HTML elements.</p>
 <p>Uses Jinja2 for template. Injects Plotly JS for graph rendering.</p>
 <p>Example:</p>
@@ -562,6 +576,8 @@ Meant to be used for standalone reports (e.g. via email), as opposed
 to served on the front-end.</p></li>
 <li><p><strong>offline</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – if True, entire Plotly library is bundled
 with report.</p></li>
+<li><p><strong>notebook_env</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – if True, caps the report width to 700px for viewing in a
+notebook environment.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

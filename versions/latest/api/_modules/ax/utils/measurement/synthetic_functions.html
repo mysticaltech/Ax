@@ -33,8 +33,10 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.docutils</span> <span class="k">import</span> <span class="n">copy_doc</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">checked_cast</span><span class="p">,</span> <span class="n">not_none</span>
+<span class="kn">from</span> <span class="nn">botorch.test_functions</span> <span class="k">import</span> <span class="n">synthetic</span> <span class="k">as</span> <span class="n">botorch_synthetic</span>
 
 
 <div class="viewcode-block" id="informative_failure_on_none"><a class="viewcode-back" href="../../../../utils.html#ax.utils.measurement.synthetic_functions.informative_failure_on_none">[docs]</a><span class="k">def</span> <span class="nf">informative_failure_on_none</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
@@ -42,8 +44,7 @@ src="/js/documentation_options.js">
         <span class="n">res</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">"</span><span class="si">{args[0].__class__.__name__}</span><span class="s2"> does not specify property "</span>
-                <span class="n">f</span><span class="s1">'"</span><span class="si">{func.__name__}</span><span class="s1">".'</span>
+                <span class="n">f</span><span class="s2">"</span><span class="si">{args[0].name}</span><span class="s2"> does not specify property "</span> <span class="n">f</span><span class="s1">'"</span><span class="si">{func.__name__}</span><span class="s1">".'</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">not_none</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
@@ -89,9 +90,11 @@ src="/js/documentation_options.js">
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
-            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span>
-                <span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span>
+                <span class="n">x</span>
             <span class="p">),</span> <span class="n">f</span><span class="s2">"Expected numerical arguments or numpy arrays, got {type(x)}."</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">checked_cast</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">args</span><span class="p">)))</span>
 
 <div class="viewcode-block" id="SyntheticFunction.f"><a class="viewcode-back" href="../../../../utils.html#ax.utils.measurement.synthetic_functions.SyntheticFunction.f">[docs]</a>    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
@@ -120,6 +123,7 @@ src="/js/documentation_options.js">
                 <span class="n">f</span><span class="s2">"Input violates required dimensionality of </span><span class="si">{self.name}</span><span class="s2">: "</span>
                 <span class="n">f</span><span class="s2">"</span><span class="si">{self.required_dimensionality}</span><span class="s2">."</span>
             <span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -187,6 +191,24 @@ src="/js/documentation_options.js">
 <span class="sd">            numpy.ndarray: an n-dimensional array.</span>
 <span class="sd">        """</span>
         <span class="o">...</span>  <span class="c1"># pragma: no cover</span></div>
+
+
+<div class="viewcode-block" id="FromBotorch"><a class="viewcode-back" href="../../../../utils.html#ax.utils.measurement.synthetic_functions.FromBotorch">[docs]</a><span class="k">class</span> <span class="nc">FromBotorch</span><span class="p">(</span><span class="n">SyntheticFunction</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">botorch_synthetic_function</span><span class="p">:</span> <span class="n">botorch_synthetic</span><span class="o">.</span><span class="n">SyntheticTestFunction</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_botorch_function</span> <span class="o">=</span> <span class="n">botorch_synthetic_function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_required_dimensionality</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_botorch_function</span><span class="o">.</span><span class="n">dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_botorch_function</span><span class="o">.</span><span class="n">_bounds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fmin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_botorch_function</span><span class="o">.</span><span class="n">_optimal_value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s2">"</span><span class="si">{self._botorch_function.__class__.__name__}</span><span class="s2">"</span>
+
+    <span class="k">def</span> <span class="nf">_f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="c1"># TODO: support batch evaluation</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_botorch_function</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">X</span><span class="p">))</span><span class="o">.</span><span class="n">item</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="Hartmann6"><a class="viewcode-back" href="../../../../utils.html#ax.utils.measurement.synthetic_functions.Hartmann6">[docs]</a><span class="k">class</span> <span class="nc">Hartmann6</span><span class="p">(</span><span class="n">SyntheticFunction</span><span class="p">):</span>
@@ -324,6 +346,7 @@ src="/js/documentation_options.js">
 <span class="n">aug_hartmann6</span> <span class="o">=</span> <span class="n">Aug_Hartmann6</span><span class="p">()</span>
 <span class="n">branin</span> <span class="o">=</span> <span class="n">Branin</span><span class="p">()</span>
 <span class="n">aug_branin</span> <span class="o">=</span> <span class="n">Aug_Branin</span><span class="p">()</span>
+<span class="n">ackley</span> <span class="o">=</span> <span class="n">FromBotorch</span><span class="p">(</span><span class="n">botorch_synthetic_function</span><span class="o">=</span><span class="n">botorch_synthetic</span><span class="o">.</span><span class="n">Ackley</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>

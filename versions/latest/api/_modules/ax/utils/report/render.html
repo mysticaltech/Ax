@@ -107,6 +107,7 @@ src="/js/documentation_options.js">
     <span class="n">html_elements</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">header</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">offline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">notebook_env</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">"""Generate Ax HTML report for a given experiment from HTML elements.</span>
 
@@ -134,6 +135,8 @@ src="/js/documentation_options.js">
 <span class="sd">            to served on the front-end.</span>
 <span class="sd">        offline: if True, entire Plotly library is bundled</span>
 <span class="sd">            with report.</span>
+<span class="sd">        notebook_env: if True, caps the report width to 700px for viewing in a</span>
+<span class="sd">            notebook environment.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        str: HTML string.</span>
@@ -150,6 +153,7 @@ src="/js/documentation_options.js">
             <span class="n">js_requires</span><span class="o">=</span><span class="n">_js_requires</span><span class="p">(),</span>
             <span class="n">html_elements</span><span class="o">=</span><span class="n">html_elements</span><span class="p">,</span>
             <span class="n">headfoot</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
+            <span class="n">notebook_env</span><span class="o">=</span><span class="n">notebook_env</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span></div>
 

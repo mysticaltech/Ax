@@ -44,7 +44,6 @@ src="/js/documentation_options.js">
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.base</span> <span class="k">import</span> <span class="n">ModelBridge</span>
 <span class="kn">from</span> <span class="nn">ax.models.discrete_base</span> <span class="k">import</span> <span class="n">DiscreteModel</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">not_none</span>
 
 
 <span class="n">FIT_MODEL_ERROR</span> <span class="o">=</span> <span class="s2">"Model must be fit before </span><span class="si">{action}</span><span class="s2">."</span>
@@ -73,7 +72,6 @@ src="/js/documentation_options.js">
         <span class="n">observation_data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationData</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">search_space</span> <span class="o">=</span> <span class="n">search_space</span>
         <span class="c1"># Convert observations to arrays</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">search_space</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="n">all_metric_names</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
@@ -90,31 +88,6 @@ src="/js/documentation_options.js">
         <span class="c1"># Extract parameter values</span>
         <span class="n">parameter_values</span> <span class="o">=</span> <span class="n">_get_parameter_values</span><span class="p">(</span><span class="n">search_space</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
-            <span class="n">Xs</span><span class="o">=</span><span class="n">Xs_array</span><span class="p">,</span>
-            <span class="n">Ys</span><span class="o">=</span><span class="n">Ys_array</span><span class="p">,</span>
-            <span class="n">Yvars</span><span class="o">=</span><span class="n">Yvars_array</span><span class="p">,</span>
-            <span class="n">parameter_values</span><span class="o">=</span><span class="n">parameter_values</span><span class="p">,</span>
-            <span class="n">outcome_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">,</span>
-        <span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_update</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">observation_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationFeatures</span><span class="p">],</span>
-        <span class="n">observation_data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationData</span><span class="p">],</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># Convert observations to arrays</span>
-        <span class="n">Xs_array</span><span class="p">,</span> <span class="n">Ys_array</span><span class="p">,</span> <span class="n">Yvars_array</span> <span class="o">=</span> <span class="n">_convert_observations</span><span class="p">(</span>
-            <span class="n">observation_data</span><span class="o">=</span><span class="n">observation_data</span><span class="p">,</span>
-            <span class="n">observation_features</span><span class="o">=</span><span class="n">observation_features</span><span class="p">,</span>
-            <span class="n">outcomes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">,</span>
-            <span class="n">parameters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="c1"># Extract parameter values</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_space</span><span class="p">,</span> <span class="s2">"Discrete model must be fit before it can be updated."</span>
-        <span class="n">parameter_values</span> <span class="o">=</span> <span class="n">_get_parameter_values</span><span class="p">(</span>
-            <span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search_space</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
             <span class="n">Xs</span><span class="o">=</span><span class="n">Xs_array</span><span class="p">,</span>
             <span class="n">Ys</span><span class="o">=</span><span class="n">Ys_array</span><span class="p">,</span>
             <span class="n">Yvars</span><span class="o">=</span><span class="n">Yvars_array</span><span class="p">,</span>

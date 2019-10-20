@@ -65,30 +65,6 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="DiscreteModel.update"><a class="viewcode-back" href="../../../models.html#ax.models.discrete_base.DiscreteModel.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">Xs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">TParamValueList</span><span class="p">]],</span>
-        <span class="n">Ys</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
-        <span class="n">Yvars</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
-        <span class="n">parameter_values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TParamValueList</span><span class="p">],</span>
-        <span class="n">outcome_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">"""Update model with new data. Note that this data will be treated as new</span>
-<span class="sd">        even if the model has already been fit to it, so ensure that only new</span>
-<span class="sd">        data is passed in or use `fit` to refit the model from scratch.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            Xs: A list of m lists X of parameterizations (each parameterization</span>
-<span class="sd">                is a list of parameter values of length d), each of length k_i,</span>
-<span class="sd">                for each outcome.</span>
-<span class="sd">            Ys: The corresponding list of m lists Y, each of length k_i, for</span>
-<span class="sd">                each outcome.</span>
-<span class="sd">            Yvars: The variances of each entry in Ys, same shape.</span>
-<span class="sd">            parameter_values: A list of possible values for each parameter.</span>
-<span class="sd">            outcome_names: A list of m outcome names.</span>
-<span class="sd">        """</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>  <span class="c1"># pragma: no cover</span></div>
-
 <div class="viewcode-block" id="DiscreteModel.predict"><a class="viewcode-back" href="../../../models.html#ax.models.discrete_base.DiscreteModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TParamValueList</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">"""Predict</span>
 
