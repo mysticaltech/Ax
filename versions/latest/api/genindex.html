@@ -308,6 +308,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="modelbridge.html#module-ax.modelbridge.discrete">ax.modelbridge.discrete (module)</a>
 </li>
+<li><a href="modelbridge.html#module-ax.modelbridge.dispatch_utils">ax.modelbridge.dispatch_utils (module)</a>
+</li>
 <li><a href="modelbridge.html#module-ax.modelbridge.factory">ax.modelbridge.factory (module)</a>
 </li>
 <li><a href="modelbridge.html#module-ax.modelbridge.generation_strategy">ax.modelbridge.generation_strategy (module)</a>
@@ -435,8 +437,6 @@ src="/js/documentation_options.js">
 <li><a href="service.html#module-ax.service.managed_loop">ax.service.managed_loop (module)</a>
 </li>
 <li><a href="service.html#module-ax.service.utils.best_point">ax.service.utils.best_point (module)</a>
-</li>
-<li><a href="service.html#module-ax.service.utils.dispatch">ax.service.utils.dispatch (module)</a>
 </li>
 <li><a href="service.html#module-ax.service.utils.instantiation">ax.service.utils.instantiation (module)</a>
 </li>
@@ -677,7 +677,7 @@ src="/js/documentation_options.js">
 <li><a href="core.html#ax.core.parameter.ChoiceParameter">(class in ax.core.parameter)</a>
 </li>
 </ul></li>
-<li><a href="service.html#ax.service.utils.dispatch.choose_generation_strategy">choose_generation_strategy() (in module ax.service.utils.dispatch)</a>
+<li><a href="modelbridge.html#ax.modelbridge.dispatch_utils.choose_generation_strategy">choose_generation_strategy() (in module ax.modelbridge.dispatch_utils)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_config.SQAConfig.class_to_sqa_class">class_to_sqa_class (ax.storage.sqa_store.sqa_config.SQAConfig attribute)</a>
 </li>
@@ -1269,6 +1269,13 @@ src="/js/documentation_options.js">
 </ul></li>
 <li><a href="modelbridge.html#ax.modelbridge.base.gen_arms">gen_arms() (in module ax.modelbridge.base)</a>
 </li>
+<li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.gen_metadata">gen_metadata (ax.storage.sqa_store.sqa_classes.SQAGeneratorRun attribute)</a>
+</li>
+<li><a href="core.html#ax.core.generator_run.GeneratorRun.gen_metadata">gen_metadata() (ax.core.generator_run.GeneratorRun property)</a>
+<ul>
+<li><a href="ax.html#ax.GeneratorRun.gen_metadata">(ax.GeneratorRun property)</a>
+</li>
+</ul></li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.gen_time">gen_time (ax.storage.sqa_store.sqa_classes.SQAGeneratorRun attribute)</a>
 </li>
 <li><a href="core.html#ax.core.generator_run.GeneratorRun.gen_time">gen_time() (ax.core.generator_run.GeneratorRun property)</a>
@@ -1430,12 +1437,12 @@ src="/js/documentation_options.js">
 </ul></li>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_data">get_data() (in module ax.utils.testing.core_stubs)</a>
 </li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="modelbridge.html#ax.modelbridge.factory.get_empirical_bayes_thompson">get_empirical_bayes_thompson() (in module ax.modelbridge.factory)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.db.get_engine">get_engine() (in module ax.storage.sqa_store.db)</a>
 </li>
-</ul></td>
-<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="storage.html#ax.storage.sqa_store.decoder.Decoder.get_enum_name">get_enum_name() (ax.storage.sqa_store.decoder.Decoder method)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.encoder.Encoder.get_enum_value">get_enum_value() (ax.storage.sqa_store.encoder.Encoder method)</a>
@@ -2346,8 +2353,6 @@ src="/js/documentation_options.js">
 <li><a href="ax.html#ax.SearchSpace.out_of_design_arm">(ax.SearchSpace method)</a>
 </li>
 </ul></li>
-<li><a href="modelbridge.html#ax.modelbridge.base.ModelBridge.out_of_design_data">out_of_design_data() (ax.modelbridge.base.ModelBridge method)</a>
-</li>
 <li><a href="plot.html#ax.plot.base.PlotData.out_of_sample">out_of_sample() (ax.plot.base.PlotData property)</a>
 </li>
 <li><a href="storage.html#ax.storage.utils.MetricIntent.OUTCOME_CONSTRAINT">OUTCOME_CONSTRAINT (ax.storage.utils.MetricIntent attribute)</a>

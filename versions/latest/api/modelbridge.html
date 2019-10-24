@@ -513,27 +513,15 @@ model.</p></li>
 </dl>
 </dd></dl>
 <dl class="method">
-<dt id="ax.modelbridge.base.ModelBridge.out_of_design_data">
-<code class="sig-name descname">out_of_design_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/base.html#ModelBridge.out_of_design_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.base.ModelBridge.out_of_design_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get formatted data for out of design points.</p>
-<p>When predictions are requested from a ModelBridge, points which
-are out-of-design (not in the fitted search space) should not be included.
-These points should use raw data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]]]]]</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Observation data for OOD points, in the format for model prediction outputs.</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="method">
 <dt id="ax.modelbridge.base.ModelBridge.predict">
 <code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/base.html#ModelBridge.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.base.ModelBridge.predict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make model predictions (mean and covariance) for the given
 observation features.</p>
-<p>Predictions are made for all outcomes.</p>
+<p>Predictions are made for all outcomes.
+If an out-of-design observation can successfully be transformed,
+the predicted value will be returned.
+Othwerise, we will attempt to find that observation in the training data
+and return the raw value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>observation_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]) – observation features</p>
@@ -1027,6 +1015,20 @@ arms that was launched in that trial. Defaults to the last trial.</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A CVResult for each observation in the training data.</p>
+</dd>
+</dl>
+</dd></dl>
+</div>
+<div class="section" id="dispatch-utilities">
+<h3>Dispatch Utilities<a class="headerlink" href="#dispatch-utilities" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-ax.modelbridge.dispatch_utils"></span><dl class="function">
+<dt id="ax.modelbridge.dispatch_utils.choose_generation_strategy">
+<code class="sig-prename descclassname">ax.modelbridge.dispatch_utils.</code><code class="sig-name descname">choose_generation_strategy</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">arms_per_trial=1</em>, <em class="sig-param">enforce_sequential_optimization=True</em>, <em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/dispatch_utils.html#choose_generation_strategy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.dispatch_utils.choose_generation_strategy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select an appropriate generation strategy based on the properties of
+the search space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ax.modelbridge.generation_strategy.GenerationStrategy" title="ax.modelbridge.generation_strategy.GenerationStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">GenerationStrategy</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

@@ -48,6 +48,7 @@ src="/js/documentation_options.js">
     <span class="n">TParameterization</span><span class="p">,</span>
     <span class="n">TParamValue</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.dispatch_utils</span> <span class="k">import</span> <span class="n">choose_generation_strategy</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.generation_strategy</span> <span class="k">import</span> <span class="n">GenerationStrategy</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.modelbridge_utils</span> <span class="k">import</span> <span class="n">get_pending_observation_features</span>
 <span class="kn">from</span> <span class="nn">ax.plot.base</span> <span class="k">import</span> <span class="n">AxPlotConfig</span>
@@ -55,7 +56,6 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">ax.plot.exp_utils</span> <span class="k">import</span> <span class="n">exp_to_df</span>
 <span class="kn">from</span> <span class="nn">ax.plot.helper</span> <span class="k">import</span> <span class="n">_format_dict</span><span class="p">,</span> <span class="n">_get_in_sample_arms</span>
 <span class="kn">from</span> <span class="nn">ax.plot.trace</span> <span class="k">import</span> <span class="n">optimization_trace_single_method</span>
-<span class="kn">from</span> <span class="nn">ax.service.utils.dispatch</span> <span class="k">import</span> <span class="n">choose_generation_strategy</span>
 <span class="kn">from</span> <span class="nn">ax.service.utils.instantiation</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">data_from_evaluations</span><span class="p">,</span>
     <span class="n">make_experiment</span><span class="p">,</span>

@@ -37,12 +37,12 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">ax.core.simple_experiment</span> <span class="k">import</span> <span class="n">SimpleExperiment</span><span class="p">,</span> <span class="n">TEvaluationFunction</span>
 <span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="k">import</span> <span class="n">TModelPredictArm</span><span class="p">,</span> <span class="n">TParameterization</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.base</span> <span class="k">import</span> <span class="n">ModelBridge</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.dispatch_utils</span> <span class="k">import</span> <span class="n">choose_generation_strategy</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.modelbridge_utils</span> <span class="k">import</span> <span class="n">get_pending_observation_features</span>
 <span class="kn">from</span> <span class="nn">ax.service.utils.best_point</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">get_best_from_model_predictions</span><span class="p">,</span>
     <span class="n">get_best_raw_objective_point</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.service.utils.dispatch</span> <span class="k">import</span> <span class="n">choose_generation_strategy</span>
 <span class="kn">from</span> <span class="nn">ax.service.utils.instantiation</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">TParameterRepresentation</span><span class="p">,</span>
     <span class="n">constraint_from_str</span><span class="p">,</span>

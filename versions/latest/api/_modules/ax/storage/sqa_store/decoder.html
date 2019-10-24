@@ -580,6 +580,7 @@ src="/js/documentation_options.js">
             <span class="n">model_key</span><span class="o">=</span><span class="n">generator_run_sqa</span><span class="o">.</span><span class="n">model_key</span><span class="p">,</span>
             <span class="n">model_kwargs</span><span class="o">=</span><span class="n">object_from_json</span><span class="p">(</span><span class="n">generator_run_sqa</span><span class="o">.</span><span class="n">model_kwargs</span><span class="p">),</span>
             <span class="n">bridge_kwargs</span><span class="o">=</span><span class="n">object_from_json</span><span class="p">(</span><span class="n">generator_run_sqa</span><span class="o">.</span><span class="n">bridge_kwargs</span><span class="p">),</span>
+            <span class="n">gen_metadata</span><span class="o">=</span><span class="n">object_from_json</span><span class="p">(</span><span class="n">generator_run_sqa</span><span class="o">.</span><span class="n">gen_metadata</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="n">generator_run</span><span class="o">.</span><span class="n">_time_created</span> <span class="o">=</span> <span class="n">generator_run_sqa</span><span class="o">.</span><span class="n">time_created</span>
         <span class="n">generator_run</span><span class="o">.</span><span class="n">_generator_run_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_enum_name</span><span class="p">(</span>

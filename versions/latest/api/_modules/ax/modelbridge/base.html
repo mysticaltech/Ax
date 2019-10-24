@@ -419,23 +419,10 @@ src="/js/documentation_options.js">
         <span class="sd">"""Apply terminal transform and fit model."""</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span>
 
-<div class="viewcode-block" id="ModelBridge.predict"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.base.ModelBridge.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationFeatures</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">TModelPredict</span><span class="p">:</span>
-        <span class="sd">"""Make model predictions (mean and covariance) for the given</span>
-<span class="sd">        observation features.</span>
-
-<span class="sd">        Predictions are made for all outcomes.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            observation_features: observation features</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            2-element tuple containing</span>
-
-<span class="sd">            - Dictionary from metric name to list of mean estimates, in same</span>
-<span class="sd">              order as observation_features.</span>
-<span class="sd">            - Nested dictionary with cov['metric1']['metric2'] a list of</span>
-<span class="sd">              cov(metric1@x, metric2@x) for x in observation_features.</span>
-<span class="sd">        """</span>
+    <span class="k">def</span> <span class="nf">_batch_predict</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">observation_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationFeatures</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationData</span><span class="p">]:</span>
+        <span class="sd">"""Predict a list of ObservationFeatures together."""</span>
         <span class="c1"># Get modifiable version</span>
         <span class="n">observation_features</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">observation_features</span><span class="p">)</span>
 
@@ -456,8 +443,70 @@ src="/js/documentation_options.js">
             <span class="n">observation_data</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">untransform_observation_data</span><span class="p">(</span>
                 <span class="n">observation_data</span><span class="p">,</span> <span class="n">observation_features</span>
             <span class="p">)</span>
+        <span class="k">return</span> <span class="n">observation_data</span>
 
-        <span class="c1"># Unwrap to expected format</span>
+    <span class="k">def</span> <span class="nf">_single_predict</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">observation_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationFeatures</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationData</span><span class="p">]:</span>
+        <span class="sd">"""Predict one ObservationFeature at a time."""</span>
+        <span class="n">observation_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">obsf</span> <span class="ow">in</span> <span class="n">observation_features</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">obsd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_predict</span><span class="p">([</span><span class="n">obsf</span><span class="p">])</span>
+                <span class="n">observation_data</span> <span class="o">+=</span> <span class="n">obsd</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="c1"># If the prediction is not out of design, this is a real error.</span>
+                <span class="c1"># Let's re-raise.</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">obsf</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_space</span><span class="o">.</span><span class="n">check_membership</span><span class="p">(</span><span class="n">obsf</span><span class="o">.</span><span class="n">parameters</span><span class="p">))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_space</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_space</span><span class="o">.</span><span class="n">check_membership</span><span class="p">(</span><span class="n">obsf</span><span class="o">.</span><span class="n">parameters</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="n">e</span> <span class="kn">from</span> <span class="nn">None</span>
+                <span class="c1"># Prediction is out of design.</span>
+                <span class="c1"># Training data is untranformed already.</span>
+                <span class="n">observation</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
+                    <span class="p">(</span>
+                        <span class="n">data</span>
+                        <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_training_data</span><span class="p">()</span>
+                        <span class="k">if</span> <span class="n">obsf</span><span class="o">.</span><span class="n">parameters</span> <span class="o">==</span> <span class="n">data</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">parameters</span>
+                    <span class="p">),</span>
+                    <span class="kc">None</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">observation</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">"Out-of-design point could not be transformed, and was "</span>
+                        <span class="s2">"not found in the training data."</span>
+                    <span class="p">)</span>
+                <span class="n">observation_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">observation</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">observation_data</span>
+
+<div class="viewcode-block" id="ModelBridge.predict"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.base.ModelBridge.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ObservationFeatures</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">TModelPredict</span><span class="p">:</span>
+        <span class="sd">"""Make model predictions (mean and covariance) for the given</span>
+<span class="sd">        observation features.</span>
+
+<span class="sd">        Predictions are made for all outcomes.</span>
+<span class="sd">        If an out-of-design observation can successfully be transformed,</span>
+<span class="sd">        the predicted value will be returned.</span>
+<span class="sd">        Othwerise, we will attempt to find that observation in the training data</span>
+<span class="sd">        and return the raw value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            observation_features: observation features</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            2-element tuple containing</span>
+
+<span class="sd">            - Dictionary from metric name to list of mean estimates, in same</span>
+<span class="sd">              order as observation_features.</span>
+<span class="sd">            - Nested dictionary with cov['metric1']['metric2'] a list of</span>
+<span class="sd">              cov(metric1@x, metric2@x) for x in observation_features.</span>
+<span class="sd">        """</span>
+        <span class="c1"># Predict in single batch.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">observation_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_predict</span><span class="p">(</span><span class="n">observation_features</span><span class="p">)</span>
+        <span class="c1"># Predict one by one.</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">observation_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_single_predict</span><span class="p">(</span><span class="n">observation_features</span><span class="p">)</span>
         <span class="n">f</span><span class="p">,</span> <span class="n">cov</span> <span class="o">=</span> <span class="n">unwrap_observation_data</span><span class="p">(</span><span class="n">observation_data</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">f</span><span class="p">,</span> <span class="n">cov</span></div>
 
@@ -698,26 +747,6 @@ src="/js/documentation_options.js">
 <span class="sd">        and reverse terminal transform on the results.</span>
 <span class="sd">        """</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span>
-
-<div class="viewcode-block" id="ModelBridge.out_of_design_data"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.base.ModelBridge.out_of_design_data">[docs]</a>    <span class="k">def</span> <span class="nf">out_of_design_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TModelPredict</span><span class="p">]:</span>
-        <span class="sd">"""Get formatted data for out of design points.</span>
-
-<span class="sd">        When predictions are requested from a ModelBridge, points which</span>
-<span class="sd">        are out-of-design (not in the fitted search space) should not be included.</span>
-<span class="sd">        These points should use raw data.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Observation data for OOD points, in the format for model prediction outputs.</span>
-<span class="sd">        """</span>
-        <span class="n">observations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_training_data</span><span class="p">()</span>
-        <span class="n">obs_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">obs</span><span class="o">.</span><span class="n">data</span> <span class="k">for</span> <span class="n">obs</span> <span class="ow">in</span> <span class="n">observations</span><span class="p">]</span>
-        <span class="n">ood_obs_data</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">obs</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">obs_data</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_in_design</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-                <span class="n">ood_obs_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">ood_obs_data</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">unwrap_observation_data</span><span class="p">(</span><span class="n">ood_obs_data</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_set_kwargs_to_save</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
