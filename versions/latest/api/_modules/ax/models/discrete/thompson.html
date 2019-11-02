@@ -85,7 +85,11 @@ src="/js/documentation_options.js">
             <span class="n">Ys</span><span class="o">=</span><span class="n">Ys</span><span class="p">,</span> <span class="n">Yvars</span><span class="o">=</span><span class="n">Yvars</span><span class="p">,</span> <span class="n">outcome_names</span><span class="o">=</span><span class="n">outcome_names</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">X_to_Ys_and_Yvars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_X_to_Ys_and_Yvars</span><span class="p">(</span>
-            <span class="n">X</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Ys</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Ys</span><span class="p">,</span> <span class="n">Yvars</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Yvars</span>
+            <span class="c1"># pyre-fixme[6]: Expected `List[List[Optional[Union[bool, float, int,</span>
+            <span class="c1">#  str]]]]` for 1st param but got `None`.</span>
+            <span class="n">X</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span>
+            <span class="n">Ys</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Ys</span><span class="p">,</span>
+            <span class="n">Yvars</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Yvars</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ThompsonSampler.gen"><a class="viewcode-back" href="../../../../models.html#ax.models.discrete.thompson.ThompsonSampler.gen">[docs]</a>    <span class="nd">@copy_doc</span><span class="p">(</span><span class="n">DiscreteModel</span><span class="o">.</span><span class="n">gen</span><span class="p">)</span>

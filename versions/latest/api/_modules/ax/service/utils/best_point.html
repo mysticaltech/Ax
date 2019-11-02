@@ -89,7 +89,7 @@ src="/js/documentation_options.js">
 
 
 <div class="viewcode-block" id="get_best_from_model_predictions"><a class="viewcode-back" href="../../../../service.html#ax.service.utils.best_point.get_best_from_model_predictions">[docs]</a><span class="k">def</span> <span class="nf">get_best_from_model_predictions</span><span class="p">(</span>
-    <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span>
+    <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">TParameterization</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TModelPredictArm</span><span class="p">]]]:</span>
     <span class="sd">"""Given an experiment, returns the best predicted parameterization and corresponding</span>
 <span class="sd">    prediction based on the most recent Trial with predictions. If no trials have</span>
@@ -117,17 +117,14 @@ src="/js/documentation_options.js">
                 <span class="c1"># In theory batch_trial can have &gt;1 gr, grab the first</span>
                 <span class="n">gr</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">generator_run_structs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">generator_run</span>
 
-        <span class="k">if</span> <span class="n">gr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">gr</span><span class="o">.</span><span class="n">best_arm_predictions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># pyre-fixme[23]: Unable to unpack `Optional[Tuple[Arm,</span>
-            <span class="c1">#  Optional[Tuple[Dict[str, float], Optional[Dict[str, Dict[str,</span>
-            <span class="c1">#  float]]]]]]]` into 2 values.</span>
-            <span class="n">best_arm</span><span class="p">,</span> <span class="n">best_arm_predictions</span> <span class="o">=</span> <span class="n">gr</span><span class="o">.</span><span class="n">best_arm_predictions</span>
+        <span class="k">if</span> <span class="n">gr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">gr</span><span class="o">.</span><span class="n">best_arm_predictions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="n">best_arm</span><span class="p">,</span> <span class="n">best_arm_predictions</span> <span class="o">=</span> <span class="n">not_none</span><span class="p">(</span><span class="n">gr</span><span class="o">.</span><span class="n">best_arm_predictions</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">not_none</span><span class="p">(</span><span class="n">best_arm</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">best_arm_predictions</span>
     <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="get_best_parameters"><a class="viewcode-back" href="../../../../service.html#ax.service.utils.best_point.get_best_parameters">[docs]</a><span class="k">def</span> <span class="nf">get_best_parameters</span><span class="p">(</span>
-    <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span>
+    <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">TParameterization</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TModelPredictArm</span><span class="p">]]]:</span>
     <span class="sd">"""Given an experiment, identifies the best arm.</span>
 

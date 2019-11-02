@@ -48,11 +48,7 @@ src="/js/documentation_options.js">
     <span class="n">RangeParameter</span><span class="p">,</span>
     <span class="n">TParameterType</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.core.parameter_constraint</span> <span class="k">import</span> <span class="p">(</span>
-    <span class="n">OrderConstraint</span><span class="p">,</span>
-    <span class="n">ParameterConstraint</span><span class="p">,</span>
-    <span class="n">SumConstraint</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">ax.core.parameter_constraint</span> <span class="k">import</span> <span class="n">OrderConstraint</span><span class="p">,</span> <span class="n">ParameterConstraint</span>
 <span class="kn">from</span> <span class="nn">ax.core.search_space</span> <span class="k">import</span> <span class="n">SearchSpace</span>
 <span class="kn">from</span> <span class="nn">ax.core.simple_experiment</span> <span class="k">import</span> <span class="n">DEFAULT_OBJECTIVE_NAME</span>
 <span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="k">import</span> <span class="p">(</span>
@@ -63,7 +59,12 @@ src="/js/documentation_options.js">
     <span class="n">TParamValue</span><span class="p">,</span>
     <span class="n">TTrialEvaluation</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">not_none</span><span class="p">,</span> <span class="n">numpy_type_to_python_type</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">checked_cast</span><span class="p">,</span>
+    <span class="n">checked_cast_to_tuple</span><span class="p">,</span>
+    <span class="n">not_none</span><span class="p">,</span>
+    <span class="n">numpy_type_to_python_type</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <span class="sd">"""Utilities for RESTful-like instantiation of Ax classes needed in AxClient."""</span>
@@ -108,12 +109,10 @@ src="/js/documentation_options.js">
     <span class="k">return</span> <span class="n">RangeParameter</span><span class="p">(</span>
         <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
         <span class="n">parameter_type</span><span class="o">=</span><span class="n">_to_parameter_type</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">parameter_type</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s2">"bounds"</span><span class="p">),</span>
-        <span class="c1"># pyre-fixme[6]: Expected `float` for 3rd param but got</span>
-        <span class="c1">#  `Optional[Union[bool, float, int, str]]`.</span>
-        <span class="n">lower</span><span class="o">=</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-        <span class="n">upper</span><span class="o">=</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-        <span class="n">log_scale</span><span class="o">=</span><span class="n">representation</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"log_scale"</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
-        <span class="n">is_fidelity</span><span class="o">=</span><span class="n">representation</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"is_fidelity"</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="n">lower</span><span class="o">=</span><span class="n">checked_cast_to_tuple</span><span class="p">((</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+        <span class="n">upper</span><span class="o">=</span><span class="n">checked_cast_to_tuple</span><span class="p">((</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+        <span class="n">log_scale</span><span class="o">=</span><span class="n">checked_cast</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">representation</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"log_scale"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)),</span>
+        <span class="n">is_fidelity</span><span class="o">=</span><span class="n">checked_cast</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">representation</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"is_fidelity"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)),</span>
     <span class="p">)</span>
 
 
@@ -130,10 +129,7 @@ src="/js/documentation_options.js">
         <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
         <span class="n">parameter_type</span><span class="o">=</span><span class="n">_to_parameter_type</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">parameter_type</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s2">"values"</span><span class="p">),</span>
         <span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span>
-        <span class="c1"># pyre-fixme[6]: Expected `bool` for 4th param but got</span>
-        <span class="c1">#  `Optional[Union[List[Optional[Union[bool, float, int, str]]], bool, float,</span>
-        <span class="c1">#  int, str]]`.</span>
-        <span class="n">is_ordered</span><span class="o">=</span><span class="n">representation</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"is_ordered"</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="n">is_ordered</span><span class="o">=</span><span class="n">checked_cast</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">representation</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"is_ordered"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)),</span>
     <span class="p">)</span>
 
 
@@ -229,23 +225,32 @@ src="/js/documentation_options.js">
             <span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="k">try</span><span class="p">:</span>  <span class="c1"># Case "x1 + x3 &gt;= 2" =&gt; sum constraint.</span>
+    <span class="k">try</span><span class="p">:</span>  <span class="c1"># Case "x1 -x2 + x3 &gt;= 2" =&gt; parameter constraint.</span>
         <span class="n">bound</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Bound for sum constraint must be a number; got </span><span class="si">{tokens[-1]}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="n">used_parameters</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Bound for the constraint must be a number; got </span><span class="si">{tokens[-1]}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">used_parameter_weight</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">comparison_multiplier</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mf">1.0</span> <span class="k">if</span> <span class="n">COMPARISON_OPS</span><span class="p">[</span><span class="n">tokens</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]]</span> <span class="ow">is</span> <span class="n">ComparisonOp</span><span class="o">.</span><span class="n">LEQ</span> <span class="k">else</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="p">)</span>
+    <span class="n">current_weight</span> <span class="o">=</span> <span class="mf">1.0</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">token</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tokens</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]):</span>
         <span class="k">if</span> <span class="n">idx</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">assert</span> <span class="p">(</span>
                 <span class="n">token</span> <span class="ow">in</span> <span class="n">parameter_names</span>
             <span class="p">),</span> <span class="n">f</span><span class="s2">"Parameter </span><span class="si">{token}</span><span class="s2"> not in </span><span class="si">{parameter_names}</span><span class="s2">."</span>
-            <span class="n">used_parameters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+            <span class="n">used_parameter_weight</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_weight</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="n">token</span> <span class="o">==</span> <span class="s2">"+"</span><span class="p">,</span> <span class="n">f</span><span class="s2">"Expected a sum constraint, found operator </span><span class="si">{token}</span><span class="s2">."</span>
-    <span class="k">return</span> <span class="n">SumConstraint</span><span class="p">(</span>
-        <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">parameters</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parameters</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">used_parameters</span><span class="p">],</span>
-        <span class="n">is_upper_bound</span><span class="o">=</span><span class="n">COMPARISON_OPS</span><span class="p">[</span><span class="n">tokens</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]]</span> <span class="ow">is</span> <span class="n">ComparisonOp</span><span class="o">.</span><span class="n">LEQ</span><span class="p">,</span>
-        <span class="n">bound</span><span class="o">=</span><span class="n">bound</span><span class="p">,</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="n">token</span> <span class="o">==</span> <span class="s2">"+"</span> <span class="ow">or</span> <span class="n">token</span> <span class="o">==</span> <span class="s2">"-"</span>
+            <span class="p">),</span> <span class="n">f</span><span class="s2">"Expected a mixed constraint, found operator </span><span class="si">{token}</span><span class="s2">."</span>
+            <span class="n">current_weight</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">token</span> <span class="o">==</span> <span class="s2">"+"</span> <span class="k">else</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="k">return</span> <span class="n">ParameterConstraint</span><span class="p">(</span>
+        <span class="n">constraint_dict</span><span class="o">=</span><span class="p">{</span>
+            <span class="n">p</span><span class="p">:</span> <span class="n">comparison_multiplier</span> <span class="o">*</span> <span class="n">used_parameter_weight</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">used_parameter_weight</span>
+        <span class="p">},</span>
+        <span class="n">bound</span><span class="o">=</span><span class="n">comparison_multiplier</span> <span class="o">*</span> <span class="n">bound</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
@@ -279,8 +284,8 @@ src="/js/documentation_options.js">
     <span class="n">status_quo</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TParameterization</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">experiment_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Experiment</span><span class="p">:</span>
-    <span class="sd">"""Instantiation wrapper that allows for creation of SimpleExperiment without</span>
-<span class="sd">    importing or instantiating any Ax classes."""</span>
+    <span class="sd">"""Instantiation wrapper that allows for creation of SimpleExperiment</span>
+<span class="sd">    without importing or instantiating any Ax classes."""</span>
 
     <span class="n">exp_parameters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">parameter_from_json</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">]</span>
     <span class="n">status_quo_arm</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">status_quo</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Arm</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="n">status_quo</span><span class="p">)</span>

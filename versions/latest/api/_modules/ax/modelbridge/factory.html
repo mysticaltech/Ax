@@ -225,8 +225,8 @@ src="/js/documentation_options.js">
         <span class="n">transform_configs</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="c1"># Choose the status quo features for the experiment from the selected trial.</span>
-    <span class="c1"># If trial_index is None, the status quo from the last experiment trial</span>
-    <span class="c1"># will be used as a status quo for the experiment.</span>
+    <span class="c1"># If trial_index is None, we will look for a status quo from the last</span>
+    <span class="c1"># experiment trial to use as a status quo for the experiment.</span>
     <span class="k">if</span> <span class="n">trial_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">trial_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="k">elif</span> <span class="n">trial_index</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="p">):</span>
@@ -235,7 +235,7 @@ src="/js/documentation_options.js">
     <span class="c1"># pyre-fixme[16]: `ax.core.base_trial.BaseTrial` has no attribute `status_quo`.</span>
     <span class="n">status_quo</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="p">[</span><span class="n">trial_index</span><span class="p">]</span><span class="o">.</span><span class="n">status_quo</span>
     <span class="k">if</span> <span class="n">status_quo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"status_quo is not defined for the selected trial."</span><span class="p">)</span>
+        <span class="n">status_quo_features</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">status_quo_features</span> <span class="o">=</span> <span class="n">ObservationFeatures</span><span class="p">(</span>
             <span class="n">parameters</span><span class="o">=</span><span class="n">status_quo</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">trial_index</span><span class="o">=</span><span class="n">trial_index</span>

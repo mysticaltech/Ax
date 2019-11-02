@@ -31,16 +31,89 @@ src="/js/documentation_options.js">
 
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">ceil</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">cast</span>
 
 <span class="kn">from</span> <span class="nn">ax.core.parameter</span> <span class="k">import</span> <span class="n">ChoiceParameter</span><span class="p">,</span> <span class="n">RangeParameter</span>
 <span class="kn">from</span> <span class="nn">ax.core.search_space</span> <span class="k">import</span> <span class="n">SearchSpace</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.generation_strategy</span> <span class="k">import</span> <span class="n">GenerationStep</span><span class="p">,</span> <span class="n">GenerationStrategy</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.registry</span> <span class="k">import</span> <span class="n">Models</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.registry</span> <span class="k">import</span> <span class="n">Cont_X_trans</span><span class="p">,</span> <span class="n">Models</span><span class="p">,</span> <span class="n">Y_trans</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.transforms.base</span> <span class="k">import</span> <span class="n">Transform</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.transforms.winsorize</span> <span class="k">import</span> <span class="n">Winsorize</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.logger</span> <span class="k">import</span> <span class="n">get_logger</span>
 
 
 <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_make_sobol_step</span><span class="p">(</span>
+    <span class="n">num_arms</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">min_arms_observed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">enforce_num_arms</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">recommended_max_parallelism</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GenerationStep</span><span class="p">:</span>
+    <span class="sd">"""Shortcut for creating a Sobol generation step."""</span>
+    <span class="k">return</span> <span class="n">GenerationStep</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">Models</span><span class="o">.</span><span class="n">SOBOL</span><span class="p">,</span>
+        <span class="n">num_arms</span><span class="o">=</span><span class="n">num_arms</span><span class="p">,</span>
+        <span class="c1"># NOTE: ceil(-1 / 2) = 0, so this is safe to do when num arms is -1.</span>
+        <span class="n">min_arms_observed</span><span class="o">=</span><span class="n">min_arms_observed</span> <span class="ow">or</span> <span class="n">ceil</span><span class="p">(</span><span class="n">num_arms</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="n">enforce_num_arms</span><span class="o">=</span><span class="n">enforce_num_arms</span><span class="p">,</span>
+        <span class="n">recommended_max_parallelism</span><span class="o">=</span><span class="n">recommended_max_parallelism</span><span class="p">,</span>
+        <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"seed"</span><span class="p">:</span> <span class="n">seed</span><span class="p">}</span> <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_make_botorch_step</span><span class="p">(</span>
+    <span class="n">num_arms</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">min_arms_observed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">enforce_num_arms</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">recommended_max_parallelism</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">winsorize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">winsorization_limits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GenerationStep</span><span class="p">:</span>
+    <span class="sd">"""Shortcut for creating a BayesOpt generation step."""</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">winsorize</span> <span class="ow">and</span> <span class="n">winsorization_limits</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+        <span class="n">winsorization_limits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">winsorize</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
+            <span class="s2">"To apply winsorization, specify `winsorize=True` and provide the "</span>
+            <span class="s2">"winsorization limits."</span>
+        <span class="p">)</span>
+    <span class="n">model_kwargs</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">winsorize</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">winsorization_limits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="n">model_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"transforms"</span><span class="p">:</span> <span class="p">[</span><span class="n">cast</span><span class="p">(</span><span class="n">Type</span><span class="p">[</span><span class="n">Transform</span><span class="p">],</span> <span class="n">Winsorize</span><span class="p">)]</span> <span class="o">+</span> <span class="n">Cont_X_trans</span> <span class="o">+</span> <span class="n">Y_trans</span><span class="p">,</span>
+            <span class="s2">"transform_configs"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"Winsorize"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"winsorization_lower"</span><span class="p">:</span> <span class="n">winsorization_limits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">"winsorization_upper"</span><span class="p">:</span> <span class="n">winsorization_limits</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+    <span class="k">return</span> <span class="n">GenerationStep</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">Models</span><span class="o">.</span><span class="n">GPEI</span><span class="p">,</span>
+        <span class="n">num_arms</span><span class="o">=</span><span class="n">num_arms</span><span class="p">,</span>
+        <span class="c1"># NOTE: ceil(-1 / 2) = 0, so this is safe to do when num arms is -1.</span>
+        <span class="n">min_arms_observed</span><span class="o">=</span><span class="n">min_arms_observed</span> <span class="ow">or</span> <span class="n">ceil</span><span class="p">(</span><span class="n">num_arms</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="n">enforce_num_arms</span><span class="o">=</span><span class="n">enforce_num_arms</span><span class="p">,</span>
+        <span class="n">recommended_max_parallelism</span><span class="o">=</span><span class="n">recommended_max_parallelism</span><span class="p">,</span>
+        <span class="n">model_kwargs</span><span class="o">=</span><span class="n">model_kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_should_use_gp</span><span class="p">(</span><span class="n">search_space</span><span class="p">:</span> <span class="n">SearchSpace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">"""We should only use Sobol if there are more continuous parameters in the</span>
+<span class="sd">    search space than the sum of options for the choice parameters.</span>
+<span class="sd">    """</span>
+    <span class="n">num_continuous_parameters</span><span class="p">,</span> <span class="n">num_discrete_choices</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">search_space</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">ChoiceParameter</span><span class="p">):</span>
+            <span class="n">num_discrete_choices</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameter</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">RangeParameter</span><span class="p">):</span>
+            <span class="n">num_continuous_parameters</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">num_continuous_parameters</span> <span class="o">&gt;=</span> <span class="n">num_discrete_choices</span>
 
 
 <div class="viewcode-block" id="choose_generation_strategy"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.dispatch_utils.choose_generation_strategy">[docs]</a><span class="k">def</span> <span class="nf">choose_generation_strategy</span><span class="p">(</span>
@@ -48,34 +121,50 @@ src="/js/documentation_options.js">
     <span class="n">arms_per_trial</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">enforce_sequential_optimization</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">random_seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">winsorize_botorch_model</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">winsorization_limits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">no_bayesian_optimization</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GenerationStrategy</span><span class="p">:</span>
     <span class="sd">"""Select an appropriate generation strategy based on the properties of</span>
-<span class="sd">    the search space."""</span>
-    <span class="n">model_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"seed"</span><span class="p">:</span> <span class="n">random_seed</span><span class="p">}</span> <span class="k">if</span> <span class="p">(</span><span class="n">random_seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
-    <span class="n">num_continuous_parameters</span><span class="p">,</span> <span class="n">num_discrete_choices</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">search_space</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">ChoiceParameter</span><span class="p">):</span>
-            <span class="n">num_discrete_choices</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameter</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">RangeParameter</span><span class="p">):</span>
-            <span class="n">num_continuous_parameters</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="sd">    the search space.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        search_space: SearchSpace, based on the properties of which to select the</span>
+<span class="sd">            generation strategy.</span>
+<span class="sd">        arms_per_trial: If a trial is batched, how many arms will be in each batch.</span>
+<span class="sd">            Defaults to 1, which corresponds to a regular, non-batched, `Trial`.</span>
+<span class="sd">        enforce_sequential_optimization: Whether to enforce that the generation</span>
+<span class="sd">            strategy needs to be updated with `min_arms_observed` observations for</span>
+<span class="sd">            a given generation step before proceeding to the next one.</span>
+<span class="sd">        random_seed: Fixed random seed for the Sobol generator.</span>
+<span class="sd">        winsorize_botorch_model: Whether to apply the winsorization transform</span>
+<span class="sd">            prior to applying other transforms for fitting the BoTorch model.</span>
+<span class="sd">        winsorization_limits: Bounds for winsorization, if winsorizing, expressed</span>
+<span class="sd">            as percentile. Usually only the upper winsorization trim is used when</span>
+<span class="sd">            minimizing, and only the lower when maximizing.</span>
+<span class="sd">        no_bayesian_optimization: If True, Bayesian optimization generation</span>
+<span class="sd">            strategy will not be suggested and quasi-random strategy will be used.</span>
+<span class="sd">    """</span>
     <span class="c1"># If there are more discrete choices than continuous parameters, Sobol</span>
     <span class="c1"># will do better than GP+EI.</span>
-    <span class="k">if</span> <span class="n">num_continuous_parameters</span> <span class="o">&gt;=</span> <span class="n">num_discrete_choices</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">no_bayesian_optimization</span> <span class="ow">and</span> <span class="n">_should_use_gp</span><span class="p">(</span><span class="n">search_space</span><span class="o">=</span><span class="n">search_space</span><span class="p">):</span>
         <span class="c1"># Ensure that number of arms per model is divisible by batch size.</span>
-        <span class="n">sobol_arms</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">ceil</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">search_space</span><span class="o">.</span><span class="n">parameters</span><span class="p">))</span> <span class="o">/</span> <span class="n">arms_per_trial</span><span class="p">)</span> <span class="o">*</span> <span class="n">arms_per_trial</span>
-        <span class="p">)</span>
+        <span class="n">sobol_arms</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">search_space</span><span class="o">.</span><span class="n">parameters</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">arms_per_trial</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="c1"># If using batches, ensure that initialization sample is divisible by</span>
+            <span class="c1"># the batch size.</span>
+            <span class="n">sobol_arms</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="n">sobol_arms</span> <span class="o">/</span> <span class="n">arms_per_trial</span><span class="p">)</span> <span class="o">*</span> <span class="n">arms_per_trial</span>
         <span class="n">gs</span> <span class="o">=</span> <span class="n">GenerationStrategy</span><span class="p">(</span>
             <span class="n">steps</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">GenerationStep</span><span class="p">(</span>
-                    <span class="n">model</span><span class="o">=</span><span class="n">Models</span><span class="o">.</span><span class="n">SOBOL</span><span class="p">,</span>
+                <span class="n">_make_sobol_step</span><span class="p">(</span>
                     <span class="n">num_arms</span><span class="o">=</span><span class="n">sobol_arms</span><span class="p">,</span>
-                    <span class="n">min_arms_observed</span><span class="o">=</span><span class="n">ceil</span><span class="p">(</span><span class="n">sobol_arms</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
                     <span class="n">enforce_num_arms</span><span class="o">=</span><span class="n">enforce_sequential_optimization</span><span class="p">,</span>
-                    <span class="n">model_kwargs</span><span class="o">=</span><span class="n">model_kwargs</span><span class="p">,</span>
+                    <span class="n">seed</span><span class="o">=</span><span class="n">random_seed</span><span class="p">,</span>
                 <span class="p">),</span>
-                <span class="n">GenerationStep</span><span class="p">(</span>
-                    <span class="n">model</span><span class="o">=</span><span class="n">Models</span><span class="o">.</span><span class="n">GPEI</span><span class="p">,</span> <span class="n">num_arms</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">recommended_max_parallelism</span><span class="o">=</span><span class="mi">3</span>
+                <span class="n">_make_botorch_step</span><span class="p">(</span>
+                    <span class="n">recommended_max_parallelism</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                    <span class="n">winsorize</span><span class="o">=</span><span class="n">winsorize_botorch_model</span><span class="p">,</span>
+                    <span class="n">winsorization_limits</span><span class="o">=</span><span class="n">winsorization_limits</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">]</span>
         <span class="p">)</span>
@@ -84,15 +173,9 @@ src="/js/documentation_options.js">
             <span class="n">f</span><span class="s2">"after </span><span class="si">{sobol_arms}</span><span class="s2"> will take longer to generate due to model-fitting."</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">gs</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"Using Sobol generation strategy."</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">GenerationStrategy</span><span class="p">(</span>
-            <span class="n">steps</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">GenerationStep</span><span class="p">(</span>
-                    <span class="n">model</span><span class="o">=</span><span class="n">Models</span><span class="o">.</span><span class="n">SOBOL</span><span class="p">,</span> <span class="n">num_arms</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">model_kwargs</span><span class="o">=</span><span class="n">model_kwargs</span>
-                <span class="p">)</span>
-            <span class="p">]</span>
-        <span class="p">)</span></div>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"Using Sobol generation strategy."</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">GenerationStrategy</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">[</span><span class="n">_make_sobol_step</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">random_seed</span><span class="p">)])</span></div>
 </pre></div>
 </div>
 </div>

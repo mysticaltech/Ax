@@ -38,7 +38,7 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="k">import</span> <span class="n">Experiment</span>
 <span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="k">import</span> <span class="n">GeneratorRun</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.base</span> <span class="k">import</span> <span class="n">ModelBridge</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.registry</span> <span class="k">import</span> <span class="n">Models</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.registry</span> <span class="k">import</span> <span class="n">Models</span><span class="p">,</span> <span class="n">get_model_from_generator_run</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.kwargs</span> <span class="k">import</span> <span class="n">consolidate_kwargs</span><span class="p">,</span> <span class="n">get_function_argument_names</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.logger</span> <span class="k">import</span> <span class="n">get_logger</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">checked_cast</span><span class="p">,</span> <span class="n">not_none</span>
@@ -55,26 +55,6 @@ src="/js/documentation_options.js">
     <span class="sd">"""Filter out kwargs that are not applicable for a given function.</span>
 <span class="sd">    Return a copy of given kwargs dict with only the required kwargs."""</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">signature</span><span class="p">(</span><span class="n">function</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">}</span>
-
-
-<div class="viewcode-block" id="get_model_from_generator_run"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.generation_strategy.get_model_from_generator_run">[docs]</a><span class="k">def</span> <span class="nf">get_model_from_generator_run</span><span class="p">(</span>
-    <span class="n">generator_run</span><span class="p">:</span> <span class="n">GeneratorRun</span><span class="p">,</span> <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Data</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModelBridge</span><span class="p">:</span>
-    <span class="sd">"""Reinstantiate a model from model key and kwargs stored on a given generator</span>
-<span class="sd">    run, with the given experiment and the data to initialize the model with.</span>
-<span class="sd">    """</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">generator_run</span><span class="o">.</span><span class="n">_model_key</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">"Cannot restore model from generator run as no model key was "</span>
-            <span class="s2">"on the generator run stored."</span>
-        <span class="p">)</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">Models</span><span class="p">(</span><span class="n">generator_run</span><span class="o">.</span><span class="n">_model_key</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">model</span><span class="p">(</span>
-        <span class="n">experiment</span><span class="o">=</span><span class="n">experiment</span><span class="p">,</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
-        <span class="o">**</span><span class="p">(</span><span class="n">generator_run</span><span class="o">.</span><span class="n">_model_kwargs</span> <span class="ow">or</span> <span class="p">{}),</span>
-        <span class="o">**</span><span class="p">(</span><span class="n">generator_run</span><span class="o">.</span><span class="n">_bridge_kwargs</span> <span class="ow">or</span> <span class="p">{}),</span>
-    <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GenerationStep"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.generation_strategy.GenerationStep">[docs]</a><span class="k">class</span> <span class="nc">GenerationStep</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
@@ -170,6 +150,7 @@ src="/js/documentation_options.js">
         <span class="c1"># Trim the "get_" beginning of the factory function if it's there.</span>
         <span class="n">factory_names</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span> <span class="k">if</span> <span class="n">n</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"get_"</span> <span class="k">else</span> <span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">factory_names</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="s2">"+"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">factory_names</span><span class="p">)</span>
+        <span class="c1"># pyre-fixme[7]: Expected `str` but got `Optional[str]`.</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
 
     <span class="nd">@property</span>

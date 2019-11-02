@@ -36,6 +36,7 @@ src="/js/documentation_options.js">
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">ax.core.data</span> <span class="k">import</span> <span class="n">Data</span>
 <span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="k">import</span> <span class="n">Experiment</span>
+<span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="k">import</span> <span class="n">GeneratorRun</span>
 <span class="kn">from</span> <span class="nn">ax.core.search_space</span> <span class="k">import</span> <span class="n">SearchSpace</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.base</span> <span class="k">import</span> <span class="n">ModelBridge</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.discrete</span> <span class="k">import</span> <span class="n">DiscreteModelBridge</span>
@@ -113,6 +114,29 @@ src="/js/documentation_options.js">
     <span class="n">StratifiedStandardizeY</span><span class="p">,</span>
     <span class="n">TaskEncode</span><span class="p">,</span>
 <span class="p">]</span>
+
+
+<div class="viewcode-block" id="get_model_from_generator_run"><a class="viewcode-back" href="../../../modelbridge.html#ax.get_model_from_generator_run">[docs]</a><span class="k">def</span> <span class="nf">get_model_from_generator_run</span><span class="p">(</span>
+    <span class="n">generator_run</span><span class="p">:</span> <span class="n">GeneratorRun</span><span class="p">,</span> <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Data</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModelBridge</span><span class="p">:</span>
+    <span class="sd">"""Reinstantiate a model from model key and kwargs stored on a given generator</span>
+<span class="sd">    run, with the given experiment and the data to initialize the model with.</span>
+
+<span class="sd">    Note: requires that the model that was used to get the generator run, is part</span>
+<span class="sd">    of the `Models` registry enum.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">generator_run</span><span class="o">.</span><span class="n">_model_key</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">"Cannot restore model from generator run as no model key was "</span>
+            <span class="s2">"on the generator run stored."</span>
+        <span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Models</span><span class="p">(</span><span class="n">generator_run</span><span class="o">.</span><span class="n">_model_key</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span><span class="p">(</span>
+        <span class="n">experiment</span><span class="o">=</span><span class="n">experiment</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+        <span class="o">**</span><span class="p">(</span><span class="n">generator_run</span><span class="o">.</span><span class="n">_model_kwargs</span> <span class="ow">or</span> <span class="p">{}),</span>
+        <span class="o">**</span><span class="p">(</span><span class="n">generator_run</span><span class="o">.</span><span class="n">_bridge_kwargs</span> <span class="ow">or</span> <span class="p">{}),</span>
+    <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ModelSetup"><a class="viewcode-back" href="../../../modelbridge.html#ax.ModelSetup">[docs]</a><span class="k">class</span> <span class="nc">ModelSetup</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>

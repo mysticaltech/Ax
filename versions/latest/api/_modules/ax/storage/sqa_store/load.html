@@ -124,6 +124,8 @@ src="/js/documentation_options.js">
             <span class="s2">"attached to it."</span>
         <span class="p">)</span>
     <span class="n">gs_sqa</span> <span class="o">=</span> <span class="n">experiment_sqa</span><span class="o">.</span><span class="n">generation_strategy</span>
+    <span class="c1"># pyre-fixme[6]: Expected `SQAGenerationStrategy` for 1st param but got</span>
+    <span class="c1">#  `Optional[SQAGenerationStrategy]`.</span>
     <span class="k">return</span> <span class="n">decoder</span><span class="o">.</span><span class="n">generation_strategy_from_sqa</span><span class="p">(</span><span class="n">gs_sqa</span><span class="o">=</span><span class="n">gs_sqa</span><span class="p">)</span>
 </pre></div>
 </div>

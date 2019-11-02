@@ -360,6 +360,7 @@ src="/js/documentation_options.js">
 
     <span class="k">if</span> <span class="n">SESSION_FACTORY</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">force_init</span><span class="p">:</span>
+            <span class="c1"># pyre-fixme[16]: `Optional` has no attribute `bind`.</span>
             <span class="n">SESSION_FACTORY</span><span class="o">.</span><span class="n">bind</span><span class="o">.</span><span class="n">dispose</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span>  <span class="c1"># pragma: no cover</span>
@@ -400,6 +401,7 @@ src="/js/documentation_options.js">
 
     <span class="k">if</span> <span class="n">SESSION_FACTORY</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">force_init</span><span class="p">:</span>
+            <span class="c1"># pyre-fixme[16]: `Optional` has no attribute `bind`.</span>
             <span class="n">SESSION_FACTORY</span><span class="o">.</span><span class="n">bind</span><span class="o">.</span><span class="n">dispose</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span>
@@ -463,6 +465,7 @@ src="/js/documentation_options.js">
     <span class="k">global</span> <span class="n">SESSION_FACTORY</span>
     <span class="k">if</span> <span class="n">SESSION_FACTORY</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Engine must be initialized first."</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span>
+    <span class="c1"># pyre-fixme[16]: `Optional` has no attribute `bind`.</span>
     <span class="k">return</span> <span class="n">SESSION_FACTORY</span><span class="o">.</span><span class="n">bind</span></div>
 
 

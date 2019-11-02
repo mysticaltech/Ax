@@ -128,7 +128,10 @@ src="/js/documentation_options.js">
         <span class="c1"># Experiment was set on the generation strategy, so need to check whether</span>
         <span class="c1"># if has been saved and create a relationship b/w GS and experiment if so.</span>
         <span class="n">experiment_id</span> <span class="o">=</span> <span class="n">_get_experiment_id</span><span class="p">(</span>
-            <span class="n">experiment</span><span class="o">=</span><span class="n">generation_strategy</span><span class="o">.</span><span class="n">_experiment</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">encoder</span>
+            <span class="c1"># pyre-fixme[6]: Expected `Experiment` for 1st param but got</span>
+            <span class="c1">#  `Optional[Experiment]`.</span>
+            <span class="n">experiment</span><span class="o">=</span><span class="n">generation_strategy</span><span class="o">.</span><span class="n">_experiment</span><span class="p">,</span>
+            <span class="n">encoder</span><span class="o">=</span><span class="n">encoder</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="n">gs_sqa</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">generation_strategy_to_sqa</span><span class="p">(</span>
@@ -152,6 +155,7 @@ src="/js/documentation_options.js">
             <span class="c1"># need to update that manually</span>
             <span class="n">existing_gs_sqa</span><span class="o">.</span><span class="n">experiment_id</span> <span class="o">=</span> <span class="n">gs_sqa</span><span class="o">.</span><span class="n">experiment_id</span>
 
+    <span class="c1"># pyre-fixme[7]: Expected `int` but got `Optional[int]`.</span>
     <span class="k">return</span> <span class="n">generation_strategy</span><span class="o">.</span><span class="n">_db_id</span>
 
 

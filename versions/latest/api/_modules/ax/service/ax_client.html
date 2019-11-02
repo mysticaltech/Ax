@@ -54,16 +54,13 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">ax.plot.base</span> <span class="k">import</span> <span class="n">AxPlotConfig</span>
 <span class="kn">from</span> <span class="nn">ax.plot.contour</span> <span class="k">import</span> <span class="n">plot_contour</span>
 <span class="kn">from</span> <span class="nn">ax.plot.exp_utils</span> <span class="k">import</span> <span class="n">exp_to_df</span>
+<span class="kn">from</span> <span class="nn">ax.plot.feature_importances</span> <span class="k">import</span> <span class="n">plot_feature_importance_by_feature</span>
 <span class="kn">from</span> <span class="nn">ax.plot.helper</span> <span class="k">import</span> <span class="n">_format_dict</span><span class="p">,</span> <span class="n">_get_in_sample_arms</span>
 <span class="kn">from</span> <span class="nn">ax.plot.trace</span> <span class="k">import</span> <span class="n">optimization_trace_single_method</span>
 <span class="kn">from</span> <span class="nn">ax.service.utils.instantiation</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">data_from_evaluations</span><span class="p">,</span>
     <span class="n">make_experiment</span><span class="p">,</span>
     <span class="n">raw_data_to_evaluation</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.service.utils.storage</span> <span class="k">import</span> <span class="p">(</span>
-    <span class="n">load_experiment_and_generation_strategy</span><span class="p">,</span>
-    <span class="n">save_experiment_and_generation_strategy</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">ax.storage.json_store.decoder</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">generation_strategy_from_json</span><span class="p">,</span>
@@ -86,6 +83,10 @@ src="/js/documentation_options.js">
 
 <span class="k">try</span><span class="p">:</span>  <span class="c1"># We don't require SQLAlchemy by default.</span>
     <span class="kn">from</span> <span class="nn">ax.storage.sqa_store.structs</span> <span class="k">import</span> <span class="n">DBSettings</span>
+    <span class="kn">from</span> <span class="nn">ax.service.utils.storage</span> <span class="k">import</span> <span class="p">(</span>
+        <span class="n">load_experiment_and_generation_strategy</span><span class="p">,</span>
+        <span class="n">save_experiment_and_generation_strategy</span><span class="p">,</span>
+    <span class="p">)</span>
 <span class="k">except</span> <span class="n">ModuleNotFoundError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
     <span class="n">DBSettings</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -194,6 +195,7 @@ src="/js/documentation_options.js">
         <span class="n">status_quo</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TParameterization</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">overwrite_existing_experiment</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">experiment_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">choose_generation_strategy_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""Create a new experiment and save it if DBSettings available.</span>
 
@@ -222,6 +224,9 @@ src="/js/documentation_options.js">
 <span class="sd">                instantiation and the experiment being created has the same name</span>
 <span class="sd">                as some experiment already stored, whether to overwrite the</span>
 <span class="sd">                existing experiment. Defaults to False.</span>
+<span class="sd">            choose_generation_strategy_kwargs: Keyword arguments to pass to</span>
+<span class="sd">                `choose_generation_strategy` function which determines what</span>
+<span class="sd">                generation strategy should be used when none was specified on init.</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">db_settings</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
@@ -257,6 +262,7 @@ src="/js/documentation_options.js">
         <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generation_strategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_generation_strategy</span> <span class="o">=</span> <span class="n">choose_generation_strategy</span><span class="p">(</span>
+                <span class="c1"># pyre-fixme[16]: `Optional` has no attribute `search_space`.</span>
                 <span class="n">search_space</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span><span class="o">.</span><span class="n">search_space</span><span class="p">,</span>
                 <span class="n">enforce_sequential_optimization</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_enforce_sequential_optimization</span><span class="p">,</span>
                 <span class="n">random_seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_random_seed</span><span class="p">,</span>
@@ -391,7 +397,7 @@ src="/js/documentation_options.js">
 
 <div class="viewcode-block" id="AxClient.get_best_parameters"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.get_best_parameters">[docs]</a>    <span class="nd">@copy_doc</span><span class="p">(</span><span class="n">best_point_utils</span><span class="o">.</span><span class="n">get_best_parameters</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">get_best_parameters</span><span class="p">(</span>
-        <span class="bp">self</span>
+        <span class="bp">self</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">TParameterization</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TModelPredictArm</span><span class="p">]]]:</span>
         <span class="k">return</span> <span class="n">best_point_utils</span><span class="o">.</span><span class="n">get_best_parameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="p">)</span></div>
 
@@ -550,6 +556,37 @@ src="/js/documentation_options.js">
             <span class="s2">"of this optimization."</span>
         <span class="p">)</span></div>
 
+<div class="viewcode-block" id="AxClient.get_feature_importances"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.get_feature_importances">[docs]</a>    <span class="k">def</span> <span class="nf">get_feature_importances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relative</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxPlotConfig</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Get a bar chart showing feature_importances for a metric.</span>
+
+<span class="sd">        A drop-down controls the metric for which the importances are displayed.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            relative: Whether the values are displayed as percentiles or</span>
+<span class="sd">                as raw importance metrics.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Cannot generate plot as there are no trials."</span><span class="p">)</span>
+        <span class="n">cur_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span><span class="o">.</span><span class="n">model</span>
+        <span class="k">if</span> <span class="n">cur_model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">plot_feature_importance_by_feature</span><span class="p">(</span><span class="n">cur_model</span><span class="p">,</span> <span class="n">relative</span><span class="o">=</span><span class="n">relative</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="n">f</span><span class="s2">"Model </span><span class="si">{self.generation_strategy.model}</span><span class="s2"> does not implement "</span>
+                    <span class="s2">"`feature_importances`, so it cannot be used to generate "</span>
+                    <span class="s2">"this plot. Only certain models, specifically GPEI, implement "</span>
+                    <span class="s2">"feature importances."</span>
+                <span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">"Could not obtain feature_importances for any metrics "</span>
+            <span class="s2">" as a model that can produce feature importances, such as a "</span>
+            <span class="s2">"Gaussian Process, has not yet been trained in the course "</span>
+            <span class="s2">"of this optimization."</span>
+        <span class="p">)</span></div>
+
 <div class="viewcode-block" id="AxClient.load_experiment_from_database"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.load_experiment_from_database">[docs]</a>    <span class="k">def</span> <span class="nf">load_experiment_from_database</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""Load an existing experiment from database using the `DBSettings`</span>
 <span class="sd">        passed to this `AxClient` on instantiation.</span>
@@ -572,6 +609,7 @@ src="/js/documentation_options.js">
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"Loaded </span><span class="si">{experiment}</span><span class="s2">."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">generation_strategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_generation_strategy</span> <span class="o">=</span> <span class="n">choose_generation_strategy</span><span class="p">(</span>
+                <span class="c1"># pyre-fixme[16]: `Optional` has no attribute `search_space`.</span>
                 <span class="n">search_space</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span><span class="o">.</span><span class="n">search_space</span><span class="p">,</span>
                 <span class="n">enforce_sequential_optimization</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_enforce_sequential_optimization</span><span class="p">,</span>
                 <span class="n">random_seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_random_seed</span><span class="p">,</span>

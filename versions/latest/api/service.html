@@ -120,7 +120,7 @@ optional.</p></li>
 </dd></dl>
 <dl class="method">
 <dt id="ax.service.ax_client.AxClient.create_experiment">
-<code class="sig-name descname">create_experiment</code><span class="sig-paren">(</span><em class="sig-param">parameters</em>, <em class="sig-param">name=None</em>, <em class="sig-param">objective_name=None</em>, <em class="sig-param">minimize=False</em>, <em class="sig-param">parameter_constraints=None</em>, <em class="sig-param">outcome_constraints=None</em>, <em class="sig-param">status_quo=None</em>, <em class="sig-param">overwrite_existing_experiment=False</em>, <em class="sig-param">experiment_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/ax_client.html#AxClient.create_experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.ax_client.AxClient.create_experiment" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">create_experiment</code><span class="sig-paren">(</span><em class="sig-param">parameters</em>, <em class="sig-param">name=None</em>, <em class="sig-param">objective_name=None</em>, <em class="sig-param">minimize=False</em>, <em class="sig-param">parameter_constraints=None</em>, <em class="sig-param">outcome_constraints=None</em>, <em class="sig-param">status_quo=None</em>, <em class="sig-param">overwrite_existing_experiment=False</em>, <em class="sig-param">experiment_type=None</em>, <em class="sig-param">choose_generation_strategy_kwargs=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/ax_client.html#AxClient.create_experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.ax_client.AxClient.create_experiment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new experiment and save it if DBSettings available.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -149,6 +149,9 @@ test configurations.</p></li>
 instantiation and the experiment being created has the same name
 as some experiment already stored, whether to overwrite the
 existing experiment. Defaults to False.</p></li>
+<li><p><strong>choose_generation_strategy_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]) – Keyword arguments to pass to
+<cite>choose_generation_strategy</cite> function which determines what
+generation strategy should be used when none was specified on init.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -228,6 +231,21 @@ the contour response surface plots.</p></li>
 <li><p><strong>metric_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – Name of the metric, for which to plot the response
 surface.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="plot.html#ax.plot.base.AxPlotConfig" title="ax.plot.base.AxPlotConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">AxPlotConfig</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.service.ax_client.AxClient.get_feature_importances">
+<code class="sig-name descname">get_feature_importances</code><span class="sig-paren">(</span><em class="sig-param">relative=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/ax_client.html#AxClient.get_feature_importances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.ax_client.AxClient.get_feature_importances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a bar chart showing feature_importances for a metric.</p>
+<p>A drop-down controls the metric for which the importances are displayed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>relative</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether the values are displayed as percentiles or
+as raw importance metrics.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="plot.html#ax.plot.base.AxPlotConfig" title="ax.plot.base.AxPlotConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">AxPlotConfig</span></code></a></p>
@@ -654,8 +672,8 @@ data, in milliseconds.</p></li>
 <dl class="function">
 <dt id="ax.service.utils.instantiation.make_experiment">
 <code class="sig-prename descclassname">ax.service.utils.instantiation.</code><code class="sig-name descname">make_experiment</code><span class="sig-paren">(</span><em class="sig-param">parameters</em>, <em class="sig-param">name=None</em>, <em class="sig-param">objective_name=None</em>, <em class="sig-param">minimize=False</em>, <em class="sig-param">parameter_constraints=None</em>, <em class="sig-param">outcome_constraints=None</em>, <em class="sig-param">status_quo=None</em>, <em class="sig-param">experiment_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/utils/instantiation.html#make_experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.utils.instantiation.make_experiment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Instantiation wrapper that allows for creation of SimpleExperiment without
-importing or instantiating any Ax classes.</p>
+<dd><p>Instantiation wrapper that allows for creation of SimpleExperiment
+without importing or instantiating any Ax classes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a></p>

@@ -82,6 +82,10 @@ src="/js/documentation_options.js">
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                 <span class="n">f</span><span class="s2">"Model for </span><span class="si">{metric_name}</span><span class="s2"> does not support feature importances."</span>
             <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">importances</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">"Feature importances could not be calculated for any metric"</span>
+        <span class="p">)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">importances</span><span class="p">)</span>
 
     <span class="c1"># plot_feature_importance expects index in first column</span>
@@ -95,7 +99,7 @@ src="/js/documentation_options.js">
 
 
 <div class="viewcode-block" id="plot_feature_importance_by_feature"><a class="viewcode-back" href="../../../plot.html#ax.plot.feature_importances.plot_feature_importance_by_feature">[docs]</a><span class="k">def</span> <span class="nf">plot_feature_importance_by_feature</span><span class="p">(</span>
-    <span class="n">model</span><span class="p">:</span> <span class="n">ModelBridge</span><span class="p">,</span> <span class="n">relative</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">ModelBridge</span><span class="p">,</span> <span class="n">relative</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxPlotConfig</span><span class="p">:</span>
     <span class="sd">"""One plot per metric, showing importances by feature."""</span>
     <span class="n">traces</span> <span class="o">=</span> <span class="p">[]</span>
@@ -135,6 +139,8 @@ src="/js/documentation_options.js">
         <span class="n">dropdown</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="p">{</span><span class="s2">"args"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"visible"</span><span class="p">,</span> <span class="n">is_visible</span><span class="p">],</span> <span class="s2">"label"</span><span class="p">:</span> <span class="n">metric_name</span><span class="p">,</span> <span class="s2">"method"</span><span class="p">:</span> <span class="s2">"restyle"</span><span class="p">}</span>
         <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">traces</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"No traces found for metric"</span><span class="p">)</span>
 
     <span class="n">updatemenus</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">{</span>
