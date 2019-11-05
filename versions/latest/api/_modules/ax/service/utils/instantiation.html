@@ -206,8 +206,8 @@ src="/js/documentation_options.js">
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="s2">"Parameter constraint should be of form &lt;parameter_name&gt; &gt;= "</span>
             <span class="s2">"&lt;other_parameter_name&gt; for order constraints or `&lt;parameter_name&gt; "</span>
-            <span class="s2">"+ &lt;other_parameter_name&gt; &gt;= x, where any number of parameters can be "</span>
-            <span class="s2">"summed up and `x` is a float bound. Acceptable comparison operators "</span>
+            <span class="s2">"+ &lt;other_parameter_name&gt; &gt;= x, where any number of terms can be "</span>
+            <span class="s2">"added and `x` is a float bound. Acceptable comparison operators "</span>
             <span class="s1">'are "&gt;=" and "&lt;=".'</span>
         <span class="p">)</span>
 
@@ -224,31 +224,54 @@ src="/js/documentation_options.js">
                 <span class="n">lower_parameter</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="n">right</span><span class="p">],</span> <span class="n">upper_parameter</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="n">left</span><span class="p">]</span>
             <span class="p">)</span>
         <span class="p">)</span>
-
-    <span class="k">try</span><span class="p">:</span>  <span class="c1"># Case "x1 -x2 + x3 &gt;= 2" =&gt; parameter constraint.</span>
+    <span class="k">try</span><span class="p">:</span>  <span class="c1"># Case "x1 - 2*x2 + x3 &gt;= 2" =&gt; parameter constraint.</span>
         <span class="n">bound</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Bound for the constraint must be a number; got </span><span class="si">{tokens[-1]}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="n">used_parameter_weight</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">token</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"*"</span> <span class="ow">or</span> <span class="n">token</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"*"</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">"A linear constraint should be the form a*x + b*y - c*z &lt;= d"</span>
+            <span class="s2">", where a,b,c,d are float constants and x,y,z are parameters. "</span>
+            <span class="s2">"There should be no space in each term around the operator * while "</span>
+            <span class="s2">"there should be a single space around each operator +, -, &lt;= and &gt;=."</span>
+        <span class="p">)</span>
+    <span class="n">parameter_weight</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">comparison_multiplier</span> <span class="o">=</span> <span class="p">(</span>
         <span class="mf">1.0</span> <span class="k">if</span> <span class="n">COMPARISON_OPS</span><span class="p">[</span><span class="n">tokens</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]]</span> <span class="ow">is</span> <span class="n">ComparisonOp</span><span class="o">.</span><span class="n">LEQ</span> <span class="k">else</span> <span class="o">-</span><span class="mf">1.0</span>
     <span class="p">)</span>
-    <span class="n">current_weight</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">operator_sign</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Determines whether the operator is + or -</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">token</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tokens</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]):</span>
         <span class="k">if</span> <span class="n">idx</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">split_token</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"*"</span><span class="p">)</span>
+            <span class="n">parameter</span> <span class="o">=</span> <span class="s2">""</span>  <span class="c1"># Initializing the parameter</span>
+            <span class="n">multiplier</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Initializing the multiplier</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_token</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># There is a non-unit multiplier</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">multiplier</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">split_token</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="n">f</span><span class="s2">"Multiplier should be float; got </span><span class="si">{split_token[0]}</span><span class="s2">"</span>
+                    <span class="p">)</span>
+                <span class="n">parameter</span> <span class="o">=</span> <span class="n">split_token</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_token</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># The multiplier is either -1 or 1</span>
+                <span class="n">parameter</span> <span class="o">=</span> <span class="n">split_token</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">parameter</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"-"</span><span class="p">:</span>  <span class="c1"># The multiplier is -1</span>
+                    <span class="n">parameter</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                    <span class="n">multiplier</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">multiplier</span> <span class="o">=</span> <span class="mf">1.0</span>
             <span class="k">assert</span> <span class="p">(</span>
-                <span class="n">token</span> <span class="ow">in</span> <span class="n">parameter_names</span>
-            <span class="p">),</span> <span class="n">f</span><span class="s2">"Parameter </span><span class="si">{token}</span><span class="s2"> not in </span><span class="si">{parameter_names}</span><span class="s2">."</span>
-            <span class="n">used_parameter_weight</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_weight</span>
+                <span class="n">parameter</span> <span class="ow">in</span> <span class="n">parameter_names</span>
+            <span class="p">),</span> <span class="n">f</span><span class="s2">"Parameter </span><span class="si">{parameter}</span><span class="s2"> not in </span><span class="si">{parameter_names}</span><span class="s2">."</span>
+            <span class="n">parameter_weight</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span> <span class="o">=</span> <span class="n">operator_sign</span> <span class="o">*</span> <span class="n">multiplier</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">assert</span> <span class="p">(</span>
                 <span class="n">token</span> <span class="o">==</span> <span class="s2">"+"</span> <span class="ow">or</span> <span class="n">token</span> <span class="o">==</span> <span class="s2">"-"</span>
             <span class="p">),</span> <span class="n">f</span><span class="s2">"Expected a mixed constraint, found operator </span><span class="si">{token}</span><span class="s2">."</span>
-            <span class="n">current_weight</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">token</span> <span class="o">==</span> <span class="s2">"+"</span> <span class="k">else</span> <span class="o">-</span><span class="mf">1.0</span>
+            <span class="n">operator_sign</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">token</span> <span class="o">==</span> <span class="s2">"+"</span> <span class="k">else</span> <span class="o">-</span><span class="mf">1.0</span>
     <span class="k">return</span> <span class="n">ParameterConstraint</span><span class="p">(</span>
         <span class="n">constraint_dict</span><span class="o">=</span><span class="p">{</span>
-            <span class="n">p</span><span class="p">:</span> <span class="n">comparison_multiplier</span> <span class="o">*</span> <span class="n">used_parameter_weight</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">used_parameter_weight</span>
+            <span class="n">p</span><span class="p">:</span> <span class="n">comparison_multiplier</span> <span class="o">*</span> <span class="n">parameter_weight</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parameter_weight</span>
         <span class="p">},</span>
         <span class="n">bound</span><span class="o">=</span><span class="n">comparison_multiplier</span> <span class="o">*</span> <span class="n">bound</span><span class="p">,</span>
     <span class="p">)</span></div>
