@@ -53,6 +53,7 @@ src="/js/documentation_options.js">
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">ax.exceptions.storage</span> <span class="k">import</span> <span class="n">JSONDecodeError</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.generation_strategy</span> <span class="k">import</span> <span class="n">GenerationStrategy</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.registry</span> <span class="k">import</span> <span class="n">Models</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.transforms.base</span> <span class="k">import</span> <span class="n">Transform</span>
 <span class="kn">from</span> <span class="nn">ax.storage.json_store.decoders</span> <span class="k">import</span> <span class="n">batch_trial_from_json</span><span class="p">,</span> <span class="n">trial_from_json</span>
 <span class="kn">from</span> <span class="nn">ax.storage.json_store.registry</span> <span class="k">import</span> <span class="n">DECODER_REGISTRY</span>
@@ -305,6 +306,16 @@ src="/js/documentation_options.js">
         <span class="n">generation_strategy_json</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"generator_runs"</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">generation_strategy_json</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"had_initialized_model"</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="c1"># If model in the current step was not directly from the `Models` enum,</span>
+        <span class="c1"># pass its type to `restore_model_from_generator_run`, which will then</span>
+        <span class="c1"># attempt to use this type to recreate the model.</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">gs</span><span class="o">.</span><span class="n">_curr</span><span class="o">.</span><span class="n">model</span><span class="p">)</span> <span class="o">!=</span> <span class="n">Models</span><span class="p">:</span>
+            <span class="n">models_enum</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">gs</span><span class="o">.</span><span class="n">_curr</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">models_enum</span><span class="p">,</span> <span class="n">Models</span><span class="p">)</span>
+            <span class="c1"># pyre-ignore[6]: `models_enum` typing hackiness</span>
+            <span class="n">gs</span><span class="o">.</span><span class="n">_restore_model_from_generator_run</span><span class="p">(</span><span class="n">models_enum</span><span class="o">=</span><span class="n">models_enum</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">gs</span>
+
         <span class="n">gs</span><span class="o">.</span><span class="n">_restore_model_from_generator_run</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">gs</span></div>
 </pre></div>

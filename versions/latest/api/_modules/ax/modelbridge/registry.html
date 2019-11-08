@@ -81,6 +81,10 @@ src="/js/documentation_options.js">
 <span class="sd">"""</span>
 <span class="sd">Module containing a registry of standard models (and generators, samplers etc.)</span>
 <span class="sd">such as Sobol generator, GP+EI, Thompson sampler, etc.</span>
+
+<span class="sd">Use of `Models` enum allows for serialization and reinstantiation of models and</span>
+<span class="sd">generation strategies from generator runs they produced. To reinstantiate a model</span>
+<span class="sd">from generator run, use `get_model_from_generator_run` utility from this module.</span>
 <span class="sd">"""</span>
 
 
@@ -115,28 +119,10 @@ src="/js/documentation_options.js">
     <span class="n">TaskEncode</span><span class="p">,</span>
 <span class="p">]</span>
 
-
-<div class="viewcode-block" id="get_model_from_generator_run"><a class="viewcode-back" href="../../../modelbridge.html#ax.get_model_from_generator_run">[docs]</a><span class="k">def</span> <span class="nf">get_model_from_generator_run</span><span class="p">(</span>
-    <span class="n">generator_run</span><span class="p">:</span> <span class="n">GeneratorRun</span><span class="p">,</span> <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Data</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModelBridge</span><span class="p">:</span>
-    <span class="sd">"""Reinstantiate a model from model key and kwargs stored on a given generator</span>
-<span class="sd">    run, with the given experiment and the data to initialize the model with.</span>
-
-<span class="sd">    Note: requires that the model that was used to get the generator run, is part</span>
-<span class="sd">    of the `Models` registry enum.</span>
-<span class="sd">    """</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">generator_run</span><span class="o">.</span><span class="n">_model_key</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">"Cannot restore model from generator run as no model key was "</span>
-            <span class="s2">"on the generator run stored."</span>
-        <span class="p">)</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">Models</span><span class="p">(</span><span class="n">generator_run</span><span class="o">.</span><span class="n">_model_key</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">model</span><span class="p">(</span>
-        <span class="n">experiment</span><span class="o">=</span><span class="n">experiment</span><span class="p">,</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
-        <span class="o">**</span><span class="p">(</span><span class="n">generator_run</span><span class="o">.</span><span class="n">_model_kwargs</span> <span class="ow">or</span> <span class="p">{}),</span>
-        <span class="o">**</span><span class="p">(</span><span class="n">generator_run</span><span class="o">.</span><span class="n">_bridge_kwargs</span> <span class="ow">or</span> <span class="p">{}),</span>
-    <span class="p">)</span></div>
+<span class="n">STANDARD_TORCH_BRIDGE_KWARGS</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"torch_dtype"</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">double</span><span class="p">,</span>
+    <span class="s2">"torch_device"</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cpu"</span><span class="p">),</span>  <span class="c1"># pyre-fixme[19]</span>
+<span class="p">}</span>
 
 
 <div class="viewcode-block" id="ModelSetup"><a class="viewcode-back" href="../../../modelbridge.html#ax.ModelSetup">[docs]</a><span class="k">class</span> <span class="nc">ModelSetup</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
@@ -161,19 +147,13 @@ src="/js/documentation_options.js">
         <span class="n">bridge_class</span><span class="o">=</span><span class="n">TorchModelBridge</span><span class="p">,</span>
         <span class="n">model_class</span><span class="o">=</span><span class="n">BotorchModel</span><span class="p">,</span>
         <span class="n">transforms</span><span class="o">=</span><span class="n">Cont_X_trans</span> <span class="o">+</span> <span class="n">Y_trans</span><span class="p">,</span>
-        <span class="n">standard_bridge_kwargs</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">"torch_dtype"</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">double</span><span class="p">,</span>
-            <span class="s2">"torch_device"</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cpu"</span><span class="p">),</span>  <span class="c1"># pyre-fixme[19]</span>
-        <span class="p">},</span>
+        <span class="n">standard_bridge_kwargs</span><span class="o">=</span><span class="n">STANDARD_TORCH_BRIDGE_KWARGS</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="s2">"GPEI"</span><span class="p">:</span> <span class="n">ModelSetup</span><span class="p">(</span>
         <span class="n">bridge_class</span><span class="o">=</span><span class="n">TorchModelBridge</span><span class="p">,</span>
         <span class="n">model_class</span><span class="o">=</span><span class="n">BotorchModel</span><span class="p">,</span>
         <span class="n">transforms</span><span class="o">=</span><span class="n">Cont_X_trans</span> <span class="o">+</span> <span class="n">Y_trans</span><span class="p">,</span>
-        <span class="n">standard_bridge_kwargs</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">"torch_dtype"</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">double</span><span class="p">,</span>
-            <span class="s2">"torch_device"</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cpu"</span><span class="p">),</span>  <span class="c1"># pyre-fixme[19]</span>
-        <span class="p">},</span>
+        <span class="n">standard_bridge_kwargs</span><span class="o">=</span><span class="n">STANDARD_TORCH_BRIDGE_KWARGS</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="s2">"EB"</span><span class="p">:</span> <span class="n">ModelSetup</span><span class="p">(</span>
         <span class="n">bridge_class</span><span class="o">=</span><span class="n">DiscreteModelBridge</span><span class="p">,</span>
@@ -203,7 +183,7 @@ src="/js/documentation_options.js">
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="Models"><a class="viewcode-back" href="../../../modelbridge.html#ax.Models">[docs]</a><span class="k">class</span> <span class="nc">Models</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>  <span class="c1"># String enum.</span>
+<div class="viewcode-block" id="Models"><a class="viewcode-back" href="../../../modelbridge.html#ax.Models">[docs]</a><span class="k">class</span> <span class="nc">Models</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="sd">"""Registry of available models.</span>
 
 <span class="sd">    Uses MODEL_KEY_TO_MODEL_SETUP to retrieve settings for model and model bridge,</span>
@@ -237,7 +217,7 @@ src="/js/documentation_options.js">
         <span class="n">silently_filter_kwargs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># TODO[Lena]: default to False</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModelBridge</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="n">MODEL_KEY_TO_MODEL_SETUP</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="n">MODEL_KEY_TO_MODEL_SETUP</span><span class="p">,</span> <span class="n">f</span><span class="s2">"Unknown model </span><span class="si">{self.value}</span><span class="s2">"</span>
         <span class="c1"># All model bridges require either a search space or an experiment.</span>
         <span class="k">assert</span> <span class="n">search_space</span> <span class="ow">or</span> <span class="n">experiment</span><span class="p">,</span> <span class="s2">"Search space or experiment required."</span>
         <span class="n">model_setup_info</span> <span class="o">=</span> <span class="n">MODEL_KEY_TO_MODEL_SETUP</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
@@ -347,6 +327,39 @@ src="/js/documentation_options.js">
                 <span class="n">info</span><span class="o">.</span><span class="n">bridge_class</span><span class="p">,</span> <span class="n">omit</span><span class="o">=</span><span class="p">[</span><span class="s2">"experiment"</span><span class="p">,</span> <span class="s2">"search_space"</span><span class="p">,</span> <span class="s2">"data"</span><span class="p">]</span>
             <span class="p">),</span>
         <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_model_from_generator_run"><a class="viewcode-back" href="../../../modelbridge.html#ax.get_model_from_generator_run">[docs]</a><span class="k">def</span> <span class="nf">get_model_from_generator_run</span><span class="p">(</span>
+    <span class="n">generator_run</span><span class="p">:</span> <span class="n">GeneratorRun</span><span class="p">,</span>
+    <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Data</span><span class="p">,</span>
+    <span class="n">models_enum</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="s2">"Models"</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModelBridge</span><span class="p">:</span>
+    <span class="sd">"""Reinstantiate a model from model key and kwargs stored on a given generator</span>
+<span class="sd">    run, with the given experiment and the data to initialize the model with.</span>
+
+<span class="sd">    Note: requires that the model that was used to get the generator run, is part</span>
+<span class="sd">    of the `Models` registry enum.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">generator_run</span><span class="o">.</span><span class="n">_model_key</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">"Cannot restore model from generator run as no model key was "</span>
+            <span class="s2">"on the generator run stored."</span>
+        <span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="p">(</span><span class="n">models_enum</span> <span class="ow">or</span> <span class="n">Models</span><span class="p">)(</span><span class="n">generator_run</span><span class="o">.</span><span class="n">_model_key</span><span class="p">)</span>
+    <span class="n">model_kwargs</span> <span class="o">=</span> <span class="n">generator_run</span><span class="o">.</span><span class="n">_model_kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">bridge_kwargs</span> <span class="o">=</span> <span class="n">generator_run</span><span class="o">.</span><span class="n">_bridge_kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">model_keywords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">model_kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">model_keywords</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">bridge_kwargs</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="n">f</span><span class="s2">"Keyword argument `</span><span class="si">{key}</span><span class="s2">` occurs in both model and model bridge "</span>
+                <span class="n">f</span><span class="s2">"kwargs stored in the generator run. Assuming the `</span><span class="si">{key}</span><span class="s2">` kwarg "</span>
+                <span class="s2">"is passed into the model by the model bridge and removing its "</span>
+                <span class="s2">"value from the model kwargs."</span>
+            <span class="p">)</span>
+            <span class="k">del</span> <span class="n">model_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">model</span><span class="p">(</span><span class="n">experiment</span><span class="o">=</span><span class="n">experiment</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">bridge_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">model_kwargs</span><span class="p">)</span></div>
 </pre></div>
 </div>
 </div>

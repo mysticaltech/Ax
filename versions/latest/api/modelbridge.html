@@ -200,7 +200,7 @@ such as BoTorch GP+EI, a Thompson sampler, or a Sobol quasirandom generator.</p>
 <dl class="class">
 <dt id="ax.modelbridge.registry.Models">
 <em class="property">class </em><code class="sig-prename descclassname">ax.modelbridge.registry.</code><code class="sig-name descname">Models</code><a class="reference internal" href="_modules/ax/modelbridge/registry.html#Models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.registry.Models" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
 <p>Registry of available models.</p>
 <p>Uses MODEL_KEY_TO_MODEL_SETUP to retrieve settings for model and model bridge,
 by the key stored in the enum value.</p>
@@ -272,7 +272,7 @@ since models and bridges cannot be inspected directly through the enum.</p>
 </dd></dl>
 <dl class="function">
 <dt id="ax.modelbridge.registry.get_model_from_generator_run">
-<code class="sig-prename descclassname">ax.modelbridge.registry.</code><code class="sig-name descname">get_model_from_generator_run</code><span class="sig-paren">(</span><em class="sig-param">generator_run</em>, <em class="sig-param">experiment</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/registry.html#get_model_from_generator_run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.registry.get_model_from_generator_run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ax.modelbridge.registry.</code><code class="sig-name descname">get_model_from_generator_run</code><span class="sig-paren">(</span><em class="sig-param">generator_run</em>, <em class="sig-param">experiment</em>, <em class="sig-param">data</em>, <em class="sig-param">models_enum=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/registry.html#get_model_from_generator_run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.registry.get_model_from_generator_run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reinstantiate a model from model key and kwargs stored on a given generator
 run, with the given experiment and the data to initialize the model with.</p>
 <p>Note: requires that the model that was used to get the generator run, is part
@@ -288,6 +288,9 @@ of the <cite>Models</cite> registry enum.</p>
 <code class="sig-prename descclassname">ax.modelbridge.registry.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger ax.modelbridge.registry (INFO)&gt;</em><a class="headerlink" href="#ax.modelbridge.registry.logger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Module containing a registry of standard models (and generators, samplers etc.)
 such as Sobol generator, GP+EI, Thompson sampler, etc.</p>
+<p>Use of <cite>Models</cite> enum allows for serialization and reinstantiation of models and
+generation strategies from generator runs they produced. To reinstantiate a model
+from generator run, use <cite>get_model_from_generator_run</cite> utility from this module.</p>
 </dd></dl>
 </div>
 <div class="section" id="module-ax.modelbridge.factory">

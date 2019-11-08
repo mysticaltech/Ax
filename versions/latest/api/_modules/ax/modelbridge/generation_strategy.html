@@ -30,7 +30,7 @@ src="/js/documentation_options.js">
 <span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
 
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="k">import</span> <span class="n">signature</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">ax.core.base</span> <span class="k">import</span> <span class="n">Base</span>
@@ -317,7 +317,9 @@ src="/js/documentation_options.js">
             <span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_restore_model_from_generator_run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_restore_model_from_generator_run</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">models_enum</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">Models</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">generator_run</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_generator_run</span>
         <span class="k">if</span> <span class="n">generator_run</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"No generator run was stored on generation strategy."</span><span class="p">)</span>
@@ -325,10 +327,9 @@ src="/js/documentation_options.js">
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"No experiment was set on this generation strategy."</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">get_model_from_generator_run</span><span class="p">(</span>
             <span class="n">generator_run</span><span class="o">=</span><span class="n">generator_run</span><span class="p">,</span>
-            <span class="c1"># pyre-fixme[6]: Expected `Experiment` for 2nd param but got</span>
-            <span class="c1">#  `Optional[Experiment]`.</span>
-            <span class="n">experiment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span><span class="p">,</span>
+            <span class="n">experiment</span><span class="o">=</span><span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span><span class="p">),</span>
             <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span>
+            <span class="n">models_enum</span><span class="o">=</span><span class="n">models_enum</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_change_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -384,12 +385,11 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-            <span class="c1"># pyre-fixme[16]: `Optional` has no attribute `_name`.</span>
-            <span class="ow">and</span> <span class="n">experiment</span><span class="o">.</span><span class="n">_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span><span class="o">.</span><span class="n">_name</span>
+            <span class="ow">and</span> <span class="n">experiment</span><span class="o">.</span><span class="n">_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span><span class="p">)</span><span class="o">.</span><span class="n">_name</span>
         <span class="p">):</span>  <span class="c1"># pragma: no cover</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                 <span class="s2">"This generation strategy has been used for experiment "</span>
-                <span class="n">f</span><span class="s2">"</span><span class="si">{self._experiment._name}</span><span class="s2"> so far; generating trials for "</span>
+                <span class="n">f</span><span class="s2">"{not_none(self._experiment)._name} so far; generating trials for "</span>
                 <span class="n">f</span><span class="s2">"</span><span class="si">{experiment._name}</span><span class="s2"> from now on. If this is a new optimization, "</span>
                 <span class="s2">"a new generation strategy should be created instead."</span>
             <span class="p">)</span>
