@@ -933,6 +933,24 @@ arrays. This function is passed to _model_gen.</p>
 </dd></dl>
 </dd></dl>
 <dl class="function">
+<dt id="ax.modelbridge.cross_validation.assess_model_fit">
+<code class="sig-prename descclassname">ax.modelbridge.cross_validation.</code><code class="sig-name descname">assess_model_fit</code><span class="sig-paren">(</span><em class="sig-param">diagnostics</em>, <em class="sig-param">significance_level=0.1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/cross_validation.html#assess_model_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.cross_validation.assess_model_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assess model fit for given diagnostics results.</p>
+<p>It determines if a model fit is good or bad based on Fisher exact test p</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>diagnostics</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]]) – Output of compute_diagnostics</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Two dictionaries, one for good metrics, one for bad metrics, each
+mapping metric name to p-value</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
 <dt id="ax.modelbridge.cross_validation.compute_diagnostics">
 <code class="sig-prename descclassname">ax.modelbridge.cross_validation.</code><code class="sig-name descname">compute_diagnostics</code><span class="sig-paren">(</span><em class="sig-param">result</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/cross_validation.html#compute_diagnostics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.cross_validation.compute_diagnostics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes diagnostics for given cross validation results.</p>

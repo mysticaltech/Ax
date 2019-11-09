@@ -35,7 +35,19 @@ src="/js/documentation_options.js">
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">ax.core.observation</span> <span class="k">import</span> <span class="n">Observation</span><span class="p">,</span> <span class="n">ObservationData</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.base</span> <span class="k">import</span> <span class="n">ModelBridge</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.logger</span> <span class="k">import</span> <span class="n">get_logger</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">fisher_exact</span><span class="p">,</span> <span class="n">pearsonr</span><span class="p">,</span> <span class="n">spearmanr</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="n">MEAN_PREDICTION_CI</span> <span class="o">=</span> <span class="s2">"Mean prediction CI"</span>
+<span class="n">MAPE</span> <span class="o">=</span> <span class="s2">"MAPE"</span>
+<span class="n">TOTAL_RAW_EFFECT</span> <span class="o">=</span> <span class="s2">"Total raw effect"</span>
+<span class="n">CORRELATION_COEFFICIENT</span> <span class="o">=</span> <span class="s2">"Correlation coefficient"</span>
+<span class="n">RANK_CORRELATION</span> <span class="o">=</span> <span class="s2">"Rank correlation"</span>
+<span class="n">FISHER_EXACT_TEST_P</span> <span class="o">=</span> <span class="s2">"Fisher exact test p"</span>
 
 
 <div class="viewcode-block" id="CVResult"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.cross_validation.CVResult">[docs]</a><span class="k">class</span> <span class="nc">CVResult</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
@@ -217,12 +229,12 @@ src="/js/documentation_options.js">
             <span class="n">se_pred</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">predicted</span><span class="o">.</span><span class="n">covariance</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">]))</span>
 
     <span class="n">diagnostic_fns</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">"Mean prediction CI"</span><span class="p">:</span> <span class="n">_mean_prediction_ci</span><span class="p">,</span>
-        <span class="s2">"MAPE"</span><span class="p">:</span> <span class="n">_mape</span><span class="p">,</span>
-        <span class="s2">"Total raw effect"</span><span class="p">:</span> <span class="n">_total_raw_effect</span><span class="p">,</span>
-        <span class="s2">"Correlation coefficient"</span><span class="p">:</span> <span class="n">_correlation_coefficient</span><span class="p">,</span>
-        <span class="s2">"Rank correlation"</span><span class="p">:</span> <span class="n">_rank_correlation</span><span class="p">,</span>
-        <span class="s2">"Fisher exact test p"</span><span class="p">:</span> <span class="n">_fisher_exact_test_p</span><span class="p">,</span>
+        <span class="n">MEAN_PREDICTION_CI</span><span class="p">:</span> <span class="n">_mean_prediction_ci</span><span class="p">,</span>
+        <span class="n">MAPE</span><span class="p">:</span> <span class="n">_mape</span><span class="p">,</span>
+        <span class="n">TOTAL_RAW_EFFECT</span><span class="p">:</span> <span class="n">_total_raw_effect</span><span class="p">,</span>
+        <span class="n">CORRELATION_COEFFICIENT</span><span class="p">:</span> <span class="n">_correlation_coefficient</span><span class="p">,</span>
+        <span class="n">RANK_CORRELATION</span><span class="p">:</span> <span class="n">_rank_correlation</span><span class="p">,</span>
+        <span class="n">FISHER_EXACT_TEST_P</span><span class="p">:</span> <span class="n">_fisher_exact_test_p</span><span class="p">,</span>
     <span class="p">}</span>
 
     <span class="n">diagnostics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
@@ -235,6 +247,40 @@ src="/js/documentation_options.js">
                 <span class="n">se_pred</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">se_pred</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]),</span>
             <span class="p">)</span>
     <span class="k">return</span> <span class="n">diagnostics</span></div>
+
+
+<div class="viewcode-block" id="assess_model_fit"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.cross_validation.assess_model_fit">[docs]</a><span class="k">def</span> <span class="nf">assess_model_fit</span><span class="p">(</span>
+    <span class="n">diagnostics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="n">significance_level</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+    <span class="sd">"""Assess model fit for given diagnostics results.</span>
+
+<span class="sd">    It determines if a model fit is good or bad based on Fisher exact test p</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        diagnostics: Output of compute_diagnostics</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Two dictionaries, one for good metrics, one for bad metrics, each</span>
+<span class="sd">        mapping metric name to p-value</span>
+<span class="sd">    """</span>
+
+    <span class="n">good_fit_metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">bad_fit_metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">metric</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">diagnostics</span><span class="p">[</span><span class="n">FISHER_EXACT_TEST_P</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="n">significance_level</span><span class="p">:</span>
+            <span class="n">bad_fit_metrics</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">good_fit_metrics</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_fit_metrics</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="s2">"</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> unable to be reliably fit."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="p">(</span><span class="s2">"Metrics"</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_fit_metrics</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">"Metric"</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">" , "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bad_fit_metrics</span><span class="o">.</span><span class="n">keys</span><span class="p">())),</span>
+                <span class="p">(</span><span class="s2">"were"</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_fit_metrics</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">"was"</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">good_fit_metrics</span><span class="p">,</span> <span class="n">bad_fit_metrics</span></div>
 
 
 <span class="k">def</span> <span class="nf">_gen_train_test_split</span><span class="p">(</span>
