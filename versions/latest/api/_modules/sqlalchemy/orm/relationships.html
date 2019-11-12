@@ -858,7 +858,16 @@ src="/js/documentation_options.js">
 <span class="sd">        :param omit_join:</span>
 <span class="sd">          Allows manual control over the "selectin" automatic join</span>
 <span class="sd">          optimization.  Set to ``False`` to disable the "omit join" feature</span>
-<span class="sd">          added in SQLAlchemy 1.3.</span>
+<span class="sd">          added in SQLAlchemy 1.3; or leave as ``None`` to leave automatic</span>
+<span class="sd">          optimization in place.</span>
+
+<span class="sd">          .. note:: This flag may only be set to ``False``.   It is not</span>
+<span class="sd">             necessary to set it to ``True`` as the "omit_join" optimization is</span>
+<span class="sd">             automatically detected; if it is not detected, then the</span>
+<span class="sd">             optimization is not supported.</span>
+
+<span class="sd">             .. versionchanged:: 1.3.11  setting ``omit_join`` to True will now</span>
+<span class="sd">                emit a warning as this was not the intended use of this flag.</span>
 
 <span class="sd">          .. versionadded:: 1.3</span>
 
@@ -889,6 +898,15 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">active_history</span> <span class="o">=</span> <span class="n">active_history</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">join_depth</span> <span class="o">=</span> <span class="n">join_depth</span>
+        <span class="k">if</span> <span class="n">omit_join</span><span class="p">:</span>
+            <span class="n">util</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">"setting omit_join to True is not supported; selectin "</span>
+                <span class="s2">"loading of this relationship may not work correctly if this "</span>
+                <span class="s2">"flag is set explicitly.  omit_join optimization is "</span>
+                <span class="s2">"automatically detected for conditions under which it is "</span>
+                <span class="s2">"supported."</span>
+            <span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">omit_join</span> <span class="o">=</span> <span class="n">omit_join</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">local_remote_pairs</span> <span class="o">=</span> <span class="n">_local_remote_pairs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">extension</span> <span class="o">=</span> <span class="n">extension</span>
@@ -3130,7 +3148,6 @@ src="/js/documentation_options.js">
 <span class="sd">        criterion, equivalent column sets, etc.</span>
 
 <span class="sd">        """</span>
-
         <span class="c1"># place a barrier on the destination such that</span>
         <span class="c1"># replacement traversals won't ever dig into it.</span>
         <span class="c1"># its internal structure remains fixed</span>
@@ -3159,17 +3176,22 @@ src="/js/documentation_options.js">
         <span class="k">if</span> <span class="n">aliased</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">secondary</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">secondary</span> <span class="o">=</span> <span class="n">secondary</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">flat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="n">primary_aliasizer</span> <span class="o">=</span> <span class="n">ClauseAdapter</span><span class="p">(</span><span class="n">secondary</span><span class="p">)</span>
+                <span class="n">primary_aliasizer</span> <span class="o">=</span> <span class="n">ClauseAdapter</span><span class="p">(</span>
+                    <span class="n">secondary</span><span class="p">,</span> <span class="n">exclude_fn</span><span class="o">=</span><span class="n">_ColInAnnotations</span><span class="p">(</span><span class="s2">"local"</span><span class="p">)</span>
+                <span class="p">)</span>
                 <span class="n">secondary_aliasizer</span> <span class="o">=</span> <span class="n">ClauseAdapter</span><span class="p">(</span>
                     <span class="n">dest_selectable</span><span class="p">,</span> <span class="n">equivalents</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">child_equivalents</span>
                 <span class="p">)</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="n">primary_aliasizer</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">source_selectable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">primary_aliasizer</span> <span class="o">=</span> <span class="n">ClauseAdapter</span><span class="p">(</span><span class="n">secondary</span><span class="p">)</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span>
+                    <span class="n">primary_aliasizer</span> <span class="o">=</span> <span class="n">ClauseAdapter</span><span class="p">(</span>
+                        <span class="n">secondary</span><span class="p">,</span> <span class="n">exclude_fn</span><span class="o">=</span><span class="n">_ColInAnnotations</span><span class="p">(</span><span class="s2">"local"</span><span class="p">)</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span>
                         <span class="n">ClauseAdapter</span><span class="p">(</span>
                             <span class="n">source_selectable</span><span class="p">,</span>
                             <span class="n">equivalents</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parent_equivalents</span><span class="p">,</span>
                         <span class="p">)</span>
                     <span class="p">)</span>
+
                 <span class="n">secondaryjoin</span> <span class="o">=</span> <span class="n">secondary_aliasizer</span><span class="o">.</span><span class="n">traverse</span><span class="p">(</span><span class="n">secondaryjoin</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">primary_aliasizer</span> <span class="o">=</span> <span class="n">ClauseAdapter</span><span class="p">(</span>

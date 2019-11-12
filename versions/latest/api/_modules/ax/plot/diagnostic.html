@@ -49,6 +49,7 @@ src="/js/documentation_options.js">
     <span class="n">Z</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">ax.plot.scatter</span> <span class="k">import</span> <span class="n">_error_scatter_data</span><span class="p">,</span> <span class="n">_error_scatter_trace</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">not_none</span>
 <span class="kn">from</span> <span class="nn">plotly</span> <span class="k">import</span> <span class="n">tools</span>
 
 
@@ -565,6 +566,8 @@ src="/js/documentation_options.js">
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="n">MultiTypeExperiment</span><span class="p">):</span>
         <span class="n">observations</span> <span class="o">=</span> <span class="n">convert_mt_observations</span><span class="p">(</span><span class="n">observations</span><span class="p">,</span> <span class="n">experiment</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">status_quo_name</span> <span class="ow">and</span> <span class="n">experiment</span><span class="o">.</span><span class="n">status_quo</span><span class="p">:</span>
+        <span class="n">status_quo_name</span> <span class="o">=</span> <span class="n">not_none</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">status_quo</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
     <span class="n">plot_data</span> <span class="o">=</span> <span class="n">_get_batch_comparison_plot_data</span><span class="p">(</span>
         <span class="n">observations</span><span class="p">,</span> <span class="n">batch_x</span><span class="p">,</span> <span class="n">batch_y</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">,</span> <span class="n">status_quo_name</span><span class="o">=</span><span class="n">status_quo_name</span>
     <span class="p">)</span>
