@@ -39,7 +39,7 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">ax.core.parameter_constraint</span> <span class="k">import</span> <span class="n">ParameterConstraint</span>
 <span class="kn">from</span> <span class="nn">ax.core.search_space</span> <span class="k">import</span> <span class="n">SearchSpace</span>
 <span class="kn">from</span> <span class="nn">ax.core.trial</span> <span class="k">import</span> <span class="n">Trial</span>
-<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="k">import</span> <span class="n">TBounds</span>
+<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="k">import</span> <span class="n">TBounds</span><span class="p">,</span> <span class="n">TParamValue</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.transforms.base</span> <span class="k">import</span> <span class="n">Transform</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">not_none</span>
 
@@ -63,13 +63,13 @@ src="/js/documentation_options.js">
 
 <div class="viewcode-block" id="get_bounds_and_task"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.modelbridge_utils.get_bounds_and_task">[docs]</a><span class="k">def</span> <span class="nf">get_bounds_and_task</span><span class="p">(</span>
     <span class="n">search_space</span><span class="p">:</span> <span class="n">SearchSpace</span><span class="p">,</span> <span class="n">param_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">TParamValue</span><span class="p">]]:</span>
     <span class="sd">"""Extract box bounds from a search space in the usual Scipy format.</span>
 <span class="sd">    Identify integer parameters as task features.</span>
 <span class="sd">    """</span>
     <span class="n">bounds</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">task_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">fidelity_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">target_fidelities</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">TParamValue</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">param_names</span><span class="p">):</span>
         <span class="n">p</span> <span class="o">=</span> <span class="n">search_space</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">p_name</span><span class="p">]</span>
         <span class="c1"># Validation</span>
@@ -82,9 +82,9 @@ src="/js/documentation_options.js">
         <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">parameter_type</span> <span class="o">==</span> <span class="n">ParameterType</span><span class="o">.</span><span class="n">INT</span><span class="p">:</span>
             <span class="n">task_features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">is_fidelity</span><span class="p">:</span>
-            <span class="n">fidelity_features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">target_fidelities</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">target_value</span>
 
-    <span class="k">return</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">task_features</span><span class="p">,</span> <span class="n">fidelity_features</span></div>
+    <span class="k">return</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">task_features</span><span class="p">,</span> <span class="n">target_fidelities</span></div>
 
 
 <div class="viewcode-block" id="get_fixed_features"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.modelbridge_utils.get_fixed_features">[docs]</a><span class="k">def</span> <span class="nf">get_fixed_features</span><span class="p">(</span>

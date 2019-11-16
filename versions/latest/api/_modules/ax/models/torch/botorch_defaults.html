@@ -35,13 +35,9 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">botorch.acquisition.acquisition</span> <span class="k">import</span> <span class="n">AcquisitionFunction</span>
 <span class="kn">from</span> <span class="nn">botorch.acquisition.objective</span> <span class="k">import</span> <span class="n">ConstrainedMCObjective</span><span class="p">,</span> <span class="n">LinearMCObjective</span>
 <span class="kn">from</span> <span class="nn">botorch.acquisition.utils</span> <span class="k">import</span> <span class="n">get_acquisition_function</span><span class="p">,</span> <span class="n">get_infeasible_cost</span>
-<span class="kn">from</span> <span class="nn">botorch.exceptions.errors</span> <span class="k">import</span> <span class="n">UnsupportedError</span>
 <span class="kn">from</span> <span class="nn">botorch.fit</span> <span class="k">import</span> <span class="n">fit_gpytorch_model</span>
-<span class="kn">from</span> <span class="nn">botorch.models.fidelity.gp_regression_fidelity</span> <span class="k">import</span> <span class="p">(</span>
-    <span class="n">SingleTaskGPLTKernel</span><span class="p">,</span>
-    <span class="n">SingleTaskMultiFidelityGP</span><span class="p">,</span>
-<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">botorch.models.gp_regression</span> <span class="k">import</span> <span class="n">FixedNoiseGP</span><span class="p">,</span> <span class="n">SingleTaskGP</span>
+<span class="kn">from</span> <span class="nn">botorch.models.gp_regression_fidelity</span> <span class="k">import</span> <span class="n">SingleTaskMultiFidelityGP</span>
 <span class="kn">from</span> <span class="nn">botorch.models.gpytorch</span> <span class="k">import</span> <span class="n">GPyTorchModel</span>
 <span class="kn">from</span> <span class="nn">botorch.models.model</span> <span class="k">import</span> <span class="n">Model</span>
 <span class="kn">from</span> <span class="nn">botorch.models.model_list_gp_regression</span> <span class="k">import</span> <span class="n">ModelListGP</span>
@@ -57,7 +53,6 @@ src="/js/documentation_options.js">
 
 
 <span class="n">MIN_OBSERVED_NOISE_LEVEL</span> <span class="o">=</span> <span class="mf">1e-7</span>
-<span class="n">model_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">SingleTaskGPLTKernel</span><span class="p">,</span> <span class="n">SingleTaskMultiFidelityGP</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="get_and_fit_model"><a class="viewcode-back" href="../../../../models.html#ax.models.torch.botorch_defaults.get_and_fit_model">[docs]</a><span class="k">def</span> <span class="nf">get_and_fit_model</span><span class="p">(</span>
@@ -66,9 +61,8 @@ src="/js/documentation_options.js">
     <span class="n">Yvars</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span>
     <span class="n">task_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
     <span class="n">fidelity_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
-    <span class="n">refit_model</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">state_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">fidelity_model_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">refit_model</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GPyTorchModel</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">"""Instantiates and fits a botorch ModelListGP using the given data.</span>
@@ -79,34 +73,30 @@ src="/js/documentation_options.js">
 <span class="sd">        Yvars: List of observed variance of Ys.</span>
 <span class="sd">        task_features: List of columns of X that are tasks.</span>
 <span class="sd">        fidelity_features: List of columns of X that are fidelity parameters.</span>
-<span class="sd">        refit_model: Flag for refitting model.</span>
 <span class="sd">        state_dict: If provided, will set model parameters to this state</span>
 <span class="sd">            dictionary. Otherwise, will fit the model.</span>
-<span class="sd">        fidelity_model_id: set this if you want to use GP models from `model_list`</span>
-<span class="sd">            defined above. The `SingleTaskGPLTKernel` model uses linear truncated</span>
-<span class="sd">            kernel; the `SingleTaskMultiFidelityGP` model uses exponential decay</span>
-<span class="sd">            kernel.</span>
+<span class="sd">        refit_model: Flag for refitting model.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        A fitted ModelListGP.</span>
+<span class="sd">        A fitted GPyTorchModel.</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="n">fidelity_model_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">task_features</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fidelity_features</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">task_features</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
             <span class="s2">"Currently do not support MF-GP models with task_features!"</span>
         <span class="p">)</span>
-    <span class="k">if</span> <span class="n">fidelity_model_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">fidelity_features</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">UnsupportedError</span><span class="p">(</span>
-            <span class="s2">"Fidelity MF-GP models currently support only one fidelity parameter!"</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fidelity_features</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">"Fidelity MF-GP models currently support only a single fidelity parameter!"</span>
         <span class="p">)</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">task_features</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
             <span class="n">f</span><span class="s2">"This model only supports 1 task feature (got </span><span class="si">{task_features}</span><span class="s2">)"</span>
         <span class="p">)</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">task_features</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">task_feature</span> <span class="o">=</span> <span class="n">task_features</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">task_feature</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">task_feature</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">Xs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="c1"># Use single output, single task GP</span>
@@ -116,7 +106,7 @@ src="/js/documentation_options.js">
                 <span class="n">Yvar</span><span class="o">=</span><span class="n">Yvars</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="n">task_feature</span><span class="o">=</span><span class="n">task_feature</span><span class="p">,</span>
                 <span class="n">fidelity_features</span><span class="o">=</span><span class="n">fidelity_features</span><span class="p">,</span>
-                <span class="n">fidelity_model_id</span><span class="o">=</span><span class="n">fidelity_model_id</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="nb">all</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">Xs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">)</span> <span class="k">for</span> <span class="n">X</span> <span class="ow">in</span> <span class="n">Xs</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
             <span class="c1"># Use batched multioutput, single task GP</span>
@@ -128,12 +118,12 @@ src="/js/documentation_options.js">
                 <span class="n">Yvar</span><span class="o">=</span><span class="n">Yvar</span><span class="p">,</span>
                 <span class="n">task_feature</span><span class="o">=</span><span class="n">task_feature</span><span class="p">,</span>
                 <span class="n">fidelity_features</span><span class="o">=</span><span class="n">fidelity_features</span><span class="p">,</span>
-                <span class="n">fidelity_model_id</span><span class="o">=</span><span class="n">fidelity_model_id</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="p">)</span>
     <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># Use model list</span>
+        <span class="c1"># Use a ModelListGP</span>
         <span class="n">models</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">_get_model</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">Yvar</span><span class="o">=</span><span class="n">Yvar</span><span class="p">,</span> <span class="n">task_feature</span><span class="o">=</span><span class="n">task_feature</span><span class="p">)</span>
+            <span class="n">_get_model</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">Yvar</span><span class="o">=</span><span class="n">Yvar</span><span class="p">,</span> <span class="n">task_feature</span><span class="o">=</span><span class="n">task_feature</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Yvar</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">Xs</span><span class="p">,</span> <span class="n">Ys</span><span class="p">,</span> <span class="n">Yvars</span><span class="p">)</span>
         <span class="p">]</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">ModelListGP</span><span class="p">(</span><span class="o">*</span><span class="n">models</span><span class="p">)</span>
@@ -273,7 +263,7 @@ src="/js/documentation_options.js">
         <span class="c1"># use SLSQP by default for small problems since it yields faster wall times</span>
         <span class="k">if</span> <span class="s2">"method"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">"method"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"SLSQP"</span>
-    <span class="n">X</span><span class="p">,</span> <span class="n">expected_acquistion_value</span> <span class="o">=</span> <span class="n">optimize_acqf</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">expected_acquisition_value</span> <span class="o">=</span> <span class="n">optimize_acqf</span><span class="p">(</span>
         <span class="n">acq_function</span><span class="o">=</span><span class="n">acq_function</span><span class="p">,</span>
         <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
         <span class="n">q</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
@@ -284,47 +274,64 @@ src="/js/documentation_options.js">
         <span class="n">fixed_features</span><span class="o">=</span><span class="n">fixed_features</span><span class="p">,</span>
         <span class="n">sequential</span><span class="o">=</span><span class="n">sequential</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">expected_acquistion_value</span></div>
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">expected_acquisition_value</span></div>
 
 
 <span class="k">def</span> <span class="nf">_get_model</span><span class="p">(</span>
     <span class="n">X</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
     <span class="n">Y</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
     <span class="n">Yvar</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
-    <span class="n">task_feature</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">task_feature</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">fidelity_features</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">fidelity_model_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GPyTorchModel</span><span class="p">:</span>
-    <span class="sd">"""Instantiate a model of type depending on the input data."""</span>
+    <span class="sd">"""Instantiate a model of type depending on the input data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        X: A `n x d` tensor of input features.</span>
+<span class="sd">        Y: A `n x m` tensor of input observations.</span>
+<span class="sd">        Yvar: A `n x m` tensor of input variances (NaN if unobserved).</span>
+<span class="sd">        task_feature: The index of the column pertaining to the task feature</span>
+<span class="sd">            (if present).</span>
+<span class="sd">        fidelity_features: List of columns of X that are fidelity parameters.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A GPyTorchModel (unfitted).</span>
+<span class="sd">    """</span>
     <span class="n">Yvar</span> <span class="o">=</span> <span class="n">Yvar</span><span class="o">.</span><span class="n">clamp_min_</span><span class="p">(</span><span class="n">MIN_OBSERVED_NOISE_LEVEL</span><span class="p">)</span>  <span class="c1"># pyre-ignore: [16]</span>
     <span class="n">is_nan</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">Yvar</span><span class="p">)</span>
     <span class="n">any_nan_Yvar</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">is_nan</span><span class="p">)</span>
     <span class="n">all_nan_Yvar</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">is_nan</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">any_nan_Yvar</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">all_nan_Yvar</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">"Mix of known and unknown variances indicates "</span>
-            <span class="s2">"valuation function errors. Variances should all be specified, or "</span>
-            <span class="s2">"none should be."</span>
+            <span class="s2">"Mix of known and unknown variances indicates valuation function "</span>
+            <span class="s2">"errors. Variances should all be specified, or none should be."</span>
         <span class="p">)</span>
     <span class="k">if</span> <span class="n">fidelity_features</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fidelity_features</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="n">fidelity_model_id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">fidelity_features</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">task_feature</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">all_nan_Yvar</span><span class="p">:</span>
-            <span class="n">gp</span> <span class="o">=</span> <span class="n">SingleTaskGP</span><span class="p">(</span><span class="n">train_X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">train_Y</span><span class="o">=</span><span class="n">Y</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">task_feature</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">gp</span> <span class="o">=</span> <span class="n">FixedNoiseGP</span><span class="p">(</span><span class="n">train_X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">train_Y</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">train_Yvar</span><span class="o">=</span><span class="n">Yvar</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">all_nan_Yvar</span><span class="p">:</span>
-            <span class="n">gp</span> <span class="o">=</span> <span class="n">MultiTaskGP</span><span class="p">(</span><span class="n">train_X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">train_Y</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">task_feature</span><span class="o">=</span><span class="n">task_feature</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">gp</span> <span class="o">=</span> <span class="n">FixedNoiseMultiTaskGP</span><span class="p">(</span>
-                <span class="n">train_X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
-                <span class="n">train_Y</span><span class="o">=</span><span class="n">Y</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
-                <span class="n">train_Yvar</span><span class="o">=</span><span class="n">Yvar</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
-                <span class="n">task_feature</span><span class="o">=</span><span class="n">task_feature</span><span class="p">,</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fidelity_features</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">task_feature</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">"multi-task multi-fidelity models not yet available"</span>
             <span class="p">)</span>
+        <span class="c1"># at this point we can assume that there is only a single fidelity parameter</span>
+        <span class="n">gp</span> <span class="o">=</span> <span class="n">SingleTaskMultiFidelityGP</span><span class="p">(</span>
+            <span class="n">train_X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">train_Y</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">data_fidelity</span><span class="o">=</span><span class="n">fidelity_features</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">task_feature</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">all_nan_Yvar</span><span class="p">:</span>
+        <span class="n">gp</span> <span class="o">=</span> <span class="n">SingleTaskGP</span><span class="p">(</span><span class="n">train_X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">train_Y</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">task_feature</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">gp</span> <span class="o">=</span> <span class="n">FixedNoiseGP</span><span class="p">(</span><span class="n">train_X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">train_Y</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">train_Yvar</span><span class="o">=</span><span class="n">Yvar</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">all_nan_Yvar</span><span class="p">:</span>
+        <span class="n">gp</span> <span class="o">=</span> <span class="n">MultiTaskGP</span><span class="p">(</span><span class="n">train_X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">train_Y</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">task_feature</span><span class="o">=</span><span class="n">task_feature</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">gp_model</span> <span class="o">=</span> <span class="n">model_list</span><span class="p">[</span><span class="n">fidelity_model_id</span><span class="p">]</span>
-        <span class="n">gp</span> <span class="o">=</span> <span class="n">gp_model</span><span class="p">(</span><span class="n">train_X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">train_Y</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">train_data_fidelity</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">gp</span> <span class="o">=</span> <span class="n">FixedNoiseMultiTaskGP</span><span class="p">(</span>
+            <span class="n">train_X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+            <span class="n">train_Y</span><span class="o">=</span><span class="n">Y</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">train_Yvar</span><span class="o">=</span><span class="n">Yvar</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">task_feature</span><span class="o">=</span><span class="n">task_feature</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">return</span> <span class="n">gp</span>
 </pre></div>
 </div>

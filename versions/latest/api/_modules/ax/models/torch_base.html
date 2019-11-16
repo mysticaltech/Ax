@@ -102,6 +102,7 @@ src="/js/documentation_options.js">
         <span class="n">pending_observations</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">model_gen_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">rounding_func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Tensor</span><span class="p">],</span> <span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">target_fidelities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">TGenMetadata</span><span class="p">]:</span>
         <span class="sd">"""</span>
 <span class="sd">        Generate new candidates.</span>
@@ -123,6 +124,11 @@ src="/js/documentation_options.js">
 <span class="sd">                for m outcomes and k_i pending observations for outcome i.</span>
 <span class="sd">            model_gen_options: A config dictionary that can contain</span>
 <span class="sd">                model-specific options.</span>
+<span class="sd">            rounding_func: A function that rounds an optimization result</span>
+<span class="sd">                appropriately (i.e., according to `round-trip` transformations).</span>
+<span class="sd">            target_fidelities: A map {feature_index: value} of fidelity feature</span>
+<span class="sd">                column indices to their respective target fidelities. Used for</span>
+<span class="sd">                multi-fidelity optimization.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            3-element tuple containing</span>
@@ -142,6 +148,7 @@ src="/js/documentation_options.js">
         <span class="n">linear_constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">fixed_features</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">model_gen_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">target_fidelities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]:</span>
         <span class="sd">"""</span>
 <span class="sd">        Identify the current best point, satisfying the constraints in the same</span>
@@ -163,6 +170,9 @@ src="/js/documentation_options.js">
 <span class="sd">                should be fixed to a particular value in the best point.</span>
 <span class="sd">            model_gen_options: A config dictionary that can contain</span>
 <span class="sd">                model-specific options.</span>
+<span class="sd">            target_fidelities: A map {feature_index: value} of fidelity feature</span>
+<span class="sd">                column indices to their respective target fidelities. Used for</span>
+<span class="sd">                multi-fidelity optimization.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            d-tensor of the best point.</span>

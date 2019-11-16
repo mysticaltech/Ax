@@ -212,6 +212,7 @@ src="/js/documentation_options.js">
         <span class="n">pending_observations</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span>
         <span class="n">model_gen_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TConfig</span><span class="p">],</span>
         <span class="n">rounding_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+        <span class="n">target_fidelities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">TGenMetadata</span><span class="p">]:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">FIT_MODEL_ERROR</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">"_model_gen"</span><span class="p">))</span>
@@ -233,6 +234,7 @@ src="/js/documentation_options.js">
             <span class="n">pending_observations</span><span class="o">=</span><span class="n">pend_obs</span><span class="p">,</span>
             <span class="n">model_gen_options</span><span class="o">=</span><span class="n">model_gen_options</span><span class="p">,</span>
             <span class="n">rounding_func</span><span class="o">=</span><span class="n">tensor_rounding_func</span><span class="p">,</span>
+            <span class="n">target_fidelities</span><span class="o">=</span><span class="n">target_fidelities</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">X</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span>
@@ -248,6 +250,7 @@ src="/js/documentation_options.js">
         <span class="n">linear_constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span>
         <span class="n">fixed_features</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
         <span class="n">model_gen_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TConfig</span><span class="p">],</span>
+        <span class="n">target_fidelities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">FIT_MODEL_ERROR</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">"_model_gen"</span><span class="p">))</span>
@@ -266,6 +269,7 @@ src="/js/documentation_options.js">
                 <span class="n">linear_constraints</span><span class="o">=</span><span class="n">l_c</span><span class="p">,</span>
                 <span class="n">fixed_features</span><span class="o">=</span><span class="n">fixed_features</span><span class="p">,</span>
                 <span class="n">model_gen_options</span><span class="o">=</span><span class="n">model_gen_options</span><span class="p">,</span>
+                <span class="n">target_fidelities</span><span class="o">=</span><span class="n">target_fidelities</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">X</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
 

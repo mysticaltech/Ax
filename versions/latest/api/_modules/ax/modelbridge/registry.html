@@ -64,6 +64,7 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">ax.models.random.sobol</span> <span class="k">import</span> <span class="n">SobolGenerator</span>
 <span class="kn">from</span> <span class="nn">ax.models.random.uniform</span> <span class="k">import</span> <span class="n">UniformGenerator</span>
 <span class="kn">from</span> <span class="nn">ax.models.torch.botorch</span> <span class="k">import</span> <span class="n">BotorchModel</span>
+<span class="kn">from</span> <span class="nn">ax.models.torch.botorch_kg</span> <span class="k">import</span> <span class="n">KnowledgeGradient</span>
 <span class="kn">from</span> <span class="nn">ax.models.torch_base</span> <span class="k">import</span> <span class="n">TorchModel</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.kwargs</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">consolidate_kwargs</span><span class="p">,</span>
@@ -155,6 +156,12 @@ src="/js/documentation_options.js">
         <span class="n">transforms</span><span class="o">=</span><span class="n">Cont_X_trans</span> <span class="o">+</span> <span class="n">Y_trans</span><span class="p">,</span>
         <span class="n">standard_bridge_kwargs</span><span class="o">=</span><span class="n">STANDARD_TORCH_BRIDGE_KWARGS</span><span class="p">,</span>
     <span class="p">),</span>
+    <span class="s2">"GPKG"</span><span class="p">:</span> <span class="n">ModelSetup</span><span class="p">(</span>
+        <span class="n">bridge_class</span><span class="o">=</span><span class="n">TorchModelBridge</span><span class="p">,</span>
+        <span class="n">model_class</span><span class="o">=</span><span class="n">KnowledgeGradient</span><span class="p">,</span>
+        <span class="n">transforms</span><span class="o">=</span><span class="n">Cont_X_trans</span> <span class="o">+</span> <span class="n">Y_trans</span><span class="p">,</span>
+        <span class="n">standard_bridge_kwargs</span><span class="o">=</span><span class="n">STANDARD_TORCH_BRIDGE_KWARGS</span><span class="p">,</span>
+    <span class="p">),</span>
     <span class="s2">"EB"</span><span class="p">:</span> <span class="n">ModelSetup</span><span class="p">(</span>
         <span class="n">bridge_class</span><span class="o">=</span><span class="n">DiscreteModelBridge</span><span class="p">,</span>
         <span class="n">model_class</span><span class="o">=</span><span class="n">EmpiricalBayesThompsonSampler</span><span class="p">,</span>
@@ -202,6 +209,7 @@ src="/js/documentation_options.js">
 
     <span class="n">SOBOL</span> <span class="o">=</span> <span class="s2">"Sobol"</span>
     <span class="n">GPEI</span> <span class="o">=</span> <span class="s2">"GPEI"</span>
+    <span class="n">GPKG</span> <span class="o">=</span> <span class="s2">"GPKG"</span>
     <span class="n">FACTORIAL</span> <span class="o">=</span> <span class="s2">"Factorial"</span>
     <span class="n">THOMPSON</span> <span class="o">=</span> <span class="s2">"Thompson"</span>
     <span class="n">BOTORCH</span> <span class="o">=</span> <span class="s2">"BO"</span>

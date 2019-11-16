@@ -109,7 +109,7 @@ src="/js/documentation_options.js">
     <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">with_status_quo</span><span class="p">:</span>
-        <span class="n">exp</span><span class="o">.</span><span class="n">status_quo</span> <span class="o">=</span> <span class="n">Arm</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">"x1"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"x2"</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+        <span class="n">exp</span><span class="o">.</span><span class="n">status_quo</span> <span class="o">=</span> <span class="n">Arm</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">"x1"</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s2">"x2"</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">})</span>
 
     <span class="k">if</span> <span class="n">with_batch</span><span class="p">:</span>
         <span class="n">sobol_generator</span> <span class="o">=</span> <span class="n">get_sobol</span><span class="p">(</span><span class="n">search_space</span><span class="o">=</span><span class="n">exp</span><span class="o">.</span><span class="n">search_space</span><span class="p">)</span>

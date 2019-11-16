@@ -150,6 +150,27 @@ src="/js/documentation_options.js">
         <span class="n">fixed_features</span><span class="o">=</span><span class="n">fixed_features</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">X_pending</span><span class="p">,</span> <span class="n">X_observed</span>
+
+
+<div class="viewcode-block" id="normalize_indices"><a class="viewcode-back" href="../../../../models.html#ax.models.torch.utils.normalize_indices">[docs]</a><span class="k">def</span> <span class="nf">normalize_indices</span><span class="p">(</span><span class="n">indices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">d</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+    <span class="sa">r</span><span class="sd">"""Normalize a list of indices to ensure that they are positive.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        indices: A list of indices (may contain negative indices for indexing</span>
+<span class="sd">            "from the back").</span>
+<span class="sd">        d: The dimension of the tensor to index.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A normalized list of indices such that each index is between `0` and `d-1`.</span>
+<span class="sd">    """</span>
+    <span class="n">normalized_indices</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">d</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">d</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Index </span><span class="si">{i}</span><span class="s2"> out of bounds for tensor or length </span><span class="si">{d}</span><span class="s2">."</span><span class="p">)</span>
+        <span class="n">normalized_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">normalized_indices</span></div>
 </pre></div>
 </div>
 </div>

@@ -145,8 +145,14 @@ src="/js/documentation_options.js">
 <span class="sd">                random values of the parameter.</span>
 <span class="sd">            digits: Number of digits to round values to for float type.</span>
 <span class="sd">            is_fidelity: Whether this parameter is a fidelity parameter.</span>
-<span class="sd">            target_value: Target value of this parameter if it's fidelity.</span>
+<span class="sd">            target_value: Target value of this parameter if it is a fidelity.</span>
 <span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">is_fidelity</span> <span class="ow">and</span> <span class="p">(</span><span class="n">target_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"`target_value` should not be None for the fidelity parameter: "</span>
+                <span class="s2">"</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parameter_type</span> <span class="o">=</span> <span class="n">parameter_type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_digits</span> <span class="o">=</span> <span class="n">digits</span>
@@ -304,6 +310,7 @@ src="/js/documentation_options.js">
             <span class="n">log_scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_scale</span><span class="p">,</span>
             <span class="n">digits</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_digits</span><span class="p">,</span>
             <span class="n">is_fidelity</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_is_fidelity</span><span class="p">,</span>
+            <span class="n">target_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_target_value</span><span class="p">,</span>
         <span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_cast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">TParamValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TParamValue</span><span class="p">:</span>
@@ -359,6 +366,12 @@ src="/js/documentation_options.js">
 <span class="sd">            is_task: Treat the parameter as a task parameter for modeling.</span>
 <span class="sd">            target_value: Target value of this parameter if it's fidelity.</span>
 <span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">is_fidelity</span> <span class="ow">and</span> <span class="p">(</span><span class="n">target_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"`target_value` should not be None for the fidelity parameter: "</span>
+                <span class="s2">"</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_is_ordered</span> <span class="o">=</span> <span class="n">is_ordered</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_is_task</span> <span class="o">=</span> <span class="n">is_task</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_is_fidelity</span> <span class="o">=</span> <span class="n">is_fidelity</span>
@@ -436,15 +449,22 @@ src="/js/documentation_options.js">
             <span class="n">values</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">,</span>
             <span class="n">is_task</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_is_task</span><span class="p">,</span>
             <span class="n">is_fidelity</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_is_fidelity</span><span class="p">,</span>
+            <span class="n">target_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_target_value</span><span class="p">,</span>
         <span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="n">f</span><span class="s2">"ChoiceParameter("</span>
+        <span class="n">ret_val</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">"ChoiceParameter("</span>
             <span class="n">f</span><span class="s2">"name='</span><span class="si">{self._name}</span><span class="s2">', "</span>
             <span class="n">f</span><span class="s2">"parameter_type=</span><span class="si">{self.parameter_type.name}</span><span class="s2">, "</span>
-            <span class="n">f</span><span class="s2">"values=</span><span class="si">{self._values}</span><span class="s2">)"</span>
-        <span class="p">)</span></div>
+            <span class="n">f</span><span class="s2">"values=</span><span class="si">{self._values}</span><span class="s2">"</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_fidelity</span><span class="p">:</span>
+            <span class="n">tval_rep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_value</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_type</span> <span class="o">==</span> <span class="n">ParameterType</span><span class="o">.</span><span class="n">STRING</span><span class="p">:</span>
+                <span class="n">tval_rep</span> <span class="o">=</span> <span class="n">f</span><span class="s2">"'</span><span class="si">{tval_rep}</span><span class="s2">'"</span>
+            <span class="n">ret_val</span> <span class="o">+=</span> <span class="n">f</span><span class="s2">", fidelity=</span><span class="si">{self.is_fidelity}</span><span class="s2">, target_value=</span><span class="si">{tval_rep}</span><span class="s2">"</span>
+        <span class="k">return</span> <span class="n">ret_val</span> <span class="o">+</span> <span class="s2">")"</span></div>
 
 
 <div class="viewcode-block" id="FixedParameter"><a class="viewcode-back" href="../../../core.html#ax.FixedParameter">[docs]</a><span class="k">class</span> <span class="nc">FixedParameter</span><span class="p">(</span><span class="n">Parameter</span><span class="p">):</span>
@@ -465,8 +485,14 @@ src="/js/documentation_options.js">
 <span class="sd">            parameter_type: Enum indicating the type of parameter</span>
 <span class="sd">                value (e.g. string, int).</span>
 <span class="sd">            value: The fixed value of the parameter.</span>
-<span class="sd">            target_value: Target value of this parameter if it's fidelity.</span>
+<span class="sd">            target_value: Target value of this parameter if it is a fidelity.</span>
 <span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">is_fidelity</span> <span class="ow">and</span> <span class="p">(</span><span class="n">target_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"`target_value` should not be None for the fidelity parameter: "</span>
+                <span class="s2">"</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parameter_type</span> <span class="o">=</span> <span class="n">parameter_type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
@@ -506,15 +532,21 @@ src="/js/documentation_options.js">
             <span class="n">parameter_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameter_type</span><span class="p">,</span>
             <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">,</span>
             <span class="n">is_fidelity</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_is_fidelity</span><span class="p">,</span>
+            <span class="n">target_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_target_value</span><span class="p">,</span>
         <span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span>
+        <span class="n">ret_val</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">f</span><span class="s2">"FixedParameter("</span>
             <span class="n">f</span><span class="s2">"name='</span><span class="si">{self._name}</span><span class="s2">', "</span>
             <span class="n">f</span><span class="s2">"parameter_type=</span><span class="si">{self.parameter_type.name}</span><span class="s2">, "</span>
-            <span class="n">f</span><span class="s2">"value=</span><span class="si">{self._value}</span><span class="s2">)"</span>
-        <span class="p">)</span></div>
+            <span class="n">f</span><span class="s2">"value=</span><span class="si">{self._value}</span><span class="s2">"</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_fidelity</span><span class="p">:</span>
+            <span class="n">ret_val</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="n">f</span><span class="s2">", fidelity=</span><span class="si">{self.is_fidelity}</span><span class="s2">, target_value=</span><span class="si">{self.target_value}</span><span class="s2">"</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret_val</span> <span class="o">+</span> <span class="s2">")"</span></div>
 </pre></div>
 </div>
 </div>
