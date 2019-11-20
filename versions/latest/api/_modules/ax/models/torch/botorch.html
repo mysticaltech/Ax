@@ -371,7 +371,6 @@ src="/js/documentation_options.js">
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">x_best</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="c1"># pyre-fixme[19]: Expected 0 positional arguments.</span>
         <span class="k">return</span> <span class="n">x_best</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cpu"</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="BotorchModel.cross_validate"><a class="viewcode-back" href="../../../../models.html#ax.models.torch.botorch.BotorchModel.cross_validate">[docs]</a>    <span class="nd">@copy_doc</span><span class="p">(</span><span class="n">TorchModel</span><span class="o">.</span><span class="n">cross_validate</span><span class="p">)</span>

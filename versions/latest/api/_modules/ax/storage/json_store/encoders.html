@@ -61,7 +61,7 @@ src="/js/documentation_options.js">
     <span class="sd">"""Convert Ax experiment to a dictionary."""</span>
     <span class="k">return</span> <span class="p">{</span>
         <span class="s2">"__type"</span><span class="p">:</span> <span class="n">experiment</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-        <span class="s2">"name"</span><span class="p">:</span> <span class="n">experiment</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="n">experiment</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span>
         <span class="s2">"description"</span><span class="p">:</span> <span class="n">experiment</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
         <span class="s2">"experiment_type"</span><span class="p">:</span> <span class="n">experiment</span><span class="o">.</span><span class="n">experiment_type</span><span class="p">,</span>
         <span class="s2">"search_space"</span><span class="p">:</span> <span class="n">experiment</span><span class="o">.</span><span class="n">search_space</span><span class="p">,</span>
@@ -308,7 +308,7 @@ src="/js/documentation_options.js">
     <span class="n">generation_strategy</span><span class="p">:</span> <span class="n">GenerationStrategy</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
     <span class="k">if</span> <span class="n">generation_strategy</span><span class="o">.</span><span class="n">uses_non_registered_models</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
             <span class="s2">"Generation strategies that use custom models provided through "</span>
             <span class="s2">"callables cannot be serialized and stored."</span>
         <span class="p">)</span>

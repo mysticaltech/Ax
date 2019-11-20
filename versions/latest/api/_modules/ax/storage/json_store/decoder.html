@@ -105,6 +105,8 @@ src="/js/documentation_options.js">
             <span class="k">return</span> <span class="n">_class</span><span class="p">[</span><span class="n">object_json</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]]</span>
         <span class="k">elif</span> <span class="n">_class</span> <span class="o">==</span> <span class="n">GeneratorRun</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">generator_run_from_json</span><span class="p">(</span><span class="n">object_json</span><span class="o">=</span><span class="n">object_json</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">_class</span> <span class="o">==</span> <span class="n">GenerationStrategy</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">generation_strategy_from_json</span><span class="p">(</span><span class="n">generation_strategy_json</span><span class="o">=</span><span class="n">object_json</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">_class</span> <span class="o">==</span> <span class="n">SimpleExperiment</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">simple_experiment_from_json</span><span class="p">(</span><span class="n">object_json</span><span class="o">=</span><span class="n">object_json</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">_class</span> <span class="o">==</span> <span class="n">Experiment</span><span class="p">:</span>

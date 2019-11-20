@@ -116,9 +116,9 @@ src="/js/documentation_options.js">
         <span class="n">duplicate</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="n">deduplicate</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">existing_points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">prev_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">points</span><span class="p">,</span> <span class="n">existing_points</span><span class="p">])</span>
+                <span class="n">prev_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">points</span><span class="p">[:</span><span class="n">successful_draws</span><span class="p">,</span> <span class="p">:],</span> <span class="n">existing_points</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">prev_points</span> <span class="o">=</span> <span class="n">points</span>
+                <span class="n">prev_points</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:</span><span class="n">successful_draws</span><span class="p">,</span> <span class="p">:]</span>
             <span class="n">duplicate</span> <span class="o">=</span> <span class="n">check_duplicate</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">point</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="n">prev_points</span><span class="p">)</span>
 
         <span class="c1"># Add point if valid.</span>
@@ -142,12 +142,15 @@ src="/js/documentation_options.js">
 
 <span class="sd">    Args:</span>
 <span class="sd">        point: Newly generated point to check.</span>
-<span class="sd">        prev_points: Points previously generated.</span>
+<span class="sd">        points: Points previously generated.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        True if the point is contained in points, else False</span>
 <span class="sd">    """</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">point</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span></div>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="add_fixed_features"><a class="viewcode-back" href="../../../models.html#ax.models.model_utils.add_fixed_features">[docs]</a><span class="k">def</span> <span class="nf">add_fixed_features</span><span class="p">(</span>

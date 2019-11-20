@@ -43,7 +43,11 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">ax.modelbridge.transforms.int_to_float</span> <span class="k">import</span> <span class="n">IntToFloat</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.logger</span> <span class="k">import</span> <span class="n">get_logger</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">not_none</span>
-<span class="kn">from</span> <span class="nn">ax.utils.testing.core_stubs</span> <span class="k">import</span> <span class="n">get_search_space</span><span class="p">,</span> <span class="n">get_search_space_for_value</span>
+<span class="kn">from</span> <span class="nn">ax.utils.testing.core_stubs</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">get_experiment</span><span class="p">,</span>
+    <span class="n">get_search_space</span><span class="p">,</span>
+    <span class="n">get_search_space_for_value</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="s2">"ae_experiment"</span><span class="p">)</span>
@@ -161,8 +165,11 @@ src="/js/documentation_options.js">
 <span class="c1"># Modeling layer</span>
 
 
-<div class="viewcode-block" id="get_generation_strategy"><a class="viewcode-back" href="../../../../utils.html#ax.utils.testing.modeling_stubs.get_generation_strategy">[docs]</a><span class="k">def</span> <span class="nf">get_generation_strategy</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">GenerationStrategy</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">choose_generation_strategy</span><span class="p">(</span><span class="n">search_space</span><span class="o">=</span><span class="n">get_search_space</span><span class="p">())</span></div>
+<div class="viewcode-block" id="get_generation_strategy"><a class="viewcode-back" href="../../../../utils.html#ax.utils.testing.modeling_stubs.get_generation_strategy">[docs]</a><span class="k">def</span> <span class="nf">get_generation_strategy</span><span class="p">(</span><span class="n">with_experiment</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GenerationStrategy</span><span class="p">:</span>
+    <span class="n">gs</span> <span class="o">=</span> <span class="n">choose_generation_strategy</span><span class="p">(</span><span class="n">search_space</span><span class="o">=</span><span class="n">get_search_space</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">with_experiment</span><span class="p">:</span>
+        <span class="n">gs</span><span class="o">.</span><span class="n">_experiment</span> <span class="o">=</span> <span class="n">get_experiment</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">gs</span></div>
 
 
 <div class="viewcode-block" id="get_transform_type"><a class="viewcode-back" href="../../../../utils.html#ax.utils.testing.modeling_stubs.get_transform_type">[docs]</a><span class="k">def</span> <span class="nf">get_transform_type</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">Transform</span><span class="p">]:</span>
