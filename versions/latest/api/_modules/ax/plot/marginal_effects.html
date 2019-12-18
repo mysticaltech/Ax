@@ -27,17 +27,20 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.plot.marginal_effects</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.base</span> <span class="k">import</span> <span class="n">ModelBridge</span>
-<span class="kn">from</span> <span class="nn">ax.plot.base</span> <span class="k">import</span> <span class="n">DECIMALS</span><span class="p">,</span> <span class="n">AxPlotConfig</span><span class="p">,</span> <span class="n">AxPlotTypes</span>
-<span class="kn">from</span> <span class="nn">ax.plot.helper</span> <span class="k">import</span> <span class="n">get_plot_data</span>
-<span class="kn">from</span> <span class="nn">ax.utils.stats.statstools</span> <span class="k">import</span> <span class="n">marginal_effects</span>
-<span class="kn">from</span> <span class="nn">plotly</span> <span class="k">import</span> <span class="n">tools</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.base</span> <span class="kn">import</span> <span class="n">ModelBridge</span>
+<span class="kn">from</span> <span class="nn">ax.plot.base</span> <span class="kn">import</span> <span class="n">DECIMALS</span><span class="p">,</span> <span class="n">AxPlotConfig</span><span class="p">,</span> <span class="n">AxPlotTypes</span>
+<span class="kn">from</span> <span class="nn">ax.plot.helper</span> <span class="kn">import</span> <span class="n">get_plot_data</span>
+<span class="kn">from</span> <span class="nn">ax.utils.stats.statstools</span> <span class="kn">import</span> <span class="n">marginal_effects</span>
+<span class="kn">from</span> <span class="nn">plotly</span> <span class="kn">import</span> <span class="n">subplots</span>
 
 
 <div class="viewcode-block" id="plot_marginal_effects"><a class="viewcode-back" href="../../../plot.html#ax.plot.marginal_effects.plot_marginal_effects">[docs]</a><span class="k">def</span> <span class="nf">plot_marginal_effects</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">ModelBridge</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxPlotConfig</span><span class="p">:</span>
@@ -75,7 +78,7 @@ src="/js/documentation_options.js">
                 <span class="n">name</span><span class="o">=</span><span class="n">varname</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">]</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">make_subplots</span><span class="p">(</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">subplots</span><span class="o">.</span><span class="n">make_subplots</span><span class="p">(</span>
         <span class="n">cols</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">varnames</span><span class="p">),</span>
         <span class="n">rows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">subplot_titles</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">varnames</span><span class="p">),</span>
@@ -85,7 +88,7 @@ src="/js/documentation_options.js">
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">append_trace</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">showlegend</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="c1"># fig.layout.margin = go.Margin(l=2, r=2)</span>
+    <span class="c1"># fig.layout.margin = go.layout.Margin(l=2, r=2)</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">"Marginal Effects by Factor"</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">yaxis</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"% better than experiment average"</span><span class="p">,</span>

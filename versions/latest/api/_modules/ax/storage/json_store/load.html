@@ -27,12 +27,15 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.storage.json_store.load</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
 <span class="kn">import</span> <span class="nn">json</span>
 
-<span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="k">import</span> <span class="n">Experiment</span>
-<span class="kn">from</span> <span class="nn">ax.storage.json_store.decoder</span> <span class="k">import</span> <span class="n">object_from_json</span>
+<span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="kn">import</span> <span class="n">Experiment</span>
+<span class="kn">from</span> <span class="nn">ax.storage.json_store.decoder</span> <span class="kn">import</span> <span class="n">object_from_json</span>
 
 
 <div class="viewcode-block" id="load_experiment"><a class="viewcode-back" href="../../../../storage.html#ax.load_experiment">[docs]</a><span class="k">def</span> <span class="nf">load_experiment</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Experiment</span><span class="p">:</span>

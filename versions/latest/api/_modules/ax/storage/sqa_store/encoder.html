@@ -27,39 +27,42 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.storage.sqa_store.encoder</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">cast</span>
 
-<span class="kn">from</span> <span class="nn">ax.core.arm</span> <span class="k">import</span> <span class="n">Arm</span>
-<span class="kn">from</span> <span class="nn">ax.core.base</span> <span class="k">import</span> <span class="n">Base</span>
-<span class="kn">from</span> <span class="nn">ax.core.base_trial</span> <span class="k">import</span> <span class="n">BaseTrial</span>
-<span class="kn">from</span> <span class="nn">ax.core.batch_trial</span> <span class="k">import</span> <span class="n">AbandonedArm</span><span class="p">,</span> <span class="n">BatchTrial</span>
-<span class="kn">from</span> <span class="nn">ax.core.data</span> <span class="k">import</span> <span class="n">Data</span>
-<span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="k">import</span> <span class="n">Experiment</span>
-<span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="k">import</span> <span class="n">GeneratorRun</span><span class="p">,</span> <span class="n">GeneratorRunType</span>
-<span class="kn">from</span> <span class="nn">ax.core.metric</span> <span class="k">import</span> <span class="n">Metric</span>
-<span class="kn">from</span> <span class="nn">ax.core.multi_type_experiment</span> <span class="k">import</span> <span class="n">MultiTypeExperiment</span>
-<span class="kn">from</span> <span class="nn">ax.core.objective</span> <span class="k">import</span> <span class="n">Objective</span>
-<span class="kn">from</span> <span class="nn">ax.core.optimization_config</span> <span class="k">import</span> <span class="n">OptimizationConfig</span>
-<span class="kn">from</span> <span class="nn">ax.core.outcome_constraint</span> <span class="k">import</span> <span class="n">OutcomeConstraint</span>
-<span class="kn">from</span> <span class="nn">ax.core.parameter</span> <span class="k">import</span> <span class="n">ChoiceParameter</span><span class="p">,</span> <span class="n">FixedParameter</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">RangeParameter</span>
-<span class="kn">from</span> <span class="nn">ax.core.parameter_constraint</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.core.arm</span> <span class="kn">import</span> <span class="n">Arm</span>
+<span class="kn">from</span> <span class="nn">ax.core.base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">ax.core.base_trial</span> <span class="kn">import</span> <span class="n">BaseTrial</span>
+<span class="kn">from</span> <span class="nn">ax.core.batch_trial</span> <span class="kn">import</span> <span class="n">AbandonedArm</span><span class="p">,</span> <span class="n">BatchTrial</span>
+<span class="kn">from</span> <span class="nn">ax.core.data</span> <span class="kn">import</span> <span class="n">Data</span>
+<span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="kn">import</span> <span class="n">Experiment</span>
+<span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="kn">import</span> <span class="n">GeneratorRun</span><span class="p">,</span> <span class="n">GeneratorRunType</span>
+<span class="kn">from</span> <span class="nn">ax.core.metric</span> <span class="kn">import</span> <span class="n">Metric</span>
+<span class="kn">from</span> <span class="nn">ax.core.multi_type_experiment</span> <span class="kn">import</span> <span class="n">MultiTypeExperiment</span>
+<span class="kn">from</span> <span class="nn">ax.core.objective</span> <span class="kn">import</span> <span class="n">Objective</span>
+<span class="kn">from</span> <span class="nn">ax.core.optimization_config</span> <span class="kn">import</span> <span class="n">OptimizationConfig</span>
+<span class="kn">from</span> <span class="nn">ax.core.outcome_constraint</span> <span class="kn">import</span> <span class="n">OutcomeConstraint</span>
+<span class="kn">from</span> <span class="nn">ax.core.parameter</span> <span class="kn">import</span> <span class="n">ChoiceParameter</span><span class="p">,</span> <span class="n">FixedParameter</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">RangeParameter</span>
+<span class="kn">from</span> <span class="nn">ax.core.parameter_constraint</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">OrderConstraint</span><span class="p">,</span>
     <span class="n">ParameterConstraint</span><span class="p">,</span>
     <span class="n">SumConstraint</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.core.runner</span> <span class="k">import</span> <span class="n">Runner</span>
-<span class="kn">from</span> <span class="nn">ax.core.search_space</span> <span class="k">import</span> <span class="n">SearchSpace</span>
-<span class="kn">from</span> <span class="nn">ax.core.simple_experiment</span> <span class="k">import</span> <span class="n">SimpleExperiment</span>
-<span class="kn">from</span> <span class="nn">ax.core.trial</span> <span class="k">import</span> <span class="n">Trial</span>
-<span class="kn">from</span> <span class="nn">ax.exceptions.storage</span> <span class="k">import</span> <span class="n">SQAEncodeError</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.generation_strategy</span> <span class="k">import</span> <span class="n">GenerationStrategy</span>
-<span class="kn">from</span> <span class="nn">ax.storage.json_store.encoder</span> <span class="k">import</span> <span class="n">object_to_json</span>
-<span class="kn">from</span> <span class="nn">ax.storage.metric_registry</span> <span class="k">import</span> <span class="n">METRIC_REGISTRY</span>
-<span class="kn">from</span> <span class="nn">ax.storage.runner_registry</span> <span class="k">import</span> <span class="n">RUNNER_REGISTRY</span>
-<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.sqa_classes</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.core.runner</span> <span class="kn">import</span> <span class="n">Runner</span>
+<span class="kn">from</span> <span class="nn">ax.core.search_space</span> <span class="kn">import</span> <span class="n">SearchSpace</span>
+<span class="kn">from</span> <span class="nn">ax.core.simple_experiment</span> <span class="kn">import</span> <span class="n">SimpleExperiment</span>
+<span class="kn">from</span> <span class="nn">ax.core.trial</span> <span class="kn">import</span> <span class="n">Trial</span>
+<span class="kn">from</span> <span class="nn">ax.exceptions.storage</span> <span class="kn">import</span> <span class="n">SQAEncodeError</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.generation_strategy</span> <span class="kn">import</span> <span class="n">GenerationStrategy</span>
+<span class="kn">from</span> <span class="nn">ax.storage.json_store.encoder</span> <span class="kn">import</span> <span class="n">object_to_json</span>
+<span class="kn">from</span> <span class="nn">ax.storage.metric_registry</span> <span class="kn">import</span> <span class="n">METRIC_REGISTRY</span>
+<span class="kn">from</span> <span class="nn">ax.storage.runner_registry</span> <span class="kn">import</span> <span class="n">RUNNER_REGISTRY</span>
+<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.sqa_classes</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">SQAAbandonedArm</span><span class="p">,</span>
     <span class="n">SQAArm</span><span class="p">,</span>
     <span class="n">SQAData</span><span class="p">,</span>
@@ -72,15 +75,15 @@ src="/js/documentation_options.js">
     <span class="n">SQARunner</span><span class="p">,</span>
     <span class="n">SQATrial</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.sqa_config</span> <span class="k">import</span> <span class="n">SQAConfig</span>
-<span class="kn">from</span> <span class="nn">ax.storage.utils</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.sqa_config</span> <span class="kn">import</span> <span class="n">SQAConfig</span>
+<span class="kn">from</span> <span class="nn">ax.storage.utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">DomainType</span><span class="p">,</span>
     <span class="n">MetricIntent</span><span class="p">,</span>
     <span class="n">ParameterConstraintType</span><span class="p">,</span>
     <span class="n">get_object_properties</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.timeutils</span> <span class="k">import</span> <span class="n">current_timestamp_in_millis</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">not_none</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.timeutils</span> <span class="kn">import</span> <span class="n">current_timestamp_in_millis</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="kn">import</span> <span class="n">not_none</span>
 
 
 <div class="viewcode-block" id="Encoder"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.encoder.Encoder">[docs]</a><span class="k">class</span> <span class="nc">Encoder</span><span class="p">:</span>
@@ -93,7 +96,7 @@ src="/js/documentation_options.js">
 <span class="sd">        config: Metadata needed to save and load an experiment to SQLAlchemy.</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">SQAConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">SQAConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
 
 <div class="viewcode-block" id="Encoder.get_enum_value"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.encoder.Encoder.get_enum_value">[docs]</a>    <span class="k">def</span> <span class="nf">get_enum_value</span><span class="p">(</span>
@@ -109,7 +112,7 @@ src="/js/documentation_options.js">
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">enum</span><span class="p">[</span><span class="n">value</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>  <span class="c1"># pyre-ignore T29651755</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">SQAEncodeError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Value </span><span class="si">{value}</span><span class="s2"> is invalid for enum </span><span class="si">{enum}</span><span class="s2">."</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="n">SQAEncodeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Value </span><span class="si">{value}</span><span class="s2"> is invalid for enum </span><span class="si">{enum}</span><span class="s2">."</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Encoder.experiment_to_sqa"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.encoder.Encoder.experiment_to_sqa">[docs]</a>    <span class="k">def</span> <span class="nf">experiment_to_sqa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SQAExperiment</span><span class="p">:</span>
         <span class="sd">"""Convert Ax Experiment to SQLAlchemy.</span>

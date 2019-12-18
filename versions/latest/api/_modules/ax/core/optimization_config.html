@@ -27,17 +27,21 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.core.optimization_config</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
+
 <span class="c1"># pyre-strict</span>
 
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">groupby</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">groupby</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">ax.core.base</span> <span class="k">import</span> <span class="n">Base</span>
-<span class="kn">from</span> <span class="nn">ax.core.metric</span> <span class="k">import</span> <span class="n">Metric</span>
-<span class="kn">from</span> <span class="nn">ax.core.objective</span> <span class="k">import</span> <span class="n">Objective</span>
-<span class="kn">from</span> <span class="nn">ax.core.outcome_constraint</span> <span class="k">import</span> <span class="n">OutcomeConstraint</span>
-<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="k">import</span> <span class="n">ComparisonOp</span>
+<span class="kn">from</span> <span class="nn">ax.core.base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">ax.core.metric</span> <span class="kn">import</span> <span class="n">Metric</span>
+<span class="kn">from</span> <span class="nn">ax.core.objective</span> <span class="kn">import</span> <span class="n">Objective</span>
+<span class="kn">from</span> <span class="nn">ax.core.outcome_constraint</span> <span class="kn">import</span> <span class="n">OutcomeConstraint</span>
+<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="kn">import</span> <span class="n">ComparisonOp</span>
 
 
 <span class="n">MAX_OBJECTIVES</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
@@ -55,7 +59,7 @@ src="/js/documentation_options.js">
 <span class="sd">    represent metrics with both upper and lower bounds.</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">objective</span><span class="p">:</span> <span class="n">Objective</span><span class="p">,</span>
         <span class="n">outcome_constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">OutcomeConstraint</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -148,20 +152,20 @@ src="/js/documentation_options.js">
             <span class="n">constraints_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">constraints</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">constraints_len</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">op</span> <span class="o">==</span> <span class="n">constraints</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">op</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Duplicate outcome constraints </span><span class="si">{metric_name}</span><span class="s2">"</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Duplicate outcome constraints </span><span class="si">{metric_name}</span><span class="s2">"</span><span class="p">)</span>
                 <span class="n">lower_bound_idx</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">op</span> <span class="o">==</span> <span class="n">ComparisonOp</span><span class="o">.</span><span class="n">GEQ</span> <span class="k">else</span> <span class="mi">1</span>
                 <span class="n">upper_bound_idx</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">lower_bound_idx</span>
                 <span class="n">lower_bound</span> <span class="o">=</span> <span class="n">constraints</span><span class="p">[</span><span class="n">lower_bound_idx</span><span class="p">]</span><span class="o">.</span><span class="n">bound</span>
                 <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">constraints</span><span class="p">[</span><span class="n">upper_bound_idx</span><span class="p">]</span><span class="o">.</span><span class="n">bound</span>
                 <span class="k">if</span> <span class="n">lower_bound</span> <span class="o">&gt;=</span> <span class="n">upper_bound</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="n">f</span><span class="s2">"Lower bound </span><span class="si">{lower_bound}</span><span class="s2"> is &gt;= upper bound "</span>
-                        <span class="o">+</span> <span class="n">f</span><span class="s2">"</span><span class="si">{upper_bound}</span><span class="s2"> for </span><span class="si">{metric_name}</span><span class="s2">"</span>
+                        <span class="sa">f</span><span class="s2">"Lower bound </span><span class="si">{lower_bound}</span><span class="s2"> is &gt;= upper bound "</span>
+                        <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{upper_bound}</span><span class="s2"> for </span><span class="si">{metric_name}</span><span class="s2">"</span>
                     <span class="p">)</span>
             <span class="k">elif</span> <span class="n">constraints_len</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Duplicate outcome constraints </span><span class="si">{metric_name}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Duplicate outcome constraints </span><span class="si">{metric_name}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">OC_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">objective</span><span class="o">=</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objective</span><span class="p">),</span>
             <span class="n">constraints</span><span class="o">=</span><span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>

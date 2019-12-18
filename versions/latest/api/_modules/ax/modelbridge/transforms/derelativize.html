@@ -27,20 +27,23 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.modelbridge.transforms.derelativize</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">ax.core.observation</span> <span class="k">import</span> <span class="n">ObservationFeatures</span>
-<span class="kn">from</span> <span class="nn">ax.core.optimization_config</span> <span class="k">import</span> <span class="n">OptimizationConfig</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.base</span> <span class="k">import</span> <span class="n">unwrap_observation_data</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.transforms.base</span> <span class="k">import</span> <span class="n">Transform</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.transforms.ivw</span> <span class="k">import</span> <span class="n">ivw_metric_merge</span>
+<span class="kn">from</span> <span class="nn">ax.core.observation</span> <span class="kn">import</span> <span class="n">ObservationFeatures</span>
+<span class="kn">from</span> <span class="nn">ax.core.optimization_config</span> <span class="kn">import</span> <span class="n">OptimizationConfig</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.base</span> <span class="kn">import</span> <span class="n">unwrap_observation_data</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.transforms.base</span> <span class="kn">import</span> <span class="n">Transform</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.transforms.ivw</span> <span class="kn">import</span> <span class="n">ivw_metric_merge</span>
 
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="c1"># import as module to make sphinx-autodoc-typehints happy</span>
-    <span class="kn">from</span> <span class="nn">ax</span> <span class="k">import</span> <span class="n">modelbridge</span> <span class="k">as</span> <span class="n">modelbridge_module</span>  <span class="c1"># noqa F401  # pragma: no cover</span>
+    <span class="kn">from</span> <span class="nn">ax</span> <span class="kn">import</span> <span class="n">modelbridge</span> <span class="k">as</span> <span class="n">modelbridge_module</span>  <span class="c1"># noqa F401  # pragma: no cover</span>
 
 
 <div class="viewcode-block" id="Derelativize"><a class="viewcode-back" href="../../../../modelbridge.html#ax.modelbridge.transforms.derelativize.Derelativize">[docs]</a><span class="k">class</span> <span class="nc">Derelativize</span><span class="p">(</span><span class="n">Transform</span><span class="p">):</span>

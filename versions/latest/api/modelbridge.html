@@ -102,22 +102,11 @@ described in the <cite>arms_per_model</cite> argument.</p>
 </dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.generation_strategy.GenerationStrategy.gen">
-<code class="sig-name descname">gen</code><span class="sig-paren">(</span><em class="sig-param">experiment</em>, <em class="sig-param">new_data=None</em>, <em class="sig-param">n=1</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/generation_strategy.html#GenerationStrategy.gen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStrategy.gen" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">gen</code><span class="sig-paren">(</span><em class="sig-param">experiment</em>, <em class="sig-param">data=None</em>, <em class="sig-param">n=1</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/generation_strategy.html#GenerationStrategy.gen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStrategy.gen" title="Permalink to this definition">¶</a></dt>
 <dd><p>Produce the next points in the experiment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.generator_run.GeneratorRun" title="ax.core.generator_run.GeneratorRun"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeneratorRun</span></code></a></p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="method">
-<dt id="ax.modelbridge.generation_strategy.GenerationStrategy.generator_changes">
-<em class="property">property </em><code class="sig-name descname">generator_changes</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStrategy.generator_changes" title="Permalink to this definition">¶</a></dt>
-<dd><p>List of arm indices where a transition happened from one model to
-another.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -139,6 +128,17 @@ Returns None if no generator runs have been produced yet.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="#ax.modelbridge.base.ModelBridge" title="ax.modelbridge.base.ModelBridge"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelBridge</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.modelbridge.generation_strategy.GenerationStrategy.model_transitions">
+<em class="property">property </em><code class="sig-name descname">model_transitions</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStrategy.model_transitions" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of arm indices where a transition happened from one model to
+another.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -233,6 +233,10 @@ with a <cite>SobolGenerator(scramble=False)</cite> underlying model.</p>
 <code class="sig-name descname">GPKG</code><em class="property"> = 'GPKG'</em><a class="headerlink" href="#ax.modelbridge.registry.Models.GPKG" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
+<dt id="ax.modelbridge.registry.Models.GPMES">
+<code class="sig-name descname">GPMES</code><em class="property"> = 'GPMES'</em><a class="headerlink" href="#ax.modelbridge.registry.Models.GPMES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
 <dt id="ax.modelbridge.registry.Models.SOBOL">
 <code class="sig-name descname">SOBOL</code><em class="property"> = 'Sobol'</em><a class="headerlink" href="#ax.modelbridge.registry.Models.SOBOL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -276,14 +280,32 @@ since models and bridges cannot be inspected directly through the enum.</p>
 </dd></dl>
 <dl class="function">
 <dt id="ax.modelbridge.registry.get_model_from_generator_run">
-<code class="sig-prename descclassname">ax.modelbridge.registry.</code><code class="sig-name descname">get_model_from_generator_run</code><span class="sig-paren">(</span><em class="sig-param">generator_run</em>, <em class="sig-param">experiment</em>, <em class="sig-param">data</em>, <em class="sig-param">models_enum=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/registry.html#get_model_from_generator_run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.registry.get_model_from_generator_run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ax.modelbridge.registry.</code><code class="sig-name descname">get_model_from_generator_run</code><span class="sig-paren">(</span><em class="sig-param">generator_run</em>, <em class="sig-param">experiment</em>, <em class="sig-param">data</em>, <em class="sig-param">models_enum=None</em>, <em class="sig-param">after_gen=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/registry.html#get_model_from_generator_run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.registry.get_model_from_generator_run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reinstantiate a model from model key and kwargs stored on a given generator
 run, with the given experiment and the data to initialize the model with.</p>
 <p>Note: requires that the model that was used to get the generator run, is part
 of the <cite>Models</cite> registry enum.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#ax.modelbridge.base.ModelBridge" title="ax.modelbridge.base.ModelBridge"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelBridge</span></code></a></p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>generator_run</strong> (<a class="reference internal" href="core.html#ax.core.generator_run.GeneratorRun" title="ax.core.generator_run.GeneratorRun"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeneratorRun</span></code></a>) – A <cite>GeneratorRun</cite> created by the model we are looking to
+reinstantiate.</p></li>
+<li><p><strong>experiment</strong> (<a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a>) – The experiment for which the model is reinstantiated.</p></li>
+<li><p><strong>data</strong> (<a class="reference internal" href="core.html#ax.core.data.Data" title="ax.core.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a>) – Data, with which to reinstantiate the model.</p></li>
+<li><p><strong>models_enum</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>[<a class="reference internal" href="#ax.modelbridge.registry.Models" title="ax.modelbridge.registry.Models"><code class="xref py py-class docutils literal notranslate"><span class="pre">Models</span></code></a>]]) – Optional subclass of <cite>Models</cite> registry, from which to obtain
+the settings of the model. Useful only if the generator run was
+created via a model that could not be included into the main registry,
+but can still be represented as a <cite>ModelSetup</cite> and was added to a
+registry that extends <cite>Models</cite>.</p></li>
+<li><p><strong>after_gen</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to reinstantiate the model in the state, in which it
+was after it created this generator run, as opposed to before.
+Defaults to False, useful when reinstantiating the model to resume
+optimization, rather than to recreate its state at the time of
+generation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#ax.modelbridge.base.ModelBridge" title="ax.modelbridge.base.ModelBridge"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelBridge</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -321,8 +343,18 @@ optimization model for subsequent trials).</p>
 </dd></dl>
 <dl class="function">
 <dt id="ax.modelbridge.factory.get_GPKG">
-<code class="sig-prename descclassname">ax.modelbridge.factory.</code><code class="sig-name descname">get_GPKG</code><span class="sig-paren">(</span><em class="sig-param">experiment, data, search_space=None, cost_intercept=0.01, dtype=torch.float64, device=device(type='cpu'), transforms=[&lt;class 'ax.modelbridge.transforms.remove_fixed.RemoveFixed'&gt;, &lt;class 'ax.modelbridge.transforms.ordered_choice_encode.OrderedChoiceEncode'&gt;, &lt;class 'ax.modelbridge.transforms.one_hot.OneHot'&gt;, &lt;class 'ax.modelbridge.transforms.int_to_float.IntToFloat'&gt;, &lt;class 'ax.modelbridge.transforms.log.Log'&gt;, &lt;class 'ax.modelbridge.transforms.unit_x.UnitX'&gt;, &lt;class 'ax.modelbridge.transforms.ivw.IVW'&gt;, &lt;class 'ax.modelbridge.transforms.derelativize.Derelativize'&gt;, &lt;class 'ax.modelbridge.transforms.standardize_y.StandardizeY'&gt;], winsorization_limits=None, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/factory.html#get_GPKG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.factory.get_GPKG" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ax.modelbridge.factory.</code><code class="sig-name descname">get_GPKG</code><span class="sig-paren">(</span><em class="sig-param">experiment, data, search_space=None, cost_intercept=0.01, dtype=torch.float64, device=device(type='cpu'), transforms=[&lt;class 'ax.modelbridge.transforms.remove_fixed.RemoveFixed'&gt;, &lt;class 'ax.modelbridge.transforms.ordered_choice_encode.OrderedChoiceEncode'&gt;, &lt;class 'ax.modelbridge.transforms.one_hot.OneHot'&gt;, &lt;class 'ax.modelbridge.transforms.int_to_float.IntToFloat'&gt;, &lt;class 'ax.modelbridge.transforms.log.Log'&gt;, &lt;class 'ax.modelbridge.transforms.unit_x.UnitX'&gt;, &lt;class 'ax.modelbridge.transforms.ivw.IVW'&gt;, &lt;class 'ax.modelbridge.transforms.derelativize.Derelativize'&gt;, &lt;class 'ax.modelbridge.transforms.standardize_y.StandardizeY'&gt;], transform_configs=None, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/factory.html#get_GPKG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.factory.get_GPKG" title="Permalink to this definition">¶</a></dt>
 <dd><p>Instantiates a GP model that generates points with KG.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ax.modelbridge.torch.TorchModelBridge" title="ax.modelbridge.torch.TorchModelBridge"><code class="xref py py-class docutils literal notranslate"><span class="pre">TorchModelBridge</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.modelbridge.factory.get_GPMES">
+<code class="sig-prename descclassname">ax.modelbridge.factory.</code><code class="sig-name descname">get_GPMES</code><span class="sig-paren">(</span><em class="sig-param">experiment, data, search_space=None, cost_intercept=0.01, dtype=torch.float64, device=device(type='cpu'), transforms=[&lt;class 'ax.modelbridge.transforms.remove_fixed.RemoveFixed'&gt;, &lt;class 'ax.modelbridge.transforms.ordered_choice_encode.OrderedChoiceEncode'&gt;, &lt;class 'ax.modelbridge.transforms.one_hot.OneHot'&gt;, &lt;class 'ax.modelbridge.transforms.int_to_float.IntToFloat'&gt;, &lt;class 'ax.modelbridge.transforms.log.Log'&gt;, &lt;class 'ax.modelbridge.transforms.unit_x.UnitX'&gt;, &lt;class 'ax.modelbridge.transforms.ivw.IVW'&gt;, &lt;class 'ax.modelbridge.transforms.derelativize.Derelativize'&gt;, &lt;class 'ax.modelbridge.transforms.standardize_y.StandardizeY'&gt;], transform_configs=None, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/factory.html#get_GPMES"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.factory.get_GPMES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates a GP model that generates points with MES.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#ax.modelbridge.torch.TorchModelBridge" title="ax.modelbridge.torch.TorchModelBridge"><code class="xref py py-class docutils literal notranslate"><span class="pre">TorchModelBridge</span></code></a></p>
@@ -1060,7 +1092,7 @@ arms that was launched in that trial. Defaults to the last trial.</p>
 <span id="dispatch-utilities"></span><h3>Dispatch Utilities<a class="headerlink" href="#module-ax.modelbridge.dispatch_utils" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="ax.modelbridge.dispatch_utils.choose_generation_strategy">
-<code class="sig-prename descclassname">ax.modelbridge.dispatch_utils.</code><code class="sig-name descname">choose_generation_strategy</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">arms_per_trial=1</em>, <em class="sig-param">enforce_sequential_optimization=True</em>, <em class="sig-param">random_seed=None</em>, <em class="sig-param">winsorize_botorch_model=False</em>, <em class="sig-param">winsorization_limits=None</em>, <em class="sig-param">no_bayesian_optimization=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/dispatch_utils.html#choose_generation_strategy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.dispatch_utils.choose_generation_strategy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ax.modelbridge.dispatch_utils.</code><code class="sig-name descname">choose_generation_strategy</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">arms_per_trial=1</em>, <em class="sig-param">enforce_sequential_optimization=True</em>, <em class="sig-param">random_seed=None</em>, <em class="sig-param">winsorize_botorch_model=False</em>, <em class="sig-param">winsorization_limits=None</em>, <em class="sig-param">no_bayesian_optimization=False</em>, <em class="sig-param">num_trials=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/dispatch_utils.html#choose_generation_strategy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.dispatch_utils.choose_generation_strategy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Select an appropriate generation strategy based on the properties of
 the search space.</p>
 <dl class="field-list simple">
@@ -1081,6 +1113,8 @@ as percentile. Usually only the upper winsorization trim is used when
 minimizing, and only the lower when maximizing.</p></li>
 <li><p><strong>no_bayesian_optimization</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – If True, Bayesian optimization generation
 strategy will not be suggested and quasi-random strategy will be used.</p></li>
+<li><p><strong>num_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – Total number of trials in the optimization, if
+known in advance.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -1452,7 +1486,7 @@ transform (does nothing).</p>
 <dt id="ax.modelbridge.transforms.int_range_to_choice.IntRangeToChoice">
 <em class="property">class </em><code class="sig-prename descclassname">ax.modelbridge.transforms.int_range_to_choice.</code><code class="sig-name descname">IntRangeToChoice</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">observation_features</em>, <em class="sig-param">observation_data</em>, <em class="sig-param">config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/int_range_to_choice.html#IntRangeToChoice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.int_range_to_choice.IntRangeToChoice" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ax.modelbridge.transforms.base.Transform" title="ax.modelbridge.transforms.base.Transform"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.modelbridge.transforms.base.Transform</span></code></a></p>
-<p>Convert a RangeParameter of type int to a ChoiceParameter.</p>
+<p>Convert a RangeParameter of type int to a ordered ChoiceParameter.</p>
 <p>Transform is done in-place.</p>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.int_range_to_choice.IntRangeToChoice.transform_search_space">

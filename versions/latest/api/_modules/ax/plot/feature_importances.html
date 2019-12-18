@@ -27,17 +27,20 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.plot.feature_importances</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span>
-<span class="kn">from</span> <span class="nn">ax.exceptions.core</span> <span class="k">import</span> <span class="n">NoDataError</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge</span> <span class="k">import</span> <span class="n">ModelBridge</span>
-<span class="kn">from</span> <span class="nn">ax.plot.base</span> <span class="k">import</span> <span class="n">AxPlotConfig</span><span class="p">,</span> <span class="n">AxPlotTypes</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.logger</span> <span class="k">import</span> <span class="n">get_logger</span>
-<span class="kn">from</span> <span class="nn">plotly</span> <span class="k">import</span> <span class="n">tools</span>
+<span class="kn">from</span> <span class="nn">ax.exceptions.core</span> <span class="kn">import</span> <span class="n">NoDataError</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge</span> <span class="kn">import</span> <span class="n">ModelBridge</span>
+<span class="kn">from</span> <span class="nn">ax.plot.base</span> <span class="kn">import</span> <span class="n">AxPlotConfig</span><span class="p">,</span> <span class="n">AxPlotTypes</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.logger</span> <span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span> <span class="nn">plotly</span> <span class="kn">import</span> <span class="n">subplots</span>
 
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="s2">"FeatureImportance"</span><span class="p">)</span>
@@ -51,7 +54,7 @@ src="/js/documentation_options.js">
         <span class="n">go</span><span class="o">.</span><span class="n">Bar</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="n">column_name</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="n">column_name</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">"h"</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
     <span class="p">]</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">make_subplots</span><span class="p">(</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">subplots</span><span class="o">.</span><span class="n">make_subplots</span><span class="p">(</span>
         <span class="n">rows</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span>
         <span class="n">cols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">subplot_titles</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
@@ -62,7 +65,7 @@ src="/js/documentation_options.js">
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">append_trace</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">showlegend</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">margin</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Margin</span><span class="p">(</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">margin</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">Margin</span><span class="p">(</span>
         <span class="n">l</span><span class="o">=</span><span class="mi">8</span> <span class="o">*</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">),</span> <span class="mi">75</span><span class="p">)</span>  <span class="c1"># noqa E741</span>
     <span class="p">)</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
@@ -80,7 +83,7 @@ src="/js/documentation_options.js">
             <span class="n">importances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">"Model for </span><span class="si">{metric_name}</span><span class="s2"> does not support feature importances."</span>
+                <span class="sa">f</span><span class="s2">"Model for </span><span class="si">{metric_name}</span><span class="s2"> does not support feature importances."</span>
             <span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">importances</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
@@ -109,7 +112,7 @@ src="/js/documentation_options.js">
             <span class="n">importances</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">feature_importances</span><span class="p">(</span><span class="n">metric_name</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">"Model for </span><span class="si">{metric_name}</span><span class="s2"> does not support feature importances."</span>
+                <span class="sa">f</span><span class="s2">"Model for </span><span class="si">{metric_name}</span><span class="s2"> does not support feature importances."</span>
             <span class="p">)</span>
             <span class="k">continue</span>
 
@@ -161,7 +164,9 @@ src="/js/documentation_options.js">
     <span class="n">layout</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span>
         <span class="n">height</span><span class="o">=</span><span class="mi">200</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span>
         <span class="n">hovermode</span><span class="o">=</span><span class="s2">"closest"</span><span class="p">,</span>
-        <span class="n">margin</span><span class="o">=</span><span class="n">go</span><span class="o">.</span><span class="n">Margin</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">8</span> <span class="o">*</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">features</span><span class="p">),</span> <span class="mi">75</span><span class="p">)),</span>  <span class="c1"># noqa E741</span>
+        <span class="n">margin</span><span class="o">=</span><span class="n">go</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">Margin</span><span class="p">(</span>
+            <span class="n">l</span><span class="o">=</span><span class="mi">8</span> <span class="o">*</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">features</span><span class="p">),</span> <span class="mi">75</span><span class="p">)</span>  <span class="c1"># noqa E741</span>
+        <span class="p">),</span>
         <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
         <span class="n">updatemenus</span><span class="o">=</span><span class="n">updatemenus</span><span class="p">,</span>
@@ -196,7 +201,7 @@ src="/js/documentation_options.js">
         <span class="k">for</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
     <span class="p">]</span>
     <span class="n">layout</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span>
-        <span class="n">margin</span><span class="o">=</span><span class="n">go</span><span class="o">.</span><span class="n">Margin</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">250</span><span class="p">),</span>  <span class="c1"># noqa E741</span>
+        <span class="n">margin</span><span class="o">=</span><span class="n">go</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">Margin</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">250</span><span class="p">),</span>  <span class="c1"># noqa E741</span>
         <span class="n">barmode</span><span class="o">=</span><span class="s2">"grouped"</span><span class="p">,</span>
         <span class="n">yaxis</span><span class="o">=</span><span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">""</span><span class="p">},</span>
         <span class="n">xaxis</span><span class="o">=</span><span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Relative Feature importance"</span><span class="p">},</span>

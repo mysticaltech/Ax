@@ -41,39 +41,39 @@ src="/js/documentation_options.js">
 <span class="sd">and `secondaryjoin` aspects of :func:`.relationship`.</span>
 
 <span class="sd">"""</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">weakref</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">attributes</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">dependency</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">mapper</span> <span class="k">as</span> <span class="n">mapperlib</span>
-<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">state_str</span>
-<span class="kn">from</span> <span class="nn">.interfaces</span> <span class="k">import</span> <span class="n">MANYTOMANY</span>
-<span class="kn">from</span> <span class="nn">.interfaces</span> <span class="k">import</span> <span class="n">MANYTOONE</span>
-<span class="kn">from</span> <span class="nn">.interfaces</span> <span class="k">import</span> <span class="n">ONETOMANY</span>
-<span class="kn">from</span> <span class="nn">.interfaces</span> <span class="k">import</span> <span class="n">PropComparator</span>
-<span class="kn">from</span> <span class="nn">.interfaces</span> <span class="k">import</span> <span class="n">StrategizedProperty</span>
-<span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="n">_orm_annotate</span>
-<span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="n">_orm_deannotate</span>
-<span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="n">CascadeOptions</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">exc</span> <span class="k">as</span> <span class="n">sa_exc</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">log</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">schema</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">sql</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">util</span>
-<span class="kn">from</span> <span class="nn">..inspection</span> <span class="k">import</span> <span class="n">inspect</span>
-<span class="kn">from</span> <span class="nn">..sql</span> <span class="k">import</span> <span class="n">expression</span>
-<span class="kn">from</span> <span class="nn">..sql</span> <span class="k">import</span> <span class="n">operators</span>
-<span class="kn">from</span> <span class="nn">..sql</span> <span class="k">import</span> <span class="n">visitors</span>
-<span class="kn">from</span> <span class="nn">..sql.util</span> <span class="k">import</span> <span class="n">_deep_deannotate</span>
-<span class="kn">from</span> <span class="nn">..sql.util</span> <span class="k">import</span> <span class="n">_shallow_annotate</span>
-<span class="kn">from</span> <span class="nn">..sql.util</span> <span class="k">import</span> <span class="n">adapt_criterion_to_null</span>
-<span class="kn">from</span> <span class="nn">..sql.util</span> <span class="k">import</span> <span class="n">ClauseAdapter</span>
-<span class="kn">from</span> <span class="nn">..sql.util</span> <span class="k">import</span> <span class="n">join_condition</span>
-<span class="kn">from</span> <span class="nn">..sql.util</span> <span class="k">import</span> <span class="n">selectables_overlap</span>
-<span class="kn">from</span> <span class="nn">..sql.util</span> <span class="k">import</span> <span class="n">visit_binary_product</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">attributes</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">dependency</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">mapper</span> <span class="k">as</span> <span class="n">mapperlib</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">state_str</span>
+<span class="kn">from</span> <span class="nn">.interfaces</span> <span class="kn">import</span> <span class="n">MANYTOMANY</span>
+<span class="kn">from</span> <span class="nn">.interfaces</span> <span class="kn">import</span> <span class="n">MANYTOONE</span>
+<span class="kn">from</span> <span class="nn">.interfaces</span> <span class="kn">import</span> <span class="n">ONETOMANY</span>
+<span class="kn">from</span> <span class="nn">.interfaces</span> <span class="kn">import</span> <span class="n">PropComparator</span>
+<span class="kn">from</span> <span class="nn">.interfaces</span> <span class="kn">import</span> <span class="n">StrategizedProperty</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">_orm_annotate</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">_orm_deannotate</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">CascadeOptions</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">exc</span> <span class="k">as</span> <span class="n">sa_exc</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">log</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">schema</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">sql</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">..inspection</span> <span class="kn">import</span> <span class="n">inspect</span>
+<span class="kn">from</span> <span class="nn">..sql</span> <span class="kn">import</span> <span class="n">expression</span>
+<span class="kn">from</span> <span class="nn">..sql</span> <span class="kn">import</span> <span class="n">operators</span>
+<span class="kn">from</span> <span class="nn">..sql</span> <span class="kn">import</span> <span class="n">visitors</span>
+<span class="kn">from</span> <span class="nn">..sql.util</span> <span class="kn">import</span> <span class="n">_deep_deannotate</span>
+<span class="kn">from</span> <span class="nn">..sql.util</span> <span class="kn">import</span> <span class="n">_shallow_annotate</span>
+<span class="kn">from</span> <span class="nn">..sql.util</span> <span class="kn">import</span> <span class="n">adapt_criterion_to_null</span>
+<span class="kn">from</span> <span class="nn">..sql.util</span> <span class="kn">import</span> <span class="n">ClauseAdapter</span>
+<span class="kn">from</span> <span class="nn">..sql.util</span> <span class="kn">import</span> <span class="n">join_condition</span>
+<span class="kn">from</span> <span class="nn">..sql.util</span> <span class="kn">import</span> <span class="n">selectables_overlap</span>
+<span class="kn">from</span> <span class="nn">..sql.util</span> <span class="kn">import</span> <span class="n">visit_binary_product</span>
 
 
 <span class="k">def</span> <span class="nf">remote</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
@@ -131,6 +131,14 @@ src="/js/documentation_options.js">
 
     <span class="n">strategy_wildcard_key</span> <span class="o">=</span> <span class="s2">"relationship"</span>
 
+    <span class="n">_persistence_only</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">passive_deletes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">passive_updates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">enable_typechecks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">active_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">cascade_backrefs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
     <span class="n">_dependency_processor</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@util</span><span class="o">.</span><span class="n">deprecated_params</span><span class="p">(</span>
@@ -142,7 +150,7 @@ src="/js/documentation_options.js">
             <span class="s2">"removed in a future release."</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">argument</span><span class="p">,</span>
         <span class="n">secondary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -159,18 +167,18 @@ src="/js/documentation_options.js">
         <span class="n">viewonly</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">lazy</span><span class="o">=</span><span class="s2">"select"</span><span class="p">,</span>
         <span class="n">collection_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">passive_deletes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">passive_updates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">passive_deletes</span><span class="o">=</span><span class="n">_persistence_only</span><span class="p">[</span><span class="s2">"passive_deletes"</span><span class="p">],</span>
+        <span class="n">passive_updates</span><span class="o">=</span><span class="n">_persistence_only</span><span class="p">[</span><span class="s2">"passive_updates"</span><span class="p">],</span>
         <span class="n">remote_side</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">enable_typechecks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">enable_typechecks</span><span class="o">=</span><span class="n">_persistence_only</span><span class="p">[</span><span class="s2">"enable_typechecks"</span><span class="p">],</span>
         <span class="n">join_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">comparator_factory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">single_parent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">innerjoin</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">distinct_target_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">doc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">active_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">cascade_backrefs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">active_history</span><span class="o">=</span><span class="n">_persistence_only</span><span class="p">[</span><span class="s2">"active_history"</span><span class="p">],</span>
+        <span class="n">cascade_backrefs</span><span class="o">=</span><span class="n">_persistence_only</span><span class="p">[</span><span class="s2">"cascade_backrefs"</span><span class="p">],</span>
         <span class="n">load_on_pending</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">bake_queries</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">_local_remote_pairs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -883,6 +891,14 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">post_update</span> <span class="o">=</span> <span class="n">post_update</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">viewonly</span> <span class="o">=</span> <span class="n">viewonly</span>
+        <span class="k">if</span> <span class="n">viewonly</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_warn_for_persistence_only_flags</span><span class="p">(</span>
+                <span class="n">passive_deletes</span><span class="o">=</span><span class="n">passive_deletes</span><span class="p">,</span>
+                <span class="n">passive_updates</span><span class="o">=</span><span class="n">passive_updates</span><span class="p">,</span>
+                <span class="n">enable_typechecks</span><span class="o">=</span><span class="n">enable_typechecks</span><span class="p">,</span>
+                <span class="n">active_history</span><span class="o">=</span><span class="n">active_history</span><span class="p">,</span>
+                <span class="n">cascade_backrefs</span><span class="o">=</span><span class="n">cascade_backrefs</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lazy</span> <span class="o">=</span> <span class="n">lazy</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">single_parent</span> <span class="o">=</span> <span class="n">single_parent</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_user_defined_foreign_keys</span> <span class="o">=</span> <span class="n">foreign_keys</span>
@@ -925,9 +941,10 @@ src="/js/documentation_options.js">
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_reverse_property</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">cascade</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">cascade</span> <span class="k">if</span> <span class="n">cascade</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span> <span class="k">else</span> <span class="s2">"save-update, merge"</span>
-        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">cascade</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cascade</span> <span class="o">=</span> <span class="n">cascade</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_cascade</span><span class="p">(</span><span class="s2">"save-update, merge"</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">order_by</span> <span class="o">=</span> <span class="n">order_by</span>
 
@@ -942,6 +959,24 @@ src="/js/documentation_options.js">
             <span class="bp">self</span><span class="o">.</span><span class="n">backref</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">backref</span> <span class="o">=</span> <span class="n">backref</span>
+
+    <span class="k">def</span> <span class="nf">_warn_for_persistence_only_flags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kw</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_persistence_only</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
+                <span class="c1"># we are warning here rather than warn deprecated as this is a</span>
+                <span class="c1"># configuration mistake, and Python shows regular warnings more</span>
+                <span class="c1"># aggressively than deprecation warnings by default. Unlike the</span>
+                <span class="c1"># case of setting viewonly with cascade, the settings being</span>
+                <span class="c1"># warned about here are not actively doing the wrong thing</span>
+                <span class="c1"># against viewonly=True, so it is not as urgent to have these</span>
+                <span class="c1"># raise an error.</span>
+                <span class="n">util</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s2">"Setting </span><span class="si">%s</span><span class="s2"> on relationship() while also "</span>
+                    <span class="s2">"setting viewonly=True does not make sense, as a "</span>
+                    <span class="s2">"viewonly=True relationship does not perform persistence "</span>
+                    <span class="s2">"operations. This configuration may raise an error "</span>
+                    <span class="s2">"in a future release."</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,)</span>
+                <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">instrument_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapper</span><span class="p">):</span>
         <span class="n">attributes</span><span class="o">.</span><span class="n">register_descriptor</span><span class="p">(</span>
@@ -975,7 +1010,7 @@ src="/js/documentation_options.js">
 
         <span class="n">_of_type</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">prop</span><span class="p">,</span> <span class="n">parentmapper</span><span class="p">,</span> <span class="n">adapt_to_entity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">of_type</span><span class="o">=</span><span class="kc">None</span>
         <span class="p">):</span>
             <span class="sd">"""Construction of :class:`.RelationshipProperty.Comparator`</span>
@@ -1082,7 +1117,7 @@ src="/js/documentation_options.js">
 
         <span class="fm">__hash__</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
             <span class="sd">"""Implement the ``==`` operator.</span>
 
 <span class="sd">            In a many-to-one context, such as::</span>
@@ -1423,7 +1458,7 @@ src="/js/documentation_options.js">
 
             <span class="k">return</span> <span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">_criterion_exists</span><span class="p">(</span><span class="n">criterion</span><span class="p">)</span>
 
-        <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
             <span class="sd">"""Implement the ``!=`` operator.</span>
 
 <span class="sd">            In a many-to-one context, such as::</span>
@@ -1670,7 +1705,7 @@ src="/js/documentation_options.js">
             <span class="n">criterion</span> <span class="o">=</span> <span class="n">adapt_source</span><span class="p">(</span><span class="n">criterion</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">criterion</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">class_</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"."</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span>
 
     <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span>
@@ -2016,22 +2051,47 @@ src="/js/documentation_options.js">
                 <span class="p">)</span>
             <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_cascade</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cascade</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""Return the current cascade setting for this</span>
 <span class="sd">        :class:`.RelationshipProperty`.</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cascade</span>
 
-    <span class="k">def</span> <span class="nf">_set_cascade</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cascade</span><span class="p">):</span>
+    <span class="nd">@cascade</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">cascade</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cascade</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_cascade</span><span class="p">(</span><span class="n">cascade</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_set_cascade</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cascade</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="n">cascade</span> <span class="o">=</span> <span class="n">CascadeOptions</span><span class="p">(</span><span class="n">cascade</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">warn</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">viewonly</span><span class="p">:</span>
+            <span class="n">non_viewonly</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">cascade</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span>
+                <span class="n">CascadeOptions</span><span class="o">.</span><span class="n">_viewonly_cascades</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">non_viewonly</span><span class="p">:</span>
+                <span class="c1"># we are warning here rather than warn deprecated as this</span>
+                <span class="c1"># setting actively does the wrong thing and Python shows</span>
+                <span class="c1"># regular warnings more aggressively than deprecation warnings</span>
+                <span class="c1"># by default. There's no other guard against setting active</span>
+                <span class="c1"># persistence cascades under viewonly=True so this will raise</span>
+                <span class="c1"># in 1.4.</span>
+                <span class="n">util</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s1">'Cascade settings "</span><span class="si">%s</span><span class="s1">" should not be combined with a '</span>
+                    <span class="s2">"viewonly=True relationship.   This configuration will "</span>
+                    <span class="s2">"raise an error in version 1.4.  Note that in versions "</span>
+                    <span class="s2">"prior to 1.4, "</span>
+                    <span class="s2">"these cascade settings may still produce a mutating "</span>
+                    <span class="s2">"effect even though this relationship is marked as "</span>
+                    <span class="s2">"viewonly=True."</span> <span class="o">%</span> <span class="p">(</span><span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">non_viewonly</span><span class="p">)))</span>
+                <span class="p">)</span>
+
         <span class="k">if</span> <span class="s2">"mapper"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_check_cascade_settings</span><span class="p">(</span><span class="n">cascade</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cascade</span> <span class="o">=</span> <span class="n">cascade</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dependency_processor</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_dependency_processor</span><span class="o">.</span><span class="n">cascade</span> <span class="o">=</span> <span class="n">cascade</span>
-
-    <span class="n">cascade</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_cascade</span><span class="p">,</span> <span class="n">_set_cascade</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_check_cascade_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cascade</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span>
@@ -2254,7 +2314,7 @@ src="/js/documentation_options.js">
 
 
 <span class="k">class</span> <span class="nc">JoinCondition</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">parent_persist_selectable</span><span class="p">,</span>
         <span class="n">child_persist_selectable</span><span class="p">,</span>
@@ -3282,10 +3342,10 @@ src="/js/documentation_options.js">
 <span class="sd">        lambda c: "name" in c._annotations</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">_annotations</span>
 </pre></div>
 </div>

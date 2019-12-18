@@ -27,29 +27,32 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.models.torch.botorch_defaults</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">botorch.acquisition.acquisition</span> <span class="k">import</span> <span class="n">AcquisitionFunction</span>
-<span class="kn">from</span> <span class="nn">botorch.acquisition.objective</span> <span class="k">import</span> <span class="n">ConstrainedMCObjective</span><span class="p">,</span> <span class="n">LinearMCObjective</span>
-<span class="kn">from</span> <span class="nn">botorch.acquisition.utils</span> <span class="k">import</span> <span class="n">get_acquisition_function</span><span class="p">,</span> <span class="n">get_infeasible_cost</span>
-<span class="kn">from</span> <span class="nn">botorch.fit</span> <span class="k">import</span> <span class="n">fit_gpytorch_model</span>
-<span class="kn">from</span> <span class="nn">botorch.models.gp_regression</span> <span class="k">import</span> <span class="n">FixedNoiseGP</span><span class="p">,</span> <span class="n">SingleTaskGP</span>
-<span class="kn">from</span> <span class="nn">botorch.models.gp_regression_fidelity</span> <span class="k">import</span> <span class="n">SingleTaskMultiFidelityGP</span>
-<span class="kn">from</span> <span class="nn">botorch.models.gpytorch</span> <span class="k">import</span> <span class="n">GPyTorchModel</span>
-<span class="kn">from</span> <span class="nn">botorch.models.model</span> <span class="k">import</span> <span class="n">Model</span>
-<span class="kn">from</span> <span class="nn">botorch.models.model_list_gp_regression</span> <span class="k">import</span> <span class="n">ModelListGP</span>
-<span class="kn">from</span> <span class="nn">botorch.models.multitask</span> <span class="k">import</span> <span class="n">FixedNoiseMultiTaskGP</span><span class="p">,</span> <span class="n">MultiTaskGP</span>
-<span class="kn">from</span> <span class="nn">botorch.optim.optimize</span> <span class="k">import</span> <span class="n">optimize_acqf</span>
-<span class="kn">from</span> <span class="nn">botorch.utils</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">botorch.acquisition.acquisition</span> <span class="kn">import</span> <span class="n">AcquisitionFunction</span>
+<span class="kn">from</span> <span class="nn">botorch.acquisition.objective</span> <span class="kn">import</span> <span class="n">ConstrainedMCObjective</span><span class="p">,</span> <span class="n">LinearMCObjective</span>
+<span class="kn">from</span> <span class="nn">botorch.acquisition.utils</span> <span class="kn">import</span> <span class="n">get_acquisition_function</span><span class="p">,</span> <span class="n">get_infeasible_cost</span>
+<span class="kn">from</span> <span class="nn">botorch.fit</span> <span class="kn">import</span> <span class="n">fit_gpytorch_model</span>
+<span class="kn">from</span> <span class="nn">botorch.models.gp_regression</span> <span class="kn">import</span> <span class="n">FixedNoiseGP</span><span class="p">,</span> <span class="n">SingleTaskGP</span>
+<span class="kn">from</span> <span class="nn">botorch.models.gp_regression_fidelity</span> <span class="kn">import</span> <span class="n">SingleTaskMultiFidelityGP</span>
+<span class="kn">from</span> <span class="nn">botorch.models.gpytorch</span> <span class="kn">import</span> <span class="n">GPyTorchModel</span>
+<span class="kn">from</span> <span class="nn">botorch.models.model</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">botorch.models.model_list_gp_regression</span> <span class="kn">import</span> <span class="n">ModelListGP</span>
+<span class="kn">from</span> <span class="nn">botorch.models.multitask</span> <span class="kn">import</span> <span class="n">FixedNoiseMultiTaskGP</span><span class="p">,</span> <span class="n">MultiTaskGP</span>
+<span class="kn">from</span> <span class="nn">botorch.optim.optimize</span> <span class="kn">import</span> <span class="n">optimize_acqf</span>
+<span class="kn">from</span> <span class="nn">botorch.utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">get_objective_weights_transform</span><span class="p">,</span>
     <span class="n">get_outcome_constraint_transforms</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">gpytorch.mlls.exact_marginal_log_likelihood</span> <span class="k">import</span> <span class="n">ExactMarginalLogLikelihood</span>
-<span class="kn">from</span> <span class="nn">gpytorch.mlls.sum_marginal_log_likelihood</span> <span class="k">import</span> <span class="n">SumMarginalLogLikelihood</span>
-<span class="kn">from</span> <span class="nn">torch</span> <span class="k">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">gpytorch.mlls.exact_marginal_log_likelihood</span> <span class="kn">import</span> <span class="n">ExactMarginalLogLikelihood</span>
+<span class="kn">from</span> <span class="nn">gpytorch.mlls.sum_marginal_log_likelihood</span> <span class="kn">import</span> <span class="n">SumMarginalLogLikelihood</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
 
 
 <span class="n">MIN_OBSERVED_NOISE_LEVEL</span> <span class="o">=</span> <span class="mf">1e-7</span>
@@ -61,6 +64,7 @@ src="/js/documentation_options.js">
     <span class="n">Yvars</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span>
     <span class="n">task_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
     <span class="n">fidelity_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">metric_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">state_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">refit_model</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -68,11 +72,12 @@ src="/js/documentation_options.js">
     <span class="sa">r</span><span class="sd">"""Instantiates and fits a botorch ModelListGP using the given data.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        Xs: List of X data, one tensor per outcome</span>
-<span class="sd">        Ys: List of Y data, one tensor per outcome</span>
+<span class="sd">        Xs: List of X data, one tensor per outcome.</span>
+<span class="sd">        Ys: List of Y data, one tensor per outcome.</span>
 <span class="sd">        Yvars: List of observed variance of Ys.</span>
 <span class="sd">        task_features: List of columns of X that are tasks.</span>
 <span class="sd">        fidelity_features: List of columns of X that are fidelity parameters.</span>
+<span class="sd">        metric_names: Names of each outcome Y in Ys.</span>
 <span class="sd">        state_dict: If provided, will set model parameters to this state</span>
 <span class="sd">            dictionary. Otherwise, will fit the model.</span>
 <span class="sd">        refit_model: Flag for refitting model.</span>
@@ -90,7 +95,7 @@ src="/js/documentation_options.js">
         <span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">task_features</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-            <span class="n">f</span><span class="s2">"This model only supports 1 task feature (got </span><span class="si">{task_features}</span><span class="s2">)"</span>
+            <span class="sa">f</span><span class="s2">"This model only supports 1 task feature (got </span><span class="si">{task_features}</span><span class="s2">)"</span>
         <span class="p">)</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">task_features</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">task_feature</span> <span class="o">=</span> <span class="n">task_features</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -157,8 +162,8 @@ src="/js/documentation_options.js">
         <span class="n">posterior</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">posterior</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">mean</span> <span class="o">=</span> <span class="n">posterior</span><span class="o">.</span><span class="n">mean</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
     <span class="c1"># TODO: Allow Posterior to (optionally) return the full covariance matrix</span>
-    <span class="n">variance</span> <span class="o">=</span> <span class="n">posterior</span><span class="o">.</span><span class="n">variance</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
-    <span class="n">cov</span> <span class="o">=</span> <span class="n">variance</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">variance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">variance</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">variance</span> <span class="o">=</span> <span class="n">posterior</span><span class="o">.</span><span class="n">variance</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">clamp_min</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># pyre-ignore</span>
+    <span class="n">cov</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag_embed</span><span class="p">(</span><span class="n">variance</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">mean</span><span class="p">,</span> <span class="n">cov</span></div>
 
 
@@ -298,7 +303,7 @@ src="/js/documentation_options.js">
 <span class="sd">    Returns:</span>
 <span class="sd">        A GPyTorchModel (unfitted).</span>
 <span class="sd">    """</span>
-    <span class="n">Yvar</span> <span class="o">=</span> <span class="n">Yvar</span><span class="o">.</span><span class="n">clamp_min_</span><span class="p">(</span><span class="n">MIN_OBSERVED_NOISE_LEVEL</span><span class="p">)</span>  <span class="c1"># pyre-ignore: [16]</span>
+    <span class="n">Yvar</span> <span class="o">=</span> <span class="n">Yvar</span><span class="o">.</span><span class="n">clamp_min_</span><span class="p">(</span><span class="n">MIN_OBSERVED_NOISE_LEVEL</span><span class="p">)</span>
     <span class="n">is_nan</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">Yvar</span><span class="p">)</span>
     <span class="n">any_nan_Yvar</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">is_nan</span><span class="p">)</span>
     <span class="n">all_nan_Yvar</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">is_nan</span><span class="p">)</span>
@@ -309,6 +314,9 @@ src="/js/documentation_options.js">
         <span class="p">)</span>
     <span class="k">if</span> <span class="n">fidelity_features</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fidelity_features</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fidelity_features</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># only pass linear_truncated arg if there are fidelities</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">"linear_truncated"</span><span class="p">}</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fidelity_features</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">task_feature</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>

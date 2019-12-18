@@ -27,37 +27,45 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.storage.json_store.decoder</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
 <span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">inspect</span> <span class="k">import</span> <span class="n">isclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">isclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">cast</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">ax.core.base_trial</span> <span class="k">import</span> <span class="n">BaseTrial</span>
-<span class="kn">from</span> <span class="nn">ax.core.data</span> <span class="k">import</span> <span class="n">Data</span>  <span class="c1"># noqa F401</span>
-<span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="k">import</span> <span class="n">Experiment</span>
-<span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="k">import</span> <span class="n">GeneratorRun</span>
-<span class="kn">from</span> <span class="nn">ax.core.parameter</span> <span class="k">import</span> <span class="n">Parameter</span>
-<span class="kn">from</span> <span class="nn">ax.core.parameter_constraint</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.benchmark.benchmark_problem</span> <span class="kn">import</span> <span class="n">SimpleBenchmarkProblem</span>
+<span class="kn">from</span> <span class="nn">ax.core.base_trial</span> <span class="kn">import</span> <span class="n">BaseTrial</span>
+<span class="kn">from</span> <span class="nn">ax.core.data</span> <span class="kn">import</span> <span class="n">Data</span>  <span class="c1"># noqa F401</span>
+<span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="kn">import</span> <span class="n">Experiment</span>
+<span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="kn">import</span> <span class="n">GeneratorRun</span>
+<span class="kn">from</span> <span class="nn">ax.core.parameter</span> <span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span> <span class="nn">ax.core.parameter_constraint</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">OrderConstraint</span><span class="p">,</span>
     <span class="n">ParameterConstraint</span><span class="p">,</span>
     <span class="n">SumConstraint</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.core.search_space</span> <span class="k">import</span> <span class="n">SearchSpace</span>
-<span class="kn">from</span> <span class="nn">ax.core.simple_experiment</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.core.search_space</span> <span class="kn">import</span> <span class="n">SearchSpace</span>
+<span class="kn">from</span> <span class="nn">ax.core.simple_experiment</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">SimpleExperiment</span><span class="p">,</span>
     <span class="n">unimplemented_evaluation_function</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.exceptions.storage</span> <span class="k">import</span> <span class="n">JSONDecodeError</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.generation_strategy</span> <span class="k">import</span> <span class="n">GenerationStrategy</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.registry</span> <span class="k">import</span> <span class="n">Models</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.transforms.base</span> <span class="k">import</span> <span class="n">Transform</span>
-<span class="kn">from</span> <span class="nn">ax.storage.json_store.decoders</span> <span class="k">import</span> <span class="n">batch_trial_from_json</span><span class="p">,</span> <span class="n">trial_from_json</span>
-<span class="kn">from</span> <span class="nn">ax.storage.json_store.registry</span> <span class="k">import</span> <span class="n">DECODER_REGISTRY</span>
-<span class="kn">from</span> <span class="nn">ax.storage.transform_registry</span> <span class="k">import</span> <span class="n">REVERSE_TRANSFORM_REGISTRY</span>
+<span class="kn">from</span> <span class="nn">ax.exceptions.storage</span> <span class="kn">import</span> <span class="n">JSONDecodeError</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.generation_strategy</span> <span class="kn">import</span> <span class="n">GenerationStrategy</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.registry</span> <span class="kn">import</span> <span class="n">Models</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.transforms.base</span> <span class="kn">import</span> <span class="n">Transform</span>
+<span class="kn">from</span> <span class="nn">ax.storage.json_store.decoders</span> <span class="kn">import</span> <span class="n">batch_trial_from_json</span><span class="p">,</span> <span class="n">trial_from_json</span>
+<span class="kn">from</span> <span class="nn">ax.storage.json_store.registry</span> <span class="kn">import</span> <span class="n">DECODER_REGISTRY</span>
+<span class="kn">from</span> <span class="nn">ax.storage.transform_registry</span> <span class="kn">import</span> <span class="n">REVERSE_TRANSFORM_REGISTRY</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="kn">import</span> <span class="n">torch_type_from_str</span>
+<span class="kn">from</span> <span class="nn">ax.utils.measurement</span> <span class="kn">import</span> <span class="n">synthetic_functions</span>
 
 
 <div class="viewcode-block" id="object_from_json"><a class="viewcode-back" href="../../../../storage.html#ax.storage.json_store.decoder.object_from_json">[docs]</a><span class="k">def</span> <span class="nf">object_from_json</span><span class="p">(</span><span class="n">object_json</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
@@ -90,11 +98,19 @@ src="/js/documentation_options.js">
             <span class="c1"># Need dtype=False, otherwise infers arm_names like "4_1"</span>
             <span class="c1"># should be int 41</span>
             <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">object_json</span><span class="p">[</span><span class="s2">"value"</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">_type</span> <span class="o">==</span> <span class="s2">"ndarray"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">object_json</span><span class="p">[</span><span class="s2">"value"</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"torch"</span><span class="p">):</span>
+            <span class="c1"># Torch types will be encoded as "torch_&lt;type_name&gt;", so we drop prefix</span>
+            <span class="k">return</span> <span class="n">torch_type_from_str</span><span class="p">(</span>
+                <span class="n">identifier</span><span class="o">=</span><span class="n">object_json</span><span class="p">[</span><span class="s2">"value"</span><span class="p">],</span> <span class="n">type_name</span><span class="o">=</span><span class="n">_type</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span>
+            <span class="p">)</span>
+
         <span class="k">elif</span> <span class="n">_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">DECODER_REGISTRY</span><span class="p">:</span>
             <span class="n">err</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">f</span><span class="s2">"The JSON dictionary passed to `object_from_json` has a type "</span>
-                <span class="n">f</span><span class="s2">"</span><span class="si">{_type}</span><span class="s2"> that is not registered with a corresponding class in "</span>
-                <span class="n">f</span><span class="s2">"DECODER_REGISTRY."</span>
+                <span class="sa">f</span><span class="s2">"The JSON dictionary passed to `object_from_json` has a type "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{_type}</span><span class="s2"> that is not registered with a corresponding class in "</span>
+                <span class="sa">f</span><span class="s2">"DECODER_REGISTRY."</span>
             <span class="p">)</span>
             <span class="k">raise</span> <span class="n">JSONDecodeError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
 
@@ -115,12 +131,14 @@ src="/js/documentation_options.js">
             <span class="k">return</span> <span class="n">search_space_from_json</span><span class="p">(</span><span class="n">search_space_json</span><span class="o">=</span><span class="n">object_json</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">_class</span> <span class="o">==</span> <span class="n">Type</span><span class="p">[</span><span class="n">Transform</span><span class="p">]:</span>
             <span class="k">return</span> <span class="n">transform_type_from_json</span><span class="p">(</span><span class="n">object_json</span><span class="o">=</span><span class="n">object_json</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">_class</span> <span class="o">==</span> <span class="n">SimpleBenchmarkProblem</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">simple_benchmark_problem_from_json</span><span class="p">(</span><span class="n">object_json</span><span class="o">=</span><span class="n">object_json</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">_class</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">object_from_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">object_json</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">err</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">f</span><span class="s2">"The object </span><span class="si">{object_json}</span><span class="s2"> passed to `object_from_json` has an "</span>
-            <span class="n">f</span><span class="s2">"unsupported type: {type(object_json)}."</span>
+            <span class="sa">f</span><span class="s2">"The object </span><span class="si">{object_json}</span><span class="s2"> passed to `object_from_json` has an "</span>
+            <span class="sa">f</span><span class="s2">"unsupported type: {type(object_json)}."</span>
         <span class="p">)</span>
         <span class="k">raise</span> <span class="n">JSONDecodeError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span></div>
 
@@ -288,7 +306,7 @@ src="/js/documentation_options.js">
     <span class="sd">"""Load the transform type from JSON."""</span>
     <span class="n">index_in_registry</span> <span class="o">=</span> <span class="n">object_json</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"index_in_registry"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">index_in_registry</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">REVERSE_TRANSFORM_REGISTRY</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Unknown transform '{object_json.pop('transform_type')}'"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown transform '{object_json.pop('transform_type')}'"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">REVERSE_TRANSFORM_REGISTRY</span><span class="p">[</span><span class="n">index_in_registry</span><span class="p">]</span></div>
 
 
@@ -320,6 +338,25 @@ src="/js/documentation_options.js">
 
         <span class="n">gs</span><span class="o">.</span><span class="n">_restore_model_from_generator_run</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">gs</span></div>
+
+
+<div class="viewcode-block" id="simple_benchmark_problem_from_json"><a class="viewcode-back" href="../../../../storage.html#ax.storage.json_store.decoder.simple_benchmark_problem_from_json">[docs]</a><span class="k">def</span> <span class="nf">simple_benchmark_problem_from_json</span><span class="p">(</span>
+    <span class="n">object_json</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SimpleBenchmarkProblem</span><span class="p">:</span>
+    <span class="sd">"""Load a benchmark problem from JSON."""</span>
+    <span class="n">uses_synthetic_function</span> <span class="o">=</span> <span class="n">object_json</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"uses_synthetic_function"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">uses_synthetic_function</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">synthetic_functions</span><span class="p">,</span> <span class="n">object_json</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"function_name"</span><span class="p">))()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">object_json</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"f"</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+    <span class="n">domain</span> <span class="o">=</span> <span class="n">object_from_json</span><span class="p">(</span><span class="n">object_json</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"domain"</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">domain</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">SimpleBenchmarkProblem</span><span class="p">(</span>
+        <span class="n">f</span><span class="o">=</span><span class="n">f</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">object_json</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"name"</span><span class="p">),</span>
+        <span class="n">domain</span><span class="o">=</span><span class="n">cast</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="n">domain</span><span class="p">),</span>
+        <span class="n">minimize</span><span class="o">=</span><span class="n">object_json</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"minimize"</span><span class="p">),</span>
+    <span class="p">)</span></div>
 </pre></div>
 </div>
 </div>

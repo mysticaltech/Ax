@@ -27,7 +27,11 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.utils.common.testutils</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
+
 <span class="c1"># pyre-strict</span>
 
 <span class="sd">"""Support functions for tests</span>
@@ -39,7 +43,7 @@ src="/js/documentation_options.js">
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">types</span>
 <span class="kn">import</span> <span class="nn">unittest</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Any</span><span class="p">,</span>
     <span class="n">Callable</span><span class="p">,</span>
     <span class="n">ContextManager</span><span class="p">,</span>
@@ -81,7 +85,7 @@ src="/js/documentation_options.js">
     <span class="n">lineno</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
     <span class="n">filename</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">expected</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="ne">Exception</span><span class="p">],</span>
         <span class="n">test_case</span><span class="p">:</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">,</span>
@@ -98,7 +102,7 @@ src="/js/documentation_options.js">
             <span class="n">expected</span><span class="o">=</span><span class="n">expected</span><span class="p">,</span> <span class="n">test_case</span><span class="o">=</span><span class="n">test_case</span><span class="p">,</span> <span class="n">expected_regex</span><span class="o">=</span><span class="n">expected_regex</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">exc_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="ne">Exception</span><span class="p">]],</span>
         <span class="n">exc_value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="ne">Exception</span><span class="p">],</span>
@@ -119,7 +123,7 @@ src="/js/documentation_options.js">
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expected_line</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expected_line</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
             <span class="c1"># pyre-ignore [16]: ... has no attribute `_raiseFailure`.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_raiseFailure</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">"</span><span class="si">{self._expected_line!r}</span><span class="s2"> was not found in the traceback: </span><span class="si">{lines!r}</span><span class="s2">"</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{self._expected_line!r}</span><span class="s2"> was not found in the traceback: </span><span class="si">{lines!r}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="kc">True</span>
@@ -132,7 +136,7 @@ src="/js/documentation_options.js">
 <span class="k">def</span> <span class="nf">_deprecate</span><span class="p">(</span><span class="n">original_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">_deprecated_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-            <span class="n">f</span><span class="s2">"This function is deprecated please use </span><span class="si">{original_func.__name__}</span><span class="s2"> "</span>
+            <span class="sa">f</span><span class="s2">"This function is deprecated please use </span><span class="si">{original_func.__name__}</span><span class="s2"> "</span>
             <span class="s2">"instead."</span>
         <span class="p">)</span>
 

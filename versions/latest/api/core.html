@@ -270,6 +270,16 @@ defined on the experiment.</p></li>
 </dl>
 </dd></dl>
 <dl class="method">
+<dt id="ax.core.base_trial.BaseTrial.is_complete">
+<em class="property">property </em><code class="sig-name descname">is_complete</code><a class="headerlink" href="#ax.core.base_trial.BaseTrial.is_complete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if trial status is <cite>COMPLETED</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
 <dt id="ax.core.base_trial.BaseTrial.mark_abandoned">
 <code class="sig-name descname">mark_abandoned</code><span class="sig-paren">(</span><em class="sig-param">reason=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/base_trial.html#BaseTrial.mark_abandoned"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.base_trial.BaseTrial.mark_abandoned" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mark trial as abandoned.</p>
@@ -287,11 +297,11 @@ defined on the experiment.</p></li>
 </dd></dl>
 <dl class="method">
 <dt id="ax.core.base_trial.BaseTrial.mark_completed">
-<code class="sig-name descname">mark_completed</code><span class="sig-paren">(</span><em class="sig-param">allow_repeat_completion=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/base_trial.html#BaseTrial.mark_completed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.base_trial.BaseTrial.mark_completed" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">mark_completed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/base_trial.html#BaseTrial.mark_completed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.base_trial.BaseTrial.mark_completed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mark trial as completed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>allow_repeat_completion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – If set to True, this function will not raise an
+<dd class="field-odd"><p><strong>allow_repeat_completion</strong> – If set to True, this function will not raise an
 error is a trial that has already been marked as completed is
 being marked as completed again.</p>
 </dd>
@@ -300,19 +310,6 @@ being marked as completed again.</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The trial instance.</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="method">
-<dt id="ax.core.base_trial.BaseTrial.mark_dispatched">
-<code class="sig-name descname">mark_dispatched</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/base_trial.html#BaseTrial.mark_dispatched"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.base_trial.BaseTrial.mark_dispatched" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mark trial as dispatched through the service API to await completion.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#ax.core.base_trial.BaseTrial" title="ax.core.base_trial.BaseTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseTrial</span></code></a></p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The trial instance.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -331,7 +328,7 @@ being marked as completed again.</p>
 </dd></dl>
 <dl class="method">
 <dt id="ax.core.base_trial.BaseTrial.mark_running">
-<code class="sig-name descname">mark_running</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/base_trial.html#BaseTrial.mark_running"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.base_trial.BaseTrial.mark_running" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">mark_running</code><span class="sig-paren">(</span><em class="sig-param">no_runner_required=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/base_trial.html#BaseTrial.mark_running"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.base_trial.BaseTrial.mark_running" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mark trial has started running.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -465,7 +462,6 @@ the trial.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CANDIDATE</span> <span class="o">--&gt;</span> <span class="n">STAGED</span> <span class="o">--&gt;</span> <span class="n">RUNNING</span> <span class="o">--&gt;</span> <span class="n">COMPLETED</span>
           <span class="o">-------------&gt;</span>         <span class="o">--&gt;</span> <span class="n">FAILED</span> <span class="p">(</span><span class="n">machine</span> <span class="n">failure</span><span class="p">)</span>
           <span class="o">-------------------------&gt;</span> <span class="n">ABANDONED</span> <span class="p">(</span><span class="n">human</span><span class="o">-</span><span class="n">initiated</span> <span class="n">action</span><span class="p">)</span>
-          <span class="o">--&gt;</span> <span class="n">DISPATCHED</span> <span class="o">----------&gt;</span>
 </pre></div>
 </div>
 <p>Trials may be abandoned at any time prior to completion or failure
@@ -475,10 +471,6 @@ failure state.</p>
 <p>Additionally, when trials are deployed, they may be in an intermediate
 staged state (e.g. scheduled but waiting for resources) or immediately
 transition to running.</p>
-<p>When used though the service API, Ax proposes trials and expects the client
-application to compelete them with evaluation data when available. In this
-case, a trial is set to ‘dispatched’ right after the trial is created, and
-when user completes the trial with data, its status is set to ‘completed’.</p>
 <dl class="attribute">
 <dt id="ax.core.base_trial.TrialStatus.ABANDONED">
 <code class="sig-name descname">ABANDONED</code><em class="property"> = 5</em><a class="headerlink" href="#ax.core.base_trial.TrialStatus.ABANDONED" title="Permalink to this definition">¶</a></dt>
@@ -3349,12 +3341,27 @@ else None.</p>
 </dl>
 </dd></dl>
 <dl class="method">
-<dt id="ax.core.trial.Trial.objective_mean">
-<em class="property">property </em><code class="sig-name descname">objective_mean</code><a class="headerlink" href="#ax.core.trial.Trial.objective_mean" title="Permalink to this definition">¶</a></dt>
-<dd><p>Objective mean for the arm attached to this trial.</p>
+<dt id="ax.core.trial.Trial.get_metric_mean">
+<code class="sig-name descname">get_metric_mean</code><span class="sig-paren">(</span><em class="sig-param">metric_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/trial.html#Trial.get_metric_mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.trial.Trial.get_metric_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metric mean for the arm attached to this trial, retrieved from the
+latest data available for the metric for the trial.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.core.trial.Trial.objective_mean">
+<em class="property">property </em><code class="sig-name descname">objective_mean</code><a class="headerlink" href="#ax.core.trial.Trial.objective_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Objective mean for the arm attached to this trial, retrieved from the
+latest data available for the objective for the trial.</p>
+<p>Note: the retrieved objective is the experiment-level objective at the
+time of the call to <cite>objective_mean</cite>, which is not necessarily the
+objective that was set at the time the trial was created or ran.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -3426,6 +3433,27 @@ else None.</p>
 </dd></dl>
 </dd></dl>
 <dl class="function">
+<dt id="ax.core.utils.best_feasible_objective">
+<code class="sig-prename descclassname">ax.core.utils.</code><code class="sig-name descname">best_feasible_objective</code><span class="sig-paren">(</span><em class="sig-param">optimization_config</em>, <em class="sig-param">values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/utils.html#best_feasible_objective"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.utils.best_feasible_objective" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the best feasible objective value found by each iteration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>optimization_config</strong> (<a class="reference internal" href="#ax.core.optimization_config.OptimizationConfig" title="ax.core.optimization_config.OptimizationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptimizationConfig</span></code></a>) – Optimization config.</p></li>
+<li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]) – Dictionary from metric name to array of value at each
+iteration. If optimization config contains outcome constraints, values
+for them must be present in <cite>values</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: Array of cumulative best feasible value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
 <dt id="ax.core.utils.get_missing_metrics">
 <code class="sig-prename descclassname">ax.core.utils.</code><code class="sig-name descname">get_missing_metrics</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">optimization_config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/utils.html#get_missing_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.utils.get_missing_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return all arm_name, trial_index pairs, for which some of the
@@ -3462,6 +3490,17 @@ specified metrics.</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A Dict[str, missing_metrics], one entry for each metric_name.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.core.utils.get_model_times">
+<code class="sig-prename descclassname">ax.core.utils.</code><code class="sig-name descname">get_model_times</code><span class="sig-paren">(</span><em class="sig-param">experiment</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/utils.html#get_model_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.utils.get_model_times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get total times spent fitting the model and generating candidates in the
+course of the experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>

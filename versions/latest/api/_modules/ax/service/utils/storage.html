@@ -27,19 +27,22 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.service.utils.storage</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
-<span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="k">import</span> <span class="n">Experiment</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.generation_strategy</span> <span class="k">import</span> <span class="n">GenerationStrategy</span>
-<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.db</span> <span class="k">import</span> <span class="n">init_engine_and_session_factory</span>
-<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.load</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="kn">import</span> <span class="n">Experiment</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.generation_strategy</span> <span class="kn">import</span> <span class="n">GenerationStrategy</span>
+<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.db</span> <span class="kn">import</span> <span class="n">init_engine_and_session_factory</span>
+<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.load</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">_load_experiment</span><span class="p">,</span>
     <span class="n">_load_generation_strategy_by_experiment_name</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.save</span> <span class="k">import</span> <span class="n">_save_experiment</span><span class="p">,</span> <span class="n">_save_generation_strategy</span>
-<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.structs</span> <span class="k">import</span> <span class="n">DBSettings</span>
+<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.save</span> <span class="kn">import</span> <span class="n">_save_experiment</span><span class="p">,</span> <span class="n">_save_generation_strategy</span>
+<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.structs</span> <span class="kn">import</span> <span class="n">DBSettings</span>
 
 
 <span class="sd">"""Utilities for storing experiment to the database for AxClient."""</span>

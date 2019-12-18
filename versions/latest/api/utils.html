@@ -104,7 +104,7 @@ by duplicate keys that appear later in the iterable get priority over the
 ones that appear earlier and only kwargs referenced in keywords will be
 used. This allows to combine somewhat redundant sets of kwargs, where a
 user-set kwarg, for instance, needs to override a default kwarg.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">consolidate_kwargs</span><span class="p">(</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">consolidate_kwargs</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">kwargs_iterable</span><span class="o">=</span><span class="p">[{</span><span class="s1">'a'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="p">{</span><span class="s1">'b'</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">'d'</span><span class="p">:</span> <span class="mi">5</span><span class="p">}],</span>
 <span class="gp">... </span>    <span class="n">keywords</span><span class="o">=</span><span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'d'</span><span class="p">]</span>
 <span class="gp">... </span><span class="p">)</span>
@@ -168,6 +168,26 @@ Adds timestamps to logger messages.</p>
 </div>
 <div class="section" id="module-ax.utils.common.serialization">
 <span id="serialization"></span><h3>Serialization<a class="headerlink" href="#module-ax.utils.common.serialization" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="ax.utils.common.serialization.callable_from_reference">
+<code class="sig-prename descclassname">ax.utils.common.serialization.</code><code class="sig-name descname">callable_from_reference</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/common/serialization.html#callable_from_reference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.common.serialization.callable_from_reference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a callable by its path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.common.serialization.callable_to_reference">
+<code class="sig-prename descclassname">ax.utils.common.serialization.</code><code class="sig-name descname">callable_to_reference</code><span class="sig-paren">(</span><em class="sig-param">callable</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/common/serialization.html#callable_to_reference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.common.serialization.callable_to_reference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtains path to the callable of form &lt;module&gt;.&lt;name&gt;.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
 <dl class="function">
 <dt id="ax.utils.common.serialization.named_tuple_to_dict">
 <code class="sig-prename descclassname">ax.utils.common.serialization.</code><code class="sig-name descname">named_tuple_to_dict</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/common/serialization.html#named_tuple_to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.common.serialization.named_tuple_to_dict" title="Permalink to this definition">¶</a></dt>
@@ -334,6 +354,25 @@ This is necessary because some of our transforms return Numpy values.</p>
 </dd>
 </dl>
 </dd></dl>
+<dl class="function">
+<dt id="ax.utils.common.typeutils.torch_type_from_str">
+<code class="sig-prename descclassname">ax.utils.common.typeutils.</code><code class="sig-name descname">torch_type_from_str</code><span class="sig-paren">(</span><em class="sig-param">identifier</em>, <em class="sig-param">type_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/common/typeutils.html#torch_type_from_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.common.typeutils.torch_type_from_str" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dtype</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">device</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.common.typeutils.torch_type_to_str">
+<code class="sig-prename descclassname">ax.utils.common.typeutils.</code><code class="sig-name descname">torch_type_to_str</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/common/typeutils.html#torch_type_to_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.common.typeutils.torch_type_to_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts torch types, commonly used in Ax, to string representations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
 </div>
 </div>
 <div class="section" id="measurement">
@@ -462,6 +501,16 @@ of observations and d is the dimensionality of the inputs.</p>
 </dd>
 </dl>
 </dd></dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.measurement.synthetic_functions.from_botorch">
+<code class="sig-prename descclassname">ax.utils.measurement.synthetic_functions.</code><code class="sig-name descname">from_botorch</code><span class="sig-paren">(</span><em class="sig-param">botorch_synthetic_function</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/measurement/synthetic_functions.html#from_botorch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.measurement.synthetic_functions.from_botorch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility to generate Ax synthetic functions from BoTorch synthetic functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ax.utils.measurement.synthetic_functions.SyntheticFunction" title="ax.utils.measurement.synthetic_functions.SyntheticFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">SyntheticFunction</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="function">
 <dt id="ax.utils.measurement.synthetic_functions.informative_failure_on_none">
@@ -1239,6 +1288,15 @@ existed trial in the experiment. Where N is equal to the input argument
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.parameter.RangeParameter" title="ax.core.parameter.RangeParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">RangeParameter</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.utils.testing.core_stubs.get_scalarized_objective">
+<code class="sig-prename descclassname">ax.utils.testing.core_stubs.</code><code class="sig-name descname">get_scalarized_objective</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/utils/testing/core_stubs.html#get_scalarized_objective"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.utils.testing.core_stubs.get_scalarized_objective" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.objective.Objective" title="ax.core.objective.Objective"><code class="xref py py-class docutils literal notranslate"><span class="pre">Objective</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

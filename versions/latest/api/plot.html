@@ -162,6 +162,11 @@ src="/js/documentation_options.js">
 <em class="property">property </em><code class="sig-name descname">pred</code><a class="headerlink" href="#ax.plot.base.PlotMetric.pred" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for field number 1</p>
 </dd></dl>
+<dl class="method">
+<dt id="ax.plot.base.PlotMetric.rel">
+<em class="property">property </em><code class="sig-name descname">rel</code><a class="headerlink" href="#ax.plot.base.PlotMetric.rel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
 </dd></dl>
 <dl class="class">
 <dt id="ax.plot.base.PlotOutOfSampleArm">
@@ -524,7 +529,7 @@ generator run name to generator run.</p></li>
 </dd></dl>
 <dl class="function">
 <dt id="ax.plot.scatter.plot_objective_vs_constraints">
-<code class="sig-prename descclassname">ax.plot.scatter.</code><code class="sig-name descname">plot_objective_vs_constraints</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">objective</em>, <em class="sig-param">subset_metrics=None</em>, <em class="sig-param">generator_runs_dict=None</em>, <em class="sig-param">rel=True</em>, <em class="sig-param">fixed_features=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/plot/scatter.html#plot_objective_vs_constraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.plot.scatter.plot_objective_vs_constraints" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ax.plot.scatter.</code><code class="sig-name descname">plot_objective_vs_constraints</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">objective</em>, <em class="sig-param">subset_metrics=None</em>, <em class="sig-param">generator_runs_dict=None</em>, <em class="sig-param">rel=True</em>, <em class="sig-param">infer_relative_constraints=False</em>, <em class="sig-param">fixed_features=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/plot/scatter.html#plot_objective_vs_constraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.plot.scatter.plot_objective_vs_constraints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the tradeoff between an objetive and all other metrics in a model.</p>
 <p>All arms used in the model are included in the plot. Additional
 arms can be passed through via the <cite>generator_runs_dict</cite> argument.</p>
@@ -540,6 +545,11 @@ if need a subset of all metrics in the model.</p></li>
 <li><p><strong>generator_runs_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="core.html#ax.core.generator_run.GeneratorRun" title="ax.core.generator_run.GeneratorRun"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeneratorRun</span></code></a>]]) – a mapping from
 generator run name to generator run.</p></li>
 <li><p><strong>rel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – if True, use relative effects. Default is True.</p></li>
+<li><p><strong>infer_relative_constraints</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>]) – if True, read relative spec from model’s
+optimization config. Absolute constraints will not be relativized;
+relative ones will be.
+Objectives will respect the <cite>rel</cite> parameter.
+Metrics that are not constraints will be relativized.</p></li>
 <li><p><strong>fixed_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="core.html#ax.core.observation.ObservationFeatures" title="ax.core.observation.ObservationFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationFeatures</span></code></a>]) – Fixed features to use when making model predictions.</p></li>
 </ul>
 </dd>
@@ -675,32 +685,6 @@ in the slice.</p></li>
 <div class="section" id="module-ax.plot.trace">
 <span id="trace-plots"></span><h3>Trace Plots<a class="headerlink" href="#module-ax.plot.trace" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
-<dt id="ax.plot.trace.generator_changes_scatter">
-<code class="sig-prename descclassname">ax.plot.trace.</code><code class="sig-name descname">generator_changes_scatter</code><span class="sig-paren">(</span><em class="sig-param">generator_changes</em>, <em class="sig-param">y_range</em>, <em class="sig-param">generator_change_color=(141</em>, <em class="sig-param">211</em>, <em class="sig-param">199)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/plot/trace.html#generator_changes_scatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.plot.trace.generator_changes_scatter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a graph object for the line(s) representing generator changes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>generator_changes</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – iterations, before which generators
-changed</p></li>
-<li><p><strong>y_range</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – upper and lower values of the y-range of the plot</p></li>
-<li><p><strong>generator_change_color</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – tuple of 3 int values representing
-an RGB color. Defaults to orange.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>plotly graph objects for the lines representing generator</dt><dd><p>changes</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>go.Scatter</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="function">
 <dt id="ax.plot.trace.mean_trace_scatter">
 <code class="sig-prename descclassname">ax.plot.trace.</code><code class="sig-name descname">mean_trace_scatter</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">trace_color=(128</em>, <em class="sig-param">177</em>, <em class="sig-param">211)</em>, <em class="sig-param">legend_label='mean'</em>, <em class="sig-param">hover_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/plot/trace.html#mean_trace_scatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.plot.trace.mean_trace_scatter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a graph object for trace of the mean of the given series across
@@ -718,6 +702,32 @@ corresponds to the i-th value in the value of the <cite>y</cite> argument.</p></
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>plotly graph object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>go.Scatter</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.plot.trace.model_transitions_scatter">
+<code class="sig-prename descclassname">ax.plot.trace.</code><code class="sig-name descname">model_transitions_scatter</code><span class="sig-paren">(</span><em class="sig-param">model_transitions</em>, <em class="sig-param">y_range</em>, <em class="sig-param">generator_change_color=(141</em>, <em class="sig-param">211</em>, <em class="sig-param">199)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/plot/trace.html#model_transitions_scatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.plot.trace.model_transitions_scatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a graph object for the line(s) representing generator changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_transitions</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – iterations, before which generators
+changed</p></li>
+<li><p><strong>y_range</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – upper and lower values of the y-range of the plot</p></li>
+<li><p><strong>generator_change_color</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – tuple of 3 int values representing
+an RGB color. Defaults to orange.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>plotly graph objects for the lines representing generator</dt><dd><p>changes</p>
+</dd>
+</dl>
+</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>go.Scatter</p>
@@ -776,14 +786,14 @@ Defaults to orange.</p></li>
 </dd></dl>
 <dl class="function">
 <dt id="ax.plot.trace.optimization_trace_single_method">
-<code class="sig-prename descclassname">ax.plot.trace.</code><code class="sig-name descname">optimization_trace_single_method</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">optimum=None</em>, <em class="sig-param">generator_changes=None</em>, <em class="sig-param">title=''</em>, <em class="sig-param">ylabel=''</em>, <em class="sig-param">hover_labels=None</em>, <em class="sig-param">trace_color=(128</em>, <em class="sig-param">177</em>, <em class="sig-param">211)</em>, <em class="sig-param">optimum_color=(253</em>, <em class="sig-param">180</em>, <em class="sig-param">98)</em>, <em class="sig-param">generator_change_color=(141</em>, <em class="sig-param">211</em>, <em class="sig-param">199)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/plot/trace.html#optimization_trace_single_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.plot.trace.optimization_trace_single_method" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ax.plot.trace.</code><code class="sig-name descname">optimization_trace_single_method</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">optimum=None</em>, <em class="sig-param">model_transitions=None</em>, <em class="sig-param">title=''</em>, <em class="sig-param">ylabel=''</em>, <em class="sig-param">hover_labels=None</em>, <em class="sig-param">trace_color=(128</em>, <em class="sig-param">177</em>, <em class="sig-param">211)</em>, <em class="sig-param">optimum_color=(253</em>, <em class="sig-param">180</em>, <em class="sig-param">98)</em>, <em class="sig-param">generator_change_color=(141</em>, <em class="sig-param">211</em>, <em class="sig-param">199)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/plot/trace.html#optimization_trace_single_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.plot.trace.optimization_trace_single_method" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plots an optimization trace with mean and 2 SEMs</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – (r x t) array; result to plot, with r runs and t trials</p></li>
 <li><p><strong>optimum</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – value of the optimal objective</p></li>
-<li><p><strong>generator_changes</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]) – iterations, before which generators
+<li><p><strong>model_transitions</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]) – iterations, before which generators
 changed</p></li>
 <li><p><strong>title</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – title for this plot.</p></li>
 <li><p><strong>ylabel</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – label for the Y-axis.</p></li>
@@ -1061,6 +1071,28 @@ in the model will be returned.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="core.html#ax.core.parameter.RangeParameter" title="ax.core.parameter.RangeParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">RangeParameter</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.plot.helper.infer_is_relative">
+<code class="sig-prename descclassname">ax.plot.helper.</code><code class="sig-name descname">infer_is_relative</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">metrics</em>, <em class="sig-param">non_constraint_rel</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/plot/helper.html#infer_is_relative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.plot.helper.infer_is_relative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine whether or not to relativize a metric.</p>
+<p>Metrics that are constraints will get this decision from their <cite>relative</cite> flag.
+Other metrics will use the <cite>default_rel</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="modelbridge.html#ax.modelbridge.base.ModelBridge" title="ax.modelbridge.base.ModelBridge"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelBridge</span></code></a>) – model fit on metrics.</p></li>
+<li><p><strong>metrics</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – list of metric names.</p></li>
+<li><p><strong>non_constraint_rel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – whether or not to relativize non-constraint metrics</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Dict[str, bool] containing whether or not to relativize each input metric.</p>
 </dd>
 </dl>
 </dd></dl>

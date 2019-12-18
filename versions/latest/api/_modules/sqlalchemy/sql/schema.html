@@ -56,32 +56,32 @@ src="/js/documentation_options.js">
 <span class="sd">as components in SQL expressions.</span>
 
 <span class="sd">"""</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">operator</span>
 
 <span class="kn">import</span> <span class="nn">sqlalchemy</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">ddl</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">type_api</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">visitors</span>
-<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">_bind_or_error</span>
-<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">ColumnCollection</span>
-<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">DialectKWArgs</span>
-<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">SchemaEventTarget</span>
-<span class="kn">from</span> <span class="nn">.elements</span> <span class="k">import</span> <span class="n">_as_truncated</span>
-<span class="kn">from</span> <span class="nn">.elements</span> <span class="k">import</span> <span class="n">_document_text_coercion</span>
-<span class="kn">from</span> <span class="nn">.elements</span> <span class="k">import</span> <span class="n">_literal_as_text</span>
-<span class="kn">from</span> <span class="nn">.elements</span> <span class="k">import</span> <span class="n">ClauseElement</span>
-<span class="kn">from</span> <span class="nn">.elements</span> <span class="k">import</span> <span class="n">ColumnClause</span>
-<span class="kn">from</span> <span class="nn">.elements</span> <span class="k">import</span> <span class="n">ColumnElement</span>
-<span class="kn">from</span> <span class="nn">.elements</span> <span class="k">import</span> <span class="n">quoted_name</span>
-<span class="kn">from</span> <span class="nn">.elements</span> <span class="k">import</span> <span class="n">TextClause</span>
-<span class="kn">from</span> <span class="nn">.selectable</span> <span class="k">import</span> <span class="n">TableClause</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">event</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">exc</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">inspection</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">ddl</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">type_api</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">visitors</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">_bind_or_error</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">ColumnCollection</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">DialectKWArgs</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">SchemaEventTarget</span>
+<span class="kn">from</span> <span class="nn">.elements</span> <span class="kn">import</span> <span class="n">_as_truncated</span>
+<span class="kn">from</span> <span class="nn">.elements</span> <span class="kn">import</span> <span class="n">_document_text_coercion</span>
+<span class="kn">from</span> <span class="nn">.elements</span> <span class="kn">import</span> <span class="n">_literal_as_text</span>
+<span class="kn">from</span> <span class="nn">.elements</span> <span class="kn">import</span> <span class="n">ClauseElement</span>
+<span class="kn">from</span> <span class="nn">.elements</span> <span class="kn">import</span> <span class="n">ColumnClause</span>
+<span class="kn">from</span> <span class="nn">.elements</span> <span class="kn">import</span> <span class="n">ColumnElement</span>
+<span class="kn">from</span> <span class="nn">.elements</span> <span class="kn">import</span> <span class="n">quoted_name</span>
+<span class="kn">from</span> <span class="nn">.elements</span> <span class="kn">import</span> <span class="n">TextClause</span>
+<span class="kn">from</span> <span class="nn">.selectable</span> <span class="kn">import</span> <span class="n">TableClause</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">event</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">exc</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">inspection</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">util</span>
 
 
 <span class="n">RETAIN_SCHEMA</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">symbol</span><span class="p">(</span><span class="s2">"retain_schema"</span><span class="p">)</span>
@@ -148,7 +148,7 @@ src="/js/documentation_options.js">
         <span class="sd">"""used to allow SchemaVisitor access"""</span>
         <span class="k">return</span> <span class="p">[]</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">generic_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">omit_kwarg</span><span class="o">=</span><span class="p">[</span><span class="s2">"info"</span><span class="p">])</span>
 
     <span class="nd">@property</span>
@@ -477,7 +477,7 @@ src="/js/documentation_options.js">
             <span class="s2">":paramref:`.Table.extend_existing`."</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
-    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="p">:</span>
             <span class="c1"># python3k pickle seems to call this</span>
             <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
@@ -548,7 +548,7 @@ src="/js/documentation_options.js">
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">quote</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
         <span class="sd">"""Constructor for :class:`~.schema.Table`.</span>
 
 <span class="sd">        This method is a no-op.   See the top-level</span>
@@ -765,7 +765,7 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_get_table_key</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">"Table(</span><span class="si">%s</span><span class="s2">)"</span> <span class="o">%</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
             <span class="p">[</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)]</span>
             <span class="o">+</span> <span class="p">[</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">)]</span>
@@ -773,7 +773,7 @@ src="/js/documentation_options.js">
             <span class="o">+</span> <span class="p">[</span><span class="s2">"</span><span class="si">%s</span><span class="s2">=</span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">)))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"schema"</span><span class="p">]]</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">_get_table_key</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -1053,7 +1053,7 @@ src="/js/documentation_options.js">
 
     <span class="n">__visit_name__</span> <span class="o">=</span> <span class="s2">"column"</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Construct a new ``Column`` object.</span>
 
@@ -1429,7 +1429,7 @@ src="/js/documentation_options.js">
     <span class="c1">#    def quote(self):</span>
     <span class="c1">#        return getattr(self.name, "quote", None)</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">"(no name)"</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1453,7 +1453,7 @@ src="/js/documentation_options.js">
     <span class="k">def</span> <span class="nf">append_foreign_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fk</span><span class="p">):</span>
         <span class="n">fk</span><span class="o">.</span><span class="n">_set_parent_with_dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">kwarg</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
             <span class="n">kwarg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"key"</span><span class="p">)</span>
@@ -1713,7 +1713,7 @@ src="/js/documentation_options.js">
 
     <span class="n">__visit_name__</span> <span class="o">=</span> <span class="s2">"foreign_key"</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">column</span><span class="p">,</span>
         <span class="n">_constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1836,7 +1836,7 @@ src="/js/documentation_options.js">
             <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">info</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_unvalidated_dialect_kw</span> <span class="o">=</span> <span class="n">dialect_kw</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">"ForeignKey(</span><span class="si">%r</span><span class="s2">)"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_colspec</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -2178,7 +2178,7 @@ src="/js/documentation_options.js">
     <span class="n">is_server_default</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">column</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">for_update</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">for_update</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">for_update</span> <span class="o">=</span> <span class="n">for_update</span>
 
     <span class="k">def</span> <span class="nf">_set_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
@@ -2227,7 +2227,7 @@ src="/js/documentation_options.js">
 
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">""""Construct a new :class:`.ColumnDefault`.</span>
 
 
@@ -2320,7 +2320,7 @@ src="/js/documentation_options.js">
 
     <span class="n">__visit_name__</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_visit_name</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">"ColumnDefault(</span><span class="si">%r</span><span class="s2">)"</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arg</span><span class="p">,)</span>
 
 
@@ -2358,7 +2358,7 @@ src="/js/documentation_options.js">
 
     <span class="n">is_sequence</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">,</span>
         <span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -2607,7 +2607,7 @@ src="/js/documentation_options.js">
     <span class="n">reflected</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">has_argument</span> <span class="o">=</span> <span class="kc">False</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">for_update</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">for_update</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">for_update</span> <span class="o">=</span> <span class="n">for_update</span>
 
     <span class="k">def</span> <span class="nf">_as_for_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">for_update</span><span class="p">):</span>
@@ -2630,7 +2630,7 @@ src="/js/documentation_options.js">
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">column</span><span class="o">.</span><span class="n">server_default</span> <span class="o">=</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">generic_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
 
@@ -2658,7 +2658,7 @@ src="/js/documentation_options.js">
 
     <span class="n">has_argument</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">for_update</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">_reflected</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">for_update</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">_reflected</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="n">util</span><span class="o">.</span><span class="n">assert_arg_type</span><span class="p">(</span>
             <span class="n">arg</span><span class="p">,</span> <span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">string_types</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ClauseElement</span><span class="p">,</span> <span class="n">TextClause</span><span class="p">),</span> <span class="s2">"arg"</span>
         <span class="p">)</span>
@@ -2666,7 +2666,7 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">arg</span> <span class="o">=</span> <span class="n">arg</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reflected</span> <span class="o">=</span> <span class="n">_reflected</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">"DefaultClause(</span><span class="si">%r</span><span class="s2">, for_update=</span><span class="si">%r</span><span class="s2">)"</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arg</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">for_update</span><span class="p">)</span>
 
 
@@ -2679,7 +2679,7 @@ src="/js/documentation_options.js">
     <span class="sd">"""A DDL-specified DEFAULT column value.</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
         <span class="n">DefaultClause</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
 
 
@@ -2688,7 +2688,7 @@ src="/js/documentation_options.js">
 
     <span class="n">__visit_name__</span> <span class="o">=</span> <span class="s2">"constraint"</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">deferrable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -2801,7 +2801,7 @@ src="/js/documentation_options.js">
 
     <span class="n">_allow_multiple_tables</span> <span class="o">=</span> <span class="kc">False</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
         <span class="n">_autoattach</span> <span class="o">=</span> <span class="n">kw</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"_autoattach"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_column_flag</span> <span class="o">=</span> <span class="n">kw</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"_column_flag"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">ColumnCollection</span><span class="p">()</span>
@@ -2893,7 +2893,7 @@ src="/js/documentation_options.js">
 <span class="k">class</span> <span class="nc">ColumnCollectionConstraint</span><span class="p">(</span><span class="n">ColumnCollectionMixin</span><span class="p">,</span> <span class="n">Constraint</span><span class="p">):</span>
     <span class="sd">"""A constraint that proxies a ColumnCollection."""</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        :param \*columns:</span>
 <span class="sd">          A sequence of column names or Column objects.</span>
@@ -2930,7 +2930,7 @@ src="/js/documentation_options.js">
         <span class="n">Constraint</span><span class="o">.</span><span class="n">_set_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
         <span class="n">ColumnCollectionMixin</span><span class="o">.</span><span class="n">_set_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span>
 
     <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
@@ -2952,14 +2952,14 @@ src="/js/documentation_options.js">
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">contains_column</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># inlining of</span>
         <span class="c1"># return iter(self.columns)</span>
         <span class="c1"># ColumnCollection-&gt;OrderedProperties-&gt;OrderedDict</span>
         <span class="n">ordered_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">_data</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">ordered_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">ordered_dict</span><span class="o">.</span><span class="n">_list</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
 
 
@@ -2976,7 +2976,7 @@ src="/js/documentation_options.js">
         <span class="s2">":class:`.CheckConstraint`"</span><span class="p">,</span>
         <span class="s2">":paramref:`.CheckConstraint.sqltext`"</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">sqltext</span><span class="p">,</span>
         <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -3077,7 +3077,7 @@ src="/js/documentation_options.js">
 
     <span class="n">__visit_name__</span> <span class="o">=</span> <span class="s2">"foreign_key_constraint"</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">columns</span><span class="p">,</span>
         <span class="n">refcolumns</span><span class="p">,</span>
@@ -3423,7 +3423,7 @@ src="/js/documentation_options.js">
 
     <span class="n">__visit_name__</span> <span class="o">=</span> <span class="s2">"primary_key_constraint"</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_implicit_generated</span> <span class="o">=</span> <span class="n">kw</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"_implicit_generated"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">PrimaryKeyConstraint</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">columns</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
 
@@ -3646,7 +3646,7 @@ src="/js/documentation_options.js">
 
     <span class="n">__visit_name__</span> <span class="o">=</span> <span class="s2">"index"</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">expressions</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">expressions</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">"""Construct an index object.</span>
 
 <span class="sd">        :param name:</span>
@@ -3769,7 +3769,7 @@ src="/js/documentation_options.js">
             <span class="n">bind</span> <span class="o">=</span> <span class="n">_bind_or_error</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">bind</span><span class="o">.</span><span class="n">_run_visitor</span><span class="p">(</span><span class="n">ddl</span><span class="o">.</span><span class="n">SchemaDropper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">"Index(</span><span class="si">%s</span><span class="s2">)"</span> <span class="o">%</span> <span class="p">(</span>
             <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                 <span class="p">[</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)]</span>
@@ -3815,7 +3815,7 @@ src="/js/documentation_options.js">
             <span class="s2">":meth:`.MetaData.reflect` method."</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">bind</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">reflect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -4009,10 +4009,10 @@ src="/js/documentation_options.js">
 
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">"MetaData(bind=</span><span class="si">%r</span><span class="s2">)"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">bind</span>
 
-    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_or_key</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_or_key</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">table_or_key</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
             <span class="n">table_or_key</span> <span class="o">=</span> <span class="n">table_or_key</span><span class="o">.</span><span class="n">key</span>
         <span class="k">return</span> <span class="n">table_or_key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tables</span>
@@ -4387,7 +4387,7 @@ src="/js/documentation_options.js">
 
     <span class="n">__visit_name__</span> <span class="o">=</span> <span class="s2">"metadata"</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""Construct a ThreadLocalMetaData."""</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">threading</span><span class="o">.</span><span class="n">local</span><span class="p">()</span>
@@ -4456,7 +4456,7 @@ src="/js/documentation_options.js">
 
     <span class="n">_default_schema_getter</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">"schema"</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">map_</span> <span class="o">=</span> <span class="n">map_</span>
         <span class="k">if</span> <span class="n">map_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 
@@ -4519,7 +4519,7 @@ src="/js/documentation_options.js">
     <span class="nd">@_document_text_coercion</span><span class="p">(</span>
         <span class="s2">"sqltext"</span><span class="p">,</span> <span class="s2">":class:`.Computed`"</span><span class="p">,</span> <span class="s2">":paramref:`.Computed.sqltext`"</span>
     <span class="p">)</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sqltext</span><span class="p">,</span> <span class="n">persisted</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sqltext</span><span class="p">,</span> <span class="n">persisted</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""Construct a GENERATED ALWAYS AS DDL construct to accompany a</span>
 <span class="sd">        :class:`.Column`.</span>
 

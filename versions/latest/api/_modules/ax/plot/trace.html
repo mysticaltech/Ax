@@ -27,14 +27,17 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.plot.trace</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span>
-<span class="kn">from</span> <span class="nn">ax.plot.base</span> <span class="k">import</span> <span class="n">AxPlotConfig</span><span class="p">,</span> <span class="n">AxPlotTypes</span>
-<span class="kn">from</span> <span class="nn">ax.plot.color</span> <span class="k">import</span> <span class="n">COLORS</span><span class="p">,</span> <span class="n">DISCRETE_COLOR_SCALE</span><span class="p">,</span> <span class="n">rgba</span>
+<span class="kn">from</span> <span class="nn">ax.plot.base</span> <span class="kn">import</span> <span class="n">AxPlotConfig</span><span class="p">,</span> <span class="n">AxPlotTypes</span>
+<span class="kn">from</span> <span class="nn">ax.plot.color</span> <span class="kn">import</span> <span class="n">COLORS</span><span class="p">,</span> <span class="n">DISCRETE_COLOR_SCALE</span><span class="p">,</span> <span class="n">rgba</span>
 
 
 <span class="c1"># type aliases</span>
@@ -140,15 +143,15 @@ src="/js/documentation_options.js">
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="generator_changes_scatter"><a class="viewcode-back" href="../../../plot.html#ax.plot.trace.generator_changes_scatter">[docs]</a><span class="k">def</span> <span class="nf">generator_changes_scatter</span><span class="p">(</span>
-    <span class="n">generator_changes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+<div class="viewcode-block" id="model_transitions_scatter"><a class="viewcode-back" href="../../../plot.html#ax.plot.trace.model_transitions_scatter">[docs]</a><span class="k">def</span> <span class="nf">model_transitions_scatter</span><span class="p">(</span>
+    <span class="n">model_transitions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
     <span class="n">y_range</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
     <span class="n">generator_change_color</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">COLORS</span><span class="o">.</span><span class="n">TEAL</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">]:</span>
     <span class="sd">"""Creates a graph object for the line(s) representing generator changes.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        generator_changes: iterations, before which generators</span>
+<span class="sd">        model_transitions: iterations, before which generators</span>
 <span class="sd">            changed</span>
 <span class="sd">        y_range: upper and lower values of the y-range of the plot</span>
 <span class="sd">        generator_change_color: tuple of 3 int values representing</span>
@@ -161,7 +164,7 @@ src="/js/documentation_options.js">
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_range</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"y_range should have two values, lower and upper."</span><span class="p">)</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">generator_changes</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">model_transitions</span><span class="p">:</span>
         <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
                 <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="n">change</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
@@ -177,7 +180,7 @@ src="/js/documentation_options.js">
 <div class="viewcode-block" id="optimization_trace_single_method"><a class="viewcode-back" href="../../../plot.html#ax.plot.trace.optimization_trace_single_method">[docs]</a><span class="k">def</span> <span class="nf">optimization_trace_single_method</span><span class="p">(</span>
     <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">optimum</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">generator_changes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">model_transitions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
     <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
     <span class="n">hover_labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -190,7 +193,7 @@ src="/js/documentation_options.js">
 <span class="sd">    Args:</span>
 <span class="sd">        y: (r x t) array; result to plot, with r runs and t trials</span>
 <span class="sd">        optimum: value of the optimal objective</span>
-<span class="sd">        generator_changes: iterations, before which generators</span>
+<span class="sd">        model_transitions: iterations, before which generators</span>
 <span class="sd">            changed</span>
 <span class="sd">        title: title for this plot.</span>
 <span class="sd">        ylabel: label for the Y-axis.</span>
@@ -225,7 +228,7 @@ src="/js/documentation_options.js">
             <span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">generator_changes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="k">if</span> <span class="n">model_transitions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="n">y_lower</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
         <span class="n">y_upper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">optimum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">optimum</span> <span class="o">&lt;</span> <span class="n">y_lower</span><span class="p">:</span>
@@ -233,8 +236,8 @@ src="/js/documentation_options.js">
         <span class="k">if</span> <span class="n">optimum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">optimum</span> <span class="o">&gt;</span> <span class="n">y_upper</span><span class="p">:</span>
             <span class="n">y_upper</span> <span class="o">=</span> <span class="n">optimum</span>
         <span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
-            <span class="n">generator_changes_scatter</span><span class="p">(</span>
-                <span class="n">generator_changes</span><span class="o">=</span><span class="n">generator_changes</span><span class="p">,</span>
+            <span class="n">model_transitions_scatter</span><span class="p">(</span>
+                <span class="n">model_transitions</span><span class="o">=</span><span class="n">model_transitions</span><span class="p">,</span>
                 <span class="n">y_range</span><span class="o">=</span><span class="p">[</span><span class="n">y_lower</span><span class="p">,</span> <span class="n">y_upper</span><span class="p">],</span>
                 <span class="n">generator_change_color</span><span class="o">=</span><span class="n">generator_change_color</span><span class="p">,</span>
             <span class="p">)</span>

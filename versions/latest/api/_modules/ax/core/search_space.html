@@ -27,20 +27,24 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.core.search_space</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
+
 <span class="c1"># pyre-strict</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">ax.core.arm</span> <span class="k">import</span> <span class="n">Arm</span>
-<span class="kn">from</span> <span class="nn">ax.core.base</span> <span class="k">import</span> <span class="n">Base</span>
-<span class="kn">from</span> <span class="nn">ax.core.parameter</span> <span class="k">import</span> <span class="n">FixedParameter</span><span class="p">,</span> <span class="n">Parameter</span>
-<span class="kn">from</span> <span class="nn">ax.core.parameter_constraint</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.core.arm</span> <span class="kn">import</span> <span class="n">Arm</span>
+<span class="kn">from</span> <span class="nn">ax.core.base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">ax.core.parameter</span> <span class="kn">import</span> <span class="n">FixedParameter</span><span class="p">,</span> <span class="n">Parameter</span>
+<span class="kn">from</span> <span class="nn">ax.core.parameter_constraint</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">OrderConstraint</span><span class="p">,</span>
     <span class="n">ParameterConstraint</span><span class="p">,</span>
     <span class="n">SumConstraint</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="k">import</span> <span class="n">TParameterization</span>
+<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="kn">import</span> <span class="n">TParameterization</span>
 
 
 <div class="viewcode-block" id="SearchSpace"><a class="viewcode-back" href="../../../core.html#ax.SearchSpace">[docs]</a><span class="k">class</span> <span class="nc">SearchSpace</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
@@ -52,7 +56,7 @@ src="/js/documentation_options.js">
 <span class="sd">    restrictions across parameters (e.g. p_a &lt; p_b).</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">parameters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span>
         <span class="n">parameter_constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ParameterConstraint</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -101,7 +105,7 @@ src="/js/documentation_options.js">
 <div class="viewcode-block" id="SearchSpace.add_parameter"><a class="viewcode-back" href="../../../core.html#ax.SearchSpace.add_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">add_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">"Parameter `</span><span class="si">{parameter.name}</span><span class="s2">` already exists in search space. "</span>
+                <span class="sa">f</span><span class="s2">"Parameter `</span><span class="si">{parameter.name}</span><span class="s2">` already exists in search space. "</span>
                 <span class="s2">"Use `update_parameter` to update an existing parameter."</span>
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="n">parameter</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">parameter</span></div>
@@ -109,15 +113,15 @@ src="/js/documentation_options.js">
 <div class="viewcode-block" id="SearchSpace.update_parameter"><a class="viewcode-back" href="../../../core.html#ax.SearchSpace.update_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">update_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">"Parameter `</span><span class="si">{parameter.name}</span><span class="s2">` does not exist in search space. "</span>
+                <span class="sa">f</span><span class="s2">"Parameter `</span><span class="si">{parameter.name}</span><span class="s2">` does not exist in search space. "</span>
                 <span class="s2">"Use `add_parameter` to add a new parameter."</span>
             <span class="p">)</span>
 
         <span class="n">prev_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="n">parameter</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">parameter_type</span>
         <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameter_type</span> <span class="o">!=</span> <span class="n">prev_type</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">"Parameter `</span><span class="si">{parameter.name}</span><span class="s2">` has type </span><span class="si">{prev_type.name}</span><span class="s2">. "</span>
-                <span class="n">f</span><span class="s2">"Cannot update to type </span><span class="si">{parameter.parameter_type.name}</span><span class="s2">."</span>
+                <span class="sa">f</span><span class="s2">"Parameter `</span><span class="si">{parameter.name}</span><span class="s2">` has type </span><span class="si">{prev_type.name}</span><span class="s2">. "</span>
+                <span class="sa">f</span><span class="s2">"Cannot update to type </span><span class="si">{parameter.parameter_type.name}</span><span class="s2">."</span>
             <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="n">parameter</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">parameter</span></div>
@@ -142,22 +146,22 @@ src="/js/documentation_options.js">
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameterization</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">raise_error</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="n">f</span><span class="s2">"Parameterization has {len(parameterization)} parameters "</span>
-                    <span class="n">f</span><span class="s2">"but search space has {len(self._parameters)}."</span>
+                    <span class="sa">f</span><span class="s2">"Parameterization has {len(parameterization)} parameters "</span>
+                    <span class="sa">f</span><span class="s2">"but search space has {len(self._parameters)}."</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
 
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">parameterization</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">raise_error</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Parameter </span><span class="si">{name}</span><span class="s2"> not defined in search space"</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parameter </span><span class="si">{name}</span><span class="s2"> not defined in search space"</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">False</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">raise_error</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="n">f</span><span class="s2">"</span><span class="si">{value}</span><span class="s2"> is not a valid value for "</span>
-                        <span class="n">f</span><span class="s2">"parameter </span><span class="si">{self._parameters[name]}</span><span class="s2">"</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{value}</span><span class="s2"> is not a valid value for "</span>
+                        <span class="sa">f</span><span class="s2">"parameter </span><span class="si">{self._parameters[name]}</span><span class="s2">"</span>
                     <span class="p">)</span>
                 <span class="k">return</span> <span class="kc">False</span>
 
@@ -172,7 +176,7 @@ src="/js/documentation_options.js">
         <span class="k">for</span> <span class="n">constraint</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameter_constraints</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">constraint</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">numerical_param_dict</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">raise_error</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Parameter constraint </span><span class="si">{constraint}</span><span class="s2"> is violated."</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parameter constraint </span><span class="si">{constraint}</span><span class="s2"> is violated."</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">False</span>
 
         <span class="k">return</span> <span class="kc">True</span></div>
@@ -200,15 +204,15 @@ src="/js/documentation_options.js">
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameterization</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">raise_error</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="n">f</span><span class="s2">"Parameterization has {len(parameterization)} parameters "</span>
-                    <span class="n">f</span><span class="s2">"but search space has {len(self._parameters)}."</span>
+                    <span class="sa">f</span><span class="s2">"Parameterization has {len(parameterization)} parameters "</span>
+                    <span class="sa">f</span><span class="s2">"but search space has {len(self._parameters)}."</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
 
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">parameterization</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">raise_error</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Parameter </span><span class="si">{name}</span><span class="s2"> not defined in search space"</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parameter </span><span class="si">{name}</span><span class="s2"> not defined in search space"</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">False</span>
 
             <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">allow_none</span><span class="p">:</span>
@@ -217,8 +221,8 @@ src="/js/documentation_options.js">
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">is_valid_type</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">raise_error</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="n">f</span><span class="s2">"</span><span class="si">{value}</span><span class="s2"> is not a valid value for "</span>
-                        <span class="n">f</span><span class="s2">"parameter </span><span class="si">{self._parameters[name]}</span><span class="s2">"</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{value}</span><span class="s2"> is not a valid value for "</span>
+                        <span class="sa">f</span><span class="s2">"parameter </span><span class="si">{self._parameters[name]}</span><span class="s2">"</span>
                     <span class="p">)</span>
                 <span class="k">return</span> <span class="kc">False</span>
 
@@ -278,21 +282,21 @@ src="/js/documentation_options.js">
                 <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">constraint</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                            <span class="n">f</span><span class="s2">"`</span><span class="si">{parameter.name}</span><span class="s2">` does not exist in search space."</span>
+                            <span class="sa">f</span><span class="s2">"`</span><span class="si">{parameter.name}</span><span class="s2">` does not exist in search space."</span>
                         <span class="p">)</span>
                     <span class="k">if</span> <span class="n">parameter</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="n">parameter</span><span class="o">.</span><span class="n">name</span><span class="p">]:</span>
                         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                            <span class="n">f</span><span class="s2">"Parameter constraint's definition of '</span><span class="si">{parameter.name}</span><span class="s2">' "</span>
+                            <span class="sa">f</span><span class="s2">"Parameter constraint's definition of '</span><span class="si">{parameter.name}</span><span class="s2">' "</span>
                             <span class="s2">"does not match the SearchSpace's definition"</span>
                         <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">parameter_name</span> <span class="ow">in</span> <span class="n">constraint</span><span class="o">.</span><span class="n">constraint_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                     <span class="k">if</span> <span class="n">parameter_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                            <span class="n">f</span><span class="s2">"`</span><span class="si">{parameter_name}</span><span class="s2">` does not exist in search space."</span>
+                            <span class="sa">f</span><span class="s2">"`</span><span class="si">{parameter_name}</span><span class="s2">` does not exist in search space."</span>
                         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="s2">"SearchSpace("</span>
             <span class="s2">"parameters="</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span> <span class="o">+</span> <span class="s2">", "</span>

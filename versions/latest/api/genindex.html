@@ -101,8 +101,6 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="core.html#ax.core.search_space.SearchSpace.add_parameter_constraints">add_parameter_constraints() (ax.core.search_space.SearchSpace method)</a>
 </li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_suite.BOBenchmarkingSuite.add_run">add_run() (ax.benchmark.benchmark_suite.BOBenchmarkingSuite method)</a>
-</li>
 <li><a href="core.html#ax.core.experiment.Experiment.add_tracking_metric">add_tracking_metric() (ax.core.experiment.Experiment method)</a>
 <ul>
 <li><a href="core.html#ax.core.multi_type_experiment.MultiTypeExperiment.add_tracking_metric">(ax.core.multi_type_experiment.MultiTypeExperiment method)</a>
@@ -123,7 +121,7 @@ src="/js/documentation_options.js">
 </ul></li>
 <li><a href="storage.html#ax.storage.utils.MetricIntent.ADDITIONAL_OBJECTIVE">ADDITIONAL_OBJECTIVE (ax.storage.utils.MetricIntent attribute)</a>
 </li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BenchmarkRunner.aggregate_results">aggregate_results() (ax.benchmark.benchmark_runner.BenchmarkRunner method)</a>
+<li><a href="benchmark.html#ax.benchmark.benchmark_result.aggregate_problem_results">aggregate_problem_results() (in module ax.benchmark.benchmark_result)</a>
 </li>
 <li><a href="utils.html#ax.utils.stats.statstools.agresti_coull_sem">agresti_coull_sem() (in module ax.utils.stats.statstools)</a>
 </li>
@@ -226,11 +224,15 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="benchmark.html#module-ax.benchmark">ax.benchmark (module)</a>
 </li>
+<li><a href="benchmark.html#module-ax.benchmark.benchmark">ax.benchmark.benchmark (module)</a>
+</li>
 <li><a href="benchmark.html#module-ax.benchmark.benchmark_problem">ax.benchmark.benchmark_problem (module)</a>
 </li>
-<li><a href="benchmark.html#module-ax.benchmark.benchmark_runner">ax.benchmark.benchmark_runner (module)</a>
+<li><a href="benchmark.html#module-ax.benchmark.benchmark_result">ax.benchmark.benchmark_result (module)</a>
 </li>
-<li><a href="benchmark.html#module-ax.benchmark.benchmark_suite">ax.benchmark.benchmark_suite (module)</a>
+<li><a href="benchmark.html#module-ax.benchmark.botorch_methods">ax.benchmark.botorch_methods (module)</a>
+</li>
+<li><a href="benchmark.html#module-ax.benchmark.utils">ax.benchmark.utils (module)</a>
 </li>
 <li><a href="core.html#module-ax.core">ax.core (module)</a>
 </li>
@@ -298,10 +300,10 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="metrics.html#module-ax.metrics.noisy_function">ax.metrics.noisy_function (module)</a>
 </li>
-<li><a href="modelbridge.html#module-ax.modelbridge">ax.modelbridge (module)</a>
-</li>
 </ul></td>
 <td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="modelbridge.html#module-ax.modelbridge">ax.modelbridge (module)</a>
+</li>
 <li><a href="modelbridge.html#module-ax.modelbridge.array">ax.modelbridge.array (module)</a>
 </li>
 <li><a href="modelbridge.html#module-ax.modelbridge.base">ax.modelbridge.base (module)</a>
@@ -543,8 +545,6 @@ src="/js/documentation_options.js">
 <td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="plot.html#ax.plot.base.AxPlotTypes.BANDIT_ROLLOUT">BANDIT_ROLLOUT (ax.plot.base.AxPlotTypes attribute)</a>
 </li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BanditBenchmarkRunner">BanditBenchmarkRunner (class in ax.benchmark.benchmark_runner)</a>
-</li>
 <li><a href="core.html#ax.core.base.Base">Base (class in ax.core.base)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_enum.BaseNullableEnum">BaseNullableEnum (class in ax.storage.sqa_store.sqa_enum)</a>
@@ -560,13 +560,17 @@ src="/js/documentation_options.js">
 <li><a href="core.html#ax.core.batch_trial.BatchTrial">(class in ax.core.batch_trial)</a>
 </li>
 </ul></li>
+<li><a href="storage.html#ax.storage.json_store.encoders.benchmark_problem_to_dict">benchmark_problem_to_dict() (in module ax.storage.json_store.encoders)</a>
+</li>
+<li><a href="benchmark.html#ax.benchmark.benchmark.benchmark_replication">benchmark_replication() (in module ax.benchmark.benchmark)</a>
+</li>
+<li><a href="benchmark.html#ax.benchmark.benchmark.benchmark_test">benchmark_test() (in module ax.benchmark.benchmark)</a>
+</li>
+<li><a href="benchmark.html#ax.benchmark.benchmark.benchmark_trial">benchmark_trial() (in module ax.benchmark.benchmark)</a>
+</li>
 <li><a href="benchmark.html#ax.benchmark.benchmark_problem.BenchmarkProblem">BenchmarkProblem (class in ax.benchmark.benchmark_problem)</a>
 </li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BenchmarkResult">BenchmarkResult (class in ax.benchmark.benchmark_runner)</a>
-</li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BenchmarkRunner">BenchmarkRunner (class in ax.benchmark.benchmark_runner)</a>
-</li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BenchmarkSetup">BenchmarkSetup (class in ax.benchmark.benchmark_runner)</a>
+<li><a href="benchmark.html#ax.benchmark.benchmark_result.BenchmarkResult">BenchmarkResult (class in ax.benchmark.benchmark_result)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.best_arm_name">best_arm_name (ax.storage.sqa_store.sqa_classes.SQAGeneratorRun attribute)</a>
 </li>
@@ -576,10 +580,12 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="core.html#ax.core.generator_run.GeneratorRun.best_arm_predictions">best_arm_predictions() (ax.core.generator_run.GeneratorRun property)</a>
 </li>
-<li><a href="models.html#ax.models.model_utils.best_observed_point">best_observed_point() (in module ax.models.model_utils)</a>
-</li>
 </ul></td>
 <td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="core.html#ax.core.utils.best_feasible_objective">best_feasible_objective() (in module ax.core.utils)</a>
+</li>
+<li><a href="models.html#ax.models.model_utils.best_observed_point">best_observed_point() (in module ax.models.model_utils)</a>
+</li>
 <li><a href="models.html#ax.models.discrete_base.DiscreteModel.best_point">best_point() (ax.models.discrete_base.DiscreteModel method)</a>
 <ul>
 <li><a href="models.html#ax.models.numpy_base.NumpyModel.best_point">(ax.models.numpy_base.NumpyModel method)</a>
@@ -589,10 +595,6 @@ src="/js/documentation_options.js">
 <li><a href="models.html#ax.models.torch_base.TorchModel.best_point">(ax.models.torch_base.TorchModel method)</a>
 </li>
 </ul></li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_suite.BOBenchmarkingSuite">BOBenchmarkingSuite (class in ax.benchmark.benchmark_suite)</a>
-</li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BOBenchmarkRunner">BOBenchmarkRunner (class in ax.benchmark.benchmark_runner)</a>
-</li>
 <li><a href="core.html#ax.core.parameter.ParameterType.BOOL">BOOL (ax.core.parameter.ParameterType attribute)</a>
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.registry.Models.BOTORCH">BOTORCH (ax.modelbridge.registry.Models attribute)</a>
@@ -626,6 +628,10 @@ src="/js/documentation_options.js">
 <h2 id="C">C</h2>
 <table class="indextable genindextable" style="width: 100%"><tr>
 <td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="utils.html#ax.utils.common.serialization.callable_from_reference">callable_from_reference() (in module ax.utils.common.serialization)</a>
+</li>
+<li><a href="utils.html#ax.utils.common.serialization.callable_to_reference">callable_to_reference() (in module ax.utils.common.serialization)</a>
+</li>
 <li><a href="core.html#ax.core.base_trial.TrialStatus.CANDIDATE">CANDIDATE (ax.core.base_trial.TrialStatus attribute)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAMetric.canonical_name">canonical_name (ax.storage.sqa_store.sqa_classes.SQAMetric attribute)</a>
@@ -744,13 +750,10 @@ src="/js/documentation_options.js">
 <li><a href="ax.html#ax.SumConstraint.clone">(ax.SumConstraint method)</a>
 </li>
 </ul></li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BenchmarkSetup.clone_reset">clone_reset() (ax.benchmark.benchmark_runner.BenchmarkSetup method)</a>
-<ul>
-<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStrategy.clone_reset">(ax.modelbridge.generation_strategy.GenerationStrategy method)</a>
-</li>
-</ul></li>
 </ul></td>
 <td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStrategy.clone_reset">clone_reset() (ax.modelbridge.generation_strategy.GenerationStrategy method)</a>
+</li>
 <li><a href="core.html#ax.core.parameter_constraint.OrderConstraint.clone_with_transformed_parameters">clone_with_transformed_parameters() (ax.core.parameter_constraint.OrderConstraint method)</a>
 <ul>
 <li><a href="core.html#ax.core.parameter_constraint.ParameterConstraint.clone_with_transformed_parameters">(ax.core.parameter_constraint.ParameterConstraint method)</a>
@@ -980,6 +983,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="utils.html#ax.utils.measurement.synthetic_functions.SyntheticFunction.domain">domain() (ax.utils.measurement.synthetic_functions.SyntheticFunction property)</a>
 </li>
+<li><a href="benchmark.html#ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.domain_as_ax_client_parameters">domain_as_ax_client_parameters() (ax.benchmark.benchmark_problem.SimpleBenchmarkProblem method)</a>
+</li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAParameter.domain_type">domain_type (ax.storage.sqa_store.sqa_classes.SQAParameter attribute)</a>
 </li>
 <li><a href="storage.html#ax.storage.utils.DomainType">DomainType (class in ax.storage.utils)</a>
@@ -1011,8 +1016,6 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.db.SQABase.equals">equals() (ax.storage.sqa_store.db.SQABase method)</a>
 </li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BenchmarkRunner.errors">errors() (ax.benchmark.benchmark_runner.BenchmarkRunner property)</a>
-</li>
 <li><a href="core.html#ax.core.simple_experiment.SimpleExperiment.eval">eval() (ax.core.simple_experiment.SimpleExperiment method)</a>
 <ul>
 <li><a href="ax.html#ax.SimpleExperiment.eval">(ax.SimpleExperiment method)</a>
@@ -1025,10 +1028,8 @@ src="/js/documentation_options.js">
 </ul></li>
 <li><a href="utils.html#ax.utils.tutorials.cnn_utils.evaluate">evaluate() (in module ax.utils.tutorials.cnn_utils)</a>
 </li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BenchmarkSetup.evaluation_function">evaluation_function() (ax.benchmark.benchmark_runner.BenchmarkSetup method)</a>
+<li><a href="core.html#ax.core.simple_experiment.SimpleExperiment.evaluation_function">evaluation_function() (ax.core.simple_experiment.SimpleExperiment property)</a>
 <ul>
-<li><a href="core.html#ax.core.simple_experiment.SimpleExperiment.evaluation_function">(ax.core.simple_experiment.SimpleExperiment property)</a>
-</li>
 <li><a href="ax.html#ax.SimpleExperiment.evaluation_function">(ax.SimpleExperiment property)</a>
 </li>
 <li><a href="metrics.html#ax.metrics.factorial.evaluation_function">(in module ax.metrics.factorial)</a>
@@ -1045,8 +1046,6 @@ src="/js/documentation_options.js">
 <li><a href="core.html#ax.core.experiment.Experiment">(class in ax.core.experiment)</a>
 </li>
 </ul></li>
-</ul></td>
-<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="ax.html#ax.BatchTrial.experiment">experiment() (ax.BatchTrial property)</a>
 <ul>
 <li><a href="core.html#ax.core.base_trial.BaseTrial.experiment">(ax.core.base_trial.BaseTrial property)</a>
@@ -1056,6 +1055,8 @@ src="/js/documentation_options.js">
 <li><a href="service.html#ax.service.ax_client.AxClient.experiment">(ax.service.ax_client.AxClient property)</a>
 </li>
 </ul></li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="storage.html#ax.storage.json_store.decoder.experiment_from_json">experiment_from_json() (in module ax.storage.json_store.decoder)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.decoder.Decoder.experiment_from_sqa">experiment_from_sqa() (ax.storage.sqa_store.decoder.Decoder method)</a>
@@ -1096,6 +1097,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.array.extract_objective_weights">extract_objective_weights() (in module ax.modelbridge.array)</a>
 </li>
+<li><a href="benchmark.html#ax.benchmark.benchmark_result.extract_optimization_trace">extract_optimization_trace() (in module ax.benchmark.benchmark_result)</a>
+</li>
 <li><a href="modelbridge.html#ax.modelbridge.array.extract_outcome_constraints">extract_outcome_constraints() (in module ax.modelbridge.array)</a>
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.modelbridge_utils.extract_parameter_constraints">extract_parameter_constraints() (in module ax.modelbridge.modelbridge_utils)</a>
@@ -1123,8 +1126,6 @@ src="/js/documentation_options.js">
 <li><a href="metrics.html#ax.metrics.factorial.FactorialMetric">FactorialMetric (class in ax.metrics.factorial)</a>
 </li>
 <li><a href="core.html#ax.core.base_trial.TrialStatus.FAILED">FAILED (ax.core.base_trial.TrialStatus attribute)</a>
-</li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_problem.BenchmarkProblem.fbest">fbest() (ax.benchmark.benchmark_problem.BenchmarkProblem property)</a>
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.array.ArrayModelBridge.feature_importances">feature_importances() (ax.modelbridge.array.ArrayModelBridge method)</a>
 <ul>
@@ -1174,12 +1175,12 @@ src="/js/documentation_options.js">
 <li><a href="ax.html#ax.Metric.fetch_trial_data_multi">(ax.Metric class method)</a>
 </li>
 </ul></li>
-</ul></td>
-<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="storage.html#ax.storage.sqa_store.db.SQABase.fields_equal">fields_equal() (ax.storage.sqa_store.db.SQABase method)</a>
 </li>
 <li><a href="models.html#ax.models.model_utils.filter_constraints_and_fixed_features">filter_constraints_and_fixed_features() (in module ax.models.model_utils)</a>
 </li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="models.html#ax.models.discrete.thompson.ThompsonSampler.fit">fit() (ax.models.discrete.thompson.ThompsonSampler method)</a>
 <ul>
 <li><a href="models.html#ax.models.discrete_base.DiscreteModel.fit">(ax.models.discrete_base.DiscreteModel method)</a>
@@ -1197,9 +1198,11 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="core.html#ax.core.generator_run.GeneratorRun.fit_time">fit_time() (ax.core.generator_run.GeneratorRun property)</a>
 </li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BenchmarkResult.fit_times">fit_times() (ax.benchmark.benchmark_runner.BenchmarkResult property)</a>
+<li><a href="benchmark.html#ax.benchmark.benchmark_result.BenchmarkResult.fit_times">fit_times() (ax.benchmark.benchmark_result.BenchmarkResult property)</a>
 </li>
 <li><a href="storage.html#ax.storage.utils.DomainType.FIXED">FIXED (ax.storage.utils.DomainType attribute)</a>
+</li>
+<li><a href="benchmark.html#ax.benchmark.botorch_methods.fixed_noise_gp_model_constructor">fixed_noise_gp_model_constructor() (in module ax.benchmark.botorch_methods)</a>
 </li>
 <li><a href="storage.html#ax.storage.json_store.encoders.fixed_parameter_to_dict">fixed_parameter_to_dict() (in module ax.storage.json_store.encoders)</a>
 </li>
@@ -1220,6 +1223,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="core.html#ax.core.observation.ObservationFeatures.from_arm">from_arm() (ax.core.observation.ObservationFeatures static method)</a>
 </li>
+<li><a href="utils.html#ax.utils.measurement.synthetic_functions.from_botorch">from_botorch() (in module ax.utils.measurement.synthetic_functions)</a>
+</li>
 <li><a href="core.html#ax.core.data.Data.from_evaluations">from_evaluations() (ax.core.data.Data static method)</a>
 <ul>
 <li><a href="ax.html#ax.Data.from_evaluations">(ax.Data static method)</a>
@@ -1235,6 +1240,8 @@ src="/js/documentation_options.js">
 <li><a href="core.html#ax.core.data.Data.from_multiple_data">from_multiple_data() (ax.core.data.Data static method)</a>
 </li>
 <li><a href="utils.html#ax.utils.measurement.synthetic_functions.FromBotorch">FromBotorch (class in ax.utils.measurement.synthetic_functions)</a>
+</li>
+<li><a href="benchmark.html#ax.benchmark.benchmark.full_benchmark_run">full_benchmark_run() (in module ax.benchmark.benchmark)</a>
 </li>
 <li><a href="ax.html#ax.OptimizationLoop.full_run">full_run() (ax.OptimizationLoop method)</a>
 <ul>
@@ -1282,9 +1289,9 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="core.html#ax.core.generator_run.GeneratorRun.gen_time">gen_time() (ax.core.generator_run.GeneratorRun property)</a>
 </li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BenchmarkResult.gen_times">gen_times() (ax.benchmark.benchmark_runner.BenchmarkResult property)</a>
+<li><a href="benchmark.html#ax.benchmark.benchmark_result.BenchmarkResult.gen_times">gen_times() (ax.benchmark.benchmark_result.BenchmarkResult property)</a>
 </li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_suite.BOBenchmarkingSuite.generate_report">generate_report() (ax.benchmark.benchmark_suite.BOBenchmarkingSuite method)</a>
+<li><a href="benchmark.html#ax.benchmark.benchmark_result.generate_report">generate_report() (in module ax.benchmark.benchmark_result)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.generated">generated (ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy attribute)</a>
 </li>
@@ -1308,13 +1315,6 @@ src="/js/documentation_options.js">
 <li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStep">GenerationStep (class in ax.modelbridge.generation_strategy)</a>
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStrategy">GenerationStrategy (class in ax.modelbridge.generation_strategy)</a>
-</li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BenchmarkResult.generator_changes">generator_changes() (ax.benchmark.benchmark_runner.BenchmarkResult property)</a>
-<ul>
-<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStrategy.generator_changes">(ax.modelbridge.generation_strategy.GenerationStrategy property)</a>
-</li>
-</ul></li>
-<li><a href="plot.html#ax.plot.trace.generator_changes_scatter">generator_changes_scatter() (in module ax.plot.trace)</a>
 </li>
 <li><a href="core.html#ax.core.batch_trial.GeneratorRunStruct.generator_run">generator_run() (ax.core.batch_trial.GeneratorRunStruct property)</a>
 <ul>
@@ -1432,6 +1432,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="service.html#ax.service.ax_client.AxClient.get_contour_plot">get_contour_plot() (ax.service.ax_client.AxClient method)</a>
 </li>
+<li><a href="benchmark.html#ax.benchmark.utils.get_corresponding">get_corresponding() (in module ax.benchmark.utils)</a>
+</li>
 <li><a href="ax.html#ax.OptimizationLoop.get_current_model">get_current_model() (ax.OptimizationLoop method)</a>
 <ul>
 <li><a href="service.html#ax.service.managed_loop.OptimizationLoop.get_current_model">(ax.service.managed_loop.OptimizationLoop method)</a>
@@ -1443,8 +1445,6 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.factory.get_empirical_bayes_thompson">get_empirical_bayes_thompson() (in module ax.modelbridge.factory)</a>
 </li>
-</ul></td>
-<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="storage.html#ax.storage.sqa_store.db.get_engine">get_engine() (in module ax.storage.sqa_store.db)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.decoder.Decoder.get_enum_name">get_enum_name() (ax.storage.sqa_store.decoder.Decoder method)</a>
@@ -1453,6 +1453,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_experiment">get_experiment() (in module ax.utils.testing.core_stubs)</a>
 </li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="utils.html#ax.utils.testing.modeling_stubs.get_experiment_for_value">get_experiment_for_value() (in module ax.utils.testing.modeling_stubs)</a>
 </li>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_experiment_with_batch_and_single_trial">get_experiment_with_batch_and_single_trial() (in module ax.utils.testing.core_stubs)</a>
@@ -1493,6 +1495,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.factory.get_GPKG">get_GPKG() (in module ax.modelbridge.factory)</a>
 </li>
+<li><a href="modelbridge.html#ax.modelbridge.factory.get_GPMES">get_GPMES() (in module ax.modelbridge.factory)</a>
+</li>
 <li><a href="plot.html#ax.plot.helper.get_grid_for_parameter">get_grid_for_parameter() (in module ax.plot.helper)</a>
 </li>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_hartmann_metric">get_hartmann_metric() (in module ax.utils.testing.core_stubs)</a>
@@ -1503,6 +1507,11 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_metric">get_metric() (in module ax.utils.testing.core_stubs)</a>
 </li>
+<li><a href="core.html#ax.core.trial.Trial.get_metric_mean">get_metric_mean() (ax.core.trial.Trial method)</a>
+<ul>
+<li><a href="ax.html#ax.Trial.get_metric_mean">(ax.Trial method)</a>
+</li>
+</ul></li>
 <li><a href="storage.html#ax.storage.sqa_store.encoder.Encoder.get_metric_type_and_properties">get_metric_type_and_properties() (ax.storage.sqa_store.encoder.Encoder method)</a>
 </li>
 <li><a href="core.html#ax.core.utils.get_missing_metrics">get_missing_metrics() (in module ax.core.utils)</a>
@@ -1522,7 +1531,7 @@ src="/js/documentation_options.js">
 </ul></li>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_model_predictions_per_arm">get_model_predictions_per_arm() (in module ax.utils.testing.core_stubs)</a>
 </li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.get_model_times">get_model_times() (in module ax.benchmark.benchmark_runner)</a>
+<li><a href="core.html#ax.core.utils.get_model_times">get_model_times() (in module ax.core.utils)</a>
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.factory.get_MTGP">get_MTGP() (in module ax.modelbridge.factory)</a>
 </li>
@@ -1572,6 +1581,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="plot.html#ax.plot.helper.get_plot_data">get_plot_data() (in module ax.plot.helper)</a>
 </li>
+<li><a href="benchmark.html#ax.benchmark.utils.get_problems_and_methods">get_problems_and_methods() (in module ax.benchmark.utils)</a>
+</li>
 <li><a href="plot.html#ax.plot.helper.get_range_parameter">get_range_parameter() (in module ax.plot.helper)</a>
 <ul>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_range_parameter">(in module ax.utils.testing.core_stubs)</a>
@@ -1584,6 +1595,8 @@ src="/js/documentation_options.js">
 <li><a href="service.html#ax.service.ax_client.AxClient.get_recommended_max_parallelism">get_recommended_max_parallelism() (ax.service.ax_client.AxClient method)</a>
 </li>
 <li><a href="models.html#ax.models.torch.botorch.get_rounding_func">get_rounding_func() (in module ax.models.torch.botorch)</a>
+</li>
+<li><a href="utils.html#ax.utils.testing.core_stubs.get_scalarized_objective">get_scalarized_objective() (in module ax.utils.testing.core_stubs)</a>
 </li>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_search_space">get_search_space() (in module ax.utils.testing.core_stubs)</a>
 </li>
@@ -1630,6 +1643,8 @@ src="/js/documentation_options.js">
 <li><a href="modelbridge.html#ax.modelbridge.registry.Models.GPEI">GPEI (ax.modelbridge.registry.Models attribute)</a>
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.registry.Models.GPKG">GPKG (ax.modelbridge.registry.Models attribute)</a>
+</li>
+<li><a href="modelbridge.html#ax.modelbridge.registry.Models.GPMES">GPMES (ax.modelbridge.registry.Models attribute)</a>
 </li>
 </ul></td>
 </tr></table>
@@ -1747,6 +1762,8 @@ src="/js/documentation_options.js">
 <li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStep.index">(ax.modelbridge.generation_strategy.GenerationStep property)</a>
 </li>
 </ul></li>
+<li><a href="plot.html#ax.plot.helper.infer_is_relative">infer_is_relative() (in module ax.plot.helper)</a>
+</li>
 <li><a href="utils.html#ax.utils.measurement.synthetic_functions.informative_failure_on_none">informative_failure_on_none() (in module ax.utils.measurement.synthetic_functions)</a>
 </li>
 <li><a href="models.html#ax.models.random.sobol.SobolGenerator.init_engine">init_engine() (ax.models.random.sobol.SobolGenerator method)</a>
@@ -1796,6 +1813,8 @@ src="/js/documentation_options.js">
 <li><a href="core.html#ax.core.base_trial.BaseTrial.is_abandoned">is_abandoned() (ax.core.base_trial.BaseTrial property)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQATrial.is_batch">is_batch (ax.storage.sqa_store.sqa_classes.SQATrial attribute)</a>
+</li>
+<li><a href="core.html#ax.core.base_trial.BaseTrial.is_complete">is_complete() (ax.core.base_trial.BaseTrial property)</a>
 </li>
 <li><a href="core.html#ax.core.base_trial.TrialStatus.is_deployed">is_deployed() (ax.core.base_trial.TrialStatus property)</a>
 </li>
@@ -1974,6 +1993,8 @@ src="/js/documentation_options.js">
 <td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="service.html#ax.service.utils.instantiation.make_experiment">make_experiment() (in module ax.service.utils.instantiation)</a>
 </li>
+<li><a href="benchmark.html#ax.benchmark.benchmark_result.make_plots">make_plots() (in module ax.benchmark.benchmark_result)</a>
+</li>
 <li><a href="core.html#ax.core.generator_run.GeneratorRunType.MANUAL">MANUAL (ax.core.generator_run.GeneratorRunType attribute)</a>
 </li>
 <li><a href="utils.html#ax.utils.stats.statstools.marginal_effects">marginal_effects() (in module ax.utils.stats.statstools)</a>
@@ -1986,8 +2007,6 @@ src="/js/documentation_options.js">
 </li>
 </ul></li>
 <li><a href="core.html#ax.core.base_trial.BaseTrial.mark_completed">mark_completed() (ax.core.base_trial.BaseTrial method)</a>
-</li>
-<li><a href="core.html#ax.core.base_trial.BaseTrial.mark_dispatched">mark_dispatched() (ax.core.base_trial.BaseTrial method)</a>
 </li>
 <li><a href="core.html#ax.core.base_trial.BaseTrial.mark_failed">mark_failed() (ax.core.base_trial.BaseTrial method)</a>
 </li>
@@ -2047,8 +2066,6 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="storage.html#ax.storage.utils.MetricIntent">MetricIntent (class in ax.storage.utils)</a>
 </li>
-</ul></td>
-<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="core.html#ax.core.objective.ScalarizedObjective.metrics">metrics (ax.core.objective.ScalarizedObjective attribute)</a>
 <ul>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAExperiment.metrics">(ax.storage.sqa_store.sqa_classes.SQAExperiment attribute)</a>
@@ -2056,6 +2073,8 @@ src="/js/documentation_options.js">
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.metrics">(ax.storage.sqa_store.sqa_classes.SQAGeneratorRun attribute)</a>
 </li>
 </ul></li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="core.html#ax.core.experiment.Experiment.metrics">metrics() (ax.core.experiment.Experiment property)</a>
 <ul>
 <li><a href="core.html#ax.core.objective.Objective.metrics">(ax.core.objective.Objective property)</a>
@@ -2113,6 +2132,13 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.model_state_after_gen">model_state_after_gen (ax.storage.sqa_store.sqa_classes.SQAGeneratorRun attribute)</a>
 </li>
+<li><a href="benchmark.html#ax.benchmark.benchmark_result.BenchmarkResult.model_transitions">model_transitions() (ax.benchmark.benchmark_result.BenchmarkResult property)</a>
+<ul>
+<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStrategy.model_transitions">(ax.modelbridge.generation_strategy.GenerationStrategy property)</a>
+</li>
+</ul></li>
+<li><a href="plot.html#ax.plot.trace.model_transitions_scatter">model_transitions_scatter() (in module ax.plot.trace)</a>
+</li>
 <li><a href="modelbridge.html#ax.modelbridge.base.ModelBridge">ModelBridge (class in ax.modelbridge.base)</a>
 </li>
 <li><a href="exceptions.html#ax.exceptions.model.ModelError">ModelError</a>
@@ -2148,8 +2174,6 @@ src="/js/documentation_options.js">
 </ul></li>
 <li><a href="ax.html#ax.Arm.name">name() (ax.Arm property)</a>
 <ul>
-<li><a href="benchmark.html#ax.benchmark.benchmark_problem.BenchmarkProblem.name">(ax.benchmark.benchmark_problem.BenchmarkProblem property)</a>
-</li>
 <li><a href="core.html#ax.core.arm.Arm.name">(ax.core.arm.Arm property)</a>
 </li>
 <li><a href="core.html#ax.core.batch_trial.AbandonedArm.name">(ax.core.batch_trial.AbandonedArm property)</a>
@@ -2206,6 +2230,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="metrics.html#ax.metrics.noisy_function.NoisyFunctionMetric">NoisyFunctionMetric (class in ax.metrics.noisy_function)</a>
 </li>
+<li><a href="benchmark.html#ax.benchmark.benchmark.NonRetryableBenchmarkingError">NonRetryableBenchmarkingError</a>
+</li>
 <li><a href="models.html#ax.models.torch.utils.normalize_indices">normalize_indices() (in module ax.models.torch.utils)</a>
 </li>
 <li><a href="ax.html#ax.BatchTrial.normalized_arm_weights">normalized_arm_weights() (ax.BatchTrial method)</a>
@@ -2258,7 +2284,7 @@ src="/js/documentation_options.js">
 <li><a href="ax.html#ax.OptimizationConfig.objective">(ax.OptimizationConfig property)</a>
 </li>
 </ul></li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BenchmarkResult.objective_at_true_best">objective_at_true_best() (ax.benchmark.benchmark_runner.BenchmarkResult property)</a>
+<li><a href="benchmark.html#ax.benchmark.benchmark_result.BenchmarkResult.objective_at_true_best">objective_at_true_best() (ax.benchmark.benchmark_result.BenchmarkResult property)</a>
 </li>
 <li><a href="core.html#ax.core.trial.Trial.objective_mean">objective_mean() (ax.core.trial.Trial property)</a>
 <ul>
@@ -2305,10 +2331,8 @@ src="/js/documentation_options.js">
 </ul></li>
 <li><a href="storage.html#ax.storage.sqa_store.decoder.Decoder.opt_config_and_tracking_metrics_from_sqa">opt_config_and_tracking_metrics_from_sqa() (ax.storage.sqa_store.decoder.Decoder method)</a>
 </li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_problem.BenchmarkProblem.optimization_config">optimization_config() (ax.benchmark.benchmark_problem.BenchmarkProblem property)</a>
+<li><a href="core.html#ax.core.experiment.Experiment.optimization_config">optimization_config() (ax.core.experiment.Experiment property)</a>
 <ul>
-<li><a href="core.html#ax.core.experiment.Experiment.optimization_config">(ax.core.experiment.Experiment property)</a>
-</li>
 <li><a href="core.html#ax.core.generator_run.GeneratorRun.optimization_config">(ax.core.generator_run.GeneratorRun property)</a>
 </li>
 <li><a href="ax.html#ax.Experiment.optimization_config">(ax.Experiment property)</a>
@@ -2345,7 +2369,7 @@ src="/js/documentation_options.js">
 </ul></li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQATrial.optimize_for_power">optimize_for_power (ax.storage.sqa_store.sqa_classes.SQATrial attribute)</a>
 </li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BenchmarkResult.optimum">optimum() (ax.benchmark.benchmark_runner.BenchmarkResult property)</a>
+<li><a href="benchmark.html#ax.benchmark.benchmark_result.BenchmarkResult.optimum">optimum() (ax.benchmark.benchmark_result.BenchmarkResult property)</a>
 </li>
 <li><a href="plot.html#ax.plot.trace.optimum_objective_scatter">optimum_objective_scatter() (in module ax.plot.trace)</a>
 </li>
@@ -2617,6 +2641,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="models.html#ax.models.model_utils.rejection_sample">rejection_sample() (in module ax.models.model_utils)</a>
 </li>
+<li><a href="plot.html#ax.plot.base.PlotMetric.rel">rel() (ax.plot.base.PlotMetric property)</a>
+</li>
 <li><a href="core.html#ax.core.outcome_constraint.OutcomeConstraint.relative">relative (ax.core.outcome_constraint.OutcomeConstraint attribute)</a>
 <ul>
 <li><a href="ax.html#ax.OutcomeConstraint.relative">(ax.OutcomeConstraint attribute)</a>
@@ -2643,6 +2669,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="utils.html#ax.utils.report.render.render_report_elements">render_report_elements() (in module ax.utils.report.render)</a>
 </li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="core.html#ax.core.data.Data.required_columns">required_columns() (ax.core.data.Data static method)</a>
 <ul>
 <li><a href="ax.html#ax.Data.required_columns">(ax.Data static method)</a>
@@ -2650,8 +2678,6 @@ src="/js/documentation_options.js">
 </ul></li>
 <li><a href="utils.html#ax.utils.measurement.synthetic_functions.SyntheticFunction.required_dimensionality">required_dimensionality() (ax.utils.measurement.synthetic_functions.SyntheticFunction property)</a>
 </li>
-</ul></td>
-<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="plot.html#ax.plot.helper.resize_subtitles">resize_subtitles() (in module ax.plot.helper)</a>
 </li>
 <li><a href="plot.html#ax.plot.helper.rgb">rgb() (in module ax.plot.helper)</a>
@@ -2660,8 +2686,6 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="ax.html#ax.BatchTrial.run">run() (ax.BatchTrial method)</a>
 <ul>
-<li><a href="benchmark.html#ax.benchmark.benchmark_suite.BOBenchmarkingSuite.run">(ax.benchmark.benchmark_suite.BOBenchmarkingSuite method)</a>
-</li>
 <li><a href="core.html#ax.core.base_trial.BaseTrial.run">(ax.core.base_trial.BaseTrial method)</a>
 </li>
 <li><a href="core.html#ax.core.batch_trial.BatchTrial.run">(ax.core.batch_trial.BatchTrial method)</a>
@@ -2673,15 +2697,6 @@ src="/js/documentation_options.js">
 <li><a href="runners.html#ax.runners.synthetic.SyntheticRunner.run">(ax.runners.synthetic.SyntheticRunner method)</a>
 </li>
 </ul></li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BanditBenchmarkRunner.run_benchmark_run">run_benchmark_run() (ax.benchmark.benchmark_runner.BanditBenchmarkRunner method)</a>
-<ul>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BenchmarkRunner.run_benchmark_run">(ax.benchmark.benchmark_runner.BenchmarkRunner method)</a>
-</li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BOBenchmarkRunner.run_benchmark_run">(ax.benchmark.benchmark_runner.BOBenchmarkRunner method)</a>
-</li>
-</ul></li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.BenchmarkRunner.run_benchmark_test">run_benchmark_test() (ax.benchmark.benchmark_runner.BenchmarkRunner method)</a>
-</li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQATrial.run_metadata">run_metadata (ax.storage.sqa_store.sqa_classes.SQATrial attribute)</a>
 </li>
 <li><a href="core.html#ax.core.base_trial.BaseTrial.run_metadata">run_metadata() (ax.core.base_trial.BaseTrial property)</a>
@@ -2744,6 +2759,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="service.html#ax.service.ax_client.AxClient.save_to_json_file">save_to_json_file() (ax.service.ax_client.AxClient method)</a>
 </li>
+<li><a href="storage.html#ax.storage.json_store.encoders.scalarized_objective_to_dict">scalarized_objective_to_dict() (in module ax.storage.json_store.encoders)</a>
+</li>
 <li><a href="core.html#ax.core.objective.ScalarizedObjective">ScalarizedObjective (class in ax.core.objective)</a>
 </li>
 <li><a href="models.html#ax.models.torch.botorch_defaults.scipy_optimizer">scipy_optimizer() (in module ax.models.torch.botorch_defaults)</a>
@@ -2760,10 +2777,8 @@ src="/js/documentation_options.js">
 <li><a href="plot.html#ax.plot.base.PlotOutOfSampleArm.se_hat">(ax.plot.base.PlotOutOfSampleArm property)</a>
 </li>
 </ul></li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_problem.BenchmarkProblem.search_space">search_space() (ax.benchmark.benchmark_problem.BenchmarkProblem property)</a>
+<li><a href="core.html#ax.core.experiment.Experiment.search_space">search_space() (ax.core.experiment.Experiment property)</a>
 <ul>
-<li><a href="core.html#ax.core.experiment.Experiment.search_space">(ax.core.experiment.Experiment property)</a>
-</li>
 <li><a href="core.html#ax.core.generator_run.GeneratorRun.search_space">(ax.core.generator_run.GeneratorRun property)</a>
 </li>
 <li><a href="ax.html#ax.Experiment.search_space">(ax.Experiment property)</a>
@@ -2827,9 +2842,13 @@ src="/js/documentation_options.js">
 </ul></li>
 <li><a href="utils.html#ax.utils.common.testutils.TestCase.silence_stderr">silence_stderr() (ax.utils.common.testutils.TestCase static method)</a>
 </li>
+<li><a href="storage.html#ax.storage.json_store.decoder.simple_benchmark_problem_from_json">simple_benchmark_problem_from_json() (in module ax.storage.json_store.decoder)</a>
+</li>
 <li><a href="storage.html#ax.storage.json_store.decoder.simple_experiment_from_json">simple_experiment_from_json() (in module ax.storage.json_store.decoder)</a>
 </li>
 <li><a href="storage.html#ax.storage.json_store.encoders.simple_experiment_to_dict">simple_experiment_to_dict() (in module ax.storage.json_store.encoders)</a>
+</li>
+<li><a href="benchmark.html#ax.benchmark.benchmark_problem.SimpleBenchmarkProblem">SimpleBenchmarkProblem (class in ax.benchmark.benchmark_problem)</a>
 </li>
 <li><a href="ax.html#ax.SimpleExperiment">SimpleExperiment (class in ax)</a>
 <ul>
@@ -2840,10 +2859,10 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="plot.html#ax.plot.helper.slice_config_to_trace">slice_config_to_trace() (in module ax.plot.helper)</a>
 </li>
-<li><a href="modelbridge.html#ax.modelbridge.registry.Models.SOBOL">SOBOL (ax.modelbridge.registry.Models attribute)</a>
-</li>
 </ul></td>
 <td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="modelbridge.html#ax.modelbridge.registry.Models.SOBOL">SOBOL (ax.modelbridge.registry.Models attribute)</a>
+</li>
 <li><a href="models.html#ax.models.random.sobol.SobolGenerator">SobolGenerator (class in ax.models.random.sobol)</a>
 </li>
 <li><a href="utils.html#ax.utils.tutorials.cnn_utils.split_dataset">split_dataset() (in module ax.utils.tutorials.cnn_utils)</a>
@@ -2933,6 +2952,8 @@ src="/js/documentation_options.js">
 <li><a href="core.html#ax.core.parameter.ParameterType.STRING">STRING (ax.core.parameter.ParameterType attribute)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_enum.StringEnum">StringEnum (class in ax.storage.sqa_store.sqa_enum)</a>
+</li>
+<li><a href="models.html#ax.models.torch.utils.subset_model">subset_model() (in module ax.models.torch.utils)</a>
 </li>
 <li><a href="storage.html#ax.storage.utils.ParameterConstraintType.SUM">SUM (ax.storage.utils.ParameterConstraintType attribute)</a>
 </li>
@@ -3031,6 +3052,10 @@ src="/js/documentation_options.js">
 <li><a href="core.html#ax.core.base_trial.BaseTrial.time_staged">time_staged() (ax.core.base_trial.BaseTrial property)</a>
 </li>
 <li><a href="service.html#ax.service.ax_client.AxClient.to_json_snapshot">to_json_snapshot() (ax.service.ax_client.AxClient method)</a>
+</li>
+<li><a href="utils.html#ax.utils.common.typeutils.torch_type_from_str">torch_type_from_str() (in module ax.utils.common.typeutils)</a>
+</li>
+<li><a href="utils.html#ax.utils.common.typeutils.torch_type_to_str">torch_type_to_str() (in module ax.utils.common.typeutils)</a>
 </li>
 <li><a href="models.html#ax.models.torch_base.TorchModel">TorchModel (class in ax.models.torch_base)</a>
 </li>
@@ -3199,8 +3224,6 @@ src="/js/documentation_options.js">
 <li><a href="storage.html#ax.storage.json_store.decoder.trials_from_json">trials_from_json() (in module ax.storage.json_store.decoder)</a>
 </li>
 <li><a href="core.html#ax.core.base_trial.TrialStatus">TrialStatus (class in ax.core.base_trial)</a>
-</li>
-<li><a href="benchmark.html#ax.benchmark.benchmark_runner.true_best_objective">true_best_objective() (in module ax.benchmark.benchmark_runner)</a>
 </li>
 <li><a href="models.html#ax.models.model_utils.tunable_feature_indices">tunable_feature_indices() (in module ax.models.model_utils)</a>
 </li>

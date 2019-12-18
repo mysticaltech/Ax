@@ -1961,12 +1961,27 @@ else None.</p>
 </dl>
 </dd></dl>
 <dl class="method">
-<dt id="ax.Trial.objective_mean">
-<em class="property">property </em><code class="sig-name descname">objective_mean</code><a class="headerlink" href="#ax.Trial.objective_mean" title="Permalink to this definition">¶</a></dt>
-<dd><p>Objective mean for the arm attached to this trial.</p>
+<dt id="ax.Trial.get_metric_mean">
+<code class="sig-name descname">get_metric_mean</code><span class="sig-paren">(</span><em class="sig-param">metric_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/trial.html#Trial.get_metric_mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.Trial.get_metric_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metric mean for the arm attached to this trial, retrieved from the
+latest data available for the metric for the trial.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.Trial.objective_mean">
+<em class="property">property </em><code class="sig-name descname">objective_mean</code><a class="headerlink" href="#ax.Trial.objective_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Objective mean for the arm attached to this trial, retrieved from the
+latest data available for the objective for the trial.</p>
+<p>Note: the retrieved objective is the experiment-level objective at the
+time of the call to <cite>objective_mean</cite>, which is not necessarily the
+objective that was set at the time the trial was created or ran.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

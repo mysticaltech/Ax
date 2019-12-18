@@ -27,63 +27,66 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.service.ax_client</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">ax.service.utils.best_point</span> <span class="k">as</span> <span class="nn">best_point_utils</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">ax.core.arm</span> <span class="k">import</span> <span class="n">Arm</span>
-<span class="kn">from</span> <span class="nn">ax.core.data</span> <span class="k">import</span> <span class="n">Data</span>
-<span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="k">import</span> <span class="n">Experiment</span>
-<span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="k">import</span> <span class="n">GeneratorRun</span>
-<span class="kn">from</span> <span class="nn">ax.core.trial</span> <span class="k">import</span> <span class="n">Trial</span>
-<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.core.arm</span> <span class="kn">import</span> <span class="n">Arm</span>
+<span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="kn">import</span> <span class="n">Experiment</span>
+<span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="kn">import</span> <span class="n">GeneratorRun</span>
+<span class="kn">from</span> <span class="nn">ax.core.trial</span> <span class="kn">import</span> <span class="n">Trial</span>
+<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">TEvaluationOutcome</span><span class="p">,</span>
     <span class="n">TModelPredictArm</span><span class="p">,</span>
     <span class="n">TParameterization</span><span class="p">,</span>
     <span class="n">TParamValue</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.dispatch_utils</span> <span class="k">import</span> <span class="n">choose_generation_strategy</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.generation_strategy</span> <span class="k">import</span> <span class="n">GenerationStrategy</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.modelbridge_utils</span> <span class="k">import</span> <span class="n">get_pending_observation_features</span>
-<span class="kn">from</span> <span class="nn">ax.plot.base</span> <span class="k">import</span> <span class="n">AxPlotConfig</span>
-<span class="kn">from</span> <span class="nn">ax.plot.contour</span> <span class="k">import</span> <span class="n">plot_contour</span>
-<span class="kn">from</span> <span class="nn">ax.plot.exp_utils</span> <span class="k">import</span> <span class="n">exp_to_df</span>
-<span class="kn">from</span> <span class="nn">ax.plot.feature_importances</span> <span class="k">import</span> <span class="n">plot_feature_importance_by_feature</span>
-<span class="kn">from</span> <span class="nn">ax.plot.helper</span> <span class="k">import</span> <span class="n">_format_dict</span><span class="p">,</span> <span class="n">_get_in_sample_arms</span>
-<span class="kn">from</span> <span class="nn">ax.plot.trace</span> <span class="k">import</span> <span class="n">optimization_trace_single_method</span>
-<span class="kn">from</span> <span class="nn">ax.service.utils.instantiation</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.dispatch_utils</span> <span class="kn">import</span> <span class="n">choose_generation_strategy</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.generation_strategy</span> <span class="kn">import</span> <span class="n">GenerationStrategy</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.modelbridge_utils</span> <span class="kn">import</span> <span class="n">get_pending_observation_features</span>
+<span class="kn">from</span> <span class="nn">ax.plot.base</span> <span class="kn">import</span> <span class="n">AxPlotConfig</span>
+<span class="kn">from</span> <span class="nn">ax.plot.contour</span> <span class="kn">import</span> <span class="n">plot_contour</span>
+<span class="kn">from</span> <span class="nn">ax.plot.exp_utils</span> <span class="kn">import</span> <span class="n">exp_to_df</span>
+<span class="kn">from</span> <span class="nn">ax.plot.feature_importances</span> <span class="kn">import</span> <span class="n">plot_feature_importance_by_feature</span>
+<span class="kn">from</span> <span class="nn">ax.plot.helper</span> <span class="kn">import</span> <span class="n">_format_dict</span><span class="p">,</span> <span class="n">_get_in_sample_arms</span>
+<span class="kn">from</span> <span class="nn">ax.plot.trace</span> <span class="kn">import</span> <span class="n">optimization_trace_single_method</span>
+<span class="kn">from</span> <span class="nn">ax.service.utils.instantiation</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">data_from_evaluations</span><span class="p">,</span>
     <span class="n">make_experiment</span><span class="p">,</span>
     <span class="n">raw_data_to_evaluation</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.storage.json_store.decoder</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.storage.json_store.decoder</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">generation_strategy_from_json</span><span class="p">,</span>
     <span class="n">object_from_json</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.storage.json_store.encoder</span> <span class="k">import</span> <span class="n">object_to_json</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.docutils</span> <span class="k">import</span> <span class="n">copy_doc</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.logger</span> <span class="k">import</span> <span class="n">_round_floats_for_logging</span><span class="p">,</span> <span class="n">get_logger</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.storage.json_store.encoder</span> <span class="kn">import</span> <span class="n">object_to_json</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.docutils</span> <span class="kn">import</span> <span class="n">copy_doc</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.logger</span> <span class="kn">import</span> <span class="n">_round_floats_for_logging</span><span class="p">,</span> <span class="n">get_logger</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">checked_cast</span><span class="p">,</span>
     <span class="n">checked_cast_dict</span><span class="p">,</span>
     <span class="n">checked_cast_optional</span><span class="p">,</span>
     <span class="n">not_none</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">botorch.utils.sampling</span> <span class="k">import</span> <span class="n">manual_seed</span>
+<span class="kn">from</span> <span class="nn">botorch.utils.sampling</span> <span class="kn">import</span> <span class="n">manual_seed</span>
 
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <span class="k">try</span><span class="p">:</span>  <span class="c1"># We don't require SQLAlchemy by default.</span>
-    <span class="kn">from</span> <span class="nn">ax.storage.sqa_store.structs</span> <span class="k">import</span> <span class="n">DBSettings</span>
-    <span class="kn">from</span> <span class="nn">ax.service.utils.storage</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="kn">from</span> <span class="nn">sqlalchemy.exc</span> <span class="kn">import</span> <span class="n">OperationalError</span>
+    <span class="kn">from</span> <span class="nn">ax.storage.sqa_store.structs</span> <span class="kn">import</span> <span class="n">DBSettings</span>
+    <span class="kn">from</span> <span class="nn">ax.service.utils.storage</span> <span class="kn">import</span> <span class="p">(</span>
         <span class="n">load_experiment_and_generation_strategy</span><span class="p">,</span>
         <span class="n">save_experiment_and_generation_strategy</span><span class="p">,</span>
     <span class="p">)</span>
@@ -142,7 +145,7 @@ src="/js/documentation_options.js">
 <span class="sd">            defaults to `True`.</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">generation_strategy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">GenerationStrategy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">db_settings</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -151,7 +154,7 @@ src="/js/documentation_options.js">
         <span class="n">verbose_logging</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">verbose_logging</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                 <span class="s2">"Starting optimization with verbose logging. To disable logging, "</span>
@@ -171,16 +174,13 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">_random_seed</span> <span class="o">=</span> <span class="n">random_seed</span>
         <span class="k">if</span> <span class="n">random_seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">"Random seed set to </span><span class="si">{random_seed}</span><span class="s2">. Note that this setting "</span>
+                <span class="sa">f</span><span class="s2">"Random seed set to </span><span class="si">{random_seed}</span><span class="s2">. Note that this setting "</span>
                 <span class="s2">"only affects the Sobol quasi-random generator "</span>
                 <span class="s2">"and BoTorch-powered Bayesian optimization models. For the latter "</span>
                 <span class="s2">"models, setting random seed to the same number for two optimizations "</span>
                 <span class="s2">"will make the generated trials similar, but not exactly the same, "</span>
                 <span class="s2">"and over time the trials will diverge more."</span>
             <span class="p">)</span>
-        <span class="c1"># Trials, for which we received data since last `GenerationStrategy.gen`,</span>
-        <span class="c1"># used to make sure that generation strategy is updated with new data.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_updated_trials</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="c1"># ------------------------ Public API methods. ------------------------</span>
 
@@ -220,10 +220,10 @@ src="/js/documentation_options.js">
 <span class="sd">            status_quo: Parameterization of the current state of the system.</span>
 <span class="sd">                If set, this will be added to each trial to be evaluated alongside</span>
 <span class="sd">                test configurations.</span>
-<span class="sd">            overwrite_existing_experiment: If `DBSettings` were provided on</span>
-<span class="sd">                instantiation and the experiment being created has the same name</span>
-<span class="sd">                as some experiment already stored, whether to overwrite the</span>
-<span class="sd">                existing experiment. Defaults to False.</span>
+<span class="sd">            overwrite_existing_experiment: If an experiment has already been set</span>
+<span class="sd">                on this `AxClient` instance, whether to reset it to the new one.</span>
+<span class="sd">                If overwriting the experiment, generation strategy will be</span>
+<span class="sd">                re-selected for the new experiment and restarted.</span>
 <span class="sd">            choose_generation_strategy_kwargs: Keyword arguments to pass to</span>
 <span class="sd">                `choose_generation_strategy` function which determines what</span>
 <span class="sd">                generation strategy should be used when none was specified on init.</span>
@@ -241,13 +241,29 @@ src="/js/documentation_options.js">
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>  <span class="c1"># Experiment does not exist, nothing to do.</span>
                 <span class="k">pass</span>
             <span class="k">if</span> <span class="n">existing</span> <span class="ow">and</span> <span class="n">overwrite_existing_experiment</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"Overwriting existing experiment </span><span class="si">{name}</span><span class="s2">."</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Overwriting existing experiment </span><span class="si">{name}</span><span class="s2">."</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">existing</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="n">f</span><span class="s2">"Experiment </span><span class="si">{name}</span><span class="s2"> exists; set the `overwrite_existing_"</span>
+                    <span class="sa">f</span><span class="s2">"Experiment </span><span class="si">{name}</span><span class="s2"> exists; set the `overwrite_existing_"</span>
                     <span class="s2">"experiment` to `True` to overwrite with new experiment "</span>
                     <span class="s2">"or use `ax_client.load_experiment_from_database` to "</span>
                     <span class="s2">"continue an existing experiment."</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">overwrite_existing_experiment</span><span class="p">:</span>
+                <span class="n">exp_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">_name</span> <span class="ow">or</span> <span class="s2">"untitled"</span>
+                <span class="n">new_exp_name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="s2">"untitled"</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Overwriting existing experiment (</span><span class="si">{exp_name}</span><span class="s2">) on this client "</span>
+                    <span class="sa">f</span><span class="s2">"with new experiment (</span><span class="si">{new_exp_name}</span><span class="s2">) and restarting the "</span>
+                    <span class="s2">"generation strategy."</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_generation_strategy</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Experiment already created for this client instance. "</span>
+                    <span class="s2">"Set the `overwrite_existing_experiment` to `True` to overwrite "</span>
+                    <span class="s2">"with new experiment."</span>
                 <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span> <span class="o">=</span> <span class="n">make_experiment</span><span class="p">(</span>
@@ -260,12 +276,19 @@ src="/js/documentation_options.js">
             <span class="n">status_quo</span><span class="o">=</span><span class="n">status_quo</span><span class="p">,</span>
             <span class="n">experiment_type</span><span class="o">=</span><span class="n">experiment_type</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="n">choose_generation_strategy_kwargs</span> <span class="o">=</span> <span class="n">choose_generation_strategy_kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="n">random_seed</span> <span class="o">=</span> <span class="n">choose_generation_strategy_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span>
+            <span class="s2">"random_seed"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_random_seed</span>
+        <span class="p">)</span>
+        <span class="n">enforce_sequential_optimization</span> <span class="o">=</span> <span class="n">choose_generation_strategy_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span>
+            <span class="s2">"enforce_sequential_optimization"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enforce_sequential_optimization</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generation_strategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_generation_strategy</span> <span class="o">=</span> <span class="n">choose_generation_strategy</span><span class="p">(</span>
-                <span class="c1"># pyre-fixme[16]: `Optional` has no attribute `search_space`.</span>
-                <span class="n">search_space</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span><span class="o">.</span><span class="n">search_space</span><span class="p">,</span>
-                <span class="n">enforce_sequential_optimization</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_enforce_sequential_optimization</span><span class="p">,</span>
-                <span class="n">random_seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_random_seed</span><span class="p">,</span>
+                <span class="n">search_space</span><span class="o">=</span><span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span><span class="p">)</span><span class="o">.</span><span class="n">search_space</span><span class="p">,</span>
+                <span class="n">enforce_sequential_optimization</span><span class="o">=</span><span class="n">enforce_sequential_optimization</span><span class="p">,</span>
+                <span class="n">random_seed</span><span class="o">=</span><span class="n">random_seed</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">choose_generation_strategy_kwargs</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">(</span>
             <span class="n">overwrite_existing_experiment</span><span class="o">=</span><span class="kc">True</span>
@@ -282,11 +305,10 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="n">trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">new_trial</span><span class="p">(</span><span class="n">generator_run</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_gen_new_generator_run</span><span class="p">())</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="n">f</span><span class="s2">"Generated new trial </span><span class="si">{trial.index}</span><span class="s2"> with parameters "</span>
-            <span class="n">f</span><span class="s2">"{_round_floats_for_logging(item=not_none(trial.arm).parameters)}."</span>
+            <span class="sa">f</span><span class="s2">"Generated new trial </span><span class="si">{trial.index}</span><span class="s2"> with parameters "</span>
+            <span class="sa">f</span><span class="s2">"{_round_floats_for_logging(item=not_none(trial.arm).parameters)}."</span>
         <span class="p">)</span>
-        <span class="n">trial</span><span class="o">.</span><span class="n">mark_dispatched</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_updated_trials</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">trial</span><span class="o">.</span><span class="n">mark_running</span><span class="p">(</span><span class="n">no_runner_required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">not_none</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">arm</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">index</span></div>
 
@@ -314,7 +336,7 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span>
             <span class="n">trial_index</span><span class="p">,</span> <span class="nb">int</span>
-        <span class="p">),</span> <span class="n">f</span><span class="s2">"Trial index must be an int, got: </span><span class="si">{trial_index}</span><span class="s2">."</span>  <span class="c1"># pragma: no cover</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s2">"Trial index must be an int, got: </span><span class="si">{trial_index}</span><span class="s2">."</span>  <span class="c1"># pragma: no cover</span>
         <span class="n">trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">trial_index</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">trial</span><span class="o">.</span><span class="n">_run_metadata</span> <span class="o">=</span> <span class="n">metadata</span>
@@ -341,18 +363,18 @@ src="/js/documentation_options.js">
                 <span class="k">else</span> <span class="kc">None</span>
             <span class="p">),</span>
         <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">attach_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="c1"># In service API, a trial may be completed multiple times (for multiple</span>
         <span class="c1"># metrics, for example).</span>
-        <span class="n">trial</span><span class="o">.</span><span class="n">mark_completed</span><span class="p">(</span><span class="n">allow_repeat_completion</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">attach_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">trial</span><span class="o">.</span><span class="n">is_complete</span><span class="p">:</span>
+            <span class="n">trial</span><span class="o">.</span><span class="n">mark_completed</span><span class="p">()</span>
         <span class="n">data_for_logging</span> <span class="o">=</span> <span class="n">_round_floats_for_logging</span><span class="p">(</span>
             <span class="n">item</span><span class="o">=</span><span class="n">evaluations</span><span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">evaluations</span><span class="o">.</span><span class="n">keys</span><span class="p">()))]</span>
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="n">f</span><span class="s2">"Completed trial </span><span class="si">{trial_index}</span><span class="s2"> with data: "</span>
-            <span class="n">f</span><span class="s2">"{_round_floats_for_logging(item=data_for_logging)}."</span>
+            <span class="sa">f</span><span class="s2">"Completed trial </span><span class="si">{trial_index}</span><span class="s2"> with data: "</span>
+            <span class="sa">f</span><span class="s2">"{_round_floats_for_logging(item=data_for_logging)}."</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_updated_trials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial_index</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="AxClient.log_trial_failure"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.log_trial_failure">[docs]</a>    <span class="k">def</span> <span class="nf">log_trial_failure</span><span class="p">(</span>
@@ -366,7 +388,7 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="n">trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="p">[</span><span class="n">trial_index</span><span class="p">]</span>
         <span class="n">trial</span><span class="o">.</span><span class="n">mark_failed</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"Registered failure of trial </span><span class="si">{trial_index}</span><span class="s2">."</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Registered failure of trial </span><span class="si">{trial_index}</span><span class="s2">."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">trial</span><span class="o">.</span><span class="n">_run_metadata</span> <span class="o">=</span> <span class="n">metadata</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">()</span></div>
@@ -383,10 +405,10 @@ src="/js/documentation_options.js">
 <span class="sd">            Tuple of parameterization and trial index from newly created trial.</span>
 <span class="sd">        """</span>
         <span class="n">trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">new_trial</span><span class="p">()</span><span class="o">.</span><span class="n">add_arm</span><span class="p">(</span><span class="n">Arm</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">))</span>
-        <span class="n">trial</span><span class="o">.</span><span class="n">mark_dispatched</span><span class="p">()</span>
+        <span class="n">trial</span><span class="o">.</span><span class="n">mark_running</span><span class="p">(</span><span class="n">no_runner_required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="s2">"Attached custom parameterization "</span>
-            <span class="n">f</span><span class="s2">"{_round_floats_for_logging(item=parameters)} as trial </span><span class="si">{trial.index}</span><span class="s2">."</span>
+            <span class="sa">f</span><span class="s2">"{_round_floats_for_logging(item=parameters)} as trial </span><span class="si">{trial.index}</span><span class="s2">."</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">not_none</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">arm</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">index</span></div>
@@ -517,21 +539,21 @@ src="/js/documentation_options.js">
 
         <span class="k">if</span> <span class="n">param_x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="n">f</span><span class="s1">'Parameter "</span><span class="si">{param_x}</span><span class="s1">" not found in the optimization search space.'</span>
+                <span class="sa">f</span><span class="s1">'Parameter "</span><span class="si">{param_x}</span><span class="s1">" not found in the optimization search space.'</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">param_y</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="n">f</span><span class="s1">'Parameter "</span><span class="si">{param_y}</span><span class="s1">" not found in the optimization search space.'</span>
+                <span class="sa">f</span><span class="s1">'Parameter "</span><span class="si">{param_y}</span><span class="s1">" not found in the optimization search space.'</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">metric_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">metrics</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="n">f</span><span class="s1">'Metric "</span><span class="si">{metric_name}</span><span class="s1">" is not associated with this optimization.'</span>
+                <span class="sa">f</span><span class="s1">'Metric "</span><span class="si">{metric_name}</span><span class="s1">" is not associated with this optimization.'</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="n">f</span><span class="s2">"Retrieving contour plot with parameter '</span><span class="si">{param_x}</span><span class="s2">' on X-axis "</span>
-                    <span class="n">f</span><span class="s2">"and '</span><span class="si">{param_y}</span><span class="s2">' on Y-axis, for metric '</span><span class="si">{metric_name}</span><span class="s2">'. "</span>
+                    <span class="sa">f</span><span class="s2">"Retrieving contour plot with parameter '</span><span class="si">{param_x}</span><span class="s2">' on X-axis "</span>
+                    <span class="sa">f</span><span class="s2">"and '</span><span class="si">{param_y}</span><span class="s2">' on Y-axis, for metric '</span><span class="si">{metric_name}</span><span class="s2">'. "</span>
                     <span class="s2">"Ramaining parameters are affixed to the middle of their range."</span>
                 <span class="p">)</span>
                 <span class="k">return</span> <span class="n">plot_contour</span><span class="p">(</span>
@@ -545,13 +567,13 @@ src="/js/documentation_options.js">
                 <span class="c1"># Some models don't implement '_predict', which is needed</span>
                 <span class="c1"># for the contour plots.</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="n">f</span><span class="s2">"Model </span><span class="si">{self.generation_strategy.model}</span><span class="s2"> does not implement "</span>
+                    <span class="sa">f</span><span class="s2">"Model </span><span class="si">{self.generation_strategy.model}</span><span class="s2"> does not implement "</span>
                     <span class="s2">"`predict`, so it cannot be used to generate a response "</span>
                     <span class="s2">"surface plot."</span>
                 <span class="p">)</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="n">f</span><span class="s1">'Could not obtain contour plot of "</span><span class="si">{metric_name}</span><span class="s1">" for parameters '</span>
-            <span class="n">f</span><span class="s1">'"</span><span class="si">{param_x}</span><span class="s1">" and "</span><span class="si">{param_y}</span><span class="s1">", as a model with predictive ability, '</span>
+            <span class="sa">f</span><span class="s1">'Could not obtain contour plot of "</span><span class="si">{metric_name}</span><span class="s1">" for parameters '</span>
+            <span class="sa">f</span><span class="s1">'"</span><span class="si">{param_x}</span><span class="s1">" and "</span><span class="si">{param_y}</span><span class="s1">", as a model with predictive ability, '</span>
             <span class="s2">"such as a Gaussian Process, has not yet been trained in the course "</span>
             <span class="s2">"of this optimization."</span>
         <span class="p">)</span></div>
@@ -574,7 +596,7 @@ src="/js/documentation_options.js">
                 <span class="k">return</span> <span class="n">plot_feature_importance_by_feature</span><span class="p">(</span><span class="n">cur_model</span><span class="p">,</span> <span class="n">relative</span><span class="o">=</span><span class="n">relative</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="n">f</span><span class="s2">"Model </span><span class="si">{self.generation_strategy.model}</span><span class="s2"> does not implement "</span>
+                    <span class="sa">f</span><span class="s2">"Model </span><span class="si">{self.generation_strategy.model}</span><span class="s2"> does not implement "</span>
                     <span class="s2">"`feature_importances`, so it cannot be used to generate "</span>
                     <span class="s2">"this plot. Only certain models, specifically GPEI, implement "</span>
                     <span class="s2">"feature importances."</span>
@@ -606,7 +628,7 @@ src="/js/documentation_options.js">
             <span class="n">experiment_name</span><span class="o">=</span><span class="n">experiment_name</span><span class="p">,</span> <span class="n">db_settings</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db_settings</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span> <span class="o">=</span> <span class="n">experiment</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"Loaded </span><span class="si">{experiment}</span><span class="s2">."</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loaded </span><span class="si">{experiment}</span><span class="s2">."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">generation_strategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_generation_strategy</span> <span class="o">=</span> <span class="n">choose_generation_strategy</span><span class="p">(</span>
                 <span class="c1"># pyre-fixme[16]: `Optional` has no attribute `search_space`.</span>
@@ -617,8 +639,8 @@ src="/js/documentation_options.js">
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_generation_strategy</span> <span class="o">=</span> <span class="n">generation_strategy</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">"Using generation strategy associated with the loaded experiment:"</span>
-                <span class="n">f</span><span class="s2">" </span><span class="si">{generation_strategy}</span><span class="s2">."</span>
+                <span class="sa">f</span><span class="s2">"Using generation strategy associated with the loaded experiment:"</span>
+                <span class="sa">f</span><span class="s2">" </span><span class="si">{generation_strategy}</span><span class="s2">."</span>
             <span class="p">)</span></div>
 
 <div class="viewcode-block" id="AxClient.get_model_predictions"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.get_model_predictions">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_predictions</span><span class="p">(</span>
@@ -685,16 +707,18 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">"w+"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_json_snapshot</span><span class="p">()))</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">"Saved JSON-serialized state of optimization to `</span><span class="si">{filepath}</span><span class="s2">`."</span><span class="p">)</span></div>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Saved JSON-serialized state of optimization to `</span><span class="si">{filepath}</span><span class="s2">`."</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AxClient.load_from_json_file"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.load_from_json_file">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">load_from_json_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"ax_client_snapshot.json"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"AxClient"</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">load_from_json_file</span><span class="p">(</span>
+        <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"ax_client_snapshot.json"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"AxClient"</span><span class="p">:</span>
         <span class="sd">"""Restore an `AxClient` and its state from a JSON-serialized snapshot,</span>
 <span class="sd">        residing in a .json file by the given path.</span>
 <span class="sd">        """</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="n">serialized</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-            <span class="k">return</span> <span class="n">AxClient</span><span class="o">.</span><span class="n">from_json_snapshot</span><span class="p">(</span><span class="n">serialized</span><span class="o">=</span><span class="n">serialized</span><span class="p">)</span></div>
+            <span class="k">return</span> <span class="n">AxClient</span><span class="o">.</span><span class="n">from_json_snapshot</span><span class="p">(</span><span class="n">serialized</span><span class="o">=</span><span class="n">serialized</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AxClient.to_json_snapshot"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.to_json_snapshot">[docs]</a>    <span class="k">def</span> <span class="nf">to_json_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="sd">"""Serialize this `AxClient` to JSON to be able to interrupt and restart</span>
@@ -708,11 +732,10 @@ src="/js/documentation_options.js">
             <span class="s2">"experiment"</span><span class="p">:</span> <span class="n">object_to_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span><span class="p">),</span>
             <span class="s2">"generation_strategy"</span><span class="p">:</span> <span class="n">object_to_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_generation_strategy</span><span class="p">),</span>
             <span class="s2">"_enforce_sequential_optimization"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enforce_sequential_optimization</span><span class="p">,</span>
-            <span class="s2">"_updated_trials"</span><span class="p">:</span> <span class="n">object_to_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_updated_trials</span><span class="p">),</span>
         <span class="p">}</span></div>
 
 <div class="viewcode-block" id="AxClient.from_json_snapshot"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.from_json_snapshot">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_json_snapshot</span><span class="p">(</span><span class="n">serialized</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">"AxClient"</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">from_json_snapshot</span><span class="p">(</span><span class="n">serialized</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"AxClient"</span><span class="p">:</span>
         <span class="sd">"""Recreate an `AxClient` from a JSON snapshot."""</span>
         <span class="n">experiment</span> <span class="o">=</span> <span class="n">object_from_json</span><span class="p">(</span><span class="n">serialized</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"experiment"</span><span class="p">))</span>
         <span class="n">serialized_generation_strategy</span> <span class="o">=</span> <span class="n">serialized</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"generation_strategy"</span><span class="p">)</span>
@@ -725,9 +748,9 @@ src="/js/documentation_options.js">
             <span class="n">enforce_sequential_optimization</span><span class="o">=</span><span class="n">serialized</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span>
                 <span class="s2">"_enforce_sequential_optimization"</span>
             <span class="p">),</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">ax_client</span><span class="o">.</span><span class="n">_experiment</span> <span class="o">=</span> <span class="n">experiment</span>
-        <span class="n">ax_client</span><span class="o">.</span><span class="n">_updated_trials</span> <span class="o">=</span> <span class="n">object_from_json</span><span class="p">(</span><span class="n">serialized</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"_updated_trials"</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">ax_client</span></div>
 
     <span class="c1"># ---------------------- Private helper methods. ---------------------</span>
@@ -773,28 +796,21 @@ src="/js/documentation_options.js">
 <span class="sd">            bool: Whether the experiment was saved.</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">db_settings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">save_experiment_and_generation_strategy</span><span class="p">(</span>
-                <span class="n">experiment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="p">,</span>
-                <span class="n">generation_strategy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span><span class="p">,</span>
-                <span class="n">db_settings</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db_settings</span><span class="p">,</span>
-                <span class="n">overwrite_existing_experiment</span><span class="o">=</span><span class="n">overwrite_existing_experiment</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">save_experiment_and_generation_strategy</span><span class="p">(</span>
+                        <span class="n">experiment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="p">,</span>
+                        <span class="n">generation_strategy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span><span class="p">,</span>
+                        <span class="n">db_settings</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db_settings</span><span class="p">,</span>
+                        <span class="n">overwrite_existing_experiment</span><span class="o">=</span><span class="n">overwrite_existing_experiment</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="k">break</span>
+                <span class="k">except</span> <span class="n">OperationalError</span><span class="p">:</span>  <span class="c1"># pragma: no covert</span>
+                    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="k">raise</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span>
-
-    <span class="k">def</span> <span class="nf">_get_new_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Data</span><span class="p">:</span>
-        <span class="sd">"""</span>
-<span class="sd">        Returns new data since the last run of the generator.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Latest data.</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">Data</span><span class="o">.</span><span class="n">from_multiple_data</span><span class="p">(</span>
-            <span class="p">[</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">lookup_data_for_trial</span><span class="p">(</span><span class="n">idx</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_updated_trials</span>
-            <span class="p">]</span>
-        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_gen_new_generator_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GeneratorRun</span><span class="p">:</span>
         <span class="sd">"""Generate new generator run for this experiment.</span>
@@ -802,7 +818,6 @@ src="/js/documentation_options.js">
 <span class="sd">        Args:</span>
 <span class="sd">            n: Number of arms to generate.</span>
 <span class="sd">        """</span>
-        <span class="n">new_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_new_data</span><span class="p">()</span>
         <span class="c1"># If random seed is not set for this optimization, context manager does</span>
         <span class="c1"># nothing; otherwise, it sets the random seed for torch, but only for the</span>
         <span class="c1"># scope of this call. This is important because torch seed is set globally,</span>
@@ -814,7 +829,6 @@ src="/js/documentation_options.js">
             <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span><span class="p">)</span><span class="o">.</span><span class="n">gen</span><span class="p">(</span>
                 <span class="n">experiment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="p">,</span>
-                <span class="n">new_data</span><span class="o">=</span><span class="n">new_data</span><span class="p">,</span>
                 <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
                 <span class="n">pending_observations</span><span class="o">=</span><span class="n">get_pending_observation_features</span><span class="p">(</span>
                     <span class="n">experiment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment</span>
@@ -830,7 +844,7 @@ src="/js/documentation_options.js">
                     <span class="s2">"`AxClient` only supports `Trial`, not `BatchTrial`."</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="n">trial</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Trial </span><span class="si">{trial_index}</span><span class="s2"> does not yet exist."</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Trial </span><span class="si">{trial_index}</span><span class="s2"> does not yet exist."</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_find_last_trial_with_parameterization</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">parameterization</span><span class="p">:</span> <span class="n">TParameterization</span>
@@ -842,7 +856,7 @@ src="/js/documentation_options.js">
             <span class="k">if</span> <span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_trial</span><span class="p">(</span><span class="n">trial_idx</span><span class="p">)</span><span class="o">.</span><span class="n">arm</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span> <span class="o">==</span> <span class="n">parameterization</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">trial_idx</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="n">f</span><span class="s2">"No trial on experiment matches parameterization </span><span class="si">{parameterization}</span><span class="s2">."</span>
+            <span class="sa">f</span><span class="s2">"No trial on experiment matches parameterization </span><span class="si">{parameterization}</span><span class="s2">."</span>
         <span class="p">)</span>
 
     <span class="c1"># -------- Backward-compatibility with old save / load method names. -------</span>

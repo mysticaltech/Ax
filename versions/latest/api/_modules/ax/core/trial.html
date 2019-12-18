@@ -27,19 +27,22 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.core.trial</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">ax.core.arm</span> <span class="k">import</span> <span class="n">Arm</span>
-<span class="kn">from</span> <span class="nn">ax.core.base_trial</span> <span class="k">import</span> <span class="n">BaseTrial</span><span class="p">,</span> <span class="n">immutable_once_run</span>
-<span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="k">import</span> <span class="n">GeneratorRun</span><span class="p">,</span> <span class="n">GeneratorRunType</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">not_none</span>
+<span class="kn">from</span> <span class="nn">ax.core.arm</span> <span class="kn">import</span> <span class="n">Arm</span>
+<span class="kn">from</span> <span class="nn">ax.core.base_trial</span> <span class="kn">import</span> <span class="n">BaseTrial</span><span class="p">,</span> <span class="n">immutable_once_run</span>
+<span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="kn">import</span> <span class="n">GeneratorRun</span><span class="p">,</span> <span class="n">GeneratorRunType</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="kn">import</span> <span class="n">not_none</span>
 
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="c1"># import as module to make sphinx-autodoc-typehints happy</span>
-    <span class="kn">from</span> <span class="nn">ax</span> <span class="k">import</span> <span class="n">core</span>  <span class="c1"># noqa F401  # pragma: no cover</span>
+    <span class="kn">from</span> <span class="nn">ax</span> <span class="kn">import</span> <span class="n">core</span>  <span class="c1"># noqa F401  # pragma: no cover</span>
 
 
 <div class="viewcode-block" id="Trial"><a class="viewcode-back" href="../../../core.html#ax.Trial">[docs]</a><span class="k">class</span> <span class="nc">Trial</span><span class="p">(</span><span class="n">BaseTrial</span><span class="p">):</span>
@@ -54,7 +57,7 @@ src="/js/documentation_options.js">
 <span class="sd">            immutable once set.</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">experiment</span><span class="p">:</span> <span class="s2">"core.experiment.Experiment"</span><span class="p">,</span>
         <span class="n">generator_run</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">GeneratorRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -150,10 +153,8 @@ src="/js/documentation_options.js">
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">abandoned_arms</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Arm</span><span class="p">]:</span>
         <span class="sd">"""Abandoned arms attached to this trial."""</span>
-        <span class="c1"># pyre-fixme[7]: Expected `List[Arm]` but got `Union[List[Optional[Arm]],</span>
-        <span class="c1">#  List[_T]]`.</span>
         <span class="k">return</span> <span class="p">(</span>
-            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">arm</span><span class="p">]</span>
+            <span class="p">[</span><span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arm</span><span class="p">)]</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">generator_run</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_abandoned</span>
@@ -161,24 +162,43 @@ src="/js/documentation_options.js">
         <span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">objective_mean</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-        <span class="sd">"""Objective mean for the arm attached to this trial."""</span>
+    <span class="k">def</span> <span class="nf">objective_mean</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">"""Objective mean for the arm attached to this trial, retrieved from the</span>
+<span class="sd">        latest data available for the objective for the trial.</span>
+
+<span class="sd">        Note: the retrieved objective is the experiment-level objective at the</span>
+<span class="sd">        time of the call to `objective_mean`, which is not necessarily the</span>
+<span class="sd">        objective that was set at the time the trial was created or ran.</span>
+<span class="sd">        """</span>
         <span class="c1"># For SimpleExperiment, fetch_data just executes eval_trial.</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">()</span><span class="o">.</span><span class="n">df</span>
-        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">optimization_config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
-        <span class="n">objective_name</span> <span class="o">=</span> <span class="n">not_none</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">optimization_config</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">objective</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span>
-        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">"metric_name"</span><span class="p">]</span> <span class="o">==</span> <span class="n">objective_name</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"mean"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No data was retrieved for trial </span><span class="si">{self.index}</span><span class="s2">."</span><span class="p">)</span>
+        <span class="n">opt_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">optimization_config</span>
+        <span class="k">if</span> <span class="n">opt_config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
+                <span class="s2">"Experiment optimization config (and thus the objective) is not set."</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_metric_mean</span><span class="p">(</span><span class="n">metric_name</span><span class="o">=</span><span class="n">opt_config</span><span class="o">.</span><span class="n">objective</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="Trial.get_metric_mean"><a class="viewcode-back" href="../../../core.html#ax.Trial.get_metric_mean">[docs]</a>    <span class="k">def</span> <span class="nf">get_metric_mean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">"""Metric mean for the arm attached to this trial, retrieved from the</span>
+<span class="sd">        latest data available for the metric for the trial.</span>
+<span class="sd">        """</span>
+        <span class="c1"># For SimpleExperiment, fetch_data just executes eval_trial.</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">()</span><span class="o">.</span><span class="n">df</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">"metric_name"</span><span class="p">]</span> <span class="o">==</span> <span class="n">metric_name</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"mean"</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Metric </span><span class="si">{metric_name}</span><span class="s2"> not yet in data for trial."</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="s2">"Trial("</span>
-            <span class="n">f</span><span class="s2">"experiment_name='</span><span class="si">{self._experiment._name}</span><span class="s2">', "</span>
-            <span class="n">f</span><span class="s2">"index=</span><span class="si">{self._index}</span><span class="s2">, "</span>
-            <span class="n">f</span><span class="s2">"status=</span><span class="si">{self._status}</span><span class="s2">, "</span>
-            <span class="n">f</span><span class="s2">"arm=</span><span class="si">{self.arm}</span><span class="s2">)"</span>
+            <span class="sa">f</span><span class="s2">"experiment_name='</span><span class="si">{self._experiment._name}</span><span class="s2">', "</span>
+            <span class="sa">f</span><span class="s2">"index=</span><span class="si">{self._index}</span><span class="s2">, "</span>
+            <span class="sa">f</span><span class="s2">"status=</span><span class="si">{self._status}</span><span class="s2">, "</span>
+            <span class="sa">f</span><span class="s2">"arm=</span><span class="si">{self.arm}</span><span class="s2">)"</span>
         <span class="p">)</span></div>
 </pre></div>
 </div>

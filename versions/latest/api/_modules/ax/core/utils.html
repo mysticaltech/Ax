@@ -27,15 +27,27 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.core.utils</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span>
 
-<span class="kn">from</span> <span class="nn">ax.core.data</span> <span class="k">import</span> <span class="n">Data</span>
-<span class="kn">from</span> <span class="nn">ax.core.optimization_config</span> <span class="k">import</span> <span class="n">OptimizationConfig</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">ax.core.batch_trial</span> <span class="kn">import</span> <span class="n">BatchTrial</span>
+<span class="kn">from</span> <span class="nn">ax.core.data</span> <span class="kn">import</span> <span class="n">Data</span>
+<span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="kn">import</span> <span class="n">Experiment</span>
+<span class="kn">from</span> <span class="nn">ax.core.optimization_config</span> <span class="kn">import</span> <span class="n">OptimizationConfig</span>
+<span class="kn">from</span> <span class="nn">ax.core.trial</span> <span class="kn">import</span> <span class="n">Trial</span>
+<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="kn">import</span> <span class="n">ComparisonOp</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="kn">import</span> <span class="n">not_none</span>
 
 
 <span class="n">TArmTrial</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+
+
+<span class="c1"># --------------------------- Data intergrity utils. ---------------------------</span>
 
 
 <div class="viewcode-block" id="MissingMetrics"><a class="viewcode-back" href="../../../core.html#ax.core.utils.MissingMetrics">[docs]</a><span class="k">class</span> <span class="nc">MissingMetrics</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
@@ -119,6 +131,62 @@ src="/js/documentation_options.js">
     <span class="p">)</span>
     <span class="n">missing_arm_trial_pairs</span> <span class="o">=</span> <span class="n">arm_trial_pairs</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">arm_trial_pairs_with_metric</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">missing_arm_trial_pairs</span>
+
+
+<span class="c1"># -------------------- Experiment result extraction utils. ---------------------</span>
+
+
+<div class="viewcode-block" id="best_feasible_objective"><a class="viewcode-back" href="../../../core.html#ax.core.utils.best_feasible_objective">[docs]</a><span class="k">def</span> <span class="nf">best_feasible_objective</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
+    <span class="n">optimization_config</span><span class="p">:</span> <span class="n">OptimizationConfig</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">"""Compute the best feasible objective value found by each iteration.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        optimization_config: Optimization config.</span>
+<span class="sd">        values: Dictionary from metric name to array of value at each</span>
+<span class="sd">            iteration. If optimization config contains outcome constraints, values</span>
+<span class="sd">            for them must be present in `values`.</span>
+
+<span class="sd">    Returns: Array of cumulative best feasible value.</span>
+<span class="sd">    """</span>
+    <span class="c1"># Get objective at each iteration</span>
+    <span class="n">objective</span> <span class="o">=</span> <span class="n">optimization_config</span><span class="o">.</span><span class="n">objective</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">objective</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+    <span class="c1"># Set infeasible points to have infinitely bad values</span>
+    <span class="n">infeas_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">Inf</span> <span class="k">if</span> <span class="n">objective</span><span class="o">.</span><span class="n">minimize</span> <span class="k">else</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">Inf</span>
+    <span class="k">for</span> <span class="n">oc</span> <span class="ow">in</span> <span class="n">optimization_config</span><span class="o">.</span><span class="n">outcome_constraints</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">oc</span><span class="o">.</span><span class="n">relative</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
+                <span class="s2">"Benchmark aggregation does not support relative constraints"</span>
+            <span class="p">)</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">oc</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">feas</span> <span class="o">=</span> <span class="n">g</span> <span class="o">&lt;=</span> <span class="n">oc</span><span class="o">.</span><span class="n">bound</span> <span class="k">if</span> <span class="n">oc</span><span class="o">.</span><span class="n">op</span> <span class="o">==</span> <span class="n">ComparisonOp</span><span class="o">.</span><span class="n">LEQ</span> <span class="k">else</span> <span class="n">g</span> <span class="o">&gt;=</span> <span class="n">oc</span><span class="o">.</span><span class="n">bound</span>
+        <span class="n">f</span><span class="p">[</span><span class="o">~</span><span class="n">feas</span><span class="p">]</span> <span class="o">=</span> <span class="n">infeas_val</span>
+
+    <span class="c1"># Get cumulative best</span>
+    <span class="n">minimize</span> <span class="o">=</span> <span class="n">objective</span><span class="o">.</span><span class="n">minimize</span>
+    <span class="n">accumulate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="o">.</span><span class="n">accumulate</span> <span class="k">if</span> <span class="n">minimize</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="o">.</span><span class="n">accumulate</span>
+    <span class="k">return</span> <span class="n">accumulate</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_model_times"><a class="viewcode-back" href="../../../core.html#ax.core.utils.get_model_times">[docs]</a><span class="k">def</span> <span class="nf">get_model_times</span><span class="p">(</span><span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="sd">"""Get total times spent fitting the model and generating candidates in the</span>
+<span class="sd">    course of the experiment.</span>
+<span class="sd">    """</span>
+    <span class="n">fit_time</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">gen_time</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">BatchTrial</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+            <span class="n">gr</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">_generator_run_structs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">generator_run</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">Trial</span><span class="p">):</span>
+            <span class="n">gr</span> <span class="o">=</span> <span class="n">not_none</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">generator_run</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Unexpected trial type"</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">if</span> <span class="n">gr</span><span class="o">.</span><span class="n">fit_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fit_time</span> <span class="o">+=</span> <span class="n">not_none</span><span class="p">(</span><span class="n">gr</span><span class="o">.</span><span class="n">fit_time</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">gr</span><span class="o">.</span><span class="n">gen_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">gen_time</span> <span class="o">+=</span> <span class="n">not_none</span><span class="p">(</span><span class="n">gr</span><span class="o">.</span><span class="n">gen_time</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fit_time</span><span class="p">,</span> <span class="n">gen_time</span></div>
 </pre></div>
 </div>
 </div>

@@ -27,39 +27,43 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.utils.testing.core_stubs</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">MutableMapping</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">MutableMapping</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">ax.core.arm</span> <span class="k">import</span> <span class="n">Arm</span>
-<span class="kn">from</span> <span class="nn">ax.core.batch_trial</span> <span class="k">import</span> <span class="n">AbandonedArm</span><span class="p">,</span> <span class="n">BatchTrial</span>
-<span class="kn">from</span> <span class="nn">ax.core.data</span> <span class="k">import</span> <span class="n">Data</span>
-<span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="k">import</span> <span class="n">Experiment</span>
-<span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="k">import</span> <span class="n">GeneratorRun</span>
-<span class="kn">from</span> <span class="nn">ax.core.metric</span> <span class="k">import</span> <span class="n">Metric</span>
-<span class="kn">from</span> <span class="nn">ax.core.multi_type_experiment</span> <span class="k">import</span> <span class="n">MultiTypeExperiment</span>
-<span class="kn">from</span> <span class="nn">ax.core.objective</span> <span class="k">import</span> <span class="n">Objective</span>
-<span class="kn">from</span> <span class="nn">ax.core.optimization_config</span> <span class="k">import</span> <span class="n">OptimizationConfig</span>
-<span class="kn">from</span> <span class="nn">ax.core.outcome_constraint</span> <span class="k">import</span> <span class="n">OutcomeConstraint</span>
-<span class="kn">from</span> <span class="nn">ax.core.parameter</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">ax.core.arm</span> <span class="kn">import</span> <span class="n">Arm</span>
+<span class="kn">from</span> <span class="nn">ax.core.batch_trial</span> <span class="kn">import</span> <span class="n">AbandonedArm</span><span class="p">,</span> <span class="n">BatchTrial</span>
+<span class="kn">from</span> <span class="nn">ax.core.data</span> <span class="kn">import</span> <span class="n">Data</span>
+<span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="kn">import</span> <span class="n">Experiment</span>
+<span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="kn">import</span> <span class="n">GeneratorRun</span>
+<span class="kn">from</span> <span class="nn">ax.core.metric</span> <span class="kn">import</span> <span class="n">Metric</span>
+<span class="kn">from</span> <span class="nn">ax.core.multi_type_experiment</span> <span class="kn">import</span> <span class="n">MultiTypeExperiment</span>
+<span class="kn">from</span> <span class="nn">ax.core.objective</span> <span class="kn">import</span> <span class="n">Objective</span><span class="p">,</span> <span class="n">ScalarizedObjective</span>
+<span class="kn">from</span> <span class="nn">ax.core.optimization_config</span> <span class="kn">import</span> <span class="n">OptimizationConfig</span>
+<span class="kn">from</span> <span class="nn">ax.core.outcome_constraint</span> <span class="kn">import</span> <span class="n">OutcomeConstraint</span>
+<span class="kn">from</span> <span class="nn">ax.core.parameter</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ChoiceParameter</span><span class="p">,</span>
     <span class="n">FixedParameter</span><span class="p">,</span>
     <span class="n">ParameterType</span><span class="p">,</span>
     <span class="n">RangeParameter</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.core.parameter_constraint</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.core.parameter_constraint</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">OrderConstraint</span><span class="p">,</span>
     <span class="n">ParameterConstraint</span><span class="p">,</span>
     <span class="n">SumConstraint</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.core.search_space</span> <span class="k">import</span> <span class="n">SearchSpace</span>
-<span class="kn">from</span> <span class="nn">ax.core.simple_experiment</span> <span class="k">import</span> <span class="n">SimpleExperiment</span>
-<span class="kn">from</span> <span class="nn">ax.core.trial</span> <span class="k">import</span> <span class="n">Trial</span>
-<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.core.search_space</span> <span class="kn">import</span> <span class="n">SearchSpace</span>
+<span class="kn">from</span> <span class="nn">ax.core.simple_experiment</span> <span class="kn">import</span> <span class="n">SimpleExperiment</span>
+<span class="kn">from</span> <span class="nn">ax.core.trial</span> <span class="kn">import</span> <span class="n">Trial</span>
+<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ComparisonOp</span><span class="p">,</span>
     <span class="n">TModelCov</span><span class="p">,</span>
     <span class="n">TModelMean</span><span class="p">,</span>
@@ -67,12 +71,12 @@ src="/js/documentation_options.js">
     <span class="n">TModelPredictArm</span><span class="p">,</span>
     <span class="n">TParameterization</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.metrics.branin</span> <span class="k">import</span> <span class="n">BraninMetric</span>
-<span class="kn">from</span> <span class="nn">ax.metrics.factorial</span> <span class="k">import</span> <span class="n">FactorialMetric</span>
-<span class="kn">from</span> <span class="nn">ax.metrics.hartmann6</span> <span class="k">import</span> <span class="n">Hartmann6Metric</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.factory</span> <span class="k">import</span> <span class="n">Cont_X_trans</span><span class="p">,</span> <span class="n">get_factorial</span><span class="p">,</span> <span class="n">get_sobol</span>
-<span class="kn">from</span> <span class="nn">ax.runners.synthetic</span> <span class="k">import</span> <span class="n">SyntheticRunner</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.logger</span> <span class="k">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span> <span class="nn">ax.metrics.branin</span> <span class="kn">import</span> <span class="n">BraninMetric</span>
+<span class="kn">from</span> <span class="nn">ax.metrics.factorial</span> <span class="kn">import</span> <span class="n">FactorialMetric</span>
+<span class="kn">from</span> <span class="nn">ax.metrics.hartmann6</span> <span class="kn">import</span> <span class="n">Hartmann6Metric</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.factory</span> <span class="kn">import</span> <span class="n">Cont_X_trans</span><span class="p">,</span> <span class="n">get_factorial</span><span class="p">,</span> <span class="n">get_sobol</span>
+<span class="kn">from</span> <span class="nn">ax.runners.synthetic</span> <span class="kn">import</span> <span class="n">SyntheticRunner</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.logger</span> <span class="kn">import</span> <span class="n">get_logger</span>
 
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="s2">"ae_experiment"</span><span class="p">)</span>
@@ -168,7 +172,6 @@ src="/js/documentation_options.js">
         <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">runner</span><span class="o">=</span><span class="n">SyntheticRunner</span><span class="p">(),</span>
         <span class="n">is_test</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="c1"># pyre-fixme[6]: Expected `typing.Option...`List[FactorialMetric]`.</span>
         <span class="n">tracking_metrics</span><span class="o">=</span><span class="p">[</span><span class="n">get_factorial_metric</span><span class="p">(</span><span class="s2">"secondary_metric"</span><span class="p">)],</span>
     <span class="p">)</span>
 
@@ -507,6 +510,14 @@ src="/js/documentation_options.js">
     <span class="k">return</span> <span class="n">Objective</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="n">Metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"m1"</span><span class="p">),</span> <span class="n">minimize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="get_scalarized_objective"><a class="viewcode-back" href="../../../../utils.html#ax.utils.testing.core_stubs.get_scalarized_objective">[docs]</a><span class="k">def</span> <span class="nf">get_scalarized_objective</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Objective</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">ScalarizedObjective</span><span class="p">(</span>
+        <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">Metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"m1"</span><span class="p">),</span> <span class="n">Metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"m2"</span><span class="p">)],</span>
+        <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span>
+        <span class="n">minimize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="get_outcome_constraint"><a class="viewcode-back" href="../../../../utils.html#ax.utils.testing.core_stubs.get_outcome_constraint">[docs]</a><span class="k">def</span> <span class="nf">get_outcome_constraint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">OutcomeConstraint</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">OutcomeConstraint</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="n">Metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"m2"</span><span class="p">),</span> <span class="n">op</span><span class="o">=</span><span class="n">ComparisonOp</span><span class="o">.</span><span class="n">GEQ</span><span class="p">,</span> <span class="n">bound</span><span class="o">=-</span><span class="mf">0.25</span><span class="p">)</span></div>
 
@@ -556,9 +567,6 @@ src="/js/documentation_options.js">
 
 
 <div class="viewcode-block" id="get_arm_weights1"><a class="viewcode-back" href="../../../../utils.html#ax.utils.testing.core_stubs.get_arm_weights1">[docs]</a><span class="k">def</span> <span class="nf">get_arm_weights1</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">MutableMapping</span><span class="p">[</span><span class="n">Arm</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-    <span class="c1"># pyre: parameters_dicts is declared to have type `List[Dict[str, typing.</span>
-    <span class="c1"># pyre: Optional[typing.Union[bool, float, str]]]]` but is used as type</span>
-    <span class="c1"># pyre-fixme[9]: `List[Dict[str, typing.Union[float, str]]]`.</span>
     <span class="n">parameters_dicts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TParameterization</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">{</span><span class="s2">"w"</span><span class="p">:</span> <span class="mf">0.85</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">:</span> <span class="s2">"baz"</span><span class="p">,</span> <span class="s2">"z"</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
         <span class="p">{</span><span class="s2">"w"</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">:</span> <span class="s2">"foo"</span><span class="p">,</span> <span class="s2">"z"</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
@@ -570,9 +578,6 @@ src="/js/documentation_options.js">
 
 
 <div class="viewcode-block" id="get_arm_weights2"><a class="viewcode-back" href="../../../../utils.html#ax.utils.testing.core_stubs.get_arm_weights2">[docs]</a><span class="k">def</span> <span class="nf">get_arm_weights2</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">MutableMapping</span><span class="p">[</span><span class="n">Arm</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>  <span class="c1"># update</span>
-    <span class="c1"># pyre: parameters_dicts is declared to have type `List[Dict[str, typing.</span>
-    <span class="c1"># pyre: Optional[typing.Union[bool, float, str]]]]` but is used as type</span>
-    <span class="c1"># pyre-fixme[9]: `List[Dict[str, typing.Union[float, str]]]`.</span>
     <span class="n">parameters_dicts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TParameterization</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">{</span><span class="s2">"w"</span><span class="p">:</span> <span class="mf">0.96</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">:</span> <span class="s2">"hello"</span><span class="p">,</span> <span class="s2">"z"</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
         <span class="p">{</span><span class="s2">"w"</span><span class="p">:</span> <span class="mf">0.16</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">:</span> <span class="s2">"dear"</span><span class="p">,</span> <span class="s2">"z"</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
@@ -633,8 +638,8 @@ src="/js/documentation_options.js">
         <span class="n">fit_time</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
         <span class="n">gen_time</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
         <span class="n">model_key</span><span class="o">=</span><span class="s2">"Sobol"</span><span class="p">,</span>
-        <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"scramble"</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
-        <span class="n">bridge_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"transforms"</span><span class="p">:</span> <span class="n">Cont_X_trans</span><span class="p">},</span>
+        <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"scramble"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"torch_device"</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cpu"</span><span class="p">)},</span>
+        <span class="n">bridge_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"transforms"</span><span class="p">:</span> <span class="n">Cont_X_trans</span><span class="p">,</span> <span class="s2">"torch_dtype"</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">double</span><span class="p">},</span>
     <span class="p">)</span></div>
 
 
@@ -681,16 +686,11 @@ src="/js/documentation_options.js">
 
 
 <div class="viewcode-block" id="get_model_mean"><a class="viewcode-back" href="../../../../utils.html#ax.utils.testing.core_stubs.get_model_mean">[docs]</a><span class="k">def</span> <span class="nf">get_model_mean</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">TModelMean</span><span class="p">:</span>
-    <span class="c1"># pyre: mean is declared to have type `Dict[str, List[float]]` but is used</span>
-    <span class="c1"># pyre-fixme[9]: as type `Dict[str, List[int]]`.</span>
     <span class="n">mean</span><span class="p">:</span> <span class="n">TModelMean</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"test_metric_1"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s2">"test_metric_2"</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]}</span>
     <span class="k">return</span> <span class="n">mean</span></div>
 
 
 <div class="viewcode-block" id="get_model_covariance"><a class="viewcode-back" href="../../../../utils.html#ax.utils.testing.core_stubs.get_model_covariance">[docs]</a><span class="k">def</span> <span class="nf">get_model_covariance</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">TModelCov</span><span class="p">:</span>
-    <span class="c1"># pyre: covariance is declared to have type `Dict[str, Dict[str,</span>
-    <span class="c1"># pyre: List[float]]]` but is used as type `Dict[str, Dict[str,</span>
-    <span class="c1"># pyre-fixme[9]: List[int]]]`.</span>
     <span class="n">covariance</span><span class="p">:</span> <span class="n">TModelCov</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">"test_metric_1"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"test_metric_1"</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="s2">"test_metric_2"</span><span class="p">:</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]},</span>
         <span class="s2">"test_metric_2"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"test_metric_1"</span><span class="p">:</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span> <span class="s2">"test_metric_2"</span><span class="p">:</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">]},</span>

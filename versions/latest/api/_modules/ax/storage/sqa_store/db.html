@@ -27,22 +27,25 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.storage.sqa_store.db</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">contextlib</span> <span class="k">import</span> <span class="n">contextmanager</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TypeVar</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TypeVar</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">ax.exceptions.storage</span> <span class="k">import</span> <span class="n">ImmutabilityError</span>
-<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.utils</span> <span class="k">import</span> <span class="n">is_foreign_key_field</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.equality</span> <span class="k">import</span> <span class="n">datetime_equals</span><span class="p">,</span> <span class="n">equality_typechecker</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">numpy_type_to_python_type</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">create_engine</span><span class="p">,</span> <span class="n">inspect</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy.engine.base</span> <span class="k">import</span> <span class="n">Engine</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy.ext.declarative</span> <span class="k">import</span> <span class="n">declarative_base</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="k">import</span> <span class="n">Session</span><span class="p">,</span> <span class="n">scoped_session</span><span class="p">,</span> <span class="n">sessionmaker</span>
+<span class="kn">from</span> <span class="nn">ax.exceptions.storage</span> <span class="kn">import</span> <span class="n">ImmutabilityError</span>
+<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.utils</span> <span class="kn">import</span> <span class="n">is_foreign_key_field</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.equality</span> <span class="kn">import</span> <span class="n">datetime_equals</span><span class="p">,</span> <span class="n">equality_typechecker</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="kn">import</span> <span class="n">numpy_type_to_python_type</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span><span class="p">,</span> <span class="n">inspect</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.engine.base</span> <span class="kn">import</span> <span class="n">Engine</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.ext.declarative</span> <span class="kn">import</span> <span class="n">declarative_base</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">Session</span><span class="p">,</span> <span class="n">scoped_session</span><span class="p">,</span> <span class="n">sessionmaker</span>
 
 
 <span class="c1"># some constants for database fields</span>
@@ -114,8 +117,8 @@ src="/js/documentation_options.js">
                     <span class="n">equal</span> <span class="o">=</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="n">f</span><span class="s2">"Calling list_equals on unsupported types: "</span>
-                        <span class="n">f</span><span class="s2">"{type(x) and {type(y)}}"</span>
+                        <span class="sa">f</span><span class="s2">"Calling list_equals on unsupported types: "</span>
+                        <span class="sa">f</span><span class="s2">"{type(x) and {type(y)}}"</span>
                     <span class="p">)</span>
                 <span class="k">if</span> <span class="n">equal</span><span class="p">:</span>
                     <span class="k">break</span>
@@ -148,13 +151,13 @@ src="/js/documentation_options.js">
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">types</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">"Cannot call `list_update` on lists that contain a mix of "</span>
-                <span class="n">f</span><span class="s2">"primitive and no primitive types: (</span><span class="si">{l1}</span><span class="s2"> and </span><span class="si">{l2}</span><span class="s2">)."</span>
+                <span class="sa">f</span><span class="s2">"primitive and no primitive types: (</span><span class="si">{l1}</span><span class="s2"> and </span><span class="si">{l2}</span><span class="s2">)."</span>
             <span class="p">)</span>
 
         <span class="n">type_</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">types</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="n">SQABase</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Calling list_update on unsupported type </span><span class="si">{type_}</span><span class="s2">."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Calling list_update on unsupported type </span><span class="si">{type_}</span><span class="s2">."</span><span class="p">)</span>
 
         <span class="n">unique_id</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="s2">"unique_id"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">unique_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -218,7 +221,7 @@ src="/js/documentation_options.js">
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields_equal</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
                     <span class="k">continue</span>
                 <span class="k">raise</span> <span class="n">ImmutabilityError</span><span class="p">(</span>
-                    <span class="n">f</span><span class="s2">"Cannot change `</span><span class="si">{field}</span><span class="s2">` of </span><span class="si">{self.__class__.__name__}</span><span class="s2">."</span>
+                    <span class="sa">f</span><span class="s2">"Cannot change `</span><span class="si">{field}</span><span class="s2">` of </span><span class="si">{self.__class__.__name__}</span><span class="s2">."</span>
                 <span class="p">)</span>
             <span class="k">if</span> <span class="p">(</span>
                 <span class="n">field</span> <span class="ow">in</span> <span class="n">ignore_during_update_fields</span>

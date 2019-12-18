@@ -27,14 +27,18 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.core.parameter_constraint</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
+
 <span class="c1"># pyre-strict</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">ax.core.base</span> <span class="k">import</span> <span class="n">Base</span>
-<span class="kn">from</span> <span class="nn">ax.core.parameter</span> <span class="k">import</span> <span class="n">ChoiceParameter</span><span class="p">,</span> <span class="n">FixedParameter</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">RangeParameter</span>
-<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="k">import</span> <span class="n">ComparisonOp</span>
+<span class="kn">from</span> <span class="nn">ax.core.base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">ax.core.parameter</span> <span class="kn">import</span> <span class="n">ChoiceParameter</span><span class="p">,</span> <span class="n">FixedParameter</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">RangeParameter</span>
+<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="kn">import</span> <span class="n">ComparisonOp</span>
 
 
 <div class="viewcode-block" id="ParameterConstraint"><a class="viewcode-back" href="../../../core.html#ax.ParameterConstraint">[docs]</a><span class="k">class</span> <span class="nc">ParameterConstraint</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
@@ -50,7 +54,7 @@ src="/js/documentation_options.js">
 <span class="sd">        * is the dot product operator.</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraint_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">bound</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraint_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">bound</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""Initialize ParameterConstraint</span>
 
 <span class="sd">        Args:</span>
@@ -89,7 +93,7 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="k">for</span> <span class="n">parameter_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraint_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">parameter_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">parameter_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"`</span><span class="si">{parameter_name}</span><span class="s2">` not present in param_dict."</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"`</span><span class="si">{parameter_name}</span><span class="s2">` not present in param_dict."</span><span class="p">)</span>
 
         <span class="n">weighted_sum</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
             <span class="nb">float</span><span class="p">(</span><span class="n">parameter_dict</span><span class="p">[</span><span class="n">param</span><span class="p">])</span> <span class="o">*</span> <span class="n">weight</span>
@@ -112,7 +116,7 @@ src="/js/documentation_options.js">
         <span class="sd">"""Clone, but replaced parameters with transformed versions."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="s2">"ParameterConstraint("</span>
             <span class="o">+</span> <span class="s2">" + "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">"</span><span class="si">{}</span><span class="s2">*</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraint_dict</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
@@ -125,7 +129,7 @@ src="/js/documentation_options.js">
 
     <span class="n">_bound</span><span class="p">:</span> <span class="nb">float</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lower_parameter</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">upper_parameter</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lower_parameter</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">upper_parameter</span><span class="p">:</span> <span class="n">Parameter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""Initialize OrderConstraint</span>
 
 <span class="sd">        Args:</span>
@@ -178,7 +182,7 @@ src="/js/documentation_options.js">
             <span class="n">upper_parameter</span><span class="o">=</span><span class="n">transformed_parameters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_upper_parameter</span><span class="o">.</span><span class="n">name</span><span class="p">],</span>
         <span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">"OrderConstraint(</span><span class="si">{}</span><span class="s2"> &lt;= </span><span class="si">{}</span><span class="s2">)"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lower_parameter</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper_parameter</span><span class="o">.</span><span class="n">name</span>
         <span class="p">)</span></div>
@@ -188,7 +192,7 @@ src="/js/documentation_options.js">
     <span class="sd">"""Constraint on the sum of parameters being greater or less than a bound.</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">is_upper_bound</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">bound</span><span class="p">:</span> <span class="nb">float</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""Initialize SumConstraint</span>
@@ -255,7 +259,7 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_upper_bound</span> <span class="k">else</span> <span class="o">-</span><span class="mf">1.0</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">symbol</span> <span class="o">=</span> <span class="s2">"&gt;="</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">op</span> <span class="o">==</span> <span class="n">ComparisonOp</span><span class="o">.</span><span class="n">GEQ</span> <span class="k">else</span> <span class="s2">"&lt;="</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="s2">"SumConstraint("</span>
@@ -299,7 +303,7 @@ src="/js/documentation_options.js">
         <span class="c1"># models only support linear constraints.</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">RangeParameter</span><span class="p">)</span> <span class="ow">and</span> <span class="n">parameter</span><span class="o">.</span><span class="n">log_scale</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="n">f</span><span class="s2">"Parameter constraints not allowed on log scale parameters."</span>
+                <span class="sa">f</span><span class="s2">"Parameter constraints not allowed on log scale parameters."</span>
             <span class="p">)</span></div>
 </pre></div>
 </div>
