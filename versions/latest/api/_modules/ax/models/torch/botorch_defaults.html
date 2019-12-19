@@ -35,9 +35,15 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="kn">import</span> <span class="n">TConfig</span>
+<span class="kn">from</span> <span class="nn">ax.models.model_utils</span> <span class="kn">import</span> <span class="n">best_observed_point</span><span class="p">,</span> <span class="n">get_observed</span>
+<span class="kn">from</span> <span class="nn">ax.models.torch.utils</span> <span class="kn">import</span> <span class="n">_to_inequality_constraints</span>
+<span class="kn">from</span> <span class="nn">ax.models.torch_base</span> <span class="kn">import</span> <span class="n">TorchModel</span>
 <span class="kn">from</span> <span class="nn">botorch.acquisition.acquisition</span> <span class="kn">import</span> <span class="n">AcquisitionFunction</span>
+<span class="kn">from</span> <span class="nn">botorch.acquisition.fixed_feature</span> <span class="kn">import</span> <span class="n">FixedFeatureAcquisitionFunction</span>
 <span class="kn">from</span> <span class="nn">botorch.acquisition.objective</span> <span class="kn">import</span> <span class="n">ConstrainedMCObjective</span><span class="p">,</span> <span class="n">LinearMCObjective</span>
 <span class="kn">from</span> <span class="nn">botorch.acquisition.utils</span> <span class="kn">import</span> <span class="n">get_acquisition_function</span><span class="p">,</span> <span class="n">get_infeasible_cost</span>
+<span class="kn">from</span> <span class="nn">botorch.exceptions.errors</span> <span class="kn">import</span> <span class="n">UnsupportedError</span>
 <span class="kn">from</span> <span class="nn">botorch.fit</span> <span class="kn">import</span> <span class="n">fit_gpytorch_model</span>
 <span class="kn">from</span> <span class="nn">botorch.models.gp_regression</span> <span class="kn">import</span> <span class="n">FixedNoiseGP</span><span class="p">,</span> <span class="n">SingleTaskGP</span>
 <span class="kn">from</span> <span class="nn">botorch.models.gp_regression_fidelity</span> <span class="kn">import</span> <span class="n">SingleTaskMultiFidelityGP</span>
@@ -280,6 +286,161 @@ src="/js/documentation_options.js">
         <span class="n">sequential</span><span class="o">=</span><span class="n">sequential</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">expected_acquisition_value</span></div>
+
+
+<div class="viewcode-block" id="recommend_best_observed_point"><a class="viewcode-back" href="../../../../models.html#ax.models.torch.botorch_defaults.recommend_best_observed_point">[docs]</a><span class="k">def</span> <span class="nf">recommend_best_observed_point</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">TorchModel</span><span class="p">,</span>
+    <span class="n">bounds</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="n">objective_weights</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">outcome_constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">linear_constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">fixed_features</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">model_gen_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">target_fidelities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]:</span>
+    <span class="sd">"""</span>
+<span class="sd">    A wrapper around `ax.models.model_utils.best_observed_point` for TorchModel</span>
+<span class="sd">    that recommends a best point from previously observed points using either a</span>
+<span class="sd">    "max_utility" or "feasible_threshold" strategy.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model: A TorchModel.</span>
+<span class="sd">        bounds: A list of (lower, upper) tuples for each column of X.</span>
+<span class="sd">        objective_weights: The objective is to maximize a weighted sum of</span>
+<span class="sd">            the columns of f(x). These are the weights.</span>
+<span class="sd">        outcome_constraints: A tuple of (A, b). For k outcome constraints</span>
+<span class="sd">            and m outputs at f(x), A is (k x m) and b is (k x 1) such that</span>
+<span class="sd">            A f(x) &lt;= b.</span>
+<span class="sd">        linear_constraints: A tuple of (A, b). For k linear constraints on</span>
+<span class="sd">            d-dimensional x, A is (k x d) and b is (k x 1) such that</span>
+<span class="sd">            A x &lt;= b.</span>
+<span class="sd">        fixed_features: A map {feature_index: value} for features that</span>
+<span class="sd">            should be fixed to a particular value in the best point.</span>
+<span class="sd">        model_gen_options: A config dictionary that can contain</span>
+<span class="sd">            model-specific options.</span>
+<span class="sd">        target_fidelities: A map {feature_index: value} of fidelity feature</span>
+<span class="sd">            column indices to their respective target fidelities. Used for</span>
+<span class="sd">            multi-fidelity optimization.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A d-array of the best point, or None if no feasible point was observed.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">target_fidelities</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">"target_fidelities not implemented for base BotorchModel"</span>
+        <span class="p">)</span>
+
+    <span class="n">x_best</span> <span class="o">=</span> <span class="n">best_observed_point</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
+        <span class="n">objective_weights</span><span class="o">=</span><span class="n">objective_weights</span><span class="p">,</span>
+        <span class="n">outcome_constraints</span><span class="o">=</span><span class="n">outcome_constraints</span><span class="p">,</span>
+        <span class="n">linear_constraints</span><span class="o">=</span><span class="n">linear_constraints</span><span class="p">,</span>
+        <span class="n">fixed_features</span><span class="o">=</span><span class="n">fixed_features</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">=</span><span class="n">model_gen_options</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">x_best</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">x_best</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cpu"</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="recommend_best_out_of_sample_point"><a class="viewcode-back" href="../../../../models.html#ax.models.torch.botorch_defaults.recommend_best_out_of_sample_point">[docs]</a><span class="k">def</span> <span class="nf">recommend_best_out_of_sample_point</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">TorchModel</span><span class="p">,</span>
+    <span class="n">bounds</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="n">objective_weights</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">outcome_constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">linear_constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">fixed_features</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">model_gen_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">target_fidelities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Identify the current best point by optimizing the posterior mean of the model.</span>
+<span class="sd">    This is "out-of-sample" because it considers un-observed designs as well.</span>
+
+<span class="sd">    Return None if no such point can be identified.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model: A TorchModel.</span>
+<span class="sd">        bounds: A list of (lower, upper) tuples for each column of X.</span>
+<span class="sd">        objective_weights: The objective is to maximize a weighted sum of</span>
+<span class="sd">            the columns of f(x). These are the weights.</span>
+<span class="sd">        outcome_constraints: A tuple of (A, b). For k outcome constraints</span>
+<span class="sd">            and m outputs at f(x), A is (k x m) and b is (k x 1) such that</span>
+<span class="sd">            A f(x) &lt;= b.</span>
+<span class="sd">        linear_constraints: A tuple of (A, b). For k linear constraints on</span>
+<span class="sd">            d-dimensional x, A is (k x d) and b is (k x 1) such that</span>
+<span class="sd">            A x &lt;= b.</span>
+<span class="sd">        fixed_features: A map {feature_index: value} for features that</span>
+<span class="sd">            should be fixed to a particular value in the best point.</span>
+<span class="sd">        model_gen_options: A config dictionary that can contain</span>
+<span class="sd">            model-specific options.</span>
+<span class="sd">        target_fidelities: A map {feature_index: value} of fidelity feature</span>
+<span class="sd">            column indices to their respective target fidelities. Used for</span>
+<span class="sd">            multi-fidelity optimization.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A d-array of the best point, or None if no feasible point exists.</span>
+<span class="sd">    """</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">model_gen_options</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">fixed_features</span> <span class="o">=</span> <span class="n">fixed_features</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">acf_options</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"acquisition_function_kwargs"</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">optimizer_options</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"optimizer_kwargs"</span><span class="p">,</span> <span class="p">{})</span>
+
+    <span class="n">X_observed</span> <span class="o">=</span> <span class="n">get_observed</span><span class="p">(</span>
+        <span class="n">Xs</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">Xs</span><span class="p">,</span>  <span class="c1"># pyre-ignore: [16]</span>
+        <span class="n">objective_weights</span><span class="o">=</span><span class="n">objective_weights</span><span class="p">,</span>
+        <span class="n">outcome_constraints</span><span class="o">=</span><span class="n">outcome_constraints</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">"_get_best_point_acqf"</span><span class="p">):</span>
+        <span class="n">acq_function</span><span class="p">,</span> <span class="n">non_fixed_idcs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">_get_best_point_acqf</span><span class="p">(</span>  <span class="c1"># pyre-ignore: [16]</span>
+            <span class="n">X_observed</span><span class="o">=</span><span class="n">X_observed</span><span class="p">,</span>
+            <span class="n">objective_weights</span><span class="o">=</span><span class="n">objective_weights</span><span class="p">,</span>
+            <span class="n">mc_samples</span><span class="o">=</span><span class="n">acf_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"mc_samples"</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span>
+            <span class="n">fixed_features</span><span class="o">=</span><span class="n">fixed_features</span><span class="p">,</span>
+            <span class="n">target_fidelities</span><span class="o">=</span><span class="n">target_fidelities</span><span class="p">,</span>
+            <span class="n">outcome_constraints</span><span class="o">=</span><span class="n">outcome_constraints</span><span class="p">,</span>
+            <span class="n">seed_inner</span><span class="o">=</span><span class="n">acf_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"seed_inner"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">qmc</span><span class="o">=</span><span class="n">acf_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"qmc"</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"The model should implement _get_best_point_acqf."</span><span class="p">)</span>
+
+    <span class="n">inequality_constraints</span> <span class="o">=</span> <span class="n">_to_inequality_constraints</span><span class="p">(</span><span class="n">linear_constraints</span><span class="p">)</span>
+    <span class="c1"># TODO: update optimizers to handle inequality_constraints</span>
+    <span class="c1"># (including transforming constraints b/c of fixed features)</span>
+    <span class="k">if</span> <span class="n">inequality_constraints</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">UnsupportedError</span><span class="p">(</span><span class="s2">"Inequality constraints are not supported!"</span><span class="p">)</span>
+
+    <span class="n">return_best_only</span> <span class="o">=</span> <span class="n">optimizer_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"return_best_only"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">bounds_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">bounds_</span> <span class="o">=</span> <span class="n">bounds_</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">non_fixed_idcs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bounds_</span> <span class="o">=</span> <span class="n">bounds_</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">non_fixed_idcs</span><span class="p">]</span>
+
+    <span class="n">candidates</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">optimize_acqf</span><span class="p">(</span>
+        <span class="n">acq_function</span><span class="o">=</span><span class="n">acq_function</span><span class="p">,</span>
+        <span class="n">bounds</span><span class="o">=</span><span class="n">bounds_</span><span class="p">,</span>
+        <span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">num_restarts</span><span class="o">=</span><span class="n">optimizer_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"num_restarts"</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span>
+        <span class="n">raw_samples</span><span class="o">=</span><span class="n">optimizer_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"raw_samples"</span><span class="p">,</span> <span class="mi">1024</span><span class="p">),</span>
+        <span class="n">inequality_constraints</span><span class="o">=</span><span class="n">inequality_constraints</span><span class="p">,</span>
+        <span class="n">fixed_features</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># handled inside the acquisition function</span>
+        <span class="n">options</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">"batch_limit"</span><span class="p">:</span> <span class="n">optimizer_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"batch_limit"</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+            <span class="s2">"maxiter"</span><span class="p">:</span> <span class="n">optimizer_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"maxiter"</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span>
+            <span class="s2">"nonnegative"</span><span class="p">:</span> <span class="n">optimizer_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"nonnegative"</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+            <span class="s2">"method"</span><span class="p">:</span> <span class="s2">"L-BFGS-B"</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="n">return_best_only</span><span class="o">=</span><span class="n">return_best_only</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">rec_point</span> <span class="o">=</span> <span class="n">candidates</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">acq_function</span><span class="p">,</span> <span class="n">FixedFeatureAcquisitionFunction</span><span class="p">):</span>
+        <span class="n">rec_point</span> <span class="o">=</span> <span class="n">acq_function</span><span class="o">.</span><span class="n">_construct_X_full</span><span class="p">(</span><span class="n">rec_point</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">return_best_only</span><span class="p">:</span>
+        <span class="n">rec_point</span> <span class="o">=</span> <span class="n">rec_point</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rec_point</span></div>
 
 
 <span class="k">def</span> <span class="nf">_get_model</span><span class="p">(</span>
