@@ -1954,6 +1954,17 @@ transform (does nothing).</p>
 <div class="section" id="module-ax.modelbridge.transforms.rounding">
 <span id="ax-modelbridge-transforms-rounding"></span><h3><cite>ax.modelbridge.transforms.rounding</cite><a class="headerlink" href="#module-ax.modelbridge.transforms.rounding" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
+<dt id="ax.modelbridge.transforms.rounding.contains_constrained_integer">
+<code class="sig-prename descclassname">ax.modelbridge.transforms.rounding.</code><code class="sig-name descname">contains_constrained_integer</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">transform_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/rounding.html#contains_constrained_integer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.rounding.contains_constrained_integer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if any integer parameters are present in parameter_constraints.</p>
+<p>Order constraints are ignored since strict rounding preserves ordering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
 <dt id="ax.modelbridge.transforms.rounding.randomized_onehot_round">
 <code class="sig-prename descclassname">ax.modelbridge.transforms.rounding.</code><code class="sig-name descname">randomized_onehot_round</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/rounding.html#randomized_onehot_round"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.rounding.randomized_onehot_round" title="Permalink to this definition">¶</a></dt>
 <dd><p>Randomized rounding of x to a one-hot vector.
@@ -1971,6 +1982,15 @@ x should be 0 &lt;= x &lt;= 1.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
+<dt id="ax.modelbridge.transforms.rounding.randomized_round_parameters">
+<code class="sig-prename descclassname">ax.modelbridge.transforms.rounding.</code><code class="sig-name descname">randomized_round_parameters</code><span class="sig-paren">(</span><em class="sig-param">parameters</em>, <em class="sig-param">transform_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/rounding.html#randomized_round_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.rounding.randomized_round_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]]</p>
 </dd>
 </dl>
 </dd></dl>
