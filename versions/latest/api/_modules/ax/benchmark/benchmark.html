@@ -331,6 +331,7 @@ src="/js/documentation_options.js">
                 <span class="k">if</span> <span class="n">raise_all_exceptions</span><span class="p">:</span>
                     <span class="k">raise</span>
                 <span class="n">exceptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>  <span class="c1"># TODO[T53975770]: test</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Obtained benchmarking test experiments: </span><span class="si">{tests}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">tests</span></div>
 
 
@@ -415,6 +416,7 @@ src="/js/documentation_options.js">
 <span class="sd">    """</span>
     <span class="n">exceptions</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">experiment</span> <span class="o">=</span> <span class="n">Experiment</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">experiment_name</span><span class="p">,</span>
         <span class="n">search_space</span><span class="o">=</span><span class="n">problem</span><span class="o">.</span><span class="n">search_space</span><span class="p">,</span>
         <span class="n">optimization_config</span><span class="o">=</span><span class="n">problem</span><span class="o">.</span><span class="n">optimization_config</span><span class="p">,</span>
         <span class="n">runner</span><span class="o">=</span><span class="n">SyntheticRunner</span><span class="p">(),</span>

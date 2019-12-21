@@ -207,7 +207,7 @@ src="/js/documentation_options.js">
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{self._botorch_function.__class__.__name__}</span><span class="s2">"</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{self.__class__.__name__}</span><span class="s2">_</span><span class="si">{self._botorch_function.__class__.__name__}</span><span class="s2">"</span>
 
     <span class="k">def</span> <span class="nf">_f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="c1"># TODO: support batch evaluation</span>
