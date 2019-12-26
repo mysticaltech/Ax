@@ -27,12 +27,15 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.metrics.branin</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">ax.metrics.noisy_function</span> <span class="k">import</span> <span class="n">NoisyFunctionMetric</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">checked_cast</span>
-<span class="kn">from</span> <span class="nn">ax.utils.measurement.synthetic_functions</span> <span class="k">import</span> <span class="n">branin</span>
+<span class="kn">from</span> <span class="nn">ax.metrics.noisy_function</span> <span class="kn">import</span> <span class="n">NoisyFunctionMetric</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="kn">import</span> <span class="n">checked_cast</span>
+<span class="kn">from</span> <span class="nn">ax.utils.measurement.synthetic_functions</span> <span class="kn">import</span> <span class="n">branin</span>
 
 
 <div class="viewcode-block" id="BraninMetric"><a class="viewcode-back" href="../../../metrics.html#ax.metrics.branin.BraninMetric">[docs]</a><span class="k">class</span> <span class="nc">BraninMetric</span><span class="p">(</span><span class="n">NoisyFunctionMetric</span><span class="p">):</span>

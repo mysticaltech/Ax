@@ -27,20 +27,23 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.models.model_utils</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="k">import</span> <span class="n">TConfig</span><span class="p">,</span> <span class="n">TParamCounter</span>
-<span class="kn">from</span> <span class="nn">ax.models.torch_base</span> <span class="k">import</span> <span class="n">TorchModel</span>
+<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="kn">import</span> <span class="n">TConfig</span><span class="p">,</span> <span class="n">TParamCounter</span>
+<span class="kn">from</span> <span class="nn">ax.models.torch_base</span> <span class="kn">import</span> <span class="n">TorchModel</span>
 
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="c1"># import as module to make sphinx-autodoc-typehints happy</span>
-    <span class="kn">from</span> <span class="nn">ax</span> <span class="k">import</span> <span class="n">models</span>  <span class="c1"># noqa F401  # pragma: no cover</span>
+    <span class="kn">from</span> <span class="nn">ax</span> <span class="kn">import</span> <span class="n">models</span>  <span class="c1"># noqa F401  # pragma: no cover</span>
 
 <span class="n">Tensoray</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
 
@@ -116,9 +119,9 @@ src="/js/documentation_options.js">
         <span class="n">duplicate</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="n">deduplicate</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">existing_points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">prev_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">points</span><span class="p">,</span> <span class="n">existing_points</span><span class="p">])</span>
+                <span class="n">prev_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">points</span><span class="p">[:</span><span class="n">successful_draws</span><span class="p">,</span> <span class="p">:],</span> <span class="n">existing_points</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">prev_points</span> <span class="o">=</span> <span class="n">points</span>
+                <span class="n">prev_points</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:</span><span class="n">successful_draws</span><span class="p">,</span> <span class="p">:]</span>
             <span class="n">duplicate</span> <span class="o">=</span> <span class="n">check_duplicate</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">point</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="n">prev_points</span><span class="p">)</span>
 
         <span class="c1"># Add point if valid.</span>
@@ -130,8 +133,8 @@ src="/js/documentation_options.js">
     <span class="k">if</span> <span class="n">successful_draws</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
         <span class="c1"># Only possible if attempted_draws &gt;= max_draws.</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="n">f</span><span class="s2">"Specified maximum draws (</span><span class="si">{max_draws}</span><span class="s2">) exhausted, without "</span>
-            <span class="n">f</span><span class="s2">"finding sufficiently many (</span><span class="si">{n}</span><span class="s2">) candidates."</span>
+            <span class="sa">f</span><span class="s2">"Specified maximum draws (</span><span class="si">{max_draws}</span><span class="s2">) exhausted, without "</span>
+            <span class="sa">f</span><span class="s2">"finding sufficiently many (</span><span class="si">{n}</span><span class="s2">) candidates."</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">attempted_draws</span><span class="p">)</span></div>
@@ -142,12 +145,15 @@ src="/js/documentation_options.js">
 
 <span class="sd">    Args:</span>
 <span class="sd">        point: Newly generated point to check.</span>
-<span class="sd">        prev_points: Points previously generated.</span>
+<span class="sd">        points: Points previously generated.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        True if the point is contained in points, else False</span>
 <span class="sd">    """</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">point</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span></div>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="add_fixed_features"><a class="viewcode-back" href="../../../models.html#ax.models.model_utils.add_fixed_features">[docs]</a><span class="k">def</span> <span class="nf">add_fixed_features</span><span class="p">(</span>
@@ -303,13 +309,21 @@ src="/js/documentation_options.js">
 <span class="sd">        A d-array of the best point, or None if no feasible point exists.</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">"Xs"</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Model must store training data Xs, but </span><span class="si">{model}</span><span class="s2"> does not."</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Model must store training data Xs, but </span><span class="si">{model}</span><span class="s2"> does not."</span><span class="p">)</span>
     <span class="c1"># Parse options</span>
     <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># pyre-fixme[9]: method has type `str`; used as `Union[AcquisitionFunction,</span>
+    <span class="c1">#  float, int, str]`.</span>
     <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"best_point_method"</span><span class="p">,</span> <span class="s2">"max_utility"</span><span class="p">)</span>
+    <span class="c1"># pyre-fixme[9]: B has type `Optional[float]`; used as</span>
+    <span class="c1">#  `Optional[Union[AcquisitionFunction, float, int, str]]`.</span>
     <span class="n">B</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"utility_baseline"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="c1"># pyre-fixme[9]: threshold has type `float`; used as `Union[AcquisitionFunction,</span>
+    <span class="c1">#  float, int, str]`.</span>
     <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"probability_threshold"</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">)</span>
+    <span class="c1"># pyre-fixme[9]: nsamp has type `int`; used as `Union[AcquisitionFunction,</span>
+    <span class="c1">#  float, int, str]`.</span>
     <span class="n">nsamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"feasibility_mc_samples"</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
     <span class="c1"># Get points observed for all objective and constraint outcomes</span>
     <span class="k">if</span> <span class="n">objective_weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>

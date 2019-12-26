@@ -27,22 +27,25 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.storage.json_store.decoders</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">ax.core.arm</span> <span class="k">import</span> <span class="n">Arm</span>
-<span class="kn">from</span> <span class="nn">ax.core.base_trial</span> <span class="k">import</span> <span class="n">TrialStatus</span>
-<span class="kn">from</span> <span class="nn">ax.core.batch_trial</span> <span class="k">import</span> <span class="n">AbandonedArm</span><span class="p">,</span> <span class="n">BatchTrial</span><span class="p">,</span> <span class="n">GeneratorRunStruct</span>
-<span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="k">import</span> <span class="n">GeneratorRun</span>
-<span class="kn">from</span> <span class="nn">ax.core.runner</span> <span class="k">import</span> <span class="n">Runner</span>
-<span class="kn">from</span> <span class="nn">ax.core.trial</span> <span class="k">import</span> <span class="n">Trial</span>
+<span class="kn">from</span> <span class="nn">ax.core.arm</span> <span class="kn">import</span> <span class="n">Arm</span>
+<span class="kn">from</span> <span class="nn">ax.core.base_trial</span> <span class="kn">import</span> <span class="n">TrialStatus</span>
+<span class="kn">from</span> <span class="nn">ax.core.batch_trial</span> <span class="kn">import</span> <span class="n">AbandonedArm</span><span class="p">,</span> <span class="n">BatchTrial</span><span class="p">,</span> <span class="n">GeneratorRunStruct</span>
+<span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="kn">import</span> <span class="n">GeneratorRun</span>
+<span class="kn">from</span> <span class="nn">ax.core.runner</span> <span class="kn">import</span> <span class="n">Runner</span>
+<span class="kn">from</span> <span class="nn">ax.core.trial</span> <span class="kn">import</span> <span class="n">Trial</span>
 
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="c1"># import as module to make sphinx-autodoc-typehints happy</span>
-    <span class="kn">from</span> <span class="nn">ax</span> <span class="k">import</span> <span class="n">core</span>  <span class="c1"># noqa F401  # pragma: no cover</span>
+    <span class="kn">from</span> <span class="nn">ax</span> <span class="kn">import</span> <span class="n">core</span>  <span class="c1"># noqa F401  # pragma: no cover</span>
 
 
 <div class="viewcode-block" id="batch_trial_from_json"><a class="viewcode-back" href="../../../../storage.html#ax.storage.json_store.decoders.batch_trial_from_json">[docs]</a><span class="k">def</span> <span class="nf">batch_trial_from_json</span><span class="p">(</span>
@@ -61,7 +64,8 @@ src="/js/documentation_options.js">
     <span class="n">abandoned_arms_metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AbandonedArm</span><span class="p">],</span>
     <span class="n">num_arms_created</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">status_quo</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Arm</span><span class="p">],</span>
-    <span class="n">status_quo_weight</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">status_quo_weight_override</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">optimize_for_power</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchTrial</span><span class="p">:</span>
     <span class="sd">"""Load Ax BatchTrial from JSON.</span>
 
@@ -85,7 +89,8 @@ src="/js/documentation_options.js">
     <span class="n">batch</span><span class="o">.</span><span class="n">_abandoned_arms_metadata</span> <span class="o">=</span> <span class="n">abandoned_arms_metadata</span>
     <span class="n">batch</span><span class="o">.</span><span class="n">_num_arms_created</span> <span class="o">=</span> <span class="n">num_arms_created</span>
     <span class="n">batch</span><span class="o">.</span><span class="n">_status_quo</span> <span class="o">=</span> <span class="n">status_quo</span>
-    <span class="n">batch</span><span class="o">.</span><span class="n">_status_quo_weight</span> <span class="o">=</span> <span class="n">status_quo_weight</span>
+    <span class="n">batch</span><span class="o">.</span><span class="n">_status_quo_weight_override</span> <span class="o">=</span> <span class="n">status_quo_weight_override</span>
+    <span class="n">batch</span><span class="o">.</span><span class="n">optimize_for_power</span> <span class="o">=</span> <span class="n">optimize_for_power</span>
     <span class="k">return</span> <span class="n">batch</span></div>
 
 

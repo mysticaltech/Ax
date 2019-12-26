@@ -27,17 +27,20 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.plot.scatter</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
 <span class="kn">import</span> <span class="nn">numbers</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span>
-<span class="kn">from</span> <span class="nn">ax.core.observation</span> <span class="k">import</span> <span class="n">ObservationFeatures</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.base</span> <span class="k">import</span> <span class="n">ModelBridge</span>
-<span class="kn">from</span> <span class="nn">ax.plot.base</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.core.observation</span> <span class="kn">import</span> <span class="n">ObservationFeatures</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.base</span> <span class="kn">import</span> <span class="n">ModelBridge</span>
+<span class="kn">from</span> <span class="nn">ax.plot.base</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">CI_OPACITY</span><span class="p">,</span>
     <span class="n">DECIMALS</span><span class="p">,</span>
     <span class="n">AxPlotConfig</span><span class="p">,</span>
@@ -47,18 +50,19 @@ src="/js/documentation_options.js">
     <span class="n">PlotOutOfSampleArm</span><span class="p">,</span>
     <span class="n">Z</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.plot.color</span> <span class="k">import</span> <span class="n">COLORS</span><span class="p">,</span> <span class="n">DISCRETE_COLOR_SCALE</span><span class="p">,</span> <span class="n">rgba</span>
-<span class="kn">from</span> <span class="nn">ax.plot.helper</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.plot.color</span> <span class="kn">import</span> <span class="n">COLORS</span><span class="p">,</span> <span class="n">DISCRETE_COLOR_SCALE</span><span class="p">,</span> <span class="n">rgba</span>
+<span class="kn">from</span> <span class="nn">ax.plot.helper</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">TNullableGeneratorRunsDict</span><span class="p">,</span>
     <span class="n">_format_CI</span><span class="p">,</span>
     <span class="n">_format_dict</span><span class="p">,</span>
     <span class="n">_wrap_metric</span><span class="p">,</span>
     <span class="n">arm_name_to_tuple</span><span class="p">,</span>
     <span class="n">get_plot_data</span><span class="p">,</span>
+    <span class="n">infer_is_relative</span><span class="p">,</span>
     <span class="n">resize_subtitles</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.utils.stats.statstools</span> <span class="k">import</span> <span class="n">relativize</span>
-<span class="kn">from</span> <span class="nn">plotly</span> <span class="k">import</span> <span class="n">tools</span>
+<span class="kn">from</span> <span class="nn">ax.utils.stats.statstools</span> <span class="kn">import</span> <span class="n">relativize</span>
+<span class="kn">from</span> <span class="nn">plotly</span> <span class="kn">import</span> <span class="n">subplots</span>
 
 
 <span class="c1"># type aliases</span>
@@ -69,7 +73,6 @@ src="/js/documentation_options.js">
     <span class="n">arms</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">PlotInSampleArm</span><span class="p">,</span> <span class="n">PlotOutOfSampleArm</span><span class="p">]],</span>
     <span class="n">y_axis_var</span><span class="p">:</span> <span class="n">PlotMetric</span><span class="p">,</span>
     <span class="n">x_axis_var</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PlotMetric</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">rel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">status_quo_arm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PlotInSampleArm</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
     <span class="n">y_metric_key</span> <span class="o">=</span> <span class="s2">"y_hat"</span> <span class="k">if</span> <span class="n">y_axis_var</span><span class="o">.</span><span class="n">pred</span> <span class="k">else</span> <span class="s2">"y"</span>
@@ -80,7 +83,7 @@ src="/js/documentation_options.js">
     <span class="n">y_se</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">y_sd_key</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">y_axis_var</span><span class="o">.</span><span class="n">metric</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">arms</span><span class="p">]</span>
 
     <span class="c1"># Delta method if relative to status quo arm</span>
-    <span class="k">if</span> <span class="n">rel</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">y_axis_var</span><span class="o">.</span><span class="n">rel</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">status_quo_arm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"`status_quo_arm` cannot be None for relative effects."</span><span class="p">)</span>
         <span class="n">y_rel</span><span class="p">,</span> <span class="n">y_se_rel</span> <span class="o">=</span> <span class="n">relativize</span><span class="p">(</span>
@@ -103,7 +106,7 @@ src="/js/documentation_options.js">
         <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">x_metric_key</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x_axis_var</span><span class="o">.</span><span class="n">metric</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">arms</span><span class="p">]</span>
         <span class="n">x_se</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">x_sd_key</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x_axis_var</span><span class="o">.</span><span class="n">metric</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">arms</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="n">rel</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">x_axis_var</span><span class="o">.</span><span class="n">rel</span><span class="p">:</span>
             <span class="c1"># Delta method if relative to status quo arm</span>
             <span class="n">x_rel</span><span class="p">,</span> <span class="n">x_se_rel</span> <span class="o">=</span> <span class="n">relativize</span><span class="p">(</span>
                 <span class="n">means_t</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
@@ -123,7 +126,6 @@ src="/js/documentation_options.js">
     <span class="n">x_axis_var</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PlotMetric</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">y_axis_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">x_axis_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">rel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">status_quo_arm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PlotInSampleArm</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">show_CI</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"In-sample"</span><span class="p">,</span>
@@ -153,9 +155,6 @@ src="/js/documentation_options.js">
 <span class="sd">            If None, use metric name from `y_axis_var`.</span>
 <span class="sd">        x_axis_label: custom label to use for x axis.</span>
 <span class="sd">            If None, use metric name from `x_axis_var` if that is not None.</span>
-<span class="sd">        rel: if True, points are treated as relative to status</span>
-<span class="sd">            quo and '%' is appended to labels. If rel=True, `status_quo_arm`</span>
-<span class="sd">            must be set.</span>
 <span class="sd">        status_quo_arm: the status quo</span>
 <span class="sd">            arm. Necessary for relative metrics.</span>
 <span class="sd">        show_CI: if True, plot confidence intervals.</span>
@@ -177,22 +176,26 @@ src="/js/documentation_options.js">
         <span class="n">arms</span><span class="o">=</span><span class="n">arms</span><span class="p">,</span>
         <span class="n">y_axis_var</span><span class="o">=</span><span class="n">y_axis_var</span><span class="p">,</span>
         <span class="n">x_axis_var</span><span class="o">=</span><span class="n">x_axis_var</span><span class="p">,</span>
-        <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">,</span>
         <span class="n">status_quo_arm</span><span class="o">=</span><span class="n">status_quo_arm</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">arm_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">arms</span><span class="p">]</span>
+
+    <span class="c1"># No relativization if no x variable.</span>
+    <span class="n">rel_x</span> <span class="o">=</span> <span class="n">x_axis_var</span><span class="o">.</span><span class="n">rel</span> <span class="k">if</span> <span class="n">x_axis_var</span> <span class="k">else</span> <span class="kc">False</span>
+    <span class="n">rel_y</span> <span class="o">=</span> <span class="n">y_axis_var</span><span class="o">.</span><span class="n">rel</span>
+
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">arm_names</span><span class="p">)):</span>
-        <span class="n">heading</span> <span class="o">=</span> <span class="n">f</span><span class="s2">"&lt;b&gt;{arm_noun.title()} </span><span class="si">{arm_names[i]}</span><span class="s2">&lt;/b&gt;&lt;br&gt;"</span>
+        <span class="n">heading</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"&lt;b&gt;{arm_noun.title()} </span><span class="si">{arm_names[i]}</span><span class="s2">&lt;/b&gt;&lt;br&gt;"</span>
         <span class="n">x_lab</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s2">"</span><span class="si">{name}</span><span class="s2">: </span><span class="si">{estimate}{perc}</span><span class="s2"> </span><span class="si">{ci}</span><span class="s2">&lt;br&gt;"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">x_axis_var</span><span class="o">.</span><span class="n">metric</span> <span class="k">if</span> <span class="n">x_axis_label</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">x_axis_label</span><span class="p">,</span>
                 <span class="n">estimate</span><span class="o">=</span><span class="p">(</span>
                     <span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">DECIMALS</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                 <span class="p">),</span>
-                <span class="n">ci</span><span class="o">=</span><span class="s2">""</span> <span class="k">if</span> <span class="n">x_se</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_format_CI</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x_se</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">rel</span><span class="p">),</span>
-                <span class="n">perc</span><span class="o">=</span><span class="s2">"%"</span> <span class="k">if</span> <span class="n">rel</span> <span class="k">else</span> <span class="s2">""</span><span class="p">,</span>
+                <span class="n">ci</span><span class="o">=</span><span class="s2">""</span> <span class="k">if</span> <span class="n">x_se</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_format_CI</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x_se</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">rel_x</span><span class="p">),</span>
+                <span class="n">perc</span><span class="o">=</span><span class="s2">"%"</span> <span class="k">if</span> <span class="n">rel_x</span> <span class="k">else</span> <span class="s2">""</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">x_axis_var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="k">else</span> <span class="s2">""</span>
@@ -202,8 +205,8 @@ src="/js/documentation_options.js">
             <span class="n">estimate</span><span class="o">=</span><span class="p">(</span>
                 <span class="nb">round</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">DECIMALS</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">)</span> <span class="k">else</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="p">),</span>
-            <span class="n">ci</span><span class="o">=</span><span class="s2">""</span> <span class="k">if</span> <span class="n">y_se</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_format_CI</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">y_se</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">rel</span><span class="p">),</span>
-            <span class="n">perc</span><span class="o">=</span><span class="s2">"%"</span> <span class="k">if</span> <span class="n">rel</span> <span class="k">else</span> <span class="s2">""</span><span class="p">,</span>
+            <span class="n">ci</span><span class="o">=</span><span class="s2">""</span> <span class="k">if</span> <span class="n">y_se</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_format_CI</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">y_se</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">rel_y</span><span class="p">),</span>
+            <span class="n">perc</span><span class="o">=</span><span class="s2">"%"</span> <span class="k">if</span> <span class="n">rel_y</span> <span class="k">else</span> <span class="s2">""</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="n">parameterization</span> <span class="o">=</span> <span class="p">(</span>
@@ -275,7 +278,8 @@ src="/js/documentation_options.js">
     <span class="n">metric_x</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">metric_y</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">generator_runs_dict</span><span class="p">:</span> <span class="n">TNullableGeneratorRunsDict</span><span class="p">,</span>
-    <span class="n">rel</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">rel_x</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">rel_y</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">fixed_features</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ObservationFeatures</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Traces</span><span class="p">:</span>
     <span class="sd">"""Plot traces for multiple metrics given a model and metrics.</span>
@@ -286,7 +290,8 @@ src="/js/documentation_options.js">
 <span class="sd">        metric_y: metric to plot on the y-axis.</span>
 <span class="sd">        generator_runs_dict: a mapping from</span>
 <span class="sd">            generator run name to generator run.</span>
-<span class="sd">        rel: if True, use relative effects.</span>
+<span class="sd">        rel_x: if True, use relative effects on metric_x.</span>
+<span class="sd">        rel_y: if True, use relative effects on metric_y.</span>
 <span class="sd">        fixed_features: Fixed features to use when making model predictions.</span>
 
 <span class="sd">    """</span>
@@ -312,9 +317,8 @@ src="/js/documentation_options.js">
             <span class="c1"># `List[PlotInSampleArm]`.</span>
             <span class="c1"># pyre-fixme[6]:</span>
             <span class="nb">list</span><span class="p">(</span><span class="n">plot_data</span><span class="o">.</span><span class="n">in_sample</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
-            <span class="n">x_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">metric_x</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-            <span class="n">y_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">metric_y</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-            <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">,</span>
+            <span class="n">x_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">metric_x</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="n">rel_x</span><span class="p">),</span>
+            <span class="n">y_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">metric_y</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="n">rel_y</span><span class="p">),</span>
             <span class="n">status_quo_arm</span><span class="o">=</span><span class="n">status_quo_arm</span><span class="p">,</span>
             <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">),</span>
@@ -325,9 +329,8 @@ src="/js/documentation_options.js">
             <span class="c1"># `List[PlotInSampleArm]`.</span>
             <span class="c1"># pyre-fixme[6]:</span>
             <span class="nb">list</span><span class="p">(</span><span class="n">plot_data</span><span class="o">.</span><span class="n">in_sample</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
-            <span class="n">x_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">metric_x</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-            <span class="n">y_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">metric_y</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-            <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">,</span>
+            <span class="n">x_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">metric_x</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="n">rel_x</span><span class="p">),</span>
+            <span class="n">y_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">metric_y</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="n">rel_y</span><span class="p">),</span>
             <span class="n">status_quo_arm</span><span class="o">=</span><span class="n">status_quo_arm</span><span class="p">,</span>
             <span class="n">visible</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">),</span>
@@ -339,9 +342,8 @@ src="/js/documentation_options.js">
         <span class="n">traces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">_error_scatter_trace</span><span class="p">(</span>
                 <span class="nb">list</span><span class="p">(</span><span class="n">cand_arms</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
-                <span class="n">x_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">metric_x</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                <span class="n">y_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">metric_y</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">,</span>
+                <span class="n">x_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">metric_x</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="n">rel_x</span><span class="p">),</span>
+                <span class="n">y_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">metric_y</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="n">rel_y</span><span class="p">),</span>
                 <span class="n">status_quo_arm</span><span class="o">=</span><span class="n">status_quo_arm</span><span class="p">,</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">generator_run_name</span><span class="p">,</span>
                 <span class="n">color</span><span class="o">=</span><span class="n">DISCRETE_COLOR_SCALE</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
@@ -372,7 +374,7 @@ src="/js/documentation_options.js">
 
 <span class="sd">    """</span>
     <span class="n">traces</span> <span class="o">=</span> <span class="n">_multiple_metric_traces</span><span class="p">(</span>
-        <span class="n">model</span><span class="p">,</span> <span class="n">metric_x</span><span class="p">,</span> <span class="n">metric_y</span><span class="p">,</span> <span class="n">generator_runs_dict</span><span class="p">,</span> <span class="n">rel</span>
+        <span class="n">model</span><span class="p">,</span> <span class="n">metric_x</span><span class="p">,</span> <span class="n">metric_y</span><span class="p">,</span> <span class="n">generator_runs_dict</span><span class="p">,</span> <span class="n">rel_x</span><span class="o">=</span><span class="n">rel</span><span class="p">,</span> <span class="n">rel_y</span><span class="o">=</span><span class="n">rel</span>
     <span class="p">)</span>
     <span class="n">num_cand_traces</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">generator_runs_dict</span><span class="p">)</span> <span class="k">if</span> <span class="n">generator_runs_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">0</span>
 
@@ -480,6 +482,7 @@ src="/js/documentation_options.js">
     <span class="n">subset_metrics</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">generator_runs_dict</span><span class="p">:</span> <span class="n">TNullableGeneratorRunsDict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">rel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">infer_relative_constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">fixed_features</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ObservationFeatures</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AxPlotConfig</span><span class="p">:</span>
     <span class="sd">"""Plot the tradeoff between an objetive and all other metrics in a model.</span>
@@ -498,6 +501,11 @@ src="/js/documentation_options.js">
 <span class="sd">        generator_runs_dict: a mapping from</span>
 <span class="sd">            generator run name to generator run.</span>
 <span class="sd">        rel: if True, use relative effects. Default is True.</span>
+<span class="sd">        infer_relative_constraints: if True, read relative spec from model's</span>
+<span class="sd">            optimization config. Absolute constraints will not be relativized;</span>
+<span class="sd">            relative ones will be.</span>
+<span class="sd">            Objectives will respect the `rel` parameter.</span>
+<span class="sd">            Metrics that are not constraints will be relativized.</span>
 <span class="sd">        fixed_features: Fixed features to use when making model predictions.</span>
 
 <span class="sd">    """</span>
@@ -508,13 +516,28 @@ src="/js/documentation_options.js">
 
     <span class="n">metric_dropdown</span> <span class="o">=</span> <span class="p">[]</span>
 
+    <span class="k">if</span> <span class="n">infer_relative_constraints</span><span class="p">:</span>
+        <span class="n">rels</span> <span class="o">=</span> <span class="n">infer_is_relative</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">non_constraint_rel</span><span class="o">=</span><span class="n">rel</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rel</span><span class="p">:</span>
+            <span class="n">rels</span><span class="p">[</span><span class="n">objective</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rels</span><span class="p">[</span><span class="n">objective</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">rel</span><span class="p">:</span>
+            <span class="n">rels</span> <span class="o">=</span> <span class="p">{</span><span class="n">metric</span><span class="p">:</span> <span class="kc">True</span> <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">}</span>
+            <span class="n">rels</span><span class="p">[</span><span class="n">objective</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rels</span> <span class="o">=</span> <span class="p">{</span><span class="n">metric</span><span class="p">:</span> <span class="kc">False</span> <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">}</span>
+            <span class="n">rels</span><span class="p">[</span><span class="n">objective</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
     <span class="c1"># set plotted data to the first outcome</span>
     <span class="n">plot_data</span> <span class="o">=</span> <span class="n">_multiple_metric_traces</span><span class="p">(</span>
         <span class="n">model</span><span class="p">,</span>
         <span class="n">objective</span><span class="p">,</span>
         <span class="n">metrics</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="n">generator_runs_dict</span><span class="p">,</span>
-        <span class="n">rel</span><span class="p">,</span>
+        <span class="n">rel_x</span><span class="o">=</span><span class="n">rels</span><span class="p">[</span><span class="n">objective</span><span class="p">],</span>
+        <span class="n">rel_y</span><span class="o">=</span><span class="n">rels</span><span class="p">[</span><span class="n">metrics</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
         <span class="n">fixed_features</span><span class="o">=</span><span class="n">fixed_features</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -524,7 +547,8 @@ src="/js/documentation_options.js">
             <span class="n">objective</span><span class="p">,</span>
             <span class="n">metric</span><span class="p">,</span>
             <span class="n">generator_runs_dict</span><span class="p">,</span>
-            <span class="n">rel</span><span class="p">,</span>
+            <span class="n">rel_x</span><span class="o">=</span><span class="n">rels</span><span class="p">[</span><span class="n">objective</span><span class="p">],</span>
+            <span class="n">rel_y</span><span class="o">=</span><span class="n">rels</span><span class="p">[</span><span class="n">metric</span><span class="p">],</span>
             <span class="n">fixed_features</span><span class="o">=</span><span class="n">fixed_features</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -538,7 +562,7 @@ src="/js/documentation_options.js">
                         <span class="s2">"error_y.array"</span><span class="p">:</span> <span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="s2">"error_y"</span><span class="p">][</span><span class="s2">"array"</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">otraces</span><span class="p">],</span>
                         <span class="s2">"text"</span><span class="p">:</span> <span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">otraces</span><span class="p">],</span>
                     <span class="p">},</span>
-                    <span class="p">{</span><span class="s2">"yaxis.title"</span><span class="p">:</span> <span class="n">metric</span> <span class="o">+</span> <span class="p">(</span><span class="s2">" (%)"</span> <span class="k">if</span> <span class="n">rel</span> <span class="k">else</span> <span class="s2">""</span><span class="p">)},</span>
+                    <span class="p">{</span><span class="s2">"yaxis.title"</span><span class="p">:</span> <span class="n">metric</span> <span class="o">+</span> <span class="p">(</span><span class="s2">" (%)"</span> <span class="k">if</span> <span class="n">rels</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="k">else</span> <span class="s2">""</span><span class="p">)},</span>
                 <span class="p">],</span>
                 <span class="s2">"label"</span><span class="p">:</span> <span class="n">metric</span><span class="p">,</span>
                 <span class="s2">"method"</span><span class="p">:</span> <span class="s2">"update"</span><span class="p">,</span>
@@ -643,12 +667,12 @@ src="/js/documentation_options.js">
             <span class="p">},</span>
         <span class="p">],</span>
         <span class="n">xaxis</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">"title"</span><span class="p">:</span> <span class="n">objective</span> <span class="o">+</span> <span class="p">(</span><span class="s2">" (%)"</span> <span class="k">if</span> <span class="n">rel</span> <span class="k">else</span> <span class="s2">""</span><span class="p">),</span>
+            <span class="s2">"title"</span><span class="p">:</span> <span class="n">objective</span> <span class="o">+</span> <span class="p">(</span><span class="s2">" (%)"</span> <span class="k">if</span> <span class="n">rels</span><span class="p">[</span><span class="n">objective</span><span class="p">]</span> <span class="k">else</span> <span class="s2">""</span><span class="p">),</span>
             <span class="s2">"zeroline"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
             <span class="s2">"zerolinecolor"</span><span class="p">:</span> <span class="s2">"red"</span><span class="p">,</span>
         <span class="p">},</span>
         <span class="n">yaxis</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">"title"</span><span class="p">:</span> <span class="n">metrics</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="s2">" (%)"</span> <span class="k">if</span> <span class="n">rel</span> <span class="k">else</span> <span class="s2">""</span><span class="p">),</span>
+            <span class="s2">"title"</span><span class="p">:</span> <span class="n">metrics</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="s2">" (%)"</span> <span class="k">if</span> <span class="n">rels</span><span class="p">[</span><span class="n">metrics</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="k">else</span> <span class="s2">""</span><span class="p">),</span>
             <span class="s2">"zeroline"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
             <span class="s2">"zerolinecolor"</span><span class="p">:</span> <span class="s2">"red"</span><span class="p">,</span>
         <span class="p">},</span>
@@ -679,7 +703,7 @@ src="/js/documentation_options.js">
 
 <span class="sd">    """</span>
     <span class="n">metrics</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metric_names</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">make_subplots</span><span class="p">(</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">subplots</span><span class="o">.</span><span class="n">make_subplots</span><span class="p">(</span>
         <span class="n">rows</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">metrics</span><span class="p">),</span>
         <span class="n">cols</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">metrics</span><span class="p">),</span>
         <span class="n">print_grid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -709,9 +733,8 @@ src="/js/documentation_options.js">
                     <span class="c1"># `List[PlotInSampleArm]`.</span>
                     <span class="c1"># pyre-fixme[6]:</span>
                     <span class="nb">list</span><span class="p">(</span><span class="n">plot_data</span><span class="o">.</span><span class="n">in_sample</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
-                    <span class="n">x_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-                    <span class="n">y_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">o2</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-                    <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">,</span>
+                    <span class="n">x_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">),</span>
+                    <span class="n">y_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">o2</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">),</span>
                     <span class="n">status_quo_arm</span><span class="o">=</span><span class="n">status_quo_arm</span><span class="p">,</span>
                     <span class="n">showlegend</span><span class="o">=</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">2</span><span class="p">),</span>
                     <span class="n">legendgroup</span><span class="o">=</span><span class="s2">"In-sample"</span><span class="p">,</span>
@@ -725,9 +748,8 @@ src="/js/documentation_options.js">
                     <span class="c1"># `List[PlotInSampleArm]`.</span>
                     <span class="c1"># pyre-fixme[6]:</span>
                     <span class="nb">list</span><span class="p">(</span><span class="n">plot_data</span><span class="o">.</span><span class="n">in_sample</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
-                    <span class="n">x_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                    <span class="n">y_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">o2</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                    <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">,</span>
+                    <span class="n">x_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">),</span>
+                    <span class="n">y_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">o2</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">),</span>
                     <span class="n">status_quo_arm</span><span class="o">=</span><span class="n">status_quo_arm</span><span class="p">,</span>
                     <span class="n">legendgroup</span><span class="o">=</span><span class="s2">"In-sample"</span><span class="p">,</span>
                     <span class="n">showlegend</span><span class="o">=</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">2</span><span class="p">),</span>
@@ -744,9 +766,8 @@ src="/js/documentation_options.js">
                     <span class="n">fig</span><span class="o">.</span><span class="n">append_trace</span><span class="p">(</span>
                         <span class="n">_error_scatter_trace</span><span class="p">(</span>
                             <span class="nb">list</span><span class="p">(</span><span class="n">cand_arms</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
-                            <span class="n">x_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                            <span class="n">y_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">o2</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                            <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">,</span>
+                            <span class="n">x_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">),</span>
+                            <span class="n">y_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">o2</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">),</span>
                             <span class="n">status_quo_arm</span><span class="o">=</span><span class="n">status_quo_arm</span><span class="p">,</span>
                             <span class="n">name</span><span class="o">=</span><span class="n">generator_run_name</span><span class="p">,</span>
                             <span class="n">color</span><span class="o">=</span><span class="n">DISCRETE_COLOR_SCALE</span><span class="p">[</span><span class="n">k</span><span class="p">],</span>
@@ -989,8 +1010,7 @@ src="/js/documentation_options.js">
             <span class="c1"># pyre-fixme[6]:</span>
             <span class="nb">list</span><span class="p">(</span><span class="n">plot_data</span><span class="o">.</span><span class="n">in_sample</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
             <span class="n">x_axis_var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">y_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-            <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">,</span>
+            <span class="n">y_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">),</span>
             <span class="n">status_quo_arm</span><span class="o">=</span><span class="n">status_quo_arm</span><span class="p">,</span>
             <span class="n">legendgroup</span><span class="o">=</span><span class="s2">"In-sample"</span><span class="p">,</span>
             <span class="n">showlegend</span><span class="o">=</span><span class="n">showlegend</span><span class="p">,</span>
@@ -1008,8 +1028,7 @@ src="/js/documentation_options.js">
             <span class="n">_error_scatter_trace</span><span class="p">(</span>
                 <span class="nb">list</span><span class="p">(</span><span class="n">cand_arms</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
                 <span class="n">x_axis_var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">y_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">,</span>
+                <span class="n">y_axis_var</span><span class="o">=</span><span class="n">PlotMetric</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="n">rel</span><span class="p">),</span>
                 <span class="n">status_quo_arm</span><span class="o">=</span><span class="n">status_quo_arm</span><span class="p">,</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">generator_run_name</span><span class="p">,</span>
                 <span class="n">color</span><span class="o">=</span><span class="n">DISCRETE_COLOR_SCALE</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
@@ -1175,7 +1194,7 @@ src="/js/documentation_options.js">
     <span class="n">ncols</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">metrics</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
 
     <span class="c1"># make subplots (plot per row)</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">make_subplots</span><span class="p">(</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">subplots</span><span class="o">.</span><span class="n">make_subplots</span><span class="p">(</span>
         <span class="n">rows</span><span class="o">=</span><span class="n">nrows</span><span class="p">,</span>
         <span class="n">cols</span><span class="o">=</span><span class="n">ncols</span><span class="p">,</span>
         <span class="n">print_grid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -1247,10 +1266,10 @@ src="/js/documentation_options.js">
     <span class="p">]</span>
 
     <span class="c1"># if odd number of plots, need to manually remove the last blank subplot</span>
-    <span class="c1"># generated by `tools.make_subplots`</span>
+    <span class="c1"># generated by `subplots.make_subplots`</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">del</span> <span class="n">fig</span><span class="p">[</span><span class="s2">"layout"</span><span class="p">][</span><span class="s2">"xaxis</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nrows</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">)]</span>
-        <span class="k">del</span> <span class="n">fig</span><span class="p">[</span><span class="s2">"layout"</span><span class="p">][</span><span class="s2">"yaxis</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nrows</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">)]</span>
+        <span class="n">fig</span><span class="p">[</span><span class="s2">"layout"</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"xaxis</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nrows</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">))</span>
+        <span class="n">fig</span><span class="p">[</span><span class="s2">"layout"</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"yaxis</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nrows</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">))</span>
 
     <span class="c1"># allocate 400 px per plot</span>
     <span class="n">fig</span><span class="p">[</span><span class="s2">"layout"</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
@@ -1279,7 +1298,7 @@ src="/js/documentation_options.js">
     <span class="p">)</span>
 
     <span class="c1"># append dropdown annotations</span>
-    <span class="n">fig</span><span class="p">[</span><span class="s2">"layout"</span><span class="p">][</span><span class="s2">"annotations"</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span>
+    <span class="n">fig</span><span class="p">[</span><span class="s2">"layout"</span><span class="p">][</span><span class="s2">"annotations"</span><span class="p">]</span> <span class="o">=</span> <span class="n">fig</span><span class="p">[</span><span class="s2">"layout"</span><span class="p">][</span><span class="s2">"annotations"</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span>
         <span class="p">{</span>
             <span class="s2">"x"</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
             <span class="s2">"y"</span><span class="p">:</span> <span class="mi">1</span> <span class="o">+</span> <span class="mf">0.40</span> <span class="o">/</span> <span class="n">nrows</span><span class="p">,</span>
@@ -1411,7 +1430,7 @@ src="/js/documentation_options.js">
     <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">traces_per_metric</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">layout</span><span class="p">[</span><span class="s2">"annotations"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">layout</span><span class="p">[</span><span class="s2">"annotations"</span><span class="p">]</span> <span class="o">=</span> <span class="n">layout</span><span class="p">[</span><span class="s2">"annotations"</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span>
             <span class="p">{</span>
                 <span class="s2">"font"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"size"</span><span class="p">:</span> <span class="mi">12</span><span class="p">},</span>
                 <span class="s2">"showarrow"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
@@ -1422,7 +1441,7 @@ src="/js/documentation_options.js">
                 <span class="s2">"y"</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span>
                 <span class="s2">"yanchor"</span><span class="p">:</span> <span class="s2">"middle"</span><span class="p">,</span>
                 <span class="s2">"yref"</span><span class="p">:</span> <span class="s2">"paper"</span><span class="p">,</span>
-            <span class="p">}</span>
+            <span class="p">},</span>
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">AxPlotConfig</span><span class="p">(</span>

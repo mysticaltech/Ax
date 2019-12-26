@@ -27,25 +27,28 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.core.base</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.equality</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.equality</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">datetime_equals</span><span class="p">,</span>
     <span class="n">equality_typechecker</span><span class="p">,</span>
     <span class="n">same_elements</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">numpy_type_to_python_type</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="kn">import</span> <span class="n">numpy_type_to_python_type</span>
 
 
 <div class="viewcode-block" id="Base"><a class="viewcode-back" href="../../../core.html#ax.core.base.Base">[docs]</a><span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">"""Metaclass for core Ax classes."""</span>
 
     <span class="nd">@equality_typechecker</span>
-    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"Base"</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"Base"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">self_val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
             <span class="n">other_val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
@@ -58,7 +61,7 @@ src="/js/documentation_options.js">
             <span class="k">if</span> <span class="n">field</span> <span class="o">==</span> <span class="s2">"_experiment"</span><span class="p">:</span>
                 <span class="c1"># prevent infinite loop when checking equality of Trials</span>
                 <span class="n">equal</span> <span class="o">=</span> <span class="n">self_val</span> <span class="ow">is</span> <span class="n">other_val</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span>
-                    <span class="n">self_val</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other_val</span><span class="o">.</span><span class="n">name</span>
+                    <span class="n">self_val</span><span class="o">.</span><span class="n">_name</span> <span class="o">==</span> <span class="n">other_val</span><span class="o">.</span><span class="n">_name</span>
                 <span class="p">)</span>
             <span class="k">elif</span> <span class="n">field</span> <span class="o">==</span> <span class="s2">"_model"</span><span class="p">:</span>  <span class="c1"># pragma: no cover (tested in modelbridge)</span>
                 <span class="c1"># TODO[T52643706]: replace with per-`ModelBridge` method like</span>
@@ -72,6 +75,11 @@ src="/js/documentation_options.js">
                     <span class="n">equal</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">self_val</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">other_val</span><span class="o">.</span><span class="n">model</span><span class="p">))</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">self_val</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                 <span class="n">equal</span> <span class="o">=</span> <span class="n">same_elements</span><span class="p">(</span><span class="n">self_val</span><span class="p">,</span> <span class="n">other_val</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">self_val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">equal</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">self_val</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">other_val</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                <span class="n">equal</span> <span class="o">=</span> <span class="n">equal</span> <span class="ow">and</span> <span class="n">same_elements</span><span class="p">(</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="n">self_val</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="nb">list</span><span class="p">(</span><span class="n">other_val</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+                <span class="p">)</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">self_val</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
                 <span class="n">equal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">self_val</span><span class="p">,</span> <span class="n">other_val</span><span class="p">)</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">self_val</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>

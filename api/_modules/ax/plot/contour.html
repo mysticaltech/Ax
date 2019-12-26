@@ -27,19 +27,22 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.plot.contour</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span>
-<span class="kn">from</span> <span class="nn">ax.core.observation</span> <span class="k">import</span> <span class="n">ObservationFeatures</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.base</span> <span class="k">import</span> <span class="n">ModelBridge</span>
-<span class="kn">from</span> <span class="nn">ax.plot.base</span> <span class="k">import</span> <span class="n">AxPlotConfig</span><span class="p">,</span> <span class="n">AxPlotTypes</span><span class="p">,</span> <span class="n">PlotData</span>
-<span class="kn">from</span> <span class="nn">ax.plot.color</span> <span class="k">import</span> <span class="n">BLUE_SCALE</span><span class="p">,</span> <span class="n">GREEN_PINK_SCALE</span><span class="p">,</span> <span class="n">GREEN_SCALE</span>
-<span class="kn">from</span> <span class="nn">ax.plot.helper</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.core.observation</span> <span class="kn">import</span> <span class="n">ObservationFeatures</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.base</span> <span class="kn">import</span> <span class="n">ModelBridge</span>
+<span class="kn">from</span> <span class="nn">ax.plot.base</span> <span class="kn">import</span> <span class="n">AxPlotConfig</span><span class="p">,</span> <span class="n">AxPlotTypes</span><span class="p">,</span> <span class="n">PlotData</span>
+<span class="kn">from</span> <span class="nn">ax.plot.color</span> <span class="kn">import</span> <span class="n">BLUE_SCALE</span><span class="p">,</span> <span class="n">GREEN_PINK_SCALE</span><span class="p">,</span> <span class="n">GREEN_SCALE</span>
+<span class="kn">from</span> <span class="nn">ax.plot.helper</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">TNullableGeneratorRunsDict</span><span class="p">,</span>
     <span class="n">axis_range</span><span class="p">,</span>
     <span class="n">contour_config_to_trace</span><span class="p">,</span>
@@ -654,6 +657,9 @@ src="/js/documentation_options.js">
                 <span class="p">}</span>
             <span class="p">)</span>
             <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># Initially visible yvar</span>
+    <span class="n">yvar</span> <span class="o">=</span> <span class="n">param_names</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="n">xrange</span> <span class="o">=</span> <span class="n">axis_range</span><span class="p">(</span><span class="n">grid_dict</span><span class="p">[</span><span class="n">xvar</span><span class="p">],</span> <span class="n">is_log_dict</span><span class="p">[</span><span class="n">xvar</span><span class="p">])</span>
     <span class="n">yrange</span> <span class="o">=</span> <span class="n">axis_range</span><span class="p">(</span><span class="n">grid_dict</span><span class="p">[</span><span class="n">yvar</span><span class="p">],</span> <span class="n">is_log_dict</span><span class="p">[</span><span class="n">yvar</span><span class="p">])</span>

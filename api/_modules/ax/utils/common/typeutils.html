@@ -27,11 +27,15 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.utils.common.typeutils</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeVar</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
 
 
 <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"T"</span><span class="p">)</span>
@@ -77,7 +81,7 @@ src="/js/documentation_options.js">
 <span class="sd">    .. _typing.cast: https://docs.python.org/3/library/typing.html#typing.cast</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">typ</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Value was not of type </span><span class="si">{type}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{val}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Value was not of type </span><span class="si">{type}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{val}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">val</span></div>
 
 
@@ -124,7 +128,7 @@ src="/js/documentation_options.js">
 <span class="sd">        the ``val`` argument, unchanged</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">typ</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Value was not of type </span><span class="si">{type!r}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{val!r}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Value was not of type </span><span class="si">{type!r}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{val!r}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">val</span></div>
 
 
@@ -137,6 +141,25 @@ src="/js/documentation_options.js">
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">):</span>
         <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>  <span class="c1"># pragma: nocover  (covered by generator tests)</span>
     <span class="k">return</span> <span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="torch_type_to_str"><a class="viewcode-back" href="../../../../utils.html#ax.utils.common.typeutils.torch_type_to_str">[docs]</a><span class="k">def</span> <span class="nf">torch_type_to_str</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">"""Converts torch types, commonly used in Ax, to string representations."""</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">checked_cast</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>  <span class="c1"># pyre-fixme[16]: device has to attr. type</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Object </span><span class="si">{value}</span><span class="s2"> was of unexpected torch type."</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="torch_type_from_str"><a class="viewcode-back" href="../../../../utils.html#ax.utils.common.typeutils.torch_type_from_str">[docs]</a><span class="k">def</span> <span class="nf">torch_type_from_str</span><span class="p">(</span>
+    <span class="n">identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">type_name</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s2">"device"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s2">"dtype"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">torch</span><span class="p">,</span> <span class="n">identifier</span><span class="p">[</span><span class="mi">6</span><span class="p">:])</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unexpected type: </span><span class="si">{type_name}</span><span class="s2"> for identifier: </span><span class="si">{identifier}</span><span class="s2">."</span><span class="p">)</span></div>
 </pre></div>
 </div>
 </div>

@@ -27,27 +27,33 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.models.torch.botorch</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">cast</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="k">import</span> <span class="n">TConfig</span>
-<span class="kn">from</span> <span class="nn">ax.models.model_utils</span> <span class="k">import</span> <span class="n">best_observed_point</span>
-<span class="kn">from</span> <span class="nn">ax.models.torch.botorch_defaults</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="kn">import</span> <span class="n">TConfig</span><span class="p">,</span> <span class="n">TGenMetadata</span>
+<span class="kn">from</span> <span class="nn">ax.models.torch.botorch_defaults</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">get_and_fit_model</span><span class="p">,</span>
     <span class="n">get_NEI</span><span class="p">,</span>
     <span class="n">predict_from_model</span><span class="p">,</span>
+    <span class="n">recommend_best_observed_point</span><span class="p">,</span>
     <span class="n">scipy_optimizer</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.models.torch.utils</span> <span class="k">import</span> <span class="n">_get_X_pending_and_observed</span>
-<span class="kn">from</span> <span class="nn">ax.models.torch_base</span> <span class="k">import</span> <span class="n">TorchModel</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.docutils</span> <span class="k">import</span> <span class="n">copy_doc</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">checked_cast</span>
-<span class="kn">from</span> <span class="nn">botorch.acquisition.acquisition</span> <span class="k">import</span> <span class="n">AcquisitionFunction</span>
-<span class="kn">from</span> <span class="nn">botorch.models.model</span> <span class="k">import</span> <span class="n">Model</span>
-<span class="kn">from</span> <span class="nn">torch</span> <span class="k">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">ax.models.torch.utils</span> <span class="kn">import</span> <span class="n">_get_X_pending_and_observed</span><span class="p">,</span> <span class="n">normalize_indices</span>
+<span class="kn">from</span> <span class="nn">ax.models.torch_base</span> <span class="kn">import</span> <span class="n">TorchModel</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.docutils</span> <span class="kn">import</span> <span class="n">copy_doc</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="kn">import</span> <span class="n">checked_cast</span>
+<span class="kn">from</span> <span class="nn">botorch.acquisition.acquisition</span> <span class="kn">import</span> <span class="n">AcquisitionFunction</span>
+<span class="kn">from</span> <span class="nn">botorch.models.model</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">subset_model</span>
 
 
 <span class="n">TModelConstructor</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[</span>
@@ -56,6 +62,8 @@ src="/js/documentation_options.js">
         <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span>
         <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span>
         <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]],</span>
         <span class="n">Any</span><span class="p">,</span>
     <span class="p">],</span>
@@ -83,7 +91,20 @@ src="/js/documentation_options.js">
         <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Tensor</span><span class="p">],</span> <span class="n">Tensor</span><span class="p">]],</span>
         <span class="n">Any</span><span class="p">,</span>
     <span class="p">],</span>
-    <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span>
+<span class="p">]</span>
+<span class="n">TBestPointRecommender</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[</span>
+    <span class="p">[</span>
+        <span class="n">TorchModel</span><span class="p">,</span>
+        <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+        <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]],</span>
+        <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]],</span>
+        <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+        <span class="n">Optional</span><span class="p">[</span><span class="n">TConfig</span><span class="p">],</span>
+        <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="p">],</span>
+    <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span>
 <span class="p">]</span>
 
 
@@ -91,15 +112,17 @@ src="/js/documentation_options.js">
     <span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Customizable botorch model.</span>
 
-<span class="sd">    By default, this uses a noisy Expected Improvement acquisition funciton on</span>
+<span class="sd">    By default, this uses a noisy Expected Improvement acquisition function on</span>
 <span class="sd">    top of a model made up of separate GPs, one for each outcome. This behavior</span>
 <span class="sd">    can be modified by providing custom implementations of the following</span>
 <span class="sd">    components:</span>
 
 <span class="sd">    - a `model_constructor` that instantiates and fits a model on data</span>
-<span class="sd">    - a `model_predictor` that predicts using the fitted model</span>
+<span class="sd">    - a `model_predictor` that predicts outcomes using the fitted model</span>
 <span class="sd">    - a `acqf_constructor` that creates an acquisition function from a fitted model</span>
 <span class="sd">    - a `acqf_optimizer` that optimizes the acquisition function</span>
+<span class="sd">    - a `best_point_recommender` that recommends a current "best" point (i.e.,</span>
+<span class="sd">        what the model recommends if the learning process ended now)</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        model_constructor: A callable that instantiates and fits a model on data,</span>
@@ -110,8 +133,14 @@ src="/js/documentation_options.js">
 <span class="sd">            fitted model, with signature as described below.</span>
 <span class="sd">        acqf_optimizer: A callable that optimizes the acquisition function, with</span>
 <span class="sd">            signature as described below.</span>
+<span class="sd">        best_point_recommender: A callable that recommends the best point, with</span>
+<span class="sd">            signature as described below.</span>
 <span class="sd">        refit_on_cv: If True, refit the model for each fold when performing</span>
 <span class="sd">            cross-validation.</span>
+<span class="sd">        refit_on_update: If True, refit the model after updating the training</span>
+<span class="sd">            data using the `update` method.</span>
+<span class="sd">        warm_start_refitting: If True, start model refitting from previous</span>
+<span class="sd">            model parameters in order to speed up the fitting process.</span>
 
 
 <span class="sd">    Call signatures:</span>
@@ -123,27 +152,27 @@ src="/js/documentation_options.js">
 <span class="sd">            Ys,</span>
 <span class="sd">            Yvars,</span>
 <span class="sd">            task_features,</span>
-<span class="sd">            state_dict,</span>
 <span class="sd">            fidelity_features,</span>
-<span class="sd">            **kwargs</span>
+<span class="sd">            metric_names,</span>
+<span class="sd">            state_dict,</span>
+<span class="sd">            **kwargs,</span>
 <span class="sd">        ) -&gt; model</span>
 
 <span class="sd">    Here `Xs`, `Ys`, `Yvars` are lists of tensors (one element per outcome),</span>
-<span class="sd">    `task_features` identifies columns of Xs that should be modeled</span>
-<span class="sd">    as a task, `state_dict` is a pytorch module state dict, 'fidelity_features' is</span>
-<span class="sd">    a list of ints that specify the positions of fidelity parameters in 'Xs',</span>
-<span class="sd">    and `model` is a botorch `Model`. Optional kwargs are being passed through</span>
-<span class="sd">    from the `BotorchModel` constructor. This callable is assumed to return a fitted</span>
-<span class="sd">    botorch model that has the same dtype and lives on the same device as the</span>
-<span class="sd">    input tensors.</span>
+<span class="sd">    `task_features` identifies columns of Xs that should be modeled as a task,</span>
+<span class="sd">    `fidelity_features` is a list of ints that specify the positions of fidelity</span>
+<span class="sd">    parameters in 'Xs', `metric_names` provides the names of each `Y` in `Ys`,</span>
+<span class="sd">    `state_dict` is a pytorch module state dict, and `model` is a BoTorch `Model`.</span>
+<span class="sd">    Optional kwargs are being passed through from the `BotorchModel` constructor.</span>
+<span class="sd">    This callable is assumed to return a fitted BoTorch model that has the same</span>
+<span class="sd">    dtype and lives on the same device as the input tensors.</span>
 
 <span class="sd">    ::</span>
 
 <span class="sd">        model_predictor(model, X) -&gt; [mean, cov]</span>
 
-<span class="sd">    Here `model` is a fitted botorch model, `X` is a tensor of candidate</span>
-<span class="sd">    points, and `mean` and `cov` are the posterior mean and covariance,</span>
-<span class="sd">    respectively.</span>
+<span class="sd">    Here `model` is a fitted botorch model, `X` is a tensor of candidate points,</span>
+<span class="sd">    and `mean` and `cov` are the posterior mean and covariance, respectively.</span>
 
 <span class="sd">    ::</span>
 
@@ -157,12 +186,12 @@ src="/js/documentation_options.js">
 <span class="sd">        ) -&gt; acq_function</span>
 
 
-<span class="sd">    Here `model` is a botorch `Model`, `objective_weights` is a tensor of</span>
-<span class="sd">    weights for the model outputs, `outcome_constraints` is a tuple of</span>
-<span class="sd">    tensors describing the (linear) outcome constraints, `X_observed` are</span>
-<span class="sd">    previously observed points, and `X_pending` are points whose evaluation</span>
-<span class="sd">    is pending. `acq_function` is a botorch acquisition function crafted</span>
-<span class="sd">    from these inputs. For additional details on the arguments, see `get_NEI`.</span>
+<span class="sd">    Here `model` is a botorch `Model`, `objective_weights` is a tensor of weights</span>
+<span class="sd">    for the model outputs, `outcome_constraints` is a tuple of tensors describing</span>
+<span class="sd">    the (linear) outcome constraints, `X_observed` are previously observed points,</span>
+<span class="sd">    and `X_pending` are points whose evaluation is pending. `acq_function` is a</span>
+<span class="sd">    BoTorch acquisition function crafted from these inputs. For additional</span>
+<span class="sd">    details on the arguments, see `get_NEI`.</span>
 
 <span class="sd">    ::</span>
 
@@ -176,14 +205,36 @@ src="/js/documentation_options.js">
 <span class="sd">            **kwargs,</span>
 <span class="sd">        ) -&gt; candidates</span>
 
-<span class="sd">    Here `acq_function` is a BoTorch `AcquisitionFunction`, `bounds` is a</span>
-<span class="sd">    tensor containing bounds on the parameters, `n` is the number of</span>
-<span class="sd">    candidates to be generated, `inequality_constraints` are inequality</span>
-<span class="sd">    constraints on parameter values, `fixed_features` specifies features that</span>
-<span class="sd">    should be fixed during generation, and `rounding_func` is a callback</span>
-<span class="sd">    that rounds an optimization result appropriately. `candidates` is</span>
-<span class="sd">    a tensor of generated candidates. For additional details on the</span>
-<span class="sd">    arguments, see `scipy_optimizer`.</span>
+<span class="sd">    Here `acq_function` is a BoTorch `AcquisitionFunction`, `bounds` is a tensor</span>
+<span class="sd">    containing bounds on the parameters, `n` is the number of candidates to be</span>
+<span class="sd">    generated, `inequality_constraints` are inequality constraints on parameter</span>
+<span class="sd">    values, `fixed_features` specifies features that should be fixed during</span>
+<span class="sd">    generation, and `rounding_func` is a callback that rounds an optimization</span>
+<span class="sd">    result appropriately. `candidates` is a tensor of generated candidates.</span>
+<span class="sd">    For additional details on the arguments, see `scipy_optimizer`.</span>
+
+<span class="sd">    ::</span>
+
+<span class="sd">        best_point_recommender(</span>
+<span class="sd">            model,</span>
+<span class="sd">            bounds,</span>
+<span class="sd">            objective_weights,</span>
+<span class="sd">            outcome_constraints,</span>
+<span class="sd">            linear_constraints,</span>
+<span class="sd">            fixed_features,</span>
+<span class="sd">            model_gen_options,</span>
+<span class="sd">            target_fidelities,</span>
+<span class="sd">        ) -&gt; candidates</span>
+
+<span class="sd">    Here `model` is a TorchModel, `bounds` is a list of tuples containing bounds</span>
+<span class="sd">    on the parameters, `objective_weights` is a tensor of weights for the model outputs,</span>
+<span class="sd">    `outcome_constraints` is a tuple of tensors describing the (linear) outcome</span>
+<span class="sd">    constraints, `linear_constraints` is a tuple of tensors describing constraints</span>
+<span class="sd">    on the design, `fixed_features` specifies features that should be fixed during</span>
+<span class="sd">    generation, `model_gen_options` is a config dictionary that can contain</span>
+<span class="sd">    model-specific options, and `target_fidelities` is a map from fidelity feature</span>
+<span class="sd">    column indices to their respective target fidelities, used for multi-fidelity</span>
+<span class="sd">    optimization problems. % TODO: refer to an example.</span>
 <span class="sd">    """</span>
 
     <span class="n">dtype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">dtype</span><span class="p">]</span>
@@ -192,12 +243,8 @@ src="/js/documentation_options.js">
     <span class="n">Ys</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span>
     <span class="n">Yvars</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="c1"># pyre-fixme[9]: model_constructor has type `Callable[[List[Tensor],</span>
-        <span class="c1">#  List[Tensor], List[Tensor], List[int], Optional[Dict[str, Tensor]], Any],</span>
-        <span class="c1">#  Model]`; used as `Callable[[List[Tensor], List[Tensor], List[Tensor],</span>
-        <span class="c1">#  List[int], Optional[Dict[str, Tensor]], **(Any)], MultiOutputGP]`.</span>
         <span class="n">model_constructor</span><span class="p">:</span> <span class="n">TModelConstructor</span> <span class="o">=</span> <span class="n">get_and_fit_model</span><span class="p">,</span>
         <span class="n">model_predictor</span><span class="p">:</span> <span class="n">TModelPredictor</span> <span class="o">=</span> <span class="n">predict_from_model</span><span class="p">,</span>
         <span class="c1"># pyre-fixme[9]: acqf_constructor has type `Callable[[Model, Tensor,</span>
@@ -212,6 +259,7 @@ src="/js/documentation_options.js">
         <span class="c1">#  int, Optional[Dict[int, float]], Optional[Callable[[Tensor], Tensor]],</span>
         <span class="c1">#  **(Any)], Tensor]`.</span>
         <span class="n">acqf_optimizer</span><span class="p">:</span> <span class="n">TOptimizer</span> <span class="o">=</span> <span class="n">scipy_optimizer</span><span class="p">,</span>
+        <span class="n">best_point_recommender</span><span class="p">:</span> <span class="n">TBestPointRecommender</span> <span class="o">=</span> <span class="n">recommend_best_observed_point</span><span class="p">,</span>
         <span class="n">refit_on_cv</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">refit_on_update</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">warm_start_refitting</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -221,9 +269,12 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">model_predictor</span> <span class="o">=</span> <span class="n">model_predictor</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">acqf_constructor</span> <span class="o">=</span> <span class="n">acqf_constructor</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">acqf_optimizer</span> <span class="o">=</span> <span class="n">acqf_optimizer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_point_recommender</span> <span class="o">=</span> <span class="n">best_point_recommender</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">refit_on_cv</span> <span class="o">=</span> <span class="n">refit_on_cv</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">refit_on_update</span> <span class="o">=</span> <span class="n">refit_on_update</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">warm_start_refitting</span> <span class="o">=</span> <span class="n">warm_start_refitting</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Model</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Xs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Ys</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Yvars</span> <span class="o">=</span> <span class="p">[]</span>
@@ -231,8 +282,7 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">task_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fidelity_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fidelity_model_id</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"fidelity_model_id"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">warm_start_refitting</span> <span class="o">=</span> <span class="n">warm_start_refitting</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metric_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="BotorchModel.fit"><a class="viewcode-back" href="../../../../models.html#ax.models.torch.botorch.BotorchModel.fit">[docs]</a>    <span class="nd">@copy_doc</span><span class="p">(</span><span class="n">TorchModel</span><span class="o">.</span><span class="n">fit</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
@@ -243,6 +293,7 @@ src="/js/documentation_options.js">
         <span class="n">bounds</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
         <span class="n">task_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
         <span class="n">feature_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">metric_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">fidelity_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">Xs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span>
@@ -250,22 +301,26 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">Xs</span> <span class="o">=</span> <span class="n">Xs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Ys</span> <span class="o">=</span> <span class="n">Ys</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Yvars</span> <span class="o">=</span> <span class="n">Yvars</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">task_features</span> <span class="o">=</span> <span class="n">task_features</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fidelity_features</span> <span class="o">=</span> <span class="n">fidelity_features</span>
+        <span class="c1"># ensure indices are non-negative</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_features</span> <span class="o">=</span> <span class="n">normalize_indices</span><span class="p">(</span><span class="n">task_features</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">Xs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fidelity_features</span> <span class="o">=</span> <span class="n">normalize_indices</span><span class="p">(</span><span class="n">fidelity_features</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">Xs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metric_names</span> <span class="o">=</span> <span class="n">metric_names</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_constructor</span><span class="p">(</span>  <span class="c1"># pyre-ignore [28]</span>
             <span class="n">Xs</span><span class="o">=</span><span class="n">Xs</span><span class="p">,</span>
             <span class="n">Ys</span><span class="o">=</span><span class="n">Ys</span><span class="p">,</span>
             <span class="n">Yvars</span><span class="o">=</span><span class="n">Yvars</span><span class="p">,</span>
             <span class="n">task_features</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">task_features</span><span class="p">,</span>
             <span class="n">fidelity_features</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fidelity_features</span><span class="p">,</span>
-            <span class="n">fidelity_model_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fidelity_model_id</span><span class="p">,</span>
+            <span class="n">metric_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">metric_names</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="BotorchModel.predict"><a class="viewcode-back" href="../../../../models.html#ax.models.torch.botorch.BotorchModel.predict">[docs]</a>    <span class="nd">@copy_doc</span><span class="p">(</span><span class="n">TorchModel</span><span class="o">.</span><span class="n">predict</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_predictor</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># pyre-ignore [28]</span></div>
 
-<div class="viewcode-block" id="BotorchModel.gen"><a class="viewcode-back" href="../../../../models.html#ax.models.torch.botorch.BotorchModel.gen">[docs]</a>    <span class="k">def</span> <span class="nf">gen</span><span class="p">(</span>
+<div class="viewcode-block" id="BotorchModel.gen"><a class="viewcode-back" href="../../../../models.html#ax.models.torch.botorch.BotorchModel.gen">[docs]</a>    <span class="nd">@copy_doc</span><span class="p">(</span><span class="n">TorchModel</span><span class="o">.</span><span class="n">gen</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">gen</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">bounds</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
@@ -276,39 +331,16 @@ src="/js/documentation_options.js">
         <span class="n">pending_observations</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">model_gen_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">rounding_func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Tensor</span><span class="p">],</span> <span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
-        <span class="sd">"""Generate new candidates.</span>
-
-<span class="sd">        An initialized acquisition function can be passed in as</span>
-<span class="sd">        model_gen_options["acquisition_function"].</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            n: Number of candidates to generate.</span>
-<span class="sd">            bounds: A list of (lower, upper) tuples for each column of X.</span>
-<span class="sd">            objective_weights: The objective is to maximize a weighted sum of</span>
-<span class="sd">                the columns of f(x). These are the weights.</span>
-<span class="sd">            outcome_constraints: A tuple of (A, b). For k outcome constraints</span>
-<span class="sd">                and m outputs at f(x), A is (k x m) and b is (k x 1) such that</span>
-<span class="sd">                A f(x) &lt;= b. (Not used by single task models)</span>
-<span class="sd">            linear_constraints: A tuple of (A, b). For k linear constraints on</span>
-<span class="sd">                d-dimensional x, A is (k x d) and b is (k x 1) such that</span>
-<span class="sd">                A x &lt;= b.</span>
-<span class="sd">            fixed_features: A map {feature_index: value} for features that</span>
-<span class="sd">                should be fixed to a particular value during generation.</span>
-<span class="sd">            pending_observations:  A list of m (k_i x d) feature tensors X</span>
-<span class="sd">                for m outcomes and k_i pending observations for outcome i.</span>
-<span class="sd">            model_gen_options: A config dictionary that can contain</span>
-<span class="sd">                model-specific options.</span>
-<span class="sd">            rounding_func: A function that rounds an optimization result</span>
-<span class="sd">                appropriately (i.e., according to `round-trip` transformations).</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Tensor: `n x d`-dim Tensor of generated points.</span>
-<span class="sd">            Tensor: `n`-dim Tensor of weights for each point.</span>
-<span class="sd">        """</span>
+        <span class="n">target_fidelities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">TGenMetadata</span><span class="p">]:</span>
         <span class="n">options</span> <span class="o">=</span> <span class="n">model_gen_options</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="n">acf_options</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"acquisition_function_kwargs"</span><span class="p">,</span> <span class="p">{})</span>
         <span class="n">optimizer_options</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"optimizer_kwargs"</span><span class="p">,</span> <span class="p">{})</span>
+
+        <span class="k">if</span> <span class="n">target_fidelities</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">"target_fidelities not implemented for base BotorchModel"</span>
+            <span class="p">)</span>
 
         <span class="n">X_pending</span><span class="p">,</span> <span class="n">X_observed</span> <span class="o">=</span> <span class="n">_get_X_pending_and_observed</span><span class="p">(</span>
             <span class="n">Xs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Xs</span><span class="p">,</span>
@@ -320,14 +352,15 @@ src="/js/documentation_options.js">
             <span class="n">fixed_features</span><span class="o">=</span><span class="n">fixed_features</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="n">acquisition_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acqf_constructor</span><span class="p">(</span>  <span class="c1"># pyre-ignore: [28]</span>
-            <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
-            <span class="n">objective_weights</span><span class="o">=</span><span class="n">objective_weights</span><span class="p">,</span>
-            <span class="n">outcome_constraints</span><span class="o">=</span><span class="n">outcome_constraints</span><span class="p">,</span>
-            <span class="n">X_observed</span><span class="o">=</span><span class="n">X_observed</span><span class="p">,</span>
-            <span class="n">X_pending</span><span class="o">=</span><span class="n">X_pending</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">acf_options</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
+
+        <span class="c1"># subset model only to the outcomes we need for the optimization</span>
+        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"subset_model"</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+            <span class="n">model</span><span class="p">,</span> <span class="n">objective_weights</span><span class="p">,</span> <span class="n">outcome_constraints</span> <span class="o">=</span> <span class="n">subset_model</span><span class="p">(</span>
+                <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>  <span class="c1"># pyre-ignore [6]</span>
+                <span class="n">objective_weights</span><span class="o">=</span><span class="n">objective_weights</span><span class="p">,</span>
+                <span class="n">outcome_constraints</span><span class="o">=</span><span class="n">outcome_constraints</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="n">bounds_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         <span class="n">bounds_</span> <span class="o">=</span> <span class="n">bounds_</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -343,9 +376,18 @@ src="/js/documentation_options.js">
         <span class="k">else</span><span class="p">:</span>
             <span class="n">inequality_constraints</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="n">botorch_rounding_func</span> <span class="o">=</span> <span class="n">get_rounding_func</span><span class="p">(</span><span class="n">rounding_func</span><span class="p">)</span>
+        <span class="n">acquisition_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acqf_constructor</span><span class="p">(</span>  <span class="c1"># pyre-ignore: [28]</span>
+            <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">objective_weights</span><span class="o">=</span><span class="n">objective_weights</span><span class="p">,</span>
+            <span class="n">outcome_constraints</span><span class="o">=</span><span class="n">outcome_constraints</span><span class="p">,</span>
+            <span class="n">X_observed</span><span class="o">=</span><span class="n">X_observed</span><span class="p">,</span>
+            <span class="n">X_pending</span><span class="o">=</span><span class="n">X_pending</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">acf_options</span><span class="p">,</span>
+        <span class="p">)</span>
 
-        <span class="n">candidates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acqf_optimizer</span><span class="p">(</span>  <span class="c1"># pyre-ignore: [28]</span>
+        <span class="n">botorch_rounding_func</span> <span class="o">=</span> <span class="n">get_rounding_func</span><span class="p">(</span><span class="n">rounding_func</span><span class="p">)</span>
+        <span class="c1"># pyre-ignore: [28]</span>
+        <span class="n">candidates</span><span class="p">,</span> <span class="n">expected_acquisition_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acqf_optimizer</span><span class="p">(</span>
             <span class="n">acq_function</span><span class="o">=</span><span class="n">checked_cast</span><span class="p">(</span><span class="n">AcquisitionFunction</span><span class="p">,</span> <span class="n">acquisition_function</span><span class="p">),</span>
             <span class="n">bounds</span><span class="o">=</span><span class="n">bounds_</span><span class="p">,</span>
             <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
@@ -354,7 +396,11 @@ src="/js/documentation_options.js">
             <span class="n">rounding_func</span><span class="o">=</span><span class="n">botorch_rounding_func</span><span class="p">,</span>
             <span class="o">**</span><span class="n">optimizer_options</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">candidates</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">candidates</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span>
+            <span class="p">{</span><span class="s2">"expected_acquisition_value"</span><span class="p">:</span> <span class="n">expected_acquisition_value</span><span class="o">.</span><span class="n">tolist</span><span class="p">()},</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="BotorchModel.best_point"><a class="viewcode-back" href="../../../../models.html#ax.models.torch.botorch.BotorchModel.best_point">[docs]</a>    <span class="nd">@copy_doc</span><span class="p">(</span><span class="n">TorchModel</span><span class="o">.</span><span class="n">best_point</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">best_point</span><span class="p">(</span>
@@ -365,20 +411,19 @@ src="/js/documentation_options.js">
         <span class="n">linear_constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">fixed_features</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">model_gen_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">target_fidelities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]:</span>
-        <span class="n">x_best</span> <span class="o">=</span> <span class="n">best_observed_point</span><span class="p">(</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_point_recommender</span><span class="p">(</span>  <span class="c1"># pyre-ignore [28]</span>
             <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
             <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
             <span class="n">objective_weights</span><span class="o">=</span><span class="n">objective_weights</span><span class="p">,</span>
             <span class="n">outcome_constraints</span><span class="o">=</span><span class="n">outcome_constraints</span><span class="p">,</span>
             <span class="n">linear_constraints</span><span class="o">=</span><span class="n">linear_constraints</span><span class="p">,</span>
             <span class="n">fixed_features</span><span class="o">=</span><span class="n">fixed_features</span><span class="p">,</span>
-            <span class="n">options</span><span class="o">=</span><span class="n">model_gen_options</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">x_best</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
-        <span class="c1"># pyre-fixme[19]: Expected 0 positional arguments.</span>
-        <span class="k">return</span> <span class="n">x_best</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cpu"</span><span class="p">))</span></div>
+            <span class="n">model_gen_options</span><span class="o">=</span><span class="n">model_gen_options</span><span class="p">,</span>
+            <span class="n">target_fidelities</span><span class="o">=</span><span class="n">target_fidelities</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="BotorchModel.cross_validate"><a class="viewcode-back" href="../../../../models.html#ax.models.torch.botorch.BotorchModel.cross_validate">[docs]</a>    <span class="nd">@copy_doc</span><span class="p">(</span><span class="n">TorchModel</span><span class="o">.</span><span class="n">cross_validate</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">cross_validate</span><span class="p">(</span>
@@ -401,7 +446,8 @@ src="/js/documentation_options.js">
             <span class="n">task_features</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">task_features</span><span class="p">,</span>
             <span class="n">state_dict</span><span class="o">=</span><span class="n">state_dict</span><span class="p">,</span>
             <span class="n">fidelity_features</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fidelity_features</span><span class="p">,</span>
-            <span class="n">fidelity_model_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fidelity_model_id</span><span class="p">,</span>
+            <span class="n">metric_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">metric_names</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_predictor</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X_test</span><span class="p">)</span>  <span class="c1"># pyre-ignore: [28]</span></div>
 
@@ -423,9 +469,19 @@ src="/js/documentation_options.js">
             <span class="n">task_features</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">task_features</span><span class="p">,</span>
             <span class="n">state_dict</span><span class="o">=</span><span class="n">state_dict</span><span class="p">,</span>
             <span class="n">fidelity_features</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fidelity_features</span><span class="p">,</span>
-            <span class="n">fidelity_model_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fidelity_model_id</span><span class="p">,</span>
+            <span class="n">metric_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">metric_names</span><span class="p">,</span>
             <span class="n">refit_model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">refit_on_update</span><span class="p">,</span>
-        <span class="p">)</span></div></div>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="BotorchModel.feature_importances"><a class="viewcode-back" href="../../../../models.html#ax.models.torch.botorch.BotorchModel.feature_importances">[docs]</a>    <span class="k">def</span> <span class="nf">feature_importances</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">"Cannot calculate feature_importances without a fitted model"</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">covar_module</span><span class="o">.</span><span class="n">base_kernel</span><span class="o">.</span><span class="n">lengthscale</span>  <span class="c1"># pyre-ignore: [16]</span>
+            <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Tensor</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">ls</span><span class="p">))</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span></div></div>
 
 
 <div class="viewcode-block" id="get_rounding_func"><a class="viewcode-back" href="../../../../models.html#ax.models.torch.botorch.get_rounding_func">[docs]</a><span class="k">def</span> <span class="nf">get_rounding_func</span><span class="p">(</span>

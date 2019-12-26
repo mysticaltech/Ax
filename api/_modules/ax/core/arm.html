@@ -27,17 +27,21 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.core.arm</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
+
 <span class="c1"># pyre-strict</span>
 
 <span class="kn">import</span> <span class="nn">hashlib</span>
 <span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">ax.core.base</span> <span class="k">import</span> <span class="n">Base</span>
-<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="k">import</span> <span class="n">TParameterization</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.equality</span> <span class="k">import</span> <span class="n">equality_typechecker</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">numpy_type_to_python_type</span>
+<span class="kn">from</span> <span class="nn">ax.core.base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="kn">import</span> <span class="n">TParameterization</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.equality</span> <span class="kn">import</span> <span class="n">equality_typechecker</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="kn">import</span> <span class="n">numpy_type_to_python_type</span>
 
 
 <div class="viewcode-block" id="Arm"><a class="viewcode-back" href="../../../core.html#ax.Arm">[docs]</a><span class="k">class</span> <span class="nc">Arm</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
@@ -48,7 +52,7 @@ src="/js/documentation_options.js">
 
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">TParameterization</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""Inits Arm.</span>
@@ -131,15 +135,15 @@ src="/js/documentation_options.js">
             <span class="n">parameters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">clear_name</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="n">parameters_str</span> <span class="o">=</span> <span class="n">f</span><span class="s2">"parameters=</span><span class="si">{self._parameters}</span><span class="s2">"</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">parameters_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"parameters=</span><span class="si">{self._parameters}</span><span class="s2">"</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_name</span><span class="p">:</span>
-            <span class="n">name_str</span> <span class="o">=</span> <span class="n">f</span><span class="s2">"name='</span><span class="si">{self.name}</span><span class="s2">'"</span>
-            <span class="k">return</span> <span class="n">f</span><span class="s2">"Arm(</span><span class="si">{name_str}</span><span class="s2">, </span><span class="si">{parameters_str}</span><span class="s2">)"</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">"Arm(</span><span class="si">{parameters_str}</span><span class="s2">)"</span>
+            <span class="n">name_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"name='</span><span class="si">{self.name}</span><span class="s2">'"</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">"Arm(</span><span class="si">{name_str}</span><span class="s2">, </span><span class="si">{parameters_str}</span><span class="s2">)"</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"Arm(</span><span class="si">{parameters_str}</span><span class="s2">)"</span>
 
     <span class="nd">@equality_typechecker</span>
-    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"Arm"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"Arm"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">"""Need to overwrite the default __eq__ method of Base,</span>
 <span class="sd">        because accessing the "name" attribute of Arm</span>
 <span class="sd">        can result in an error.</span>
@@ -150,12 +154,12 @@ src="/js/documentation_options.js">
             <span class="n">names_equal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
         <span class="k">return</span> <span class="n">parameters_equal</span> <span class="ow">and</span> <span class="n">names_equal</span>
 
-    <span class="k">def</span> <span class="nf">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signature</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">_numpy_types_to_python_types</span><span class="p">(</span>
-    <span class="n">parameterization</span><span class="p">:</span> <span class="n">TParameterization</span>
+    <span class="n">parameterization</span><span class="p">:</span> <span class="n">TParameterization</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TParameterization</span><span class="p">:</span>
     <span class="sd">"""If applicable, coerce values of the parameterization from Numpy int/float to</span>
 <span class="sd">    Python int/float.</span>

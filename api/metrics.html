@@ -39,7 +39,7 @@ src="/js/documentation_options.js">
 <dd><p>The deterministic function that produces the metric outcomes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -54,7 +54,7 @@ src="/js/documentation_options.js">
 <dd><p>The deterministic function that produces the metric outcomes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -94,7 +94,7 @@ logit model.</p>
 <code class="sig-prename descclassname">ax.metrics.factorial.</code><code class="sig-name descname">evaluation_function</code><span class="sig-paren">(</span><em class="sig-param">parameterization</em>, <em class="sig-param">coefficients</em>, <em class="sig-param">weight=1.0</em>, <em class="sig-param">batch_size=10000</em>, <em class="sig-param">noise_var=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/metrics/factorial.html#evaluation_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.metrics.factorial.evaluation_function" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.7)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -111,7 +111,25 @@ logit model.</p>
 <dd><p>The deterministic function that produces the metric outcomes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+</div>
+<div class="section" id="module-ax.metrics.l2norm">
+<span id="l2-norm"></span><h2>L2 Norm<a class="headerlink" href="#module-ax.metrics.l2norm" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ax.metrics.l2norm.L2NormMetric">
+<em class="property">class </em><code class="sig-prename descclassname">ax.metrics.l2norm.</code><code class="sig-name descname">L2NormMetric</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">param_names</em>, <em class="sig-param">noise_sd=0.0</em>, <em class="sig-param">lower_is_better=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/metrics/l2norm.html#L2NormMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.metrics.l2norm.L2NormMetric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ax.metrics.noisy_function.NoisyFunctionMetric" title="ax.metrics.noisy_function.NoisyFunctionMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.metrics.noisy_function.NoisyFunctionMetric</span></code></a></p>
+<dl class="method">
+<dt id="ax.metrics.l2norm.L2NormMetric.f">
+<code class="sig-name descname">f</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/metrics/l2norm.html#L2NormMetric.f"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.metrics.l2norm.L2NormMetric.f" title="Permalink to this definition">¶</a></dt>
+<dd><p>The deterministic function that produces the metric outcomes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -141,7 +159,7 @@ with mean 0 and mean_sd scale added to the result.</p>
 <dd><p>The deterministic function that produces the metric outcomes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -174,6 +192,7 @@ with mean 0 and mean_sd scale added to the result.</p>
 <li class="toctree-l2"><a class="reference internal" href="#module-ax.metrics.branin">Branin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ax.metrics.factorial">Factorial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ax.metrics.hartmann6">Hartmann6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ax.metrics.l2norm">L2 Norm</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ax.metrics.noisy_function">Noisy Functions</a></li>
 </ul>
 </li>

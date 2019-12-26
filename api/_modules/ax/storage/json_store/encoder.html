@@ -27,23 +27,27 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.storage.json_store.encoder</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">enum</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">inspect</span> <span class="k">import</span> <span class="n">isclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">isclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Type</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">ax.exceptions.storage</span> <span class="k">import</span> <span class="n">JSONEncodeError</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.transforms.base</span> <span class="k">import</span> <span class="n">Transform</span>
-<span class="kn">from</span> <span class="nn">ax.storage.json_store.registry</span> <span class="k">import</span> <span class="n">ENCODER_REGISTRY</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.serialization</span> <span class="k">import</span> <span class="n">_is_named_tuple</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="k">import</span> <span class="n">numpy_type_to_python_type</span>
+<span class="kn">from</span> <span class="nn">ax.exceptions.storage</span> <span class="kn">import</span> <span class="n">JSONEncodeError</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.transforms.base</span> <span class="kn">import</span> <span class="n">Transform</span>
+<span class="kn">from</span> <span class="nn">ax.storage.json_store.registry</span> <span class="kn">import</span> <span class="n">ENCODER_REGISTRY</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.serialization</span> <span class="kn">import</span> <span class="n">_is_named_tuple</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="kn">import</span> <span class="n">numpy_type_to_python_type</span><span class="p">,</span> <span class="n">torch_type_to_str</span>
 
 
-<div class="viewcode-block" id="object_to_json"><a class="viewcode-back" href="../../../../storage.html#ax.storage.json_store.encoder.object_to_json">[docs]</a><span class="k">def</span> <span class="nf">object_to_json</span><span class="p">(</span><span class="nb">object</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="object_to_json"><a class="viewcode-back" href="../../../../storage.html#ax.storage.json_store.encoder.object_to_json">[docs]</a><span class="k">def</span> <span class="nf">object_to_json</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
     <span class="sd">"""Convert an Ax object to a JSON-serializable dictionary.</span>
 
 <span class="sd">    The root node passed to this function should always be an instance of a</span>
@@ -58,47 +62,58 @@ src="/js/documentation_options.js">
 <span class="sd">    We then pass each item of the dictionary back into this function to</span>
 <span class="sd">    recursively convert the entire object.</span>
 <span class="sd">    """</span>
-    <span class="nb">object</span> <span class="o">=</span> <span class="n">numpy_type_to_python_type</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
-    <span class="n">_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+    <span class="n">obj</span> <span class="o">=</span> <span class="n">numpy_type_to_python_type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="n">_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="c1"># Python built-in types + `typing` module types</span>
     <span class="k">if</span> <span class="n">_type</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)):</span>
-        <span class="k">return</span> <span class="nb">object</span>
+        <span class="k">return</span> <span class="n">obj</span>
     <span class="k">elif</span> <span class="n">_type</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">object_to_json</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">object</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">object_to_json</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">]</span>
     <span class="k">elif</span> <span class="n">_type</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">object_to_json</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">object</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">object_to_json</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">_type</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">object_to_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">object</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">object_to_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">elif</span> <span class="n">_is_named_tuple</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"__type"</span><span class="p">:</span> <span class="n">_type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">object_to_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+        <span class="p">}</span>
+
+    <span class="c1"># Types from libraries, commonly used in Ax (e.g., numpy, pandas, torch)</span>
     <span class="k">elif</span> <span class="n">_type</span> <span class="ow">is</span> <span class="n">OrderedDict</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">"__type"</span><span class="p">:</span> <span class="n">_type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-            <span class="s2">"value"</span><span class="p">:</span> <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="n">object_to_json</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">object</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span>
+            <span class="s2">"value"</span><span class="p">:</span> <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="n">object_to_json</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span>
         <span class="p">}</span>
     <span class="k">elif</span> <span class="n">_type</span> <span class="ow">is</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">"__type"</span><span class="p">:</span> <span class="n">_type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-            <span class="s2">"value"</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">"</span><span class="p">),</span>
+            <span class="s2">"value"</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">"</span><span class="p">),</span>
         <span class="p">}</span>
     <span class="k">elif</span> <span class="n">_type</span> <span class="ow">is</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">"__type"</span><span class="p">:</span> <span class="n">_type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="nb">object</span><span class="o">.</span><span class="n">to_json</span><span class="p">()}</span>
-    <span class="k">elif</span> <span class="n">_is_named_tuple</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">"__type"</span><span class="p">:</span> <span class="n">_type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-            <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">object_to_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">object</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
-        <span class="p">}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"__type"</span><span class="p">:</span> <span class="n">_type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">to_json</span><span class="p">()}</span>
     <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">_type</span><span class="p">,</span> <span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">"__type"</span><span class="p">:</span> <span class="n">_type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">:</span> <span class="nb">object</span><span class="o">.</span><span class="n">name</span><span class="p">}</span>
-    <span class="k">elif</span> <span class="n">isclass</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">Transform</span><span class="p">):</span>
-        <span class="c1"># There is no other way to check is object is of type Type[Transform].</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"__type"</span><span class="p">:</span> <span class="n">_type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="p">}</span>
+    <span class="k">elif</span> <span class="n">_type</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">or</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">_type</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"__type"</span><span class="p">:</span> <span class="n">_type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">tolist</span><span class="p">()}</span>
+    <span class="k">elif</span> <span class="n">_type</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s2">"torch"</span><span class="p">:</span>
+        <span class="c1"># Torch does not support saving to string, so save to buffer first</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"__type"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"torch_</span><span class="si">{_type.__name__}</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="n">torch_type_to_str</span><span class="p">(</span><span class="n">obj</span><span class="p">)}</span>
+
+    <span class="c1"># Ax types</span>
+    <span class="k">elif</span> <span class="n">isclass</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Transform</span><span class="p">):</span>
+        <span class="c1"># There is no other way to check is obj is of type Type[Transform].</span>
         <span class="n">_type</span> <span class="o">=</span> <span class="n">Type</span><span class="p">[</span><span class="n">Transform</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ENCODER_REGISTRY</span><span class="p">:</span>
         <span class="n">err</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">f</span><span class="s2">"Object </span><span class="si">{object}</span><span class="s2"> passed to `object_to_json` (of type </span><span class="si">{_type}</span><span class="s2">) is "</span>
-            <span class="n">f</span><span class="s2">"not registered with a corresponding encoder in ENCODER_REGISTRY."</span>
+            <span class="sa">f</span><span class="s2">"Object </span><span class="si">{obj}</span><span class="s2"> passed to `object_to_json` (of type </span><span class="si">{_type}</span><span class="s2">) is "</span>
+            <span class="sa">f</span><span class="s2">"not registered with a corresponding encoder in ENCODER_REGISTRY."</span>
         <span class="p">)</span>
         <span class="k">raise</span> <span class="n">JSONEncodeError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-    <span class="n">object_dict</span> <span class="o">=</span> <span class="n">ENCODER_REGISTRY</span><span class="p">[</span><span class="n">_type</span><span class="p">](</span><span class="nb">object</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">object_to_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">object_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+    <span class="n">obj_dict</span> <span class="o">=</span> <span class="n">ENCODER_REGISTRY</span><span class="p">[</span><span class="n">_type</span><span class="p">](</span><span class="n">obj</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">object_to_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
 </pre></div>
 </div>
 </div>

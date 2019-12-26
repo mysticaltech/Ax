@@ -27,21 +27,24 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for ax.storage.sqa_store.validation</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.</span>
+<span class="c1"># Copyright (c) Facebook, Inc. and its affiliates.</span>
+<span class="c1">#</span>
+<span class="c1"># This source code is licensed under the MIT license found in the</span>
+<span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
 
-<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.db</span> <span class="k">import</span> <span class="n">SQABase</span>
-<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.sqa_classes</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.db</span> <span class="kn">import</span> <span class="n">SQABase</span>
+<span class="kn">from</span> <span class="nn">ax.storage.sqa_store.sqa_classes</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ONLY_ONE_FIELDS</span><span class="p">,</span>
     <span class="n">SQAMetric</span><span class="p">,</span>
     <span class="n">SQAParameter</span><span class="p">,</span>
     <span class="n">SQAParameterConstraint</span><span class="p">,</span>
     <span class="n">SQARunner</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">event</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy.engine</span> <span class="k">import</span> <span class="n">Connection</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy.orm.mapper</span> <span class="k">import</span> <span class="n">Mapper</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">event</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.engine</span> <span class="kn">import</span> <span class="n">Connection</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm.mapper</span> <span class="kn">import</span> <span class="n">Mapper</span>
 
 
 <div class="viewcode-block" id="consistency_exactly_one"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.validation.consistency_exactly_one">[docs]</a><span class="k">def</span> <span class="nf">consistency_exactly_one</span><span class="p">(</span><span class="n">instance</span><span class="p">:</span> <span class="n">SQABase</span><span class="p">,</span> <span class="n">exactly_one_fields</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
@@ -49,8 +52,8 @@ src="/js/documentation_options.js">
     <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">exactly_one_fields</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="n">f</span><span class="s2">"</span><span class="si">{instance.__class__.__name__}</span><span class="s2"> must have exactly one of the following "</span>
-            <span class="n">f</span><span class="s2">"fields set: {', '.join(exactly_one_fields)}."</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{instance.__class__.__name__}</span><span class="s2"> must have exactly one of the following "</span>
+            <span class="sa">f</span><span class="s2">"fields set: {', '.join(exactly_one_fields)}."</span>
         <span class="p">)</span></div>
 
 
