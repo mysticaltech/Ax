@@ -38,6 +38,10 @@ src="/js/documentation_options.js">
 <p>One step in the generation strategy, corresponds to a single model.
 Describes the model, how many arms will be generated with this model, what
 minimum number of observations is required to proceed to the next model, etc.</p>
+<p>Model can be specified either from the model registry
+(ax.modelbridge.registry.Models or using a callable model constructor. Only
+models from the registry can be saved, and thus optimization can only be
+resumed if interrupted when using models from the registry.</p>
 <dl class="method">
 <dt id="ax.modelbridge.generation_strategy.GenerationStep.enforce_num_arms">
 <em class="property">property </em><code class="sig-name descname">enforce_num_arms</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStep.enforce_num_arms" title="Permalink to this definition">¶</a></dt>

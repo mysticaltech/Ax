@@ -63,6 +63,11 @@ src="/js/documentation_options.js">
     <span class="sd">"""One step in the generation strategy, corresponds to a single model.</span>
 <span class="sd">    Describes the model, how many arms will be generated with this model, what</span>
 <span class="sd">    minimum number of observations is required to proceed to the next model, etc.</span>
+
+<span class="sd">    Model can be specified either from the model registry</span>
+<span class="sd">    (ax.modelbridge.registry.Models or using a callable model constructor. Only</span>
+<span class="sd">    models from the registry can be saved, and thus optimization can only be</span>
+<span class="sd">    resumed if interrupted when using models from the registry.</span>
 <span class="sd">    """</span>
 
     <span class="n">model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Models</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">ModelBridge</span><span class="p">]]</span>
@@ -124,6 +129,11 @@ src="/js/documentation_options.js">
             <span class="bp">self</span><span class="o">.</span><span class="n">_steps</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">idx</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">Models</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_uses_registered_models</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_uses_registered_models</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">"Using model via callable function, "</span>
+                <span class="s2">"so optimization is not resumable if interrupted."</span>
+            <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_generated</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_observed</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="kc">None</span>
@@ -312,18 +322,6 @@ src="/js/documentation_options.js">
 <span class="sd">        function, with all available data."""</span>
         <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_curr</span><span class="o">.</span><span class="n">model</span>
         <span class="k">assert</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">Models</span><span class="p">)</span> <span class="ow">and</span> <span class="n">callable</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-        <span class="n">fxn_name</span> <span class="o">=</span> <span class="p">(</span>  <span class="c1"># Only grab the name when available; without this ternary</span>
-            <span class="sa">f</span><span class="s2">"` </span><span class="si">{model.__name__}</span><span class="s2">`"</span>  <span class="c1"># operator, grabbing the __name__</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">"__name__"</span><span class="p">)</span>  <span class="c1"># will error for mocks.</span>
-            <span class="k">else</span> <span class="s2">""</span>
-        <span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"Using a custom model provided through a callable function </span><span class="si">{fxn_name}</span><span class="s2">"</span>
-            <span class="s2">". Note that Ax cannot save models provided through functions, "</span>
-            <span class="s2">"so this optimization will not be resumable if interrupted. For "</span>
-            <span class="s2">"resumable optimization, use models, registered in the `Models` "</span>
-            <span class="s2">"registry enum (`ax.modelbridge.registry.Models`)."</span>
-        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_curr</span><span class="o">.</span><span class="n">model</span><span class="p">(</span>
             <span class="o">**</span><span class="n">_filter_kwargs</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_curr</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
