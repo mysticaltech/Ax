@@ -1,5 +1,4 @@
 from copy import deepcopy
-from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy.stats import norm
@@ -21,6 +20,7 @@ from ax.metrics.l2norm import L2NormMetric
 from ax.modelbridge.factory import get_sobol, get_GPEI, get_MTGP
 from ax.core.generator_run import GeneratorRun
 from ax.plot.diagnostic import interact_batch_comparison
+from ax.plot.trace import optimization_trace_all_methods
 from ax.utils.notebook.plotting import init_notebook_plotting, render
 
 init_notebook_plotting()
@@ -244,7 +244,7 @@ def run_mtbo():
 
 runners = {
     'GP, online only': run_online_only_bo,
-    'MTGP, Algorithm 1': run_mtbo,
+    'MTGP': run_mtbo,
 }
 iteration_objectives = {k: [] for k in runners}
 iteration_constraints = {k: [] for k in runners}
@@ -259,26 +259,12 @@ for k, v in iteration_objectives.items():
     iteration_objectives[k] = np.array(v)
     iteration_constraints[k] = np.array(iteration_constraints[k])
 
-means = {}
-sems = {}
+best_objectives = {}
 for m, obj in iteration_objectives.items():
     x = obj.copy()
     z = iteration_constraints[m].copy()
-    x[z > 1.25] = np.Inf  # The value of infeasible points
-    best_obj = np.array([np.minimum.accumulate(obj_i) for obj_i in x])
-    means[m] = best_obj.mean(axis=0)
-    sems[m] = best_obj.std(axis=0) / np.sqrt(best_obj.shape[0])
-
-fig = plt.figure(figsize=(12, 6))
-ax = fig.add_subplot(111)
-x = np.arange(1, len(means['GP, online only']) + 1)
-colors = ['firebrick', 'steelblue']
-methods = ['GP, online only', 'MTGP, Algorithm 1']
-for i, m in enumerate(methods):
-    ax.plot(x, means[m], ls='-', c=colors[i])
-    ax.fill_between(x, means[m] - 2 * sems[m], means[m] + 2 * sems[m], color=colors[i], alpha=0.3)
-ax.legend(methods)
-ax.axhline(y=-3.32237, c='k', ls='--')  # Actual optimum for this problem
-ax.set_xlabel('Online iteration')
-ax.set_ylabel('Best-feasible objective value')
-ax.set_title('Bayesian optimization performance');
+    best_objectives[m] = np.array([np.minimum.accumulate(obj_i) for obj_i in x])
+    
+render(
+    optimization_trace_all_methods({k: best_objectives[k] for k in runners}) 
+)
