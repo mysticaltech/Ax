@@ -119,7 +119,9 @@ src="/js/documentation_options.js">
     <span class="n">trial</span> <span class="o">=</span> <span class="n">Trial</span><span class="p">(</span><span class="n">experiment</span><span class="o">=</span><span class="n">experiment</span><span class="p">,</span> <span class="n">generator_run</span><span class="o">=</span><span class="n">generator_run</span><span class="p">)</span>
     <span class="n">trial</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="n">index</span>
     <span class="n">trial</span><span class="o">.</span><span class="n">_trial_type</span> <span class="o">=</span> <span class="n">trial_type</span>
-    <span class="n">trial</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">status</span>
+    <span class="c1"># Swap `DISPATCHED` for `RUNNING`, since `DISPATCHED` is deprecated and nearly</span>
+    <span class="c1"># equivalent to `RUNNING`.</span>
+    <span class="n">trial</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">status</span> <span class="k">if</span> <span class="n">status</span> <span class="o">!=</span> <span class="n">TrialStatus</span><span class="o">.</span><span class="n">DISPATCHED</span> <span class="k">else</span> <span class="n">TrialStatus</span><span class="o">.</span><span class="n">RUNNING</span>
     <span class="n">trial</span><span class="o">.</span><span class="n">_time_created</span> <span class="o">=</span> <span class="n">time_created</span>
     <span class="n">trial</span><span class="o">.</span><span class="n">_time_completed</span> <span class="o">=</span> <span class="n">time_completed</span>
     <span class="n">trial</span><span class="o">.</span><span class="n">_time_staged</span> <span class="o">=</span> <span class="n">time_staged</span>
