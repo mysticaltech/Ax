@@ -519,11 +519,26 @@ data, in milliseconds.</p></li>
 </dd></dl>
 <dl class="method">
 <dt id="ax.Experiment.attach_data">
-<code class="sig-name descname">attach_data</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/experiment.html#Experiment.attach_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.Experiment.attach_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Attach data to experiment.</p>
+<code class="sig-name descname">attach_data</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">combine_with_last_data=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/experiment.html#Experiment.attach_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.Experiment.attach_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attach data to experiment. Stores data in <cite>experiment._data_by_trial</cite>,
+to be looked up via <cite>experiment.lookup_data_by_trial</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> (<a class="reference internal" href="core.html#ax.core.data.Data" title="ax.core.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a>) – Data object to store.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference internal" href="core.html#ax.core.data.Data" title="ax.core.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a>) – Data object to store.</p></li>
+<li><p><strong>combine_with_last_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – By default, when attaching data, it’s identified
+by its timestamp, and <cite>experiment.lookup_data_by_trial</cite> returns
+data by most recent timestamp. In some cases, however, the goal
+is to combine all data attached for a trial into a single <cite>Data</cite>
+object. To achieve that goal, every call to <cite>attach_data</cite> after
+the initial data is attached to trials, should be set to <cite>True</cite>.
+Then, the newly attached data will be appended to existing data,
+rather than stored as a separate object, and <cite>lookup_data_by_trial</cite>
+will return the combined data object, rather than just the most
+recently added data. This will validate that the newly added data
+does not contain observations for the metrics that already have
+observations in the most recent data stored.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
@@ -1188,7 +1203,7 @@ represent metrics with both upper and lower bounds.</p>
 </dd></dl>
 <dl class="class">
 <dt id="ax.OptimizationLoop">
-<em class="property">class </em><code class="sig-prename descclassname">ax.</code><code class="sig-name descname">OptimizationLoop</code><span class="sig-paren">(</span><em class="sig-param">experiment</em>, <em class="sig-param">total_trials=20</em>, <em class="sig-param">arms_per_trial=1</em>, <em class="sig-param">random_seed=None</em>, <em class="sig-param">wait_time=0</em>, <em class="sig-param">run_async=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/managed_loop.html#OptimizationLoop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.OptimizationLoop" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ax.</code><code class="sig-name descname">OptimizationLoop</code><span class="sig-paren">(</span><em class="sig-param">experiment</em>, <em class="sig-param">total_trials=20</em>, <em class="sig-param">arms_per_trial=1</em>, <em class="sig-param">random_seed=None</em>, <em class="sig-param">wait_time=0</em>, <em class="sig-param">run_async=False</em>, <em class="sig-param">generation_strategy=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/managed_loop.html#OptimizationLoop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.OptimizationLoop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Managed optimization loop, in which Ax oversees deployment of trials and
 gathering data.</p>
 <dl class="method">
@@ -1235,7 +1250,7 @@ of this optimization.</p>
 </dd></dl>
 <dl class="method">
 <dt id="ax.OptimizationLoop.with_evaluation_function">
-<em class="property">static </em><code class="sig-name descname">with_evaluation_function</code><span class="sig-paren">(</span><em class="sig-param">parameters</em>, <em class="sig-param">evaluation_function</em>, <em class="sig-param">experiment_name=None</em>, <em class="sig-param">objective_name=None</em>, <em class="sig-param">minimize=False</em>, <em class="sig-param">parameter_constraints=None</em>, <em class="sig-param">outcome_constraints=None</em>, <em class="sig-param">total_trials=20</em>, <em class="sig-param">arms_per_trial=1</em>, <em class="sig-param">wait_time=0</em>, <em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/managed_loop.html#OptimizationLoop.with_evaluation_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.OptimizationLoop.with_evaluation_function" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">with_evaluation_function</code><span class="sig-paren">(</span><em class="sig-param">parameters</em>, <em class="sig-param">evaluation_function</em>, <em class="sig-param">experiment_name=None</em>, <em class="sig-param">objective_name=None</em>, <em class="sig-param">minimize=False</em>, <em class="sig-param">parameter_constraints=None</em>, <em class="sig-param">outcome_constraints=None</em>, <em class="sig-param">total_trials=20</em>, <em class="sig-param">arms_per_trial=1</em>, <em class="sig-param">wait_time=0</em>, <em class="sig-param">random_seed=None</em>, <em class="sig-param">generation_strategy=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/managed_loop.html#OptimizationLoop.with_evaluation_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.OptimizationLoop.with_evaluation_function" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructs a synchronous <cite>OptimizationLoop</cite> using an evaluation
 function.</p>
 <dl class="field-list simple">
@@ -1988,7 +2003,7 @@ objective that was set at the time the trial was created or ran.</p>
 </dd></dl>
 <dl class="function">
 <dt id="ax.optimize">
-<code class="sig-prename descclassname">ax.</code><code class="sig-name descname">optimize</code><span class="sig-paren">(</span><em class="sig-param">parameters</em>, <em class="sig-param">evaluation_function</em>, <em class="sig-param">experiment_name=None</em>, <em class="sig-param">objective_name=None</em>, <em class="sig-param">minimize=False</em>, <em class="sig-param">parameter_constraints=None</em>, <em class="sig-param">outcome_constraints=None</em>, <em class="sig-param">total_trials=20</em>, <em class="sig-param">arms_per_trial=1</em>, <em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/managed_loop.html#optimize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.optimize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ax.</code><code class="sig-name descname">optimize</code><span class="sig-paren">(</span><em class="sig-param">parameters</em>, <em class="sig-param">evaluation_function</em>, <em class="sig-param">experiment_name=None</em>, <em class="sig-param">objective_name=None</em>, <em class="sig-param">minimize=False</em>, <em class="sig-param">parameter_constraints=None</em>, <em class="sig-param">outcome_constraints=None</em>, <em class="sig-param">total_trials=20</em>, <em class="sig-param">arms_per_trial=1</em>, <em class="sig-param">random_seed=None</em>, <em class="sig-param">generation_strategy=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/managed_loop.html#optimize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.optimize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct and run a full optimization loop.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
