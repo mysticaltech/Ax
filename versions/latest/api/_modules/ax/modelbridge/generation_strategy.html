@@ -39,6 +39,7 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">ax.core.data</span> <span class="kn">import</span> <span class="n">Data</span>
 <span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="kn">import</span> <span class="n">Experiment</span>
 <span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="kn">import</span> <span class="n">GeneratorRun</span>
+<span class="kn">from</span> <span class="nn">ax.exceptions.core</span> <span class="kn">import</span> <span class="n">DataRequiredError</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.base</span> <span class="kn">import</span> <span class="n">ModelBridge</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.registry</span> <span class="kn">import</span> <span class="n">Models</span><span class="p">,</span> <span class="n">get_model_from_generator_run</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.kwargs</span> <span class="kn">import</span> <span class="n">consolidate_kwargs</span><span class="p">,</span> <span class="n">get_function_argument_names</span>
@@ -235,7 +236,7 @@ src="/js/documentation_options.js">
 
         <span class="c1"># Check that minimum observed_arms is satisfied if it's enforced.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_curr</span><span class="o">.</span><span class="n">enforce_num_arms</span> <span class="ow">and</span> <span class="n">enough_generated</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">enough_observed</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="k">raise</span> <span class="n">DataRequiredError</span><span class="p">(</span>
                 <span class="s2">"All trials for current model have been generated, but not enough "</span>
                 <span class="s2">"data has been observed to fit next model. Try again when more data "</span>
                 <span class="s2">"are available."</span>

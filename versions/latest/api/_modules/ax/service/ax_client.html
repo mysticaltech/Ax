@@ -969,6 +969,17 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">search_space</span><span class="o">.</span><span class="n">check_membership</span><span class="p">(</span>
             <span class="n">parameterization</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">raise_error</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
+        <span class="c1"># `check_membership` uses int and float interchangeably, which we don't</span>
+        <span class="c1"># want here.</span>
+        <span class="k">for</span> <span class="n">p_name</span><span class="p">,</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">search_space</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="n">p_name</span><span class="p">],</span> <span class="n">parameter</span><span class="o">.</span><span class="n">python_type</span><span class="p">):</span>
+                <span class="n">typ</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="n">p_name</span><span class="p">])</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Value for parameter </span><span class="si">{p_name}</span><span class="s2"> is of type </span><span class="si">{typ}</span><span class="s2">, expected "</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{parameter.python_type}</span><span class="s2">. If the intention was to have the "</span>
+                    <span class="sa">f</span><span class="s2">"parameter on experiment be of type </span><span class="si">{typ}</span><span class="s2">, set `value_type` "</span>
+                    <span class="s2">"on experiment creation for </span><span class="si">{p_name}</span><span class="s2">."</span>
+                <span class="p">)</span>
 
     <span class="c1"># -------- Backward-compatibility with old save / load method names. -------</span>
 
