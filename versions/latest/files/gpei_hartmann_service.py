@@ -227,7 +227,7 @@ ax_client.log_trial_failure(trial_index=trial_index)
 # In[17]:
 
 
-ax_client.attach_trial(parameters={"x1": 9.0, "x2": 9.0, "x3": 9.0, "x4": 9.0, "x5": 9.0, "x6": 9.0})
+ax_client.attach_trial(parameters={"x1": 0.9, "x2": 0.9, "x3": 0.9, "x4": 0.9, "x5": 0.9, "x6": 0.9})
 
 
 # **Need to run many trials in parallel**: for optimal results and optimization efficiency, we strongly recommend sequential optimization (generating a few trials, then waiting for them to be completed with evaluation data). However, if your use case needs to dispatch many trials in parallel before they are updated with data and you are running into the *"All trials for current model have been generated, but not enough data has been observed to fit next model"* error, instantiate `AxClient` as `AxClient(enforce_sequential_optimization=False)`.
