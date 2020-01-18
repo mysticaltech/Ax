@@ -38,6 +38,7 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span>
 
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">ax.core.arm</span> <span class="kn">import</span> <span class="n">Arm</span>
 <span class="kn">from</span> <span class="nn">ax.core.base</span> <span class="kn">import</span> <span class="n">Base</span>
 <span class="kn">from</span> <span class="nn">ax.core.base_trial</span> <span class="kn">import</span> <span class="n">BaseTrial</span><span class="p">,</span> <span class="n">TrialStatus</span>
@@ -407,11 +408,24 @@ src="/js/documentation_options.js">
             <span class="c1"># fall back to data that has been attached.</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_data_for_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">trial_index</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Experiment.attach_data"><a class="viewcode-back" href="../../../core.html#ax.Experiment.attach_data">[docs]</a>    <span class="k">def</span> <span class="nf">attach_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">"""Attach data to experiment.</span>
+<div class="viewcode-block" id="Experiment.attach_data"><a class="viewcode-back" href="../../../core.html#ax.Experiment.attach_data">[docs]</a>    <span class="k">def</span> <span class="nf">attach_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Data</span><span class="p">,</span> <span class="n">combine_with_last_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">"""Attach data to experiment. Stores data in `experiment._data_by_trial`,</span>
+<span class="sd">        to be looked up via `experiment.lookup_data_by_trial`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            data: Data object to store.</span>
+<span class="sd">            combine_with_last_data: By default, when attaching data, it's identified</span>
+<span class="sd">                by its timestamp, and `experiment.lookup_data_by_trial` returns</span>
+<span class="sd">                data by most recent timestamp. In some cases, however, the goal</span>
+<span class="sd">                is to combine all data attached for a trial into a single `Data`</span>
+<span class="sd">                object. To achieve that goal, every call to `attach_data` after</span>
+<span class="sd">                the initial data is attached to trials, should be set to `True`.</span>
+<span class="sd">                Then, the newly attached data will be appended to existing data,</span>
+<span class="sd">                rather than stored as a separate object, and `lookup_data_by_trial`</span>
+<span class="sd">                will return the combined data object, rather than just the most</span>
+<span class="sd">                recently added data. This will validate that the newly added data</span>
+<span class="sd">                does not contain observations for the metrics that already have</span>
+<span class="sd">                observations in the most recent data stored.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Timestamp of storage in millis.</span>
@@ -423,7 +437,24 @@ src="/js/documentation_options.js">
                 <span class="k">if</span> <span class="n">trial_index</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data_by_trial</span>
                 <span class="k">else</span> <span class="n">OrderedDict</span><span class="p">()</span>
             <span class="p">)</span>
-            <span class="n">current_trial_data</span><span class="p">[</span><span class="n">cur_time_millis</span><span class="p">]</span> <span class="o">=</span> <span class="n">Data</span><span class="p">(</span><span class="n">trial_df</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">combine_with_last_data</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_trial_data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">last_ts</span><span class="p">,</span> <span class="n">last_data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">current_trial_data</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">merged</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+                    <span class="n">last_data</span><span class="o">.</span><span class="n">df</span><span class="p">,</span>
+                    <span class="n">trial_df</span><span class="p">,</span>
+                    <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">"trial_index"</span><span class="p">,</span> <span class="s2">"metric_name"</span><span class="p">,</span> <span class="s2">"arm_name"</span><span class="p">],</span>
+                    <span class="n">how</span><span class="o">=</span><span class="s2">"inner"</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">merged</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"Last data for trial </span><span class="si">{trial_index}</span><span class="s2"> already contained an "</span>
+                        <span class="sa">f</span><span class="s2">"observation for metric {merged.head()['metric_name']}."</span>
+                    <span class="p">)</span>
+                <span class="n">current_trial_data</span><span class="p">[</span><span class="n">cur_time_millis</span><span class="p">]</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">from_multiple_data</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">last_data</span><span class="p">,</span> <span class="n">Data</span><span class="p">(</span><span class="n">trial_df</span><span class="p">)]</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">current_trial_data</span><span class="p">[</span><span class="n">cur_time_millis</span><span class="p">]</span> <span class="o">=</span> <span class="n">Data</span><span class="p">(</span><span class="n">trial_df</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_data_by_trial</span><span class="p">[</span><span class="n">trial_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_trial_data</span>
 
         <span class="k">return</span> <span class="n">cur_time_millis</span></div>
@@ -644,7 +675,7 @@ src="/js/documentation_options.js">
 </div>
 </div>
 <div class="clearer"></div>
-</div></div></div><footer class="nav-footer" id="footer"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2019 Facebook Inc.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+</div></div></div><footer class="nav-footer" id="footer"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2020 Facebook Inc.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;

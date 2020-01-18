@@ -75,7 +75,7 @@ src="/js/documentation_options.js">
     <span class="n">COMPLETED</span> <span class="o">=</span> <span class="mi">3</span>
     <span class="n">RUNNING</span> <span class="o">=</span> <span class="mi">4</span>
     <span class="n">ABANDONED</span> <span class="o">=</span> <span class="mi">5</span>
-    <span class="n">DISPATCHED</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">DISPATCHED</span> <span class="o">=</span> <span class="mi">6</span>  <span class="c1"># Deprecated.</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_terminal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -99,7 +99,17 @@ src="/js/documentation_options.js">
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_failed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">"""True if this trial is a failed one."""</span>
-        <span class="k">return</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">TrialStatus</span><span class="o">.</span><span class="n">FAILED</span></div>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">TrialStatus</span><span class="o">.</span><span class="n">FAILED</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_abandoned</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">"""True if this trial is an abandoned one."""</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">TrialStatus</span><span class="o">.</span><span class="n">ABANDONED</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_completed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">"""True if this trial is a successfully completed one."""</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">TrialStatus</span><span class="o">.</span><span class="n">COMPLETED</span></div>
 
 
 <div class="viewcode-block" id="immutable_once_run"><a class="viewcode-back" href="../../../core.html#ax.core.base_trial.immutable_once_run">[docs]</a><span class="k">def</span> <span class="nf">immutable_once_run</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
@@ -496,7 +506,7 @@ src="/js/documentation_options.js">
 </div>
 </div>
 <div class="clearer"></div>
-</div></div></div><footer class="nav-footer" id="footer"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2019 Facebook Inc.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+</div></div></div><footer class="nav-footer" id="footer"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2020 Facebook Inc.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;

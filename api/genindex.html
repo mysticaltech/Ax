@@ -560,6 +560,8 @@ src="/js/documentation_options.js">
 <li><a href="core.html#ax.core.batch_trial.BatchTrial">(class in ax.core.batch_trial)</a>
 </li>
 </ul></li>
+<li><a href="benchmark.html#ax.benchmark.benchmark.benchmark_minimize_callable">benchmark_minimize_callable() (in module ax.benchmark.benchmark)</a>
+</li>
 <li><a href="storage.html#ax.storage.json_store.encoders.benchmark_problem_to_dict">benchmark_problem_to_dict() (in module ax.storage.json_store.encoders)</a>
 </li>
 <li><a href="benchmark.html#ax.benchmark.benchmark.benchmark_replication">benchmark_replication() (in module ax.benchmark.benchmark)</a>
@@ -912,6 +914,8 @@ src="/js/documentation_options.js">
 <li><a href="storage.html#ax.storage.sqa_store.encoder.Encoder.data_to_sqa">data_to_sqa() (ax.storage.sqa_store.encoder.Encoder method)</a>
 </li>
 <li><a href="exceptions.html#ax.exceptions.data_provider.DataProviderError">DataProviderError</a>
+</li>
+<li><a href="exceptions.html#ax.exceptions.core.DataRequiredError">DataRequiredError</a>
 </li>
 <li><a href="utils.html#ax.utils.common.equality.datetime_equals">datetime_equals() (in module ax.utils.common.equality)</a>
 </li>
@@ -1778,10 +1782,10 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.db.init_test_engine_and_session_factory">init_test_engine_and_session_factory() (in module ax.storage.sqa_store.db)</a>
 </li>
-</ul></td>
-<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="core.html#ax.core.parameter.ParameterType.INT">INT (ax.core.parameter.ParameterType attribute)</a>
 </li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAMetric.intent">intent (ax.storage.sqa_store.sqa_classes.SQAMetric attribute)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_enum.IntEnum">IntEnum (class in ax.storage.sqa_store.sqa_enum)</a>
@@ -1813,10 +1817,15 @@ src="/js/documentation_options.js">
 <li><a href="utils.html#ax.utils.stats.statstools.inverse_variance_weight">inverse_variance_weight() (in module ax.utils.stats.statstools)</a>
 </li>
 <li><a href="core.html#ax.core.base_trial.BaseTrial.is_abandoned">is_abandoned() (ax.core.base_trial.BaseTrial property)</a>
+<ul>
+<li><a href="core.html#ax.core.base_trial.TrialStatus.is_abandoned">(ax.core.base_trial.TrialStatus property)</a>
 </li>
+</ul></li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQATrial.is_batch">is_batch (ax.storage.sqa_store.sqa_classes.SQATrial attribute)</a>
 </li>
 <li><a href="core.html#ax.core.base_trial.BaseTrial.is_complete">is_complete() (ax.core.base_trial.BaseTrial property)</a>
+</li>
+<li><a href="core.html#ax.core.base_trial.TrialStatus.is_completed">is_completed() (ax.core.base_trial.TrialStatus property)</a>
 </li>
 <li><a href="core.html#ax.core.base_trial.TrialStatus.is_deployed">is_deployed() (ax.core.base_trial.TrialStatus property)</a>
 </li>
@@ -3355,6 +3364,8 @@ src="/js/documentation_options.js">
 <li><a href="ax.html#ax.SimpleExperiment.update_tracking_metric">(ax.SimpleExperiment method)</a>
 </li>
 </ul></li>
+<li><a href="service.html#ax.service.ax_client.AxClient.update_trial_data">update_trial_data() (ax.service.ax_client.AxClient method)</a>
+</li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAParameter.upper">upper (ax.storage.sqa_store.sqa_classes.SQAParameter attribute)</a>
 </li>
 <li><a href="core.html#ax.core.parameter.RangeParameter.upper">upper() (ax.core.parameter.RangeParameter property)</a>
@@ -3522,7 +3533,7 @@ src="/js/documentation_options.js">
 </div>
 </div>
 <div class="clearer"></div>
-</div></div></div><footer class="nav-footer" id="footer"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2019 Facebook Inc.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+</div></div></div><footer class="nav-footer" id="footer"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2020 Facebook Inc.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;

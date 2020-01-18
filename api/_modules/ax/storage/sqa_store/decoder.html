@@ -40,7 +40,7 @@ src="/js/documentation_options.js">
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">ax.core.arm</span> <span class="kn">import</span> <span class="n">Arm</span>
 <span class="kn">from</span> <span class="nn">ax.core.base</span> <span class="kn">import</span> <span class="n">Base</span>
-<span class="kn">from</span> <span class="nn">ax.core.base_trial</span> <span class="kn">import</span> <span class="n">BaseTrial</span>
+<span class="kn">from</span> <span class="nn">ax.core.base_trial</span> <span class="kn">import</span> <span class="n">BaseTrial</span><span class="p">,</span> <span class="n">TrialStatus</span>
 <span class="kn">from</span> <span class="nn">ax.core.batch_trial</span> <span class="kn">import</span> <span class="n">AbandonedArm</span><span class="p">,</span> <span class="n">BatchTrial</span><span class="p">,</span> <span class="n">GeneratorRunStruct</span>
 <span class="kn">from</span> <span class="nn">ax.core.data</span> <span class="kn">import</span> <span class="n">Data</span>
 <span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="kn">import</span> <span class="n">Experiment</span>
@@ -688,7 +688,13 @@ src="/js/documentation_options.js">
                 <span class="p">)</span>
         <span class="n">trial</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="n">trial_sqa</span><span class="o">.</span><span class="n">index</span>
         <span class="n">trial</span><span class="o">.</span><span class="n">_trial_type</span> <span class="o">=</span> <span class="n">trial_sqa</span><span class="o">.</span><span class="n">trial_type</span>
-        <span class="n">trial</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">trial_sqa</span><span class="o">.</span><span class="n">status</span>
+        <span class="c1"># Swap `DISPATCHED` for `RUNNING`, since `DISPATCHED` is deprecated and nearly</span>
+        <span class="c1"># equivalent to `RUNNING`.</span>
+        <span class="n">trial</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">trial_sqa</span><span class="o">.</span><span class="n">status</span>
+            <span class="k">if</span> <span class="n">trial_sqa</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="n">TrialStatus</span><span class="o">.</span><span class="n">DISPATCHED</span>
+            <span class="k">else</span> <span class="n">TrialStatus</span><span class="o">.</span><span class="n">RUNNING</span>
+        <span class="p">)</span>
         <span class="n">trial</span><span class="o">.</span><span class="n">_time_created</span> <span class="o">=</span> <span class="n">trial_sqa</span><span class="o">.</span><span class="n">time_created</span>
         <span class="n">trial</span><span class="o">.</span><span class="n">_time_completed</span> <span class="o">=</span> <span class="n">trial_sqa</span><span class="o">.</span><span class="n">time_completed</span>
         <span class="n">trial</span><span class="o">.</span><span class="n">_time_staged</span> <span class="o">=</span> <span class="n">trial_sqa</span><span class="o">.</span><span class="n">time_staged</span>
@@ -757,7 +763,7 @@ src="/js/documentation_options.js">
 </div>
 </div>
 <div class="clearer"></div>
-</div></div></div><footer class="nav-footer" id="footer"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2019 Facebook Inc.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+</div></div></div><footer class="nav-footer" id="footer"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2020 Facebook Inc.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;

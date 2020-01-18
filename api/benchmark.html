@@ -208,6 +208,41 @@ that prevents the benchmarking suite itself from running, rather than an error
 that occurs during the runs of the benchmarking trials, replications, or tests.</p>
 </dd></dl>
 <dl class="function">
+<dt id="ax.benchmark.benchmark.benchmark_minimize_callable">
+<code class="sig-prename descclassname">ax.benchmark.benchmark.</code><code class="sig-name descname">benchmark_minimize_callable</code><span class="sig-paren">(</span><em class="sig-param">problem</em>, <em class="sig-param">num_trials</em>, <em class="sig-param">method_name</em>, <em class="sig-param">replication_index=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/benchmark/benchmark.html#benchmark_minimize_callable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.benchmark.benchmark.benchmark_minimize_callable" title="Permalink to this definition">¶</a></dt>
+<dd><p>An interface for evaluating external methods on Ax benchmark problems. The
+arms run and performance will be tracked by Ax, so the external method can
+be evaluated alongside Ax methods.</p>
+<p>It is designed around methods that implement an interface like
+scipy.optimize.minimize. This function will return a callable evaluation
+function that takes in an array of parameter values and returns a float
+objective value. The evaluation function should always be minimized: if the
+benchmark problem is a maximization problem, then the value returned by
+the evaluation function will be negated so it can be used directly by
+methods that minimize. This callable can be given to an external
+minimization function, and Ax will track all of the calls made to it and
+the arms that were evaluated.</p>
+<p>This will also return an Experiment object that will track the arms
+evaluated by the external method in the same way as done for Ax
+internal benchmarks. This function should thus be used for each benchmark
+replication.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>problem</strong> (<a class="reference internal" href="#ax.benchmark.benchmark_problem.BenchmarkProblem" title="ax.benchmark.benchmark_problem.BenchmarkProblem"><code class="xref py py-class docutils literal notranslate"><span class="pre">BenchmarkProblem</span></code></a>) – The Ax benchmark problem to be used to construct the
+evalutaion function.</p></li>
+<li><p><strong>num_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – The maximum number of trials for a benchmark run.</p></li>
+<li><p><strong>method_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Name of the method being tested.</p></li>
+<li><p><strong>replication_index</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – Replicate number, if multiple replicates are being
+run.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>[[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]], <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="function">
 <dt id="ax.benchmark.benchmark.benchmark_replication">
 <code class="sig-prename descclassname">ax.benchmark.benchmark.</code><code class="sig-name descname">benchmark_replication</code><span class="sig-paren">(</span><em class="sig-param">problem</em>, <em class="sig-param">method</em>, <em class="sig-param">num_trials</em>, <em class="sig-param">replication_index=None</em>, <em class="sig-param">batch_size=1</em>, <em class="sig-param">raise_all_exceptions=False</em>, <em class="sig-param">benchmark_trial=&lt;function benchmark_trial&gt;</em>, <em class="sig-param">verbose_logging=True</em>, <em class="sig-param">failed_trials_tolerated=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/benchmark/benchmark.html#benchmark_replication"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.benchmark.benchmark.benchmark_replication" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs one benchmarking replication (equivalent to one optimization loop).</p>
@@ -427,7 +462,7 @@ strings.</p>
 </div>
 </div>
 <div class="clearer"></div>
-</div></div></div><footer class="nav-footer" id="footer"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2019 Facebook Inc.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+</div></div></div><footer class="nav-footer" id="footer"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2020 Facebook Inc.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;

@@ -47,7 +47,7 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">hint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">hint</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hint"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)])</span></div>
+        <span class="k">return</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hint"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)])</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="UnsupportedError"><a class="viewcode-back" href="../../../exceptions.html#ax.exceptions.core.UnsupportedError">[docs]</a><span class="k">class</span> <span class="nc">UnsupportedError</span><span class="p">(</span><span class="n">AxError</span><span class="p">):</span>
@@ -78,6 +78,17 @@ src="/js/documentation_options.js">
     <span class="sd">"""Raised when no data is found for experiment in underlying data store.</span>
 
 <span class="sd">    Useful to distinguish data failure reasons in automated analyses.</span>
+<span class="sd">    """</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="DataRequiredError"><a class="viewcode-back" href="../../../exceptions.html#ax.exceptions.core.DataRequiredError">[docs]</a><span class="k">class</span> <span class="nc">DataRequiredError</span><span class="p">(</span><span class="n">AxError</span><span class="p">):</span>
+    <span class="sd">"""Raised when more observed data is needed by the model to continue the</span>
+<span class="sd">    optimization.</span>
+
+<span class="sd">    Useful to distinguish when user needs to wait to request more trials until</span>
+<span class="sd">    more data is available.</span>
 <span class="sd">    """</span>
 
     <span class="k">pass</span></div>
@@ -125,7 +136,7 @@ src="/js/documentation_options.js">
 </div>
 </div>
 <div class="clearer"></div>
-</div></div></div><footer class="nav-footer" id="footer"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2019 Facebook Inc.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+</div></div></div><footer class="nav-footer" id="footer"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2020 Facebook Inc.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;

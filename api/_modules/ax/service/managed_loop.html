@@ -41,6 +41,7 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="kn">import</span> <span class="n">TModelPredictArm</span><span class="p">,</span> <span class="n">TParameterization</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.base</span> <span class="kn">import</span> <span class="n">ModelBridge</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.dispatch_utils</span> <span class="kn">import</span> <span class="n">choose_generation_strategy</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.generation_strategy</span> <span class="kn">import</span> <span class="n">GenerationStrategy</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.modelbridge_utils</span> <span class="kn">import</span> <span class="n">get_pending_observation_features</span>
 <span class="kn">from</span> <span class="nn">ax.service.utils.best_point</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">get_best_from_model_predictions</span><span class="p">,</span>
@@ -70,6 +71,7 @@ src="/js/documentation_options.js">
         <span class="n">random_seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">wait_time</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">run_async</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># TODO[Lena],</span>
+        <span class="n">generation_strategy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">GenerationStrategy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">assert</span> <span class="ow">not</span> <span class="n">run_async</span><span class="p">,</span> <span class="s2">"OptimizationLoop does not yet support async."</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">wait_time</span> <span class="o">=</span> <span class="n">wait_time</span>
@@ -81,11 +83,14 @@ src="/js/documentation_options.js">
             <span class="s2">"that has trials already."</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span> <span class="o">=</span> <span class="n">experiment</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span> <span class="o">=</span> <span class="n">choose_generation_strategy</span><span class="p">(</span>
-            <span class="n">search_space</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">search_space</span><span class="p">,</span>
-            <span class="n">arms_per_trial</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">arms_per_trial</span><span class="p">,</span>
-            <span class="n">random_seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">generation_strategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span> <span class="o">=</span> <span class="n">choose_generation_strategy</span><span class="p">(</span>
+                <span class="n">search_space</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">search_space</span><span class="p">,</span>
+                <span class="n">arms_per_trial</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">arms_per_trial</span><span class="p">,</span>
+                <span class="n">random_seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span> <span class="o">=</span> <span class="n">generation_strategy</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_trial</span> <span class="o">=</span> <span class="mi">0</span>
 
 <div class="viewcode-block" id="OptimizationLoop.with_evaluation_function"><a class="viewcode-back" href="../../../service.html#ax.OptimizationLoop.with_evaluation_function">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -101,6 +106,7 @@ src="/js/documentation_options.js">
         <span class="n">arms_per_trial</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">wait_time</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">random_seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">generation_strategy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">GenerationStrategy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"OptimizationLoop"</span><span class="p">:</span>
         <span class="sd">"""Constructs a synchronous `OptimizationLoop` using an evaluation</span>
 <span class="sd">        function."""</span>
@@ -129,6 +135,7 @@ src="/js/documentation_options.js">
             <span class="n">arms_per_trial</span><span class="o">=</span><span class="n">arms_per_trial</span><span class="p">,</span>
             <span class="n">random_seed</span><span class="o">=</span><span class="n">random_seed</span><span class="p">,</span>
             <span class="n">wait_time</span><span class="o">=</span><span class="n">wait_time</span><span class="p">,</span>
+            <span class="n">generation_strategy</span><span class="o">=</span><span class="n">generation_strategy</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="OptimizationLoop.with_runners_and_metrics"><a class="viewcode-back" href="../../../service.html#ax.OptimizationLoop.with_runners_and_metrics">[docs]</a>    <span class="nd">@classmethod</span>
@@ -224,6 +231,7 @@ src="/js/documentation_options.js">
     <span class="n">total_trials</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
     <span class="n">arms_per_trial</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">random_seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">generation_strategy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">GenerationStrategy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span>
     <span class="n">TParameterization</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TModelPredictArm</span><span class="p">],</span> <span class="n">Experiment</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ModelBridge</span><span class="p">]</span>
 <span class="p">]:</span>
@@ -239,6 +247,7 @@ src="/js/documentation_options.js">
         <span class="n">total_trials</span><span class="o">=</span><span class="n">total_trials</span><span class="p">,</span>
         <span class="n">arms_per_trial</span><span class="o">=</span><span class="n">arms_per_trial</span><span class="p">,</span>
         <span class="n">random_seed</span><span class="o">=</span><span class="n">random_seed</span><span class="p">,</span>
+        <span class="n">generation_strategy</span><span class="o">=</span><span class="n">generation_strategy</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">loop</span><span class="o">.</span><span class="n">full_run</span><span class="p">()</span>
     <span class="n">parameterization</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="n">loop</span><span class="o">.</span><span class="n">get_best_point</span><span class="p">()</span>
@@ -287,7 +296,7 @@ src="/js/documentation_options.js">
 </div>
 </div>
 <div class="clearer"></div>
-</div></div></div><footer class="nav-footer" id="footer"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2019 Facebook Inc.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+</div></div></div><footer class="nav-footer" id="footer"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2020 Facebook Inc.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;
