@@ -703,7 +703,11 @@ src="/js/documentation_options.js">
         <span class="c1"># pyre-fixme[9]: _run_metadata has type `Dict[str, Any]`; used as</span>
         <span class="c1">#  `Optional[Dict[str, Any]]`.</span>
         <span class="n">trial</span><span class="o">.</span><span class="n">_run_metadata</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="nb">dict</span><span class="p">(</span><span class="n">trial_sqa</span><span class="o">.</span><span class="n">run_metadata</span><span class="p">)</span> <span class="k">if</span> <span class="n">trial_sqa</span><span class="o">.</span><span class="n">run_metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="c1"># pyre-fixme[6]: Expected `Mapping[Variable[_KT], Variable[_VT]]` for</span>
+            <span class="c1">#  1st param but got `Optional[Dict[str, typing.Any]]`.</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">trial_sqa</span><span class="o">.</span><span class="n">run_metadata</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">trial_sqa</span><span class="o">.</span><span class="n">run_metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="kc">None</span>
         <span class="p">)</span>
         <span class="n">trial</span><span class="o">.</span><span class="n">_num_arms_created</span> <span class="o">=</span> <span class="n">trial_sqa</span><span class="o">.</span><span class="n">num_arms_created</span>
         <span class="n">trial</span><span class="o">.</span><span class="n">_runner</span> <span class="o">=</span> <span class="p">(</span>

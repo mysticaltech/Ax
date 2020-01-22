@@ -73,7 +73,6 @@ src="/js/documentation_options.js">
         <span class="n">dict_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">named_tuple_to_dict</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">PlotlyJSONEncoder</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="c1"># pyre-fixme[19]: Expected 2 positional arguments.</span>
         <span class="c1"># pyre-fixme[7]: Expected `AxPlotConfig` but got `NamedTuple`.</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">AxPlotConfig</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dict_data</span><span class="p">,</span> <span class="n">plot_type</span><span class="p">)</span></div>
 
