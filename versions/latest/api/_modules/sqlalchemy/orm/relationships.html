@@ -27,7 +27,7 @@ src="/js/documentation_options.js">
 <div class="body" role="main">
 <h1>Source code for sqlalchemy.orm.relationships</h1><div class="highlight"><pre>
 <span></span><span class="c1"># orm/relationships.py</span>
-<span class="c1"># Copyright (C) 2005-2019 the SQLAlchemy authors and contributors</span>
+<span class="c1"># Copyright (C) 2005-2020 the SQLAlchemy authors and contributors</span>
 <span class="c1"># &lt;see AUTHORS file&gt;</span>
 <span class="c1">#</span>
 <span class="c1"># This module is part of SQLAlchemy and is released under</span>
@@ -1084,6 +1084,7 @@ src="/js/documentation_options.js">
                 <span class="n">source_selectable</span><span class="o">=</span><span class="n">adapt_from</span><span class="p">,</span>
                 <span class="n">source_polymorphic</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">of_type_mapper</span><span class="o">=</span><span class="n">of_type_mapper</span><span class="p">,</span>
+                <span class="n">alias_secondary</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">sj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">pj</span> <span class="o">&amp;</span> <span class="n">sj</span>
@@ -2256,12 +2257,18 @@ src="/js/documentation_options.js">
         <span class="n">dest_polymorphic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">dest_selectable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">of_type_mapper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">alias_secondary</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
+
+        <span class="n">aliased</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">alias_secondary</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">secondary</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">aliased</span> <span class="o">=</span> <span class="kc">True</span>
+
         <span class="k">if</span> <span class="n">source_selectable</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">source_polymorphic</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">with_polymorphic</span><span class="p">:</span>
                 <span class="n">source_selectable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">_with_polymorphic_selectable</span>
 
-        <span class="n">aliased</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="n">dest_selectable</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">dest_selectable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">selectable</span>
             <span class="k">if</span> <span class="n">dest_polymorphic</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapper</span><span class="o">.</span><span class="n">with_polymorphic</span><span class="p">:</span>
@@ -2270,13 +2277,20 @@ src="/js/documentation_options.js">
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_self_referential</span> <span class="ow">and</span> <span class="n">source_selectable</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">dest_selectable</span> <span class="o">=</span> <span class="n">dest_selectable</span><span class="o">.</span><span class="n">alias</span><span class="p">()</span>
                 <span class="n">aliased</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">dest_selectable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapper</span><span class="o">.</span><span class="n">_with_polymorphic_selectable</span><span class="p">:</span>
             <span class="n">aliased</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="n">dest_mapper</span> <span class="o">=</span> <span class="n">of_type_mapper</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapper</span>
 
         <span class="n">single_crit</span> <span class="o">=</span> <span class="n">dest_mapper</span><span class="o">.</span><span class="n">_single_table_criterion</span>
-        <span class="n">aliased</span> <span class="o">=</span> <span class="n">aliased</span> <span class="ow">or</span> <span class="p">(</span><span class="n">source_selectable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">aliased</span> <span class="o">=</span> <span class="n">aliased</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="n">source_selectable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="p">(</span>
+                <span class="n">source_selectable</span>
+                <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">_with_polymorphic_selectable</span>
+                <span class="ow">or</span> <span class="n">source_selectable</span><span class="o">.</span><span class="n">_is_from_container</span>  <span class="c1"># e.g an alias</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
 
         <span class="p">(</span>
             <span class="n">primaryjoin</span><span class="p">,</span>
@@ -2310,6 +2324,7 @@ src="/js/documentation_options.js">
 
     <span class="k">if</span> <span class="n">element</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">element</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+    <span class="n">clone</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># remove gc cycles</span>
     <span class="k">return</span> <span class="n">element</span>
 
 
