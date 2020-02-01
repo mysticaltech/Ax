@@ -66,6 +66,7 @@ src="/js/documentation_options.js">
     <span class="n">status_quo</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Arm</span><span class="p">],</span>
     <span class="n">status_quo_weight_override</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">optimize_for_power</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">],</span>
+    <span class="n">generation_step_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchTrial</span><span class="p">:</span>
     <span class="sd">"""Load Ax BatchTrial from JSON.</span>
 
@@ -91,6 +92,7 @@ src="/js/documentation_options.js">
     <span class="n">batch</span><span class="o">.</span><span class="n">_status_quo</span> <span class="o">=</span> <span class="n">status_quo</span>
     <span class="n">batch</span><span class="o">.</span><span class="n">_status_quo_weight_override</span> <span class="o">=</span> <span class="n">status_quo_weight_override</span>
     <span class="n">batch</span><span class="o">.</span><span class="n">optimize_for_power</span> <span class="o">=</span> <span class="n">optimize_for_power</span>
+    <span class="n">batch</span><span class="o">.</span><span class="n">_generation_step_index</span> <span class="o">=</span> <span class="n">generation_step_index</span>
     <span class="k">return</span> <span class="n">batch</span></div>
 
 
@@ -108,6 +110,7 @@ src="/js/documentation_options.js">
     <span class="n">generator_run</span><span class="p">:</span> <span class="n">GeneratorRun</span><span class="p">,</span>
     <span class="n">runner</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Runner</span><span class="p">],</span>
     <span class="n">num_arms_created</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">generation_step_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Trial</span><span class="p">:</span>
     <span class="sd">"""Load Ax trial from JSON.</span>
 
@@ -130,6 +133,7 @@ src="/js/documentation_options.js">
     <span class="n">trial</span><span class="o">.</span><span class="n">_run_metadata</span> <span class="o">=</span> <span class="n">run_metadata</span> <span class="ow">or</span> <span class="p">{}</span>
     <span class="n">trial</span><span class="o">.</span><span class="n">_runner</span> <span class="o">=</span> <span class="n">runner</span>
     <span class="n">trial</span><span class="o">.</span><span class="n">_num_arms_created</span> <span class="o">=</span> <span class="n">num_arms_created</span>
+    <span class="n">trial</span><span class="o">.</span><span class="n">_generation_step_index</span> <span class="o">=</span> <span class="n">generation_step_index</span>
     <span class="k">return</span> <span class="n">trial</span></div>
 </pre></div>
 </div>

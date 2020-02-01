@@ -123,6 +123,9 @@ src="/js/documentation_options.js">
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_generator_run</span> <span class="o">=</span> <span class="n">generator_run</span>
         <span class="n">generator_run</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_generation_step_index</span><span class="p">(</span>
+            <span class="n">generation_step_index</span><span class="o">=</span><span class="n">generator_run</span><span class="o">.</span><span class="n">_generation_step_index</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="nd">@property</span>

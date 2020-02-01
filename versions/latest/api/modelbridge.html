@@ -36,15 +36,15 @@ src="/js/documentation_options.js">
 <em class="property">class </em><code class="sig-prename descclassname">ax.modelbridge.generation_strategy.</code><code class="sig-name descname">GenerationStep</code><a class="reference internal" href="_modules/ax/modelbridge/generation_strategy.html#GenerationStep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStep" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
 <p>One step in the generation strategy, corresponds to a single model.
-Describes the model, how many arms will be generated with this model, what
+Describes the model, how many trials will be generated with this model, what
 minimum number of observations is required to proceed to the next model, etc.</p>
 <p>Model can be specified either from the model registry
 (ax.modelbridge.registry.Models or using a callable model constructor. Only
 models from the registry can be saved, and thus optimization can only be
 resumed if interrupted when using models from the registry.</p>
 <dl class="method">
-<dt id="ax.modelbridge.generation_strategy.GenerationStep.enforce_num_arms">
-<em class="property">property </em><code class="sig-name descname">enforce_num_arms</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStep.enforce_num_arms" title="Permalink to this definition">¶</a></dt>
+<dt id="ax.modelbridge.generation_strategy.GenerationStep.enforce_num_trials">
+<em class="property">property </em><code class="sig-name descname">enforce_num_trials</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStep.enforce_num_trials" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for field number 4</p>
 </dd></dl>
 <dl class="method">
@@ -53,8 +53,8 @@ resumed if interrupted when using models from the registry.</p>
 <dd><p>Alias for field number 7</p>
 </dd></dl>
 <dl class="method">
-<dt id="ax.modelbridge.generation_strategy.GenerationStep.min_arms_observed">
-<em class="property">property </em><code class="sig-name descname">min_arms_observed</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStep.min_arms_observed" title="Permalink to this definition">¶</a></dt>
+<dt id="ax.modelbridge.generation_strategy.GenerationStep.min_trials_observed">
+<em class="property">property </em><code class="sig-name descname">min_trials_observed</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStep.min_trials_observed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for field number 2</p>
 </dd></dl>
 <dl class="method">
@@ -73,8 +73,17 @@ resumed if interrupted when using models from the registry.</p>
 <dd><p>Alias for field number 5</p>
 </dd></dl>
 <dl class="method">
-<dt id="ax.modelbridge.generation_strategy.GenerationStep.num_arms">
-<em class="property">property </em><code class="sig-name descname">num_arms</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStep.num_arms" title="Permalink to this definition">¶</a></dt>
+<dt id="ax.modelbridge.generation_strategy.GenerationStep.model_name">
+<em class="property">property </em><code class="sig-name descname">model_name</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStep.model_name" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.modelbridge.generation_strategy.GenerationStep.num_trials">
+<em class="property">property </em><code class="sig-name descname">num_trials</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStep.num_trials" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for field number 1</p>
 </dd></dl>
 <dl class="method">
@@ -92,8 +101,8 @@ points for which trials, enabling and automating use of different models
 throughout the optimization process. For instance, it allows to use one
 model for the initialization trials, and another one for all subsequent
 trials. In the general case, this allows to automate use of an arbitrary
-number of models to generate an arbitrary numbers of arms
-described in the <cite>arms_per_model</cite> argument.</p>
+number of models to generate an arbitrary numbers of trials
+described in the <cite>trials_per_model</cite> argument.</p>
 <dl class="method">
 <dt id="ax.modelbridge.generation_strategy.GenerationStrategy.clone_reset">
 <code class="sig-name descname">clone_reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/generation_strategy.html#GenerationStrategy.clone_reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStrategy.clone_reset" title="Permalink to this definition">¶</a></dt>
@@ -101,6 +110,16 @@ described in the <cite>arms_per_model</cite> argument.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#ax.modelbridge.generation_strategy.GenerationStrategy" title="ax.modelbridge.generation_strategy.GenerationStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">GenerationStrategy</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.modelbridge.generation_strategy.GenerationStrategy.experiment">
+<em class="property">property </em><code class="sig-name descname">experiment</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStrategy.experiment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Experiment, currently set on this generation strategy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -128,7 +147,8 @@ Returns None if no generator runs have been produced yet.</p>
 <dl class="method">
 <dt id="ax.modelbridge.generation_strategy.GenerationStrategy.model">
 <em class="property">property </em><code class="sig-name descname">model</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStrategy.model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Current model in this strategy.</p>
+<dd><p>Current model in this strategy. Returns None if no model has been set
+yet (i.e., if no generator runs have been produced from this GS).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="#ax.modelbridge.base.ModelBridge" title="ax.modelbridge.base.ModelBridge"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelBridge</span></code></a>]</p>
@@ -138,7 +158,7 @@ Returns None if no generator runs have been produced yet.</p>
 <dl class="method">
 <dt id="ax.modelbridge.generation_strategy.GenerationStrategy.model_transitions">
 <em class="property">property </em><code class="sig-name descname">model_transitions</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStrategy.model_transitions" title="Permalink to this definition">¶</a></dt>
-<dd><p>List of arm indices where a transition happened from one model to
+<dd><p>List of trial indices where a transition happened from one model to
 another.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -154,6 +174,30 @@ names provided in generation steps.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.modelbridge.generation_strategy.GenerationStrategy.trial_indices_by_step">
+<em class="property">property </em><code class="sig-name descname">trial_indices_by_step</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStrategy.trial_indices_by_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find trials in experiment that are not mapped to a generation step yet
+and add them to the mapping of trials by generation step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.modelbridge.generation_strategy.GenerationStrategy.trials_as_df">
+<em class="property">property </em><code class="sig-name descname">trials_as_df</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStrategy.trials_as_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Puts information on individual trials into a data frame for easy
+viewing. For example:
+Gen. Step | Model | Trial Index | Trial Status | Arm Parameterizations
+0         | Sobol | 0           | RUNNING      | {“0_0”:{“x”:9.17…}}</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1096,18 +1140,20 @@ arms that was launched in that trial. Defaults to the last trial.</p>
 <span id="dispatch-utilities"></span><h3>Dispatch Utilities<a class="headerlink" href="#module-ax.modelbridge.dispatch_utils" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="ax.modelbridge.dispatch_utils.choose_generation_strategy">
-<code class="sig-prename descclassname">ax.modelbridge.dispatch_utils.</code><code class="sig-name descname">choose_generation_strategy</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">arms_per_trial=1</em>, <em class="sig-param">enforce_sequential_optimization=True</em>, <em class="sig-param">random_seed=None</em>, <em class="sig-param">winsorize_botorch_model=False</em>, <em class="sig-param">winsorization_limits=None</em>, <em class="sig-param">no_bayesian_optimization=False</em>, <em class="sig-param">num_trials=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/dispatch_utils.html#choose_generation_strategy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.dispatch_utils.choose_generation_strategy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ax.modelbridge.dispatch_utils.</code><code class="sig-name descname">choose_generation_strategy</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">use_batch_trials=False</em>, <em class="sig-param">enforce_sequential_optimization=True</em>, <em class="sig-param">random_seed=None</em>, <em class="sig-param">winsorize_botorch_model=False</em>, <em class="sig-param">winsorization_limits=None</em>, <em class="sig-param">no_bayesian_optimization=False</em>, <em class="sig-param">num_trials=None</em>, <em class="sig-param">num_initialization_trials=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/dispatch_utils.html#choose_generation_strategy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.dispatch_utils.choose_generation_strategy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Select an appropriate generation strategy based on the properties of
-the search space.</p>
+the search space and expected settings of the experiment, such as number of
+arms per trial, optimization algorithm settings, expected number of trials
+in the experiment, etc.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>search_space</strong> (<a class="reference internal" href="core.html#ax.core.search_space.SearchSpace" title="ax.core.search_space.SearchSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">SearchSpace</span></code></a>) – SearchSpace, based on the properties of which to select the
 generation strategy.</p></li>
-<li><p><strong>arms_per_trial</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – If a trial is batched, how many arms will be in each batch.
-Defaults to 1, which corresponds to a regular, non-batched, <cite>Trial</cite>.</p></li>
+<li><p><strong>use_batch_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether this generation strategy will be used to generate
+batched trials instead of 1-arm trials.</p></li>
 <li><p><strong>enforce_sequential_optimization</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to enforce that the generation
-strategy needs to be updated with <cite>min_arms_observed</cite> observations for
+strategy needs to be updated with <cite>min_trials_observed</cite> observations for
 a given generation step before proceeding to the next one.</p></li>
 <li><p><strong>random_seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – Fixed random seed for the Sobol generator.</p></li>
 <li><p><strong>winsorize_botorch_model</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to apply the winsorization transform
@@ -1119,6 +1165,8 @@ minimizing, and only the lower when maximizing.</p></li>
 strategy will not be suggested and quasi-random strategy will be used.</p></li>
 <li><p><strong>num_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – Total number of trials in the optimization, if
 known in advance.</p></li>
+<li><p><strong>num_initialization_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – Specific number of initialization trials, if wanted.
+Typically, initialization trials are generated quasi-randomly.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>

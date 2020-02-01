@@ -120,6 +120,8 @@ src="/js/documentation_options.js">
 <span class="sd">                Either this or status_quo_name should be specified, not both.</span>
 <span class="sd">            optimization_config: Optimization config defining how to optimize</span>
 <span class="sd">                the model.</span>
+<span class="sd">            fit_out_of_design: If specified, all training data is returned.</span>
+<span class="sd">                Otherwise, only in design points are returned.</span>
 <span class="sd">        """</span>
         <span class="n">t_fit_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_metric_names</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>

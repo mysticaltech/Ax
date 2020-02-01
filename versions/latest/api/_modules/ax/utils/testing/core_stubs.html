@@ -358,6 +358,7 @@ src="/js/documentation_options.js">
         <span class="n">batch</span><span class="o">.</span><span class="n">mark_arm_abandoned</span><span class="p">(</span><span class="n">batch</span><span class="o">.</span><span class="n">arms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">"abandoned reason"</span><span class="p">)</span>
     <span class="n">batch</span><span class="o">.</span><span class="n">runner</span> <span class="o">=</span> <span class="n">SyntheticRunner</span><span class="p">()</span>
     <span class="n">batch</span><span class="o">.</span><span class="n">set_status_quo_with_weight</span><span class="p">(</span><span class="n">status_quo</span><span class="o">=</span><span class="n">arms</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">batch</span><span class="o">.</span><span class="n">_generation_step_index</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">return</span> <span class="n">batch</span></div>
 
 
@@ -409,6 +410,7 @@ src="/js/documentation_options.js">
     <span class="n">arm</span> <span class="o">=</span> <span class="n">get_arms_from_dict</span><span class="p">(</span><span class="n">get_arm_weights1</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">trial</span><span class="o">.</span><span class="n">add_arm</span><span class="p">(</span><span class="n">arm</span><span class="p">)</span>
     <span class="n">trial</span><span class="o">.</span><span class="n">runner</span> <span class="o">=</span> <span class="n">SyntheticRunner</span><span class="p">()</span>
+    <span class="n">trial</span><span class="o">.</span><span class="n">_generation_step_index</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">return</span> <span class="n">trial</span></div>
 
 
@@ -640,6 +642,7 @@ src="/js/documentation_options.js">
         <span class="n">model_key</span><span class="o">=</span><span class="s2">"Sobol"</span><span class="p">,</span>
         <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"scramble"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"torch_device"</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cpu"</span><span class="p">)},</span>
         <span class="n">bridge_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"transforms"</span><span class="p">:</span> <span class="n">Cont_X_trans</span><span class="p">,</span> <span class="s2">"torch_dtype"</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">double</span><span class="p">},</span>
+        <span class="n">generation_step_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 

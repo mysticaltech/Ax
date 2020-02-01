@@ -174,6 +174,11 @@ src="/js/documentation_options.js">
         <span class="c1"># Counter to maintain how many arms have been named by this BatchTrial</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_num_arms_created</span> <span class="o">=</span> <span class="mi">0</span>
 
+        <span class="c1"># If generator run(s) in this trial were generated from a generation</span>
+        <span class="c1"># strategy, this property will be set to the generation step that produced</span>
+        <span class="c1"># the generator run(s).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generation_step_index</span> <span class="o">=</span> <span class="kc">None</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"core.experiment.Experiment"</span><span class="p">:</span>
         <span class="sd">"""The experiment this trial belongs to."""</span>
@@ -190,9 +195,14 @@ src="/js/documentation_options.js">
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_complete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">completed_successfully</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">"""Checks if trial status is `COMPLETED`."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">TrialStatus</span><span class="o">.</span><span class="n">COMPLETED</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">did_not_complete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">"""Checks if trial status is terminal, but not `COMPLETED`."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">is_terminal</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">completed_successfully</span>
 
     <span class="nd">@status</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="n">TrialStatus</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -323,6 +333,22 @@ src="/js/documentation_options.js">
         <span class="c1"># If arm was named using given name, incremement the count</span>
         <span class="k">if</span> <span class="n">arm</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">proposed_name</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_num_arms_created</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">_set_generation_step_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">generation_step_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Sets the `generation_step_index` property of the trial, to reflect which</span>
+<span class="sd">        generation step of a given generation strategy (if any) produced the generator</span>
+<span class="sd">        run(s) attached to this trial.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_generation_step_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="n">generation_step_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generation_step_index</span> <span class="o">!=</span> <span class="n">generation_step_index</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
+                <span class="s2">"Cannot add generator runs from different generation steps to a "</span>
+                <span class="s2">"single trial."</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generation_step_index</span> <span class="o">=</span> <span class="n">generation_step_index</span>
 
     <span class="nd">@abstractproperty</span>
     <span class="k">def</span> <span class="nf">arms</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Arm</span><span class="p">]:</span>

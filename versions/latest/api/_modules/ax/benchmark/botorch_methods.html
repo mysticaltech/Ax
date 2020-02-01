@@ -73,10 +73,10 @@ src="/js/documentation_options.js">
 <span class="n">winsorized_fixed_noise_GPEI</span> <span class="o">=</span> <span class="n">GenerationStrategy</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">"Sobol+fixed_noise_GPEI"</span><span class="p">,</span>
     <span class="n">steps</span><span class="o">=</span><span class="p">[</span>
-        <span class="n">GenerationStep</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">Models</span><span class="o">.</span><span class="n">SOBOL</span><span class="p">,</span> <span class="n">num_arms</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">min_arms_observed</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+        <span class="n">GenerationStep</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">Models</span><span class="o">.</span><span class="n">SOBOL</span><span class="p">,</span> <span class="n">num_trials</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">min_trials_observed</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
         <span class="n">GenerationStep</span><span class="p">(</span>
             <span class="n">model</span><span class="o">=</span><span class="n">Models</span><span class="o">.</span><span class="n">BOTORCH</span><span class="p">,</span>  <span class="c1"># Note: can use FBModels, like FBModels.GPKG</span>
-            <span class="n">num_arms</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">num_trials</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span>
                 <span class="s2">"model_constructor"</span><span class="p">:</span> <span class="n">fixed_noise_gp_model_constructor</span><span class="p">,</span>
                 <span class="s2">"transforms"</span><span class="p">:</span> <span class="p">[</span><span class="n">Winsorize</span><span class="p">]</span> <span class="o">+</span> <span class="n">Cont_X_trans</span> <span class="o">+</span> <span class="n">Y_trans</span><span class="p">,</span>

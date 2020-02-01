@@ -52,7 +52,7 @@ to a database. Expected to be of type
 ax.storage.sqa_store.structs.DBSettings and require SQLAlchemy.</p></li>
 <li><p><strong>enforce_sequential_optimization</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to enforce that when it is
 reasonable to switch models during the optimization (as prescribed
-by <cite>num_arms</cite> in generation strategy), Ax will wait for enough trials
+by <cite>num_trials</cite> in generation strategy), Ax will wait for enough trials
 to be completed with data to proceed. Defaults to True. If set to
 False, Ax will keep generating new trials from the previous model
 until enough data is gathered. Use this only if necessary;
@@ -376,7 +376,7 @@ get_next_trials and completing it with data when available.</p>
 </dd></dl>
 <dl class="method">
 <dt id="ax.service.ax_client.AxClient.load_experiment_from_database">
-<code class="sig-name descname">load_experiment_from_database</code><span class="sig-paren">(</span><em class="sig-param">experiment_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/ax_client.html#AxClient.load_experiment_from_database"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.ax_client.AxClient.load_experiment_from_database" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">load_experiment_from_database</code><span class="sig-paren">(</span><em class="sig-param">experiment_name</em>, <em class="sig-param">choose_generation_strategy_kwargs=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/ax_client.html#AxClient.load_experiment_from_database"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.ax_client.AxClient.load_experiment_from_database" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load an existing experiment from database using the <cite>DBSettings</cite>
 passed to this <cite>AxClient</cite> on instantiation.</p>
 <dl class="field-list simple">

@@ -752,10 +752,10 @@ src="/js/documentation_options.js">
 <li><a href="ax.html#ax.SumConstraint.clone">(ax.SumConstraint method)</a>
 </li>
 </ul></li>
-</ul></td>
-<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStrategy.clone_reset">clone_reset() (ax.modelbridge.generation_strategy.GenerationStrategy method)</a>
 </li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="core.html#ax.core.parameter_constraint.OrderConstraint.clone_with_transformed_parameters">clone_with_transformed_parameters() (ax.core.parameter_constraint.OrderConstraint method)</a>
 <ul>
 <li><a href="core.html#ax.core.parameter_constraint.ParameterConstraint.clone_with_transformed_parameters">(ax.core.parameter_constraint.ParameterConstraint method)</a>
@@ -790,6 +790,8 @@ src="/js/documentation_options.js">
 <li><a href="service.html#ax.service.ax_client.AxClient.complete_trial">complete_trial() (ax.service.ax_client.AxClient method)</a>
 </li>
 <li><a href="core.html#ax.core.base_trial.TrialStatus.COMPLETED">COMPLETED (ax.core.base_trial.TrialStatus attribute)</a>
+</li>
+<li><a href="core.html#ax.core.base_trial.BaseTrial.completed_successfully">completed_successfully() (ax.core.base_trial.BaseTrial property)</a>
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.cross_validation.compute_diagnostics">compute_diagnostics() (in module ax.modelbridge.cross_validation)</a>
 </li>
@@ -974,6 +976,8 @@ src="/js/documentation_options.js">
 <li><a href="ax.html#ax.Data.df_hash">(ax.Data property)</a>
 </li>
 </ul></li>
+<li><a href="core.html#ax.core.base_trial.BaseTrial.did_not_complete">did_not_complete() (ax.core.base_trial.BaseTrial property)</a>
+</li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAParameter.digits">digits (ax.storage.sqa_store.sqa_classes.SQAParameter attribute)</a>
 </li>
 <li><a href="core.html#ax.core.parameter.RangeParameter.digits">digits() (ax.core.parameter.RangeParameter property)</a>
@@ -1014,7 +1018,7 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="core.html#ax.core.observation.ObservationFeatures.end_time">end_time (ax.core.observation.ObservationFeatures attribute)</a>
 </li>
-<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStep.enforce_num_arms">enforce_num_arms() (ax.modelbridge.generation_strategy.GenerationStep property)</a>
+<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStep.enforce_num_trials">enforce_num_trials() (ax.modelbridge.generation_strategy.GenerationStep property)</a>
 </li>
 <li><a href="models.html#ax.models.random.sobol.SobolGenerator.engine">engine() (ax.models.random.sobol.SobolGenerator property)</a>
 </li>
@@ -1057,6 +1061,8 @@ src="/js/documentation_options.js">
 <li><a href="core.html#ax.core.base_trial.BaseTrial.experiment">(ax.core.base_trial.BaseTrial property)</a>
 </li>
 <li><a href="core.html#ax.core.batch_trial.BatchTrial.experiment">(ax.core.batch_trial.BatchTrial property)</a>
+</li>
+<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStrategy.experiment">(ax.modelbridge.generation_strategy.GenerationStrategy property)</a>
 </li>
 <li><a href="service.html#ax.service.ax_client.AxClient.experiment">(ax.service.ax_client.AxClient property)</a>
 </li>
@@ -1299,8 +1305,11 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="benchmark.html#ax.benchmark.benchmark_result.generate_report">generate_report() (in module ax.benchmark.benchmark_result)</a>
 </li>
-<li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.generated">generated (ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy attribute)</a>
+<li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.generation_step_index">generation_step_index (ax.storage.sqa_store.sqa_classes.SQAGeneratorRun attribute)</a>
+<ul>
+<li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQATrial.generation_step_index">(ax.storage.sqa_store.sqa_classes.SQATrial attribute)</a>
 </li>
+</ul></li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAExperiment.generation_strategy">generation_strategy (ax.storage.sqa_store.sqa_classes.SQAExperiment attribute)</a>
 </li>
 <li><a href="service.html#ax.service.ax_client.AxClient.generation_strategy">generation_strategy() (ax.service.ax_client.AxClient property)</a>
@@ -1782,10 +1791,10 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.db.init_test_engine_and_session_factory">init_test_engine_and_session_factory() (in module ax.storage.sqa_store.db)</a>
 </li>
-<li><a href="core.html#ax.core.parameter.ParameterType.INT">INT (ax.core.parameter.ParameterType attribute)</a>
-</li>
 </ul></td>
 <td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="core.html#ax.core.parameter.ParameterType.INT">INT (ax.core.parameter.ParameterType attribute)</a>
+</li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAMetric.intent">intent (ax.storage.sqa_store.sqa_classes.SQAMetric attribute)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_enum.IntEnum">IntEnum (class in ax.storage.sqa_store.sqa_enum)</a>
@@ -1822,8 +1831,6 @@ src="/js/documentation_options.js">
 </li>
 </ul></li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQATrial.is_batch">is_batch (ax.storage.sqa_store.sqa_classes.SQATrial attribute)</a>
-</li>
-<li><a href="core.html#ax.core.base_trial.BaseTrial.is_complete">is_complete() (ax.core.base_trial.BaseTrial property)</a>
 </li>
 <li><a href="core.html#ax.core.base_trial.TrialStatus.is_completed">is_completed() (ax.core.base_trial.TrialStatus property)</a>
 </li>
@@ -2101,7 +2108,7 @@ src="/js/documentation_options.js">
 <li><a href="plot.html#ax.plot.base.PlotData.metrics">(ax.plot.base.PlotData property)</a>
 </li>
 </ul></li>
-<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStep.min_arms_observed">min_arms_observed() (ax.modelbridge.generation_strategy.GenerationStep property)</a>
+<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStep.min_trials_observed">min_trials_observed() (ax.modelbridge.generation_strategy.GenerationStep property)</a>
 </li>
 <li><a href="core.html#ax.core.objective.Objective.minimize">minimize (ax.core.objective.Objective attribute)</a>
 <ul>
@@ -2132,6 +2139,8 @@ src="/js/documentation_options.js">
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.model_kwargs">model_kwargs (ax.storage.sqa_store.sqa_classes.SQAGeneratorRun attribute)</a>
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStep.model_kwargs">model_kwargs() (ax.modelbridge.generation_strategy.GenerationStep property)</a>
+</li>
+<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStep.model_name">model_name() (ax.modelbridge.generation_strategy.GenerationStep property)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.model_predictions">model_predictions (ax.storage.sqa_store.sqa_classes.SQAGeneratorRun attribute)</a>
 </li>
@@ -2257,13 +2266,13 @@ src="/js/documentation_options.js">
 <li><a href="ax.html#ax.Experiment.num_abandoned_arms">(ax.Experiment property)</a>
 </li>
 </ul></li>
-<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStep.num_arms">num_arms() (ax.modelbridge.generation_strategy.GenerationStep property)</a>
-</li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQATrial.num_arms_created">num_arms_created (ax.storage.sqa_store.sqa_classes.SQATrial attribute)</a>
 </li>
 <li><a href="core.html#ax.core.experiment.Experiment.num_trials">num_trials() (ax.core.experiment.Experiment property)</a>
 <ul>
 <li><a href="ax.html#ax.Experiment.num_trials">(ax.Experiment property)</a>
+</li>
+<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStep.num_trials">(ax.modelbridge.generation_strategy.GenerationStep property)</a>
 </li>
 </ul></li>
 <li><a href="utils.html#ax.utils.common.typeutils.numpy_type_to_python_type">numpy_type_to_python_type() (in module ax.utils.common.typeutils)</a>
@@ -2317,8 +2326,6 @@ src="/js/documentation_options.js">
 <li><a href="core.html#ax.core.observation.ObservationFeatures">ObservationFeatures (class in ax.core.observation)</a>
 </li>
 <li><a href="core.html#ax.core.observation.observations_from_data">observations_from_data() (in module ax.core.observation)</a>
-</li>
-<li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.observed">observed (ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy attribute)</a>
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.cross_validation.CVResult.observed">observed() (ax.modelbridge.cross_validation.CVResult property)</a>
 </li>
@@ -3211,6 +3218,8 @@ src="/js/documentation_options.js">
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAData.trial_index">(ax.storage.sqa_store.sqa_classes.SQAData attribute)</a>
 </li>
 </ul></li>
+<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStrategy.trial_indices_by_step">trial_indices_by_step() (ax.modelbridge.generation_strategy.GenerationStrategy property)</a>
+</li>
 <li><a href="storage.html#ax.storage.json_store.encoders.trial_to_dict">trial_to_dict() (in module ax.storage.json_store.encoders)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.encoder.Encoder.trial_to_sqa">trial_to_sqa() (ax.storage.sqa_store.encoder.Encoder method)</a>
@@ -3233,6 +3242,8 @@ src="/js/documentation_options.js">
 <li><a href="ax.html#ax.Experiment.trials">(ax.Experiment property)</a>
 </li>
 </ul></li>
+<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStrategy.trials_as_df">trials_as_df() (ax.modelbridge.generation_strategy.GenerationStrategy property)</a>
+</li>
 <li><a href="core.html#ax.core.experiment.Experiment.trials_expecting_data">trials_expecting_data() (ax.core.experiment.Experiment property)</a>
 <ul>
 <li><a href="ax.html#ax.Experiment.trials_expecting_data">(ax.Experiment property)</a>

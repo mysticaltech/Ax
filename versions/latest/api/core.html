@@ -208,6 +208,16 @@ and BatchTrial, which contains an arbitrary number of arms.</p>
 </dl>
 </dd></dl>
 <dl class="method">
+<dt id="ax.core.base_trial.BaseTrial.completed_successfully">
+<em class="property">property </em><code class="sig-name descname">completed_successfully</code><a class="headerlink" href="#ax.core.base_trial.BaseTrial.completed_successfully" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if trial status is <cite>COMPLETED</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
 <dt id="ax.core.base_trial.BaseTrial.deployed_name">
 <em class="property">property </em><code class="sig-name descname">deployed_name</code><a class="headerlink" href="#ax.core.base_trial.BaseTrial.deployed_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name of the experiment created in external framework.</p>
@@ -215,6 +225,16 @@ and BatchTrial, which contains an arbitrary number of arms.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
+<dt id="ax.core.base_trial.BaseTrial.did_not_complete">
+<em class="property">property </em><code class="sig-name descname">did_not_complete</code><a class="headerlink" href="#ax.core.base_trial.BaseTrial.did_not_complete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if trial status is terminal, but not <cite>COMPLETED</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -263,16 +283,6 @@ defined on the experiment.</p></li>
 <dt id="ax.core.base_trial.BaseTrial.is_abandoned">
 <em class="property">property </em><code class="sig-name descname">is_abandoned</code><a class="headerlink" href="#ax.core.base_trial.BaseTrial.is_abandoned" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether this trial is abandoned.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="method">
-<dt id="ax.core.base_trial.BaseTrial.is_complete">
-<em class="property">property </em><code class="sig-name descname">is_complete</code><a class="headerlink" href="#ax.core.base_trial.BaseTrial.is_complete" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks if trial status is <cite>COMPLETED</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -1426,7 +1436,7 @@ or is expected to arrive.</p>
 </dd></dl>
 <dl class="class">
 <dt id="ax.core.generator_run.GeneratorRun">
-<em class="property">class </em><code class="sig-prename descclassname">ax.core.generator_run.</code><code class="sig-name descname">GeneratorRun</code><span class="sig-paren">(</span><em class="sig-param">arms</em>, <em class="sig-param">weights=None</em>, <em class="sig-param">optimization_config=None</em>, <em class="sig-param">search_space=None</em>, <em class="sig-param">model_predictions=None</em>, <em class="sig-param">best_arm_predictions=None</em>, <em class="sig-param">type=None</em>, <em class="sig-param">fit_time=None</em>, <em class="sig-param">gen_time=None</em>, <em class="sig-param">model_key=None</em>, <em class="sig-param">model_kwargs=None</em>, <em class="sig-param">bridge_kwargs=None</em>, <em class="sig-param">gen_metadata=None</em>, <em class="sig-param">model_state_after_gen=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/generator_run.html#GeneratorRun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.generator_run.GeneratorRun" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ax.core.generator_run.</code><code class="sig-name descname">GeneratorRun</code><span class="sig-paren">(</span><em class="sig-param">arms</em>, <em class="sig-param">weights=None</em>, <em class="sig-param">optimization_config=None</em>, <em class="sig-param">search_space=None</em>, <em class="sig-param">model_predictions=None</em>, <em class="sig-param">best_arm_predictions=None</em>, <em class="sig-param">type=None</em>, <em class="sig-param">fit_time=None</em>, <em class="sig-param">gen_time=None</em>, <em class="sig-param">model_key=None</em>, <em class="sig-param">model_kwargs=None</em>, <em class="sig-param">bridge_kwargs=None</em>, <em class="sig-param">gen_metadata=None</em>, <em class="sig-param">model_state_after_gen=None</em>, <em class="sig-param">generation_step_index=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/generator_run.html#GeneratorRun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.core.generator_run.GeneratorRun" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ax.core.base.Base" title="ax.core.base.Base"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.core.base.Base</span></code></a></p>
 <p>An object that represents a single run of a generator.</p>
 <p>This object is created each time the <code class="docutils literal notranslate"><span class="pre">gen</span></code> method of a generator is

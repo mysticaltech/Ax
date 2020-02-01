@@ -82,7 +82,6 @@ src="/js/documentation_options.js">
     <span class="n">ParameterConstraintType</span><span class="p">,</span>
     <span class="n">get_object_properties</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">ax.utils.common.timeutils</span> <span class="kn">import</span> <span class="n">current_timestamp_in_millis</span>
 <span class="kn">from</span> <span class="nn">ax.utils.common.typeutils</span> <span class="kn">import</span> <span class="n">not_none</span>
 
 
@@ -477,6 +476,7 @@ src="/js/documentation_options.js">
             <span class="n">bridge_kwargs</span><span class="o">=</span><span class="n">object_to_json</span><span class="p">(</span><span class="n">generator_run</span><span class="o">.</span><span class="n">_bridge_kwargs</span><span class="p">),</span>
             <span class="n">gen_metadata</span><span class="o">=</span><span class="n">object_to_json</span><span class="p">(</span><span class="n">generator_run</span><span class="o">.</span><span class="n">_gen_metadata</span><span class="p">),</span>
             <span class="n">model_state_after_gen</span><span class="o">=</span><span class="n">object_to_json</span><span class="p">(</span><span class="n">generator_run</span><span class="o">.</span><span class="n">_model_state_after_gen</span><span class="p">),</span>
+            <span class="n">generation_step_index</span><span class="o">=</span><span class="n">generator_run</span><span class="o">.</span><span class="n">_generation_step_index</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Encoder.generation_strategy_to_sqa"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.encoder.Encoder.generation_strategy_to_sqa">[docs]</a>    <span class="k">def</span> <span class="nf">generation_strategy_to_sqa</span><span class="p">(</span>
@@ -494,21 +494,11 @@ src="/js/documentation_options.js">
         <span class="k">return</span> <span class="n">gs_class</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="n">generation_strategy</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="n">steps</span><span class="o">=</span><span class="n">object_to_json</span><span class="p">(</span><span class="n">generation_strategy</span><span class="o">.</span><span class="n">_steps</span><span class="p">),</span>
-            <span class="n">generated</span><span class="o">=</span><span class="n">generation_strategy</span><span class="o">.</span><span class="n">_generated</span><span class="p">,</span>
-            <span class="n">observed</span><span class="o">=</span><span class="n">generation_strategy</span><span class="o">.</span><span class="n">_observed</span><span class="p">,</span>
             <span class="n">curr_index</span><span class="o">=</span><span class="n">generation_strategy</span><span class="o">.</span><span class="n">_curr</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
             <span class="n">generator_runs</span><span class="o">=</span><span class="p">[</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">generator_run_to_sqa</span><span class="p">(</span><span class="n">gr</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">gr</span> <span class="ow">in</span> <span class="n">generation_strategy</span><span class="o">.</span><span class="n">_generator_runs</span>
             <span class="p">],</span>
-            <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data_to_sqa</span><span class="p">(</span>
-                <span class="n">data</span><span class="o">=</span><span class="n">generation_strategy</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span>
-                <span class="c1"># Generation strategy data is a compilation of data, so it does</span>
-                <span class="c1"># not strictly speaking have a timestamp. Setting timestamp to</span>
-                <span class="c1"># current.</span>
-                <span class="n">timestamp</span><span class="o">=</span><span class="n">current_timestamp_in_millis</span><span class="p">(),</span>
-                <span class="n">trial_index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="p">),</span>
             <span class="n">experiment_id</span><span class="o">=</span><span class="n">experiment_id</span><span class="p">,</span>
         <span class="p">)</span></div>
 
@@ -603,6 +593,7 @@ src="/js/documentation_options.js">
             <span class="n">abandoned_arms</span><span class="o">=</span><span class="n">abandoned_arms</span><span class="p">,</span>
             <span class="n">generator_runs</span><span class="o">=</span><span class="n">generator_runs</span><span class="p">,</span>
             <span class="n">runner</span><span class="o">=</span><span class="n">runner</span><span class="p">,</span>
+            <span class="n">generation_step_index</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">_generation_step_index</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Encoder.data_to_sqa"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.encoder.Encoder.data_to_sqa">[docs]</a>    <span class="k">def</span> <span class="nf">data_to_sqa</span><span class="p">(</span>
