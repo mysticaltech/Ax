@@ -58,7 +58,7 @@ src="/js/documentation_options.js">
     <span class="n">unimplemented_evaluation_function</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">ax.exceptions.storage</span> <span class="kn">import</span> <span class="n">JSONDecodeError</span>
-<span class="kn">from</span> <span class="nn">ax.modelbridge.generation_strategy</span> <span class="kn">import</span> <span class="n">GenerationStrategy</span>
+<span class="kn">from</span> <span class="nn">ax.modelbridge.generation_strategy</span> <span class="kn">import</span> <span class="n">GenerationStep</span><span class="p">,</span> <span class="n">GenerationStrategy</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.registry</span> <span class="kn">import</span> <span class="n">Models</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.transforms.base</span> <span class="kn">import</span> <span class="n">Transform</span>
 <span class="kn">from</span> <span class="nn">ax.storage.json_store.decoders</span> <span class="kn">import</span> <span class="n">batch_trial_from_json</span><span class="p">,</span> <span class="n">trial_from_json</span>
@@ -134,13 +134,28 @@ src="/js/documentation_options.js">
         <span class="k">elif</span> <span class="n">_class</span> <span class="o">==</span> <span class="n">SimpleBenchmarkProblem</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">simple_benchmark_problem_from_json</span><span class="p">(</span><span class="n">object_json</span><span class="o">=</span><span class="n">object_json</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">_class</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">object_from_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">object_json</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+        <span class="k">return</span> <span class="n">ax_class_from_json_dict</span><span class="p">(</span><span class="n">_class</span><span class="o">=</span><span class="n">_class</span><span class="p">,</span> <span class="n">object_json</span><span class="o">=</span><span class="n">object_json</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">err</span> <span class="o">=</span> <span class="p">(</span>
             <span class="sa">f</span><span class="s2">"The object </span><span class="si">{object_json}</span><span class="s2"> passed to `object_from_json` has an "</span>
             <span class="sa">f</span><span class="s2">"unsupported type: {type(object_json)}."</span>
         <span class="p">)</span>
         <span class="k">raise</span> <span class="n">JSONDecodeError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ax_class_from_json_dict"><a class="viewcode-back" href="../../../../storage.html#ax.storage.json_store.decoder.ax_class_from_json_dict">[docs]</a><span class="k">def</span> <span class="nf">ax_class_from_json_dict</span><span class="p">(</span><span class="n">_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">object_json</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="sd">"""Reinstantiates an Ax class registered in `DECODER_REGISTRY` from a JSON</span>
+<span class="sd">    dict.</span>
+<span class="sd">    """</span>
+    <span class="c1"># NOTE: this is a hack to make generation steps able to load after the</span>
+    <span class="c1"># renaming of generation step fields to be in terms of 'trials' rather than</span>
+    <span class="c1"># 'arms'.</span>
+    <span class="k">if</span> <span class="n">_class</span> <span class="ow">is</span> <span class="n">GenerationStep</span><span class="p">:</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">object_json</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"arms"</span> <span class="ow">in</span> <span class="n">k</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                <span class="n">object_json</span><span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"arms"</span><span class="p">,</span> <span class="s2">"trials"</span><span class="p">)]</span> <span class="o">=</span> <span class="n">object_json</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_class</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">object_from_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">object_json</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span></div>
 
 
 <div class="viewcode-block" id="generator_run_from_json"><a class="viewcode-back" href="../../../../storage.html#ax.storage.json_store.decoder.generator_run_from_json">[docs]</a><span class="k">def</span> <span class="nf">generator_run_from_json</span><span class="p">(</span><span class="n">object_json</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">GeneratorRun</span><span class="p">:</span>

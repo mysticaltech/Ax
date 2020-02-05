@@ -381,7 +381,7 @@ function slice_config_to_trace(
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 02-04 17:16:29] ipy_plotting: Injecting Plotly library into cell. Do not overwrite or delete cell.
+<pre>[INFO 02-05 05:42:38] ipy_plotting: Injecting Plotly library into cell. Do not overwrite or delete cell.
 </pre>
 </div>
 </div>
@@ -426,108 +426,6 @@ function slice_config_to_trace(
 <div class="output">
 <div class="output_area">
 <div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>x_poor x_poor
-ParameterType.FLOAT ParameterType.FLOAT
-None None
-0.0 0.0
-1.0 1.0
-False False
-False False
-None None
-x_moderate x_moderate
-ParameterType.FLOAT ParameterType.FLOAT
-None None
-0.0 0.0
-1.0 1.0
-False False
-False False
-None None
-x_moderate x_moderate
-ParameterType.FLOAT ParameterType.FLOAT
-None None
-0.0 0.0
-1.0 1.0
-False False
-False False
-None None
-x_good x_good
-ParameterType.FLOAT ParameterType.FLOAT
-None None
-0.0 0.0
-1.0 1.0
-False False
-False False
-None None
-x_good x_good
-ParameterType.FLOAT ParameterType.FLOAT
-None None
-0.0 0.0
-1.0 1.0
-False False
-False False
-None None
-x_excellent x_excellent
-ParameterType.FLOAT ParameterType.FLOAT
-None None
-0.0 0.0
-1.0 1.0
-False False
-False False
-None None
-y_poor y_poor
-ParameterType.FLOAT ParameterType.FLOAT
-None None
-0.1 0.1
-3.0 3.0
-False False
-False False
-None None
-y_moderate y_moderate
-ParameterType.FLOAT ParameterType.FLOAT
-None None
-0.1 0.1
-3.0 3.0
-False False
-False False
-None None
-y_moderate y_moderate
-ParameterType.FLOAT ParameterType.FLOAT
-None None
-0.1 0.1
-3.0 3.0
-False False
-False False
-None None
-y_good y_good
-ParameterType.FLOAT ParameterType.FLOAT
-None None
-0.1 0.1
-3.0 3.0
-False False
-False False
-None None
-y_good y_good
-ParameterType.FLOAT ParameterType.FLOAT
-None None
-0.1 0.1
-3.0 3.0
-False False
-False False
-None None
-y_excellent y_excellent
-ParameterType.FLOAT ParameterType.FLOAT
-None None
-0.1 0.1
-3.0 3.0
-False False
-False False
-None None
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
 <div class="output_subarea output_text output_error">
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
@@ -548,18 +446,18 @@ None None
 <span class="ansi-green-intense-fg ansi-bold">    103</span>             <span class="ansi-green-fg">return</span> search_space_from_json<span class="ansi-blue-fg">(</span>search_space_json<span class="ansi-blue-fg">=</span>object_json<span class="ansi-blue-fg">)</span>
 
 <span class="ansi-green-fg">~/build/facebook/Ax/ax/storage/json_store/decoder.py</span> in <span class="ansi-cyan-fg">experiment_from_json</span><span class="ansi-blue-fg">(object_json)</span>
-<span class="ansi-green-intense-fg ansi-bold">    262</span>     experiment <span class="ansi-blue-fg">=</span> Experiment<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">**</span><span class="ansi-blue-fg">{</span>k<span class="ansi-blue-fg">:</span> object_from_json<span class="ansi-blue-fg">(</span>v<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">for</span> k<span class="ansi-blue-fg">,</span> v <span class="ansi-green-fg">in</span> object_json<span class="ansi-blue-fg">.</span>items<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    263</span>     experiment<span class="ansi-blue-fg">.</span>_time_created <span class="ansi-blue-fg">=</span> object_from_json<span class="ansi-blue-fg">(</span>time_created_json<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">--&gt; 264</span><span class="ansi-red-fg">     </span>experiment<span class="ansi-blue-fg">.</span>_trials <span class="ansi-blue-fg">=</span> trials_from_json<span class="ansi-blue-fg">(</span>experiment<span class="ansi-blue-fg">,</span> trials_json<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    265</span>     <span class="ansi-green-fg">for</span> trial <span class="ansi-green-fg">in</span> experiment<span class="ansi-blue-fg">.</span>_trials<span class="ansi-blue-fg">.</span>values<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    266</span>         <span class="ansi-green-fg">for</span> arm <span class="ansi-green-fg">in</span> trial<span class="ansi-blue-fg">.</span>arms<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    277</span>     experiment <span class="ansi-blue-fg">=</span> Experiment<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">**</span><span class="ansi-blue-fg">{</span>k<span class="ansi-blue-fg">:</span> object_from_json<span class="ansi-blue-fg">(</span>v<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">for</span> k<span class="ansi-blue-fg">,</span> v <span class="ansi-green-fg">in</span> object_json<span class="ansi-blue-fg">.</span>items<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    278</span>     experiment<span class="ansi-blue-fg">.</span>_time_created <span class="ansi-blue-fg">=</span> object_from_json<span class="ansi-blue-fg">(</span>time_created_json<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 279</span><span class="ansi-red-fg">     </span>experiment<span class="ansi-blue-fg">.</span>_trials <span class="ansi-blue-fg">=</span> trials_from_json<span class="ansi-blue-fg">(</span>experiment<span class="ansi-blue-fg">,</span> trials_json<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    280</span>     <span class="ansi-green-fg">for</span> trial <span class="ansi-green-fg">in</span> experiment<span class="ansi-blue-fg">.</span>_trials<span class="ansi-blue-fg">.</span>values<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    281</span>         <span class="ansi-green-fg">for</span> arm <span class="ansi-green-fg">in</span> trial<span class="ansi-blue-fg">.</span>arms<span class="ansi-blue-fg">:</span>
 
 <span class="ansi-green-fg">~/build/facebook/Ax/ax/storage/json_store/decoder.py</span> in <span class="ansi-cyan-fg">trials_from_json</span><span class="ansi-blue-fg">(experiment, trials_json)</span>
-<span class="ansi-green-intense-fg ansi-bold">    199</span>             trial_from_json<span class="ansi-blue-fg">(</span>experiment<span class="ansi-blue-fg">=</span>experiment<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>batch_json<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    200</span>             <span class="ansi-green-fg">if</span> is_trial
-<span class="ansi-green-fg">--&gt; 201</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">else</span> batch_trial_from_json<span class="ansi-blue-fg">(</span>experiment<span class="ansi-blue-fg">=</span>experiment<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>batch_json<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    202</span>         )
-<span class="ansi-green-intense-fg ansi-bold">    203</span>     <span class="ansi-green-fg">return</span> loaded_trials
+<span class="ansi-green-intense-fg ansi-bold">    214</span>             trial_from_json<span class="ansi-blue-fg">(</span>experiment<span class="ansi-blue-fg">=</span>experiment<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>batch_json<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    215</span>             <span class="ansi-green-fg">if</span> is_trial
+<span class="ansi-green-fg">--&gt; 216</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">else</span> batch_trial_from_json<span class="ansi-blue-fg">(</span>experiment<span class="ansi-blue-fg">=</span>experiment<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>batch_json<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    217</span>         )
+<span class="ansi-green-intense-fg ansi-bold">    218</span>     <span class="ansi-green-fg">return</span> loaded_trials
 
 <span class="ansi-red-fg">TypeError</span>: batch_trial_from_json() missing 1 required positional argument: 'generation_step_index'</pre>
 </div>
