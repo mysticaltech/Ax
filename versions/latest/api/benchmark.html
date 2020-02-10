@@ -61,6 +61,26 @@ optimum.</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="attribute">
+<dt id="ax.benchmark.benchmark_problem.BenchmarkProblem.evaluate_suggested">
+<code class="sig-name descname">evaluate_suggested</code><em class="property">: bool</em><em class="property"> = None</em><a class="headerlink" href="#ax.benchmark.benchmark_problem.BenchmarkProblem.evaluate_suggested" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.benchmark.benchmark_problem.BenchmarkProblem.name">
+<code class="sig-name descname">name</code><em class="property">: str</em><em class="property"> = None</em><a class="headerlink" href="#ax.benchmark.benchmark_problem.BenchmarkProblem.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.benchmark.benchmark_problem.BenchmarkProblem.optimal_value">
+<code class="sig-name descname">optimal_value</code><em class="property">: Optional[float]</em><em class="property"> = None</em><a class="headerlink" href="#ax.benchmark.benchmark_problem.BenchmarkProblem.optimal_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.benchmark.benchmark_problem.BenchmarkProblem.optimization_config">
+<code class="sig-name descname">optimization_config</code><em class="property">: OptimizationConfig</em><em class="property"> = None</em><a class="headerlink" href="#ax.benchmark.benchmark_problem.BenchmarkProblem.optimization_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.benchmark.benchmark_problem.BenchmarkProblem.search_space">
+<code class="sig-name descname">search_space</code><em class="property">: SearchSpace</em><em class="property"> = None</em><a class="headerlink" href="#ax.benchmark.benchmark_problem.BenchmarkProblem.search_space" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 </dd></dl>
 <dl class="class">
 <dt id="ax.benchmark.benchmark_problem.SimpleBenchmarkProblem">
@@ -102,6 +122,10 @@ optimum.</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="attribute">
+<dt id="ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.domain">
+<code class="sig-name descname">domain</code><em class="property">: List[Tuple[float, float]]</em><em class="property"> = None</em><a class="headerlink" href="#ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.domain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.domain_as_ax_client_parameters">
 <code class="sig-name descname">domain_as_ax_client_parameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/benchmark/benchmark_problem.html#SimpleBenchmarkProblem.domain_as_ax_client_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.domain_as_ax_client_parameters" title="Permalink to this definition">¶</a></dt>
@@ -111,6 +135,30 @@ optimum.</p></li>
 </dd>
 </dl>
 </dd></dl>
+<dl class="attribute">
+<dt id="ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.evaluate_suggested">
+<code class="sig-name descname">evaluate_suggested</code><em class="property">: bool</em><em class="property"> = None</em><a class="headerlink" href="#ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.evaluate_suggested" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.f">
+<code class="sig-name descname">f</code><em class="property">: Union[SyntheticFunction, FunctionType]</em><em class="property"> = None</em><a class="headerlink" href="#ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.f" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.minimize">
+<code class="sig-name descname">minimize</code><em class="property">: bool</em><em class="property"> = None</em><a class="headerlink" href="#ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.minimize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.name">
+<code class="sig-name descname">name</code><em class="property">: str</em><em class="property"> = None</em><a class="headerlink" href="#ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.noise_sd">
+<code class="sig-name descname">noise_sd</code><em class="property">: float</em><em class="property"> = None</em><a class="headerlink" href="#ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.noise_sd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.optimal_value">
+<code class="sig-name descname">optimal_value</code><em class="property">: Optional[float]</em><em class="property"> = None</em><a class="headerlink" href="#ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.optimal_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 </dd></dl>
 </div>
 <div class="section" id="module-ax.benchmark.benchmark_result">
@@ -458,7 +506,7 @@ strings.</p>
 </form>
 </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 </div>
 </div>
 <div class="clearer"></div>

@@ -690,6 +690,14 @@ cov[j, m1, m2] is Cov[m1@j, m2@j].</p></li>
 </dd>
 </dl>
 </dd></dl>
+<dl class="attribute">
+<dt id="ax.models.torch_base.TorchModel.device">
+<code class="sig-name descname">device</code><em class="property">: Optional[torch.device]</em><em class="property"> = None</em><a class="headerlink" href="#ax.models.torch_base.TorchModel.device" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.models.torch_base.TorchModel.dtype">
+<code class="sig-name descname">dtype</code><em class="property">: Optional[torch.dtype]</em><em class="property"> = None</em><a class="headerlink" href="#ax.models.torch_base.TorchModel.dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.models.torch_base.TorchModel.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">Xs</em>, <em class="sig-param">Ys</em>, <em class="sig-param">Yvars</em>, <em class="sig-param">bounds</em>, <em class="sig-param">task_features</em>, <em class="sig-param">feature_names</em>, <em class="sig-param">metric_names</em>, <em class="sig-param">fidelity_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/models/torch_base.html#TorchModel.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.models.torch_base.TorchModel.fit" title="Permalink to this definition">¶</a></dt>
@@ -1380,6 +1388,18 @@ generation, <cite>model_gen_options</cite> is a config dictionary that can conta
 model-specific options, and <cite>target_fidelities</cite> is a map from fidelity feature
 column indices to their respective target fidelities, used for multi-fidelity
 optimization problems. % TODO: refer to an example.</p>
+<dl class="attribute">
+<dt id="ax.models.torch.botorch.BotorchModel.Xs">
+<code class="sig-name descname">Xs</code><em class="property">: List[Tensor]</em><em class="property"> = None</em><a class="headerlink" href="#ax.models.torch.botorch.BotorchModel.Xs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.models.torch.botorch.BotorchModel.Ys">
+<code class="sig-name descname">Ys</code><em class="property">: List[Tensor]</em><em class="property"> = None</em><a class="headerlink" href="#ax.models.torch.botorch.BotorchModel.Ys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.models.torch.botorch.BotorchModel.Yvars">
+<code class="sig-name descname">Yvars</code><em class="property">: List[Tensor]</em><em class="property"> = None</em><a class="headerlink" href="#ax.models.torch.botorch.BotorchModel.Yvars" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.models.torch.botorch.BotorchModel.best_point">
 <code class="sig-name descname">best_point</code><span class="sig-paren">(</span><em class="sig-param">bounds</em>, <em class="sig-param">objective_weights</em>, <em class="sig-param">outcome_constraints=None</em>, <em class="sig-param">linear_constraints=None</em>, <em class="sig-param">fixed_features=None</em>, <em class="sig-param">model_gen_options=None</em>, <em class="sig-param">target_fidelities=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/models/torch/botorch.html#BotorchModel.best_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.models.torch.botorch.BotorchModel.best_point" title="Permalink to this definition">¶</a></dt>
@@ -1446,6 +1466,14 @@ cov[j, m1, m2] is Cov[m1@j, m2@j].</p></li>
 </dd>
 </dl>
 </dd></dl>
+<dl class="attribute">
+<dt id="ax.models.torch.botorch.BotorchModel.device">
+<code class="sig-name descname">device</code><em class="property">: Optional[torch.device]</em><em class="property"> = None</em><a class="headerlink" href="#ax.models.torch.botorch.BotorchModel.device" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.models.torch.botorch.BotorchModel.dtype">
+<code class="sig-name descname">dtype</code><em class="property">: Optional[torch.dtype]</em><em class="property"> = None</em><a class="headerlink" href="#ax.models.torch.botorch.BotorchModel.dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.models.torch.botorch.BotorchModel.feature_importances">
 <code class="sig-name descname">feature_importances</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/models/torch/botorch.html#BotorchModel.feature_importances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.models.torch.botorch.BotorchModel.feature_importances" title="Permalink to this definition">¶</a></dt>
@@ -1882,7 +1910,7 @@ or the outcome constraints.</p>
 </form>
 </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 </div>
 </div>
 <div class="clearer"></div>

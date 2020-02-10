@@ -1995,6 +1995,10 @@ defined on the experiment.</p></li>
 </dd>
 </dl>
 </dd></dl>
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">weights</code><em class="property">: List[float]</em><em class="property"> = None</em></dt>
+<dd></dd></dl>
 </dd></dl>
 </div>
 <div class="section" id="module-ax.core.observation">
@@ -2544,19 +2548,19 @@ to that of the parameter.</p>
 <p>An enumeration.</p>
 <dl class="attribute">
 <dt id="ax.core.parameter.ParameterType.BOOL">
-<code class="sig-name descname">BOOL</code><em class="property"> = 0</em><a class="headerlink" href="#ax.core.parameter.ParameterType.BOOL" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">BOOL</code><em class="property">: int</em><em class="property"> = 0</em><a class="headerlink" href="#ax.core.parameter.ParameterType.BOOL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.core.parameter.ParameterType.FLOAT">
-<code class="sig-name descname">FLOAT</code><em class="property"> = 2</em><a class="headerlink" href="#ax.core.parameter.ParameterType.FLOAT" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">FLOAT</code><em class="property">: int</em><em class="property"> = 2</em><a class="headerlink" href="#ax.core.parameter.ParameterType.FLOAT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.core.parameter.ParameterType.INT">
-<code class="sig-name descname">INT</code><em class="property"> = 1</em><a class="headerlink" href="#ax.core.parameter.ParameterType.INT" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">INT</code><em class="property">: int</em><em class="property"> = 1</em><a class="headerlink" href="#ax.core.parameter.ParameterType.INT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.core.parameter.ParameterType.STRING">
-<code class="sig-name descname">STRING</code><em class="property"> = 3</em><a class="headerlink" href="#ax.core.parameter.ParameterType.STRING" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">STRING</code><em class="property">: int</em><em class="property"> = 3</em><a class="headerlink" href="#ax.core.parameter.ParameterType.STRING" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="method">
 <dt id="ax.core.parameter.ParameterType.is_numeric">
@@ -3422,11 +3426,11 @@ objective that was set at the time the trial was created or ran.</p>
 <p>Class for enumerating comparison operations.</p>
 <dl class="attribute">
 <dt id="ax.core.types.ComparisonOp.GEQ">
-<code class="sig-name descname">GEQ</code><em class="property"> = 0</em><a class="headerlink" href="#ax.core.types.ComparisonOp.GEQ" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">GEQ</code><em class="property">: int</em><em class="property"> = 0</em><a class="headerlink" href="#ax.core.types.ComparisonOp.GEQ" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.core.types.ComparisonOp.LEQ">
-<code class="sig-name descname">LEQ</code><em class="property"> = 1</em><a class="headerlink" href="#ax.core.types.ComparisonOp.LEQ" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">LEQ</code><em class="property">: int</em><em class="property"> = 1</em><a class="headerlink" href="#ax.core.types.ComparisonOp.LEQ" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </dd></dl>
 <dl class="function">
@@ -3595,7 +3599,7 @@ course of the experiment.</p>
 </form>
 </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 </div>
 </div>
 <div class="clearer"></div>

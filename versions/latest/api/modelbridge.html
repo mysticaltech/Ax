@@ -724,6 +724,18 @@ transformed to RangeParameters with int type.</p>
 </dd>
 </dl>
 </dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.array.ArrayModelBridge.model">
+<code class="sig-name descname">model</code><em class="property">: Any</em><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.array.ArrayModelBridge.model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.array.ArrayModelBridge.outcomes">
+<code class="sig-name descname">outcomes</code><em class="property">: List[str]</em><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.array.ArrayModelBridge.outcomes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.array.ArrayModelBridge.parameters">
+<code class="sig-name descname">parameters</code><em class="property">: List[str]</em><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.array.ArrayModelBridge.parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 </dd></dl>
 <dl class="function">
 <dt id="ax.modelbridge.array.array_to_observation_data">
@@ -812,6 +824,22 @@ multiplied by the minimize flag.</p>
 <dd><p>Bases: <a class="reference internal" href="#ax.modelbridge.base.ModelBridge" title="ax.modelbridge.base.ModelBridge"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.modelbridge.base.ModelBridge</span></code></a></p>
 <p>A model bridge for using models based on discrete parameters.</p>
 <p>Requires that all parameters have been transformed to ChoiceParameters.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.discrete.DiscreteModelBridge.model">
+<code class="sig-name descname">model</code><em class="property">: DiscreteModel</em><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.discrete.DiscreteModelBridge.model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.discrete.DiscreteModelBridge.outcomes">
+<code class="sig-name descname">outcomes</code><em class="property">: List[str]</em><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.discrete.DiscreteModelBridge.outcomes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.discrete.DiscreteModelBridge.parameters">
+<code class="sig-name descname">parameters</code><em class="property">: List[str]</em><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.discrete.DiscreteModelBridge.parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.discrete.DiscreteModelBridge.search_space">
+<code class="sig-name descname">search_space</code><em class="property">: Optional[SearchSpace]</em><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.discrete.DiscreteModelBridge.search_space" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 </dd></dl>
 </div>
 <div class="section" id="module-ax.modelbridge.numpy">
@@ -824,6 +852,18 @@ multiplied by the minimize flag.</p>
 <p>This model bridge interfaces with NumpyModel.</p>
 <p>Requires that all parameters have been transformed to RangeParameters
 or FixedParameters with float type and no log scale.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.numpy.NumpyModelBridge.model">
+<code class="sig-name descname">model</code><em class="property">: NumpyModel</em><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.numpy.NumpyModelBridge.model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.numpy.NumpyModelBridge.outcomes">
+<code class="sig-name descname">outcomes</code><em class="property">: List[str]</em><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.numpy.NumpyModelBridge.outcomes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.numpy.NumpyModelBridge.parameters">
+<code class="sig-name descname">parameters</code><em class="property">: List[str]</em><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.numpy.NumpyModelBridge.parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 </dd></dl>
 </div>
 <div class="section" id="module-ax.modelbridge.random">
@@ -846,6 +886,14 @@ Data and optimization configs are not required.</p>
 <code class="sig-name descname">parameters</code><a class="headerlink" href="#ax.modelbridge.random.RandomModelBridge.parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Params found in search space on modelbridge init.</p>
 </dd></dl>
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">model</code><em class="property">: RandomModel</em><em class="property"> = None</em></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">parameters</code><em class="property">: List[str]</em><em class="property"> = None</em></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.random.RandomModelBridge.update">
 <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">experiment</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/random.html#RandomModelBridge.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.random.RandomModelBridge.update" title="Permalink to this definition">¶</a></dt>
@@ -882,6 +930,18 @@ API for each of these methods.</p>
 or FixedParameters with float type and no log scale.</p>
 <p>This class converts Ax parameter types to torch tensors before passing
 them to the model.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.torch.TorchModelBridge.model">
+<code class="sig-name descname">model</code><em class="property">: Optional[TorchModel]</em><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.torch.TorchModelBridge.model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.torch.TorchModelBridge.outcomes">
+<code class="sig-name descname">outcomes</code><em class="property">: Optional[List[str]]</em><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.torch.TorchModelBridge.outcomes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.torch.TorchModelBridge.parameters">
+<code class="sig-name descname">parameters</code><em class="property">: Optional[List[str]]</em><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.torch.TorchModelBridge.parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 </dd></dl>
 </div>
 </div>
@@ -1199,6 +1259,10 @@ observation features as an input, but they will not be mutated.</p>
 <p>The forward transform for optimization config accepts the modelbridge and
 fixed features as inputs, but they will not be mutated.</p>
 <p>This class provides an identify transform.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.base.Transform.config">
+<code class="sig-name descname">config</code><em class="property">: TConfig</em><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.base.Transform.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.base.Transform.transform_observation_data">
 <code class="sig-name descname">transform_observation_data</code><span class="sig-paren">(</span><em class="sig-param">observation_data</em>, <em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/base.html#Transform.transform_observation_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.base.Transform.transform_observation_data" title="Permalink to this definition">¶</a></dt>
@@ -1327,6 +1391,10 @@ transform (does nothing).</p>
 <p>Cap parameter range(s) to given values. Expects a configuration of form
 { parameter_name -&gt; new_upper_range_value }.</p>
 <p>This transform only transforms the search space.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.cap_parameter.CapParameter.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.cap_parameter.CapParameter.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.cap_parameter.CapParameter.transform_search_space">
 <code class="sig-name descname">transform_search_space</code><span class="sig-paren">(</span><em class="sig-param">search_space</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/cap_parameter.html#CapParameter.transform_search_space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.cap_parameter.CapParameter.transform_search_space" title="Permalink to this definition">¶</a></dt>
@@ -1357,6 +1425,10 @@ transform (does nothing).</p>
 <p>Currently does not support linear constraints, but could in the future be
 adjusted to transform them too, since this is a linear operation.</p>
 <p>Transform is done in-place.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.centered_unit_x.CenteredUnitX.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.centered_unit_x.CenteredUnitX.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.centered_unit_x.CenteredUnitX.transform_observation_features">
 <code class="sig-name descname">transform_observation_features</code><span class="sig-paren">(</span><em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/centered_unit_x.html#CenteredUnitX.transform_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.centered_unit_x.CenteredUnitX.transform_observation_features" title="Permalink to this definition">¶</a></dt>
@@ -1428,6 +1500,10 @@ online metric names.</p>
 <p>In the inverse transform, data will be mapped back onto the original metric names.
 By default, this transform is turned off. It can be enabled by passing the
 “perform_untransform” flag to the config.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.convert_metric_names.ConvertMetricNames.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.convert_metric_names.ConvertMetricNames.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.convert_metric_names.ConvertMetricNames.transform_observation_data">
 <code class="sig-name descname">transform_observation_data</code><span class="sig-paren">(</span><em class="sig-param">observation_data</em>, <em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/convert_metric_names.html#ConvertMetricNames.transform_observation_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.convert_metric_names.ConvertMetricNames.transform_observation_data" title="Permalink to this definition">¶</a></dt>
@@ -1512,6 +1588,10 @@ estimate of the status quo value.</p>
 <p>If status quo is in-design, uses model estimate at status quo. If not, uses
 raw observation at status quo.</p>
 <p>Transform is done in-place.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.derelativize.Derelativize.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.derelativize.Derelativize.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.derelativize.Derelativize.transform_optimization_config">
 <code class="sig-name descname">transform_optimization_config</code><span class="sig-paren">(</span><em class="sig-param">optimization_config</em>, <em class="sig-param">modelbridge</em>, <em class="sig-param">fixed_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/derelativize.html#Derelativize.transform_optimization_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.derelativize.Derelativize.transform_optimization_config" title="Permalink to this definition">¶</a></dt>
@@ -1540,6 +1620,10 @@ transform (does nothing).</p>
 <dd><p>Bases: <a class="reference internal" href="#ax.modelbridge.transforms.base.Transform" title="ax.modelbridge.transforms.base.Transform"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.modelbridge.transforms.base.Transform</span></code></a></p>
 <p>Convert a RangeParameter of type int to a ordered ChoiceParameter.</p>
 <p>Transform is done in-place.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.int_range_to_choice.IntRangeToChoice.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.int_range_to_choice.IntRangeToChoice.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.int_range_to_choice.IntRangeToChoice.transform_search_space">
 <code class="sig-name descname">transform_search_space</code><span class="sig-paren">(</span><em class="sig-param">search_space</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/int_range_to_choice.html#IntRangeToChoice.transform_search_space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.int_range_to_choice.IntRangeToChoice.transform_search_space" title="Permalink to this definition">¶</a></dt>
@@ -1570,6 +1654,10 @@ transform (does nothing).</p>
 <p>Uses either randomized_rounding or default python rounding,
 depending on ‘rounding’ flag.</p>
 <p>Transform is done in-place.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.int_to_float.IntToFloat.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.int_to_float.IntToFloat.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.int_to_float.IntToFloat.transform_observation_features">
 <code class="sig-name descname">transform_observation_features</code><span class="sig-paren">(</span><em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/int_to_float.html#IntToFloat.transform_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.int_to_float.IntToFloat.transform_observation_features" title="Permalink to this definition">¶</a></dt>
@@ -1634,6 +1722,10 @@ transform (does nothing).</p>
 <dd><p>Bases: <a class="reference internal" href="#ax.modelbridge.transforms.base.Transform" title="ax.modelbridge.transforms.base.Transform"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.modelbridge.transforms.base.Transform</span></code></a></p>
 <p>If an observation data contains multiple observations of a metric, they
 are combined using inverse variance weighting.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.ivw.IVW.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.ivw.IVW.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.ivw.IVW.transform_observation_data">
 <code class="sig-name descname">transform_observation_data</code><span class="sig-paren">(</span><em class="sig-param">observation_data</em>, <em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/ivw.html#IVW.transform_observation_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.ivw.IVW.transform_observation_data" title="Permalink to this definition">¶</a></dt>
@@ -1694,6 +1786,10 @@ log a warning. “raise” will raise an exception.</p>
 <dd><p>Bases: <a class="reference internal" href="#ax.modelbridge.transforms.base.Transform" title="ax.modelbridge.transforms.base.Transform"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.modelbridge.transforms.base.Transform</span></code></a></p>
 <p>Apply log base 10 to a float RangeParameter domain.</p>
 <p>Transform is done in-place.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.log.Log.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.log.Log.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.log.Log.transform_observation_features">
 <code class="sig-name descname">transform_observation_features</code><span class="sig-paren">(</span><em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/log.html#Log.transform_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.log.Log.transform_observation_features" title="Permalink to this definition">¶</a></dt>
@@ -1777,6 +1873,10 @@ or ‘c’.</p>
 <p>Type of rounding can be set using transform_config[‘rounding’] to either
 ‘strict’ or ‘randomized’. Defaults to strict.</p>
 <p>Transform is done in-place.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.one_hot.OneHot.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.one_hot.OneHot.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.one_hot.OneHot.transform_observation_features">
 <code class="sig-name descname">transform_observation_features</code><span class="sig-paren">(</span><em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/one_hot.html#OneHot.transform_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.one_hot.OneHot.transform_observation_features" title="Permalink to this definition">¶</a></dt>
@@ -1847,6 +1947,10 @@ transform (does nothing).</p>
 </dd>
 </dl>
 </dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.one_hot.OneHotEncoder.int_encoder">
+<code class="sig-name descname">int_encoder</code><em class="property">: LabelEncoder</em><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.one_hot.OneHotEncoder.int_encoder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.one_hot.OneHotEncoder.inverse_transform">
 <code class="sig-name descname">inverse_transform</code><span class="sig-paren">(</span><em class="sig-param">encoded_labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/one_hot.html#OneHotEncoder.inverse_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.one_hot.OneHotEncoder.inverse_transform" title="Permalink to this definition">¶</a></dt>
@@ -1857,6 +1961,10 @@ transform (does nothing).</p>
 </dd>
 </dl>
 </dd></dl>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.one_hot.OneHotEncoder.label_binarizer">
+<code class="sig-name descname">label_binarizer</code><em class="property">: LabelBinarizer</em><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.one_hot.OneHotEncoder.label_binarizer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.one_hot.OneHotEncoder.transform">
 <code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/one_hot.html#OneHotEncoder.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.one_hot.OneHotEncoder.transform" title="Permalink to this definition">¶</a></dt>
@@ -1881,6 +1989,10 @@ mapped from the original choice domain to a contiguous range from [0, n_choices]
 Does not transform task parameters.</p>
 <p>In the inverse transform, parameters will be mapped back onto the original domain.</p>
 <p>Transform is done in-place.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.ordered_choice_encode.OrderedChoiceEncode.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.ordered_choice_encode.OrderedChoiceEncode.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.ordered_choice_encode.OrderedChoiceEncode.transform_observation_features">
 <code class="sig-name descname">transform_observation_features</code><span class="sig-paren">(</span><em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/ordered_choice_encode.html#OrderedChoiceEncode.transform_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.ordered_choice_encode.OrderedChoiceEncode.transform_observation_features" title="Permalink to this definition">¶</a></dt>
@@ -1947,6 +2059,10 @@ transform (does nothing).</p>
 <p>Fixed parameters should not be included in the SearchSpace.
 This transform removes these parameters, leaving only tunable parameters.</p>
 <p>Transform is done in-place.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.remove_fixed.RemoveFixed.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.remove_fixed.RemoveFixed.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.remove_fixed.RemoveFixed.transform_observation_features">
 <code class="sig-name descname">transform_observation_features</code><span class="sig-paren">(</span><em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/remove_fixed.html#RemoveFixed.transform_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.remove_fixed.RemoveFixed.transform_observation_features" title="Permalink to this definition">¶</a></dt>
@@ -2068,6 +2184,10 @@ Ties broken randomly.</p>
 are the signatures of the arms observed in the data.</p>
 <p>This transform is meant to be used with ThompsonSampler.</p>
 <p>Transform is done in-place.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.search_space_to_choice.SearchSpaceToChoice.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.search_space_to_choice.SearchSpaceToChoice.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.search_space_to_choice.SearchSpaceToChoice.transform_observation_features">
 <code class="sig-name descname">transform_observation_features</code><span class="sig-paren">(</span><em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/search_space_to_choice.html#SearchSpaceToChoice.transform_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.search_space_to_choice.SearchSpaceToChoice.transform_observation_features" title="Permalink to this definition">¶</a></dt>
@@ -2132,6 +2252,10 @@ transform (does nothing).</p>
 <dd><p>Bases: <a class="reference internal" href="#ax.modelbridge.transforms.base.Transform" title="ax.modelbridge.transforms.base.Transform"><code class="xref py py-class docutils literal notranslate"><span class="pre">ax.modelbridge.transforms.base.Transform</span></code></a></p>
 <p>Standardize Y, separately for each metric.</p>
 <p>Transform is done in-place.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.standardize_y.StandardizeY.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.standardize_y.StandardizeY.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.standardize_y.StandardizeY.transform_observation_data">
 <code class="sig-name descname">transform_observation_data</code><span class="sig-paren">(</span><em class="sig-param">observation_data</em>, <em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/standardize_y.html#StandardizeY.transform_observation_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.standardize_y.StandardizeY.transform_observation_data" title="Permalink to this definition">¶</a></dt>
@@ -2223,6 +2347,10 @@ an exception otherwise.</p>
 outcome constraints, in order to apply the standardization to the
 constraints.</p>
 <p>Transform is done in-place.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.stratified_standardize_y.StratifiedStandardizeY.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.stratified_standardize_y.StratifiedStandardizeY.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.stratified_standardize_y.StratifiedStandardizeY.transform_observation_data">
 <code class="sig-name descname">transform_observation_data</code><span class="sig-paren">(</span><em class="sig-param">observation_data</em>, <em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/stratified_standardize_y.html#StratifiedStandardizeY.transform_observation_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.stratified_standardize_y.StratifiedStandardizeY.transform_observation_data" title="Permalink to this definition">¶</a></dt>
@@ -2299,6 +2427,10 @@ space.</p></li>
 mapped from the original choice domain to a contiguous range from [0, n_choices].</p>
 <p>In the inverse transform, parameters will be mapped back onto the original domain.</p>
 <p>Transform is done in-place.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.task_encode.TaskEncode.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.task_encode.TaskEncode.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 </dd></dl>
 </div>
 <div class="section" id="module-ax.modelbridge.transforms.trial_as_task">
@@ -2322,6 +2454,10 @@ not specified, defaults to a parameter with a level for every trial index.</p>
 the trial will not be set.</p>
 <p>Will raise if trial not specified for every point in the training data.</p>
 <p>Transform is done in-place.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.trial_as_task.TrialAsTask.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.trial_as_task.TrialAsTask.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.trial_as_task.TrialAsTask.transform_observation_features">
 <code class="sig-name descname">transform_observation_features</code><span class="sig-paren">(</span><em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/trial_as_task.html#TrialAsTask.transform_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.trial_as_task.TrialAsTask.transform_observation_features" title="Permalink to this definition">¶</a></dt>
@@ -2389,6 +2525,10 @@ transform (does nothing).</p>
 Constraints wTx &lt;= b are converted to gTx_tilde &lt;= h, where
 g_i = w_i (u_i - l_i) and h = b - wTl.</p>
 <p>Transform is done in-place.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.unit_x.UnitX.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.unit_x.UnitX.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.unit_x.UnitX.transform_observation_features">
 <code class="sig-name descname">transform_observation_features</code><span class="sig-paren">(</span><em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/unit_x.html#UnitX.transform_observation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.unit_x.UnitX.transform_observation_features" title="Permalink to this definition">¶</a></dt>
@@ -2454,6 +2594,10 @@ transform (does nothing).</p>
 <p>Clip the mean values for each metric to lay within the limits provided in
 the config as a tuple of (lower bound percentile, upper bound percentile).
 Config should include those bounds under key “winsorization_limits”.</p>
+<dl class="attribute">
+<dt id="ax.modelbridge.transforms.winsorize.Winsorize.config">
+<code class="sig-name descname">config</code><em class="property"> = None</em><a class="headerlink" href="#ax.modelbridge.transforms.winsorize.Winsorize.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.transforms.winsorize.Winsorize.transform_observation_data">
 <code class="sig-name descname">transform_observation_data</code><span class="sig-paren">(</span><em class="sig-param">observation_data</em>, <em class="sig-param">observation_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/transforms/winsorize.html#Winsorize.transform_observation_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.transforms.winsorize.Winsorize.transform_observation_data" title="Permalink to this definition">¶</a></dt>
@@ -2513,7 +2657,7 @@ Config should include those bounds under key “winsorization_limits”.</p>
 </form>
 </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 </div>
 </div>
 <div class="clearer"></div>

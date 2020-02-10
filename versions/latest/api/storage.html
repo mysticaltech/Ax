@@ -1158,7 +1158,7 @@ and session factory.</p></li>
 <p>See description in JSONEncodedObject.</p>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.json.JSONEncodedMediumText.impl">
-<code class="sig-name descname">impl</code><em class="property"> = Text(length=16777215)</em><a class="headerlink" href="#ax.storage.sqa_store.json.JSONEncodedMediumText.impl" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">impl</code><em class="property">: sqlalchemy.sql.sqltypes.VARCHAR</em><em class="property"> = Text(length=16777215)</em><a class="headerlink" href="#ax.storage.sqa_store.json.JSONEncodedMediumText.impl" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </dd></dl>
 <dl class="class">
@@ -1171,7 +1171,7 @@ to/from the corresponding JSON string. By itself, this data structure does
 not track any changes.</p>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.json.JSONEncodedObject.impl">
-<code class="sig-name descname">impl</code><em class="property"> = VARCHAR(length=4096)</em><a class="headerlink" href="#ax.storage.sqa_store.json.JSONEncodedObject.impl" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">impl</code><em class="property">: sqlalchemy.sql.sqltypes.VARCHAR</em><em class="property"> = VARCHAR(length=4096)</em><a class="headerlink" href="#ax.storage.sqa_store.json.JSONEncodedObject.impl" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="method">
 <dt id="ax.storage.sqa_store.json.JSONEncodedObject.process_bind_param">
@@ -1345,11 +1345,11 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.declarative_base</span></code></p>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.abandoned_reason">
-<code class="sig-name descname">abandoned_reason</code><em class="property"> = Column(None, String(length=255), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.abandoned_reason" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">abandoned_reason</code><em class="property">: Optional[str]</em><em class="property"> = Column(None, String(length=255), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.abandoned_reason" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.id">
-<code class="sig-name descname">id</code><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">id</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.immutable_fields">
@@ -1357,15 +1357,15 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.name">
-<code class="sig-name descname">name</code><em class="property"> = Column(None, String(length=100), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><em class="property">: str</em><em class="property"> = Column(None, String(length=100), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.time_abandoned">
-<code class="sig-name descname">time_abandoned</code><em class="property"> = Column(None, IntTimestamp(), table=None, nullable=False, default=ColumnDefault(&lt;function datetime.now&gt;))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.time_abandoned" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">time_abandoned</code><em class="property">: datetime.datetime</em><em class="property"> = Column(None, IntTimestamp(), table=None, nullable=False, default=ColumnDefault(&lt;function datetime.now&gt;))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.time_abandoned" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.trial_id">
-<code class="sig-name descname">trial_id</code><em class="property"> = Column(None, Integer(), ForeignKey('trial_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.trial_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">trial_id</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), ForeignKey('trial_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.trial_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAAbandonedArm.unique_id">
@@ -1378,11 +1378,11 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.declarative_base</span></code></p>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAArm.generator_run_id">
-<code class="sig-name descname">generator_run_id</code><em class="property"> = Column(None, Integer(), ForeignKey('generator_run_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAArm.generator_run_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generator_run_id</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), ForeignKey('generator_run_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAArm.generator_run_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAArm.id">
-<code class="sig-name descname">id</code><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAArm.id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">id</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAArm.id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAArm.immutable_fields">
@@ -1390,11 +1390,11 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAArm.name">
-<code class="sig-name descname">name</code><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAArm.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><em class="property">: Optional[str]</em><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAArm.name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAArm.parameters">
-<code class="sig-name descname">parameters</code><em class="property"> = Column(None, JSONEncodedText(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAArm.parameters" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">parameters</code><em class="property">: Dict[str, Union[str, float, int, None]]</em><em class="property"> = Column(None, JSONEncodedText(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAArm.parameters" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAArm.unique_id">
@@ -1402,7 +1402,7 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAArm.weight">
-<code class="sig-name descname">weight</code><em class="property"> = Column(None, Float(), table=None, nullable=False, default=ColumnDefault(1.0))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAArm.weight" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">weight</code><em class="property">: float</em><em class="property"> = Column(None, Float(), table=None, nullable=False, default=ColumnDefault(1.0))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAArm.weight" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </dd></dl>
 <dl class="class">
@@ -1411,31 +1411,31 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.declarative_base</span></code></p>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAData.data_json">
-<code class="sig-name descname">data_json</code><em class="property"> = Column(None, Text(length=4294967295), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAData.data_json" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">data_json</code><em class="property">: str</em><em class="property"> = Column(None, Text(length=4294967295), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAData.data_json" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAData.description">
-<code class="sig-name descname">description</code><em class="property"> = Column(None, String(length=255), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAData.description" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">description</code><em class="property">: Optional[str]</em><em class="property"> = Column(None, String(length=255), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAData.description" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAData.experiment_id">
-<code class="sig-name descname">experiment_id</code><em class="property"> = Column(None, Integer(), ForeignKey('experiment_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAData.experiment_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">experiment_id</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), ForeignKey('experiment_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAData.experiment_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAData.generation_strategy_id">
-<code class="sig-name descname">generation_strategy_id</code><em class="property"> = Column(None, Integer(), ForeignKey('generation_strategy.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAData.generation_strategy_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generation_strategy_id</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), ForeignKey('generation_strategy.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAData.generation_strategy_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAData.id">
-<code class="sig-name descname">id</code><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAData.id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">id</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAData.id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAData.time_created">
-<code class="sig-name descname">time_created</code><em class="property"> = Column(None, BigInteger(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAData.time_created" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">time_created</code><em class="property">: int</em><em class="property"> = Column(None, BigInteger(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAData.time_created" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAData.trial_index">
-<code class="sig-name descname">trial_index</code><em class="property"> = Column(None, Integer(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAData.trial_index" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">trial_index</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAData.trial_index" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAData.unique_id">
@@ -1448,27 +1448,27 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.declarative_base</span></code></p>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.data">
-<code class="sig-name descname">data</code><em class="property"> = &lt;RelationshipProperty at 0x7f4fe0589548; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">data</code><em class="property">: List[ax.storage.sqa_store.sqa_classes.SQAData]</em><em class="property"> = &lt;RelationshipProperty at 0x7f313563d2c8; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.data" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.default_trial_type">
-<code class="sig-name descname">default_trial_type</code><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.default_trial_type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">default_trial_type</code><em class="property">: Optional[str]</em><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.default_trial_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.description">
-<code class="sig-name descname">description</code><em class="property"> = Column(None, String(length=255), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.description" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">description</code><em class="property">: Optional[str]</em><em class="property"> = Column(None, String(length=255), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.description" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.experiment_type">
-<code class="sig-name descname">experiment_type</code><em class="property"> = Column(None, Integer(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.experiment_type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">experiment_type</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.experiment_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.generation_strategy">
-<code class="sig-name descname">generation_strategy</code><em class="property"> = &lt;RelationshipProperty at 0x7f4fe0589848; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.generation_strategy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generation_strategy</code><em class="property">: Optional[ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy]</em><em class="property"> = &lt;RelationshipProperty at 0x7f313563d5c8; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.generation_strategy" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.id">
-<code class="sig-name descname">id</code><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">id</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.ignore_during_update_fields">
@@ -1480,47 +1480,47 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.is_test">
-<code class="sig-name descname">is_test</code><em class="property"> = Column(None, Boolean(), table=None, nullable=False, default=ColumnDefault(False))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.is_test" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_test</code><em class="property">: bool</em><em class="property"> = Column(None, Boolean(), table=None, nullable=False, default=ColumnDefault(False))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.is_test" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.metrics">
-<code class="sig-name descname">metrics</code><em class="property"> = &lt;RelationshipProperty at 0x7f4fe05895c8; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.metrics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">metrics</code><em class="property">: List[ax.storage.sqa_store.sqa_classes.SQAMetric]</em><em class="property"> = &lt;RelationshipProperty at 0x7f313563d348; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.metrics" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.name">
-<code class="sig-name descname">name</code><em class="property"> = Column(None, String(length=100), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><em class="property">: str</em><em class="property"> = Column(None, String(length=100), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.parameter_constraints">
-<code class="sig-name descname">parameter_constraints</code><em class="property"> = &lt;RelationshipProperty at 0x7f4fe05896c8; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.parameter_constraints" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">parameter_constraints</code><em class="property">: List[ax.storage.sqa_store.sqa_classes.SQAParameterConstraint]</em><em class="property"> = &lt;RelationshipProperty at 0x7f313563d448; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.parameter_constraints" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.parameters">
-<code class="sig-name descname">parameters</code><em class="property"> = &lt;RelationshipProperty at 0x7f4fe0589648; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.parameters" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">parameters</code><em class="property">: List[ax.storage.sqa_store.sqa_classes.SQAParameter]</em><em class="property"> = &lt;RelationshipProperty at 0x7f313563d3c8; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.parameters" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.properties">
-<code class="sig-name descname">properties</code><em class="property"> = Column(None, JSONEncodedText(), table=None, default=ColumnDefault({}))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.properties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">properties</code><em class="property">: Optional[Dict[str, Any]]</em><em class="property"> = Column(None, JSONEncodedText(), table=None, default=ColumnDefault({}))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.properties" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.runners">
-<code class="sig-name descname">runners</code><em class="property"> = &lt;RelationshipProperty at 0x7f4fe0589748; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.runners" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">runners</code><em class="property">: List[ax.storage.sqa_store.sqa_classes.SQARunner]</em><em class="property"> = &lt;RelationshipProperty at 0x7f313563d4c8; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.runners" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.status_quo_name">
-<code class="sig-name descname">status_quo_name</code><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.status_quo_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">status_quo_name</code><em class="property">: Optional[str]</em><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.status_quo_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.status_quo_parameters">
-<code class="sig-name descname">status_quo_parameters</code><em class="property"> = Column(None, JSONEncodedText(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.status_quo_parameters" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">status_quo_parameters</code><em class="property">: Optional[Dict[str, Union[str, float, int, None]]]</em><em class="property"> = Column(None, JSONEncodedText(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.status_quo_parameters" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.time_created">
-<code class="sig-name descname">time_created</code><em class="property"> = Column(None, IntTimestamp(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.time_created" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">time_created</code><em class="property">: datetime.datetime</em><em class="property"> = Column(None, IntTimestamp(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.time_created" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAExperiment.trials">
-<code class="sig-name descname">trials</code><em class="property"> = &lt;RelationshipProperty at 0x7f4fe05897c8; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.trials" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">trials</code><em class="property">: List[ax.storage.sqa_store.sqa_classes.SQATrial]</em><em class="property"> = &lt;RelationshipProperty at 0x7f313563d548; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAExperiment.trials" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </dd></dl>
 <dl class="class">
@@ -1529,31 +1529,31 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.declarative_base</span></code></p>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.curr_index">
-<code class="sig-name descname">curr_index</code><em class="property"> = Column(None, Integer(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.curr_index" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">curr_index</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.curr_index" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.data">
-<code class="sig-name descname">data</code><em class="property"> = &lt;RelationshipProperty at 0x7f4fe05778c8; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">data</code><em class="property">: ax.storage.sqa_store.sqa_classes.SQAData</em><em class="property"> = &lt;RelationshipProperty at 0x7f313562e648; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.data" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.experiment_id">
-<code class="sig-name descname">experiment_id</code><em class="property"> = Column(None, Integer(), ForeignKey('experiment_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.experiment_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">experiment_id</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), ForeignKey('experiment_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.experiment_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.generator_runs">
-<code class="sig-name descname">generator_runs</code><em class="property"> = &lt;RelationshipProperty at 0x7f4fe0577848; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.generator_runs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generator_runs</code><em class="property">: List[ax.storage.sqa_store.sqa_classes.SQAGeneratorRun]</em><em class="property"> = &lt;RelationshipProperty at 0x7f313562e5c8; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.generator_runs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.id">
-<code class="sig-name descname">id</code><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">id</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.name">
-<code class="sig-name descname">name</code><em class="property"> = Column(None, String(length=100), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><em class="property">: str</em><em class="property"> = Column(None, String(length=100), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.steps">
-<code class="sig-name descname">steps</code><em class="property"> = Column(None, JSONEncodedObject(length=4096), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.steps" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">steps</code><em class="property">: List[Dict[str, Any]]</em><em class="property"> = Column(None, JSONEncodedObject(length=4096), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGenerationStrategy.steps" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </dd></dl>
 <dl class="class">
@@ -1562,51 +1562,51 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.declarative_base</span></code></p>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.arms">
-<code class="sig-name descname">arms</code><em class="property"> = &lt;RelationshipProperty at 0x7f4fe0577048; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.arms" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">arms</code><em class="property">: List[ax.storage.sqa_store.sqa_classes.SQAArm]</em><em class="property"> = &lt;RelationshipProperty at 0x7f3135615d48; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.arms" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.best_arm_name">
-<code class="sig-name descname">best_arm_name</code><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.best_arm_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">best_arm_name</code><em class="property">: Optional[str]</em><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.best_arm_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.best_arm_parameters">
-<code class="sig-name descname">best_arm_parameters</code><em class="property"> = Column(None, JSONEncodedText(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.best_arm_parameters" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">best_arm_parameters</code><em class="property">: Optional[Dict[str, Union[str, float, int, None]]]</em><em class="property"> = Column(None, JSONEncodedText(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.best_arm_parameters" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.best_arm_predictions">
-<code class="sig-name descname">best_arm_predictions</code><em class="property"> = Column(None, JSONEncodedObject(length=4096), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.best_arm_predictions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">best_arm_predictions</code><em class="property">: Optional[Tuple[Dict[str, float], Optional[Dict[str, Dict[str, float]]]]]</em><em class="property"> = Column(None, JSONEncodedObject(length=4096), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.best_arm_predictions" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.bridge_kwargs">
-<code class="sig-name descname">bridge_kwargs</code><em class="property"> = Column(None, JSONEncodedText(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.bridge_kwargs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">bridge_kwargs</code><em class="property">: Optional[Dict[str, Any]]</em><em class="property"> = Column(None, JSONEncodedText(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.bridge_kwargs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.fit_time">
-<code class="sig-name descname">fit_time</code><em class="property"> = Column(None, Float(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.fit_time" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit_time</code><em class="property">: Optional[float]</em><em class="property"> = Column(None, Float(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.fit_time" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.gen_metadata">
-<code class="sig-name descname">gen_metadata</code><em class="property"> = Column(None, JSONEncodedText(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.gen_metadata" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">gen_metadata</code><em class="property">: Optional[Dict[str, Any]]</em><em class="property"> = Column(None, JSONEncodedText(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.gen_metadata" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.gen_time">
-<code class="sig-name descname">gen_time</code><em class="property"> = Column(None, Float(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.gen_time" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">gen_time</code><em class="property">: Optional[float]</em><em class="property"> = Column(None, Float(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.gen_time" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.generation_step_index">
-<code class="sig-name descname">generation_step_index</code><em class="property"> = Column(None, Integer(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.generation_step_index" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generation_step_index</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.generation_step_index" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.generation_strategy_id">
-<code class="sig-name descname">generation_strategy_id</code><em class="property"> = Column(None, Integer(), ForeignKey('generation_strategy.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.generation_strategy_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generation_strategy_id</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), ForeignKey('generation_strategy.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.generation_strategy_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.generator_run_type">
-<code class="sig-name descname">generator_run_type</code><em class="property"> = Column(None, Integer(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.generator_run_type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generator_run_type</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.generator_run_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.id">
-<code class="sig-name descname">id</code><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">id</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.ignore_during_update_fields">
@@ -1614,43 +1614,43 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.index">
-<code class="sig-name descname">index</code><em class="property"> = Column(None, Integer(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.index" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">index</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.index" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.metrics">
-<code class="sig-name descname">metrics</code><em class="property"> = &lt;RelationshipProperty at 0x7f4fe0577148; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.metrics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">metrics</code><em class="property">: List[ax.storage.sqa_store.sqa_classes.SQAMetric]</em><em class="property"> = &lt;RelationshipProperty at 0x7f3135615e48; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.metrics" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.model_key">
-<code class="sig-name descname">model_key</code><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.model_key" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">model_key</code><em class="property">: Optional[str]</em><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.model_key" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.model_kwargs">
-<code class="sig-name descname">model_kwargs</code><em class="property"> = Column(None, JSONEncodedText(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.model_kwargs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">model_kwargs</code><em class="property">: Optional[Dict[str, Any]]</em><em class="property"> = Column(None, JSONEncodedText(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.model_kwargs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.model_predictions">
-<code class="sig-name descname">model_predictions</code><em class="property"> = Column(None, JSONEncodedObject(length=4096), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.model_predictions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">model_predictions</code><em class="property">: Optional[Tuple[Dict[str, List[float]], Dict[str, Dict[str, List[float]]]]]</em><em class="property"> = Column(None, JSONEncodedObject(length=4096), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.model_predictions" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.model_state_after_gen">
-<code class="sig-name descname">model_state_after_gen</code><em class="property"> = Column(None, JSONEncodedText(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.model_state_after_gen" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">model_state_after_gen</code><em class="property">: Optional[Dict[str, Any]]</em><em class="property"> = Column(None, JSONEncodedText(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.model_state_after_gen" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.parameter_constraints">
-<code class="sig-name descname">parameter_constraints</code><em class="property"> = &lt;RelationshipProperty at 0x7f4fe0577248; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.parameter_constraints" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">parameter_constraints</code><em class="property">: List[ax.storage.sqa_store.sqa_classes.SQAParameterConstraint]</em><em class="property"> = &lt;RelationshipProperty at 0x7f3135615f48; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.parameter_constraints" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.parameters">
-<code class="sig-name descname">parameters</code><em class="property"> = &lt;RelationshipProperty at 0x7f4fe05771c8; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.parameters" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">parameters</code><em class="property">: List[ax.storage.sqa_store.sqa_classes.SQAParameter]</em><em class="property"> = &lt;RelationshipProperty at 0x7f3135615ec8; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.parameters" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.time_created">
-<code class="sig-name descname">time_created</code><em class="property"> = Column(None, IntTimestamp(), table=None, nullable=False, default=ColumnDefault(&lt;function datetime.now&gt;))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.time_created" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">time_created</code><em class="property">: datetime.datetime</em><em class="property"> = Column(None, IntTimestamp(), table=None, nullable=False, default=ColumnDefault(&lt;function datetime.now&gt;))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.time_created" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.trial_id">
-<code class="sig-name descname">trial_id</code><em class="property"> = Column(None, Integer(), ForeignKey('trial_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.trial_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">trial_id</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), ForeignKey('trial_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.trial_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.unique_id">
@@ -1658,7 +1658,7 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.weight">
-<code class="sig-name descname">weight</code><em class="property"> = Column(None, Float(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.weight" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">weight</code><em class="property">: Optional[float]</em><em class="property"> = Column(None, Float(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.weight" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </dd></dl>
 <dl class="class">
@@ -1667,23 +1667,23 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.declarative_base</span></code></p>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAMetric.bound">
-<code class="sig-name descname">bound</code><em class="property"> = Column(None, Float(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.bound" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">bound</code><em class="property">: Optional[float]</em><em class="property"> = Column(None, Float(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.bound" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAMetric.canonical_name">
-<code class="sig-name descname">canonical_name</code><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.canonical_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">canonical_name</code><em class="property">: Optional[str]</em><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.canonical_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAMetric.experiment_id">
-<code class="sig-name descname">experiment_id</code><em class="property"> = Column(None, Integer(), ForeignKey('experiment_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.experiment_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">experiment_id</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), ForeignKey('experiment_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.experiment_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAMetric.generator_run_id">
-<code class="sig-name descname">generator_run_id</code><em class="property"> = Column(None, Integer(), ForeignKey('generator_run_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.generator_run_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generator_run_id</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), ForeignKey('generator_run_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.generator_run_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAMetric.id">
-<code class="sig-name descname">id</code><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">id</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAMetric.immutable_fields">
@@ -1691,39 +1691,39 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAMetric.intent">
-<code class="sig-name descname">intent</code><em class="property"> = Column(None, StringEnum(length=100), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.intent" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">intent</code><em class="property">: ax.storage.utils.MetricIntent</em><em class="property"> = Column(None, StringEnum(length=100), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.intent" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAMetric.lower_is_better">
-<code class="sig-name descname">lower_is_better</code><em class="property"> = Column(None, Boolean(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.lower_is_better" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">lower_is_better</code><em class="property">: Optional[bool]</em><em class="property"> = Column(None, Boolean(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.lower_is_better" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAMetric.metric_type">
-<code class="sig-name descname">metric_type</code><em class="property"> = Column(None, Integer(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.metric_type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">metric_type</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.metric_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAMetric.minimize">
-<code class="sig-name descname">minimize</code><em class="property"> = Column(None, Boolean(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.minimize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">minimize</code><em class="property">: Optional[bool]</em><em class="property"> = Column(None, Boolean(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.minimize" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAMetric.name">
-<code class="sig-name descname">name</code><em class="property"> = Column(None, String(length=255), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><em class="property">: str</em><em class="property"> = Column(None, String(length=255), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAMetric.op">
-<code class="sig-name descname">op</code><em class="property"> = Column(None, IntEnum(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.op" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">op</code><em class="property">: Optional[ax.core.types.ComparisonOp]</em><em class="property"> = Column(None, IntEnum(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.op" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAMetric.properties">
-<code class="sig-name descname">properties</code><em class="property"> = Column(None, JSONEncodedText(), table=None, default=ColumnDefault({}))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.properties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">properties</code><em class="property">: Optional[Dict[str, Any]]</em><em class="property"> = Column(None, JSONEncodedText(), table=None, default=ColumnDefault({}))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.properties" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAMetric.relative">
-<code class="sig-name descname">relative</code><em class="property"> = Column(None, Boolean(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.relative" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">relative</code><em class="property">: Optional[bool]</em><em class="property"> = Column(None, Boolean(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.relative" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAMetric.trial_type">
-<code class="sig-name descname">trial_type</code><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.trial_type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">trial_type</code><em class="property">: Optional[str]</em><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAMetric.trial_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAMetric.unique_id">
@@ -1736,31 +1736,31 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.declarative_base</span></code></p>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.choice_values">
-<code class="sig-name descname">choice_values</code><em class="property"> = Column(None, JSONEncodedObject(length=4096), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.choice_values" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">choice_values</code><em class="property">: Optional[List[Union[str, float, int, None]]]</em><em class="property"> = Column(None, JSONEncodedObject(length=4096), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.choice_values" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.digits">
-<code class="sig-name descname">digits</code><em class="property"> = Column(None, Integer(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.digits" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">digits</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.digits" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.domain_type">
-<code class="sig-name descname">domain_type</code><em class="property"> = Column(None, IntEnum(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.domain_type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">domain_type</code><em class="property">: ax.storage.utils.DomainType</em><em class="property"> = Column(None, IntEnum(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.domain_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.experiment_id">
-<code class="sig-name descname">experiment_id</code><em class="property"> = Column(None, Integer(), ForeignKey('experiment_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.experiment_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">experiment_id</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), ForeignKey('experiment_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.experiment_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.fixed_value">
-<code class="sig-name descname">fixed_value</code><em class="property"> = Column(None, JSONEncodedObject(length=4096), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.fixed_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fixed_value</code><em class="property">: Union[str, float, int, None]</em><em class="property"> = Column(None, JSONEncodedObject(length=4096), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.fixed_value" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.generator_run_id">
-<code class="sig-name descname">generator_run_id</code><em class="property"> = Column(None, Integer(), ForeignKey('generator_run_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.generator_run_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generator_run_id</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), ForeignKey('generator_run_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.generator_run_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.id">
-<code class="sig-name descname">id</code><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">id</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.immutable_fields">
@@ -1768,35 +1768,35 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.is_fidelity">
-<code class="sig-name descname">is_fidelity</code><em class="property"> = Column(None, Boolean(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.is_fidelity" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_fidelity</code><em class="property">: Optional[bool]</em><em class="property"> = Column(None, Boolean(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.is_fidelity" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.is_ordered">
-<code class="sig-name descname">is_ordered</code><em class="property"> = Column(None, Boolean(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.is_ordered" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_ordered</code><em class="property">: Optional[bool]</em><em class="property"> = Column(None, Boolean(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.is_ordered" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.is_task">
-<code class="sig-name descname">is_task</code><em class="property"> = Column(None, Boolean(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.is_task" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_task</code><em class="property">: Optional[bool]</em><em class="property"> = Column(None, Boolean(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.is_task" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.log_scale">
-<code class="sig-name descname">log_scale</code><em class="property"> = Column(None, Boolean(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.log_scale" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">log_scale</code><em class="property">: Optional[bool]</em><em class="property"> = Column(None, Boolean(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.log_scale" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.lower">
-<code class="sig-name descname">lower</code><em class="property"> = Column(None, Float(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.lower" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">lower</code><em class="property">: Optional[float]</em><em class="property"> = Column(None, Float(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.lower" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.name">
-<code class="sig-name descname">name</code><em class="property"> = Column(None, String(length=100), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><em class="property">: str</em><em class="property"> = Column(None, String(length=100), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.parameter_type">
-<code class="sig-name descname">parameter_type</code><em class="property"> = Column(None, IntEnum(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.parameter_type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">parameter_type</code><em class="property">: ax.core.parameter.ParameterType</em><em class="property"> = Column(None, IntEnum(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.parameter_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.target_value">
-<code class="sig-name descname">target_value</code><em class="property"> = Column(None, JSONEncodedObject(length=4096), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.target_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">target_value</code><em class="property">: Union[str, float, int, None]</em><em class="property"> = Column(None, JSONEncodedObject(length=4096), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.target_value" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.unique_id">
@@ -1804,7 +1804,7 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameter.upper">
-<code class="sig-name descname">upper</code><em class="property"> = Column(None, Float(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.upper" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">upper</code><em class="property">: Optional[float]</em><em class="property"> = Column(None, Float(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameter.upper" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </dd></dl>
 <dl class="class">
@@ -1813,23 +1813,23 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.declarative_base</span></code></p>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.bound">
-<code class="sig-name descname">bound</code><em class="property"> = Column(None, Float(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.bound" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">bound</code><em class="property">: float</em><em class="property"> = Column(None, Float(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.bound" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.constraint_dict">
-<code class="sig-name descname">constraint_dict</code><em class="property"> = Column(None, JSONEncodedObject(length=4096), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.constraint_dict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">constraint_dict</code><em class="property">: Dict[str, float]</em><em class="property"> = Column(None, JSONEncodedObject(length=4096), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.constraint_dict" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.experiment_id">
-<code class="sig-name descname">experiment_id</code><em class="property"> = Column(None, Integer(), ForeignKey('experiment_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.experiment_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">experiment_id</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), ForeignKey('experiment_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.experiment_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.generator_run_id">
-<code class="sig-name descname">generator_run_id</code><em class="property"> = Column(None, Integer(), ForeignKey('generator_run_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.generator_run_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generator_run_id</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), ForeignKey('generator_run_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.generator_run_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.id">
-<code class="sig-name descname">id</code><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">id</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.immutable_fields">
@@ -1837,7 +1837,7 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.type">
-<code class="sig-name descname">type</code><em class="property"> = Column(None, IntEnum(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">type</code><em class="property">: ax.storage.sqa_store.sqa_enum.IntEnum</em><em class="property"> = Column(None, IntEnum(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQAParameterConstraint.type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </dd></dl>
 <dl class="class">
@@ -1846,27 +1846,27 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.declarative_base</span></code></p>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQARunner.experiment_id">
-<code class="sig-name descname">experiment_id</code><em class="property"> = Column(None, Integer(), ForeignKey('experiment_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQARunner.experiment_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">experiment_id</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), ForeignKey('experiment_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQARunner.experiment_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQARunner.id">
-<code class="sig-name descname">id</code><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQARunner.id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">id</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQARunner.id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQARunner.properties">
-<code class="sig-name descname">properties</code><em class="property"> = Column(None, JSONEncodedText(), table=None, default=ColumnDefault({}))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQARunner.properties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">properties</code><em class="property">: Optional[Dict[str, Any]]</em><em class="property"> = Column(None, JSONEncodedText(), table=None, default=ColumnDefault({}))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQARunner.properties" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQARunner.runner_type">
-<code class="sig-name descname">runner_type</code><em class="property"> = Column(None, Integer(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQARunner.runner_type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">runner_type</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQARunner.runner_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQARunner.trial_id">
-<code class="sig-name descname">trial_id</code><em class="property"> = Column(None, Integer(), ForeignKey('trial_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQARunner.trial_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">trial_id</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), ForeignKey('trial_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQARunner.trial_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQARunner.trial_type">
-<code class="sig-name descname">trial_type</code><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQARunner.trial_type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">trial_type</code><em class="property">: Optional[str]</em><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQARunner.trial_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </dd></dl>
 <dl class="class">
@@ -1875,31 +1875,31 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.declarative_base</span></code></p>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.abandoned_arms">
-<code class="sig-name descname">abandoned_arms</code><em class="property"> = &lt;RelationshipProperty at 0x7f4fe0589148; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.abandoned_arms" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">abandoned_arms</code><em class="property">: List[ax.storage.sqa_store.sqa_classes.SQAAbandonedArm]</em><em class="property"> = &lt;RelationshipProperty at 0x7f313562ee48; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.abandoned_arms" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.abandoned_reason">
-<code class="sig-name descname">abandoned_reason</code><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.abandoned_reason" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">abandoned_reason</code><em class="property">: Optional[str]</em><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.abandoned_reason" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.deployed_name">
-<code class="sig-name descname">deployed_name</code><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.deployed_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">deployed_name</code><em class="property">: Optional[str]</em><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.deployed_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.experiment_id">
-<code class="sig-name descname">experiment_id</code><em class="property"> = Column(None, Integer(), ForeignKey('experiment_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.experiment_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">experiment_id</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), ForeignKey('experiment_v2.id'), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.experiment_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.generation_step_index">
-<code class="sig-name descname">generation_step_index</code><em class="property"> = Column(None, Integer(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.generation_step_index" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generation_step_index</code><em class="property">: Optional[int]</em><em class="property"> = Column(None, Integer(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.generation_step_index" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.generator_runs">
-<code class="sig-name descname">generator_runs</code><em class="property"> = &lt;RelationshipProperty at 0x7f4fe05891c8; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.generator_runs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generator_runs</code><em class="property">: List[ax.storage.sqa_store.sqa_classes.SQAGeneratorRun]</em><em class="property"> = &lt;RelationshipProperty at 0x7f313562eec8; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.generator_runs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.id">
-<code class="sig-name descname">id</code><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">id</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), table=None, primary_key=True, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.ignore_during_update_fields">
@@ -1911,55 +1911,55 @@ Either creator or url must be specified as a way to connect to the SQL db.</p>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.index">
-<code class="sig-name descname">index</code><em class="property"> = Column(None, Integer(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.index" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">index</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.index" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.is_batch">
-<code class="sig-name descname">is_batch</code><em class="property"> = Column('is_batched', Boolean(), table=None, nullable=False, default=ColumnDefault(True))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.is_batch" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_batch</code><em class="property">: bool</em><em class="property"> = Column('is_batched', Boolean(), table=None, nullable=False, default=ColumnDefault(True))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.is_batch" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.num_arms_created">
-<code class="sig-name descname">num_arms_created</code><em class="property"> = Column(None, Integer(), table=None, nullable=False, default=ColumnDefault(0))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.num_arms_created" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">num_arms_created</code><em class="property">: int</em><em class="property"> = Column(None, Integer(), table=None, nullable=False, default=ColumnDefault(0))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.num_arms_created" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.optimize_for_power">
-<code class="sig-name descname">optimize_for_power</code><em class="property"> = Column(None, Boolean(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.optimize_for_power" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">optimize_for_power</code><em class="property">: Optional[bool]</em><em class="property"> = Column(None, Boolean(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.optimize_for_power" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.run_metadata">
-<code class="sig-name descname">run_metadata</code><em class="property"> = Column(None, JSONEncodedText(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.run_metadata" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">run_metadata</code><em class="property">: Optional[Dict[str, Any]]</em><em class="property"> = Column(None, JSONEncodedText(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.run_metadata" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.runner">
-<code class="sig-name descname">runner</code><em class="property"> = &lt;RelationshipProperty at 0x7f4fe0589248; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.runner" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">runner</code><em class="property">: ax.storage.sqa_store.sqa_classes.SQARunner</em><em class="property"> = &lt;RelationshipProperty at 0x7f313562ef48; no key&gt;</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.runner" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.status">
-<code class="sig-name descname">status</code><em class="property"> = Column(None, IntEnum(), table=None, nullable=False, default=ColumnDefault(&lt;TrialStatus.CANDIDATE: 0&gt;))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.status" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">status</code><em class="property">: ax.core.base_trial.TrialStatus</em><em class="property"> = Column(None, IntEnum(), table=None, nullable=False, default=ColumnDefault(&lt;TrialStatus.CANDIDATE: 0&gt;))</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.status" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.status_quo_name">
-<code class="sig-name descname">status_quo_name</code><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.status_quo_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">status_quo_name</code><em class="property">: Optional[str]</em><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.status_quo_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.time_completed">
-<code class="sig-name descname">time_completed</code><em class="property"> = Column(None, IntTimestamp(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.time_completed" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">time_completed</code><em class="property">: Optional[datetime.datetime]</em><em class="property"> = Column(None, IntTimestamp(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.time_completed" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.time_created">
-<code class="sig-name descname">time_created</code><em class="property"> = Column(None, IntTimestamp(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.time_created" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">time_created</code><em class="property">: datetime.datetime</em><em class="property"> = Column(None, IntTimestamp(), table=None, nullable=False)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.time_created" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.time_run_started">
-<code class="sig-name descname">time_run_started</code><em class="property"> = Column(None, IntTimestamp(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.time_run_started" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">time_run_started</code><em class="property">: Optional[datetime.datetime]</em><em class="property"> = Column(None, IntTimestamp(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.time_run_started" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.time_staged">
-<code class="sig-name descname">time_staged</code><em class="property"> = Column(None, IntTimestamp(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.time_staged" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">time_staged</code><em class="property">: Optional[datetime.datetime]</em><em class="property"> = Column(None, IntTimestamp(), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.time_staged" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.trial_type">
-<code class="sig-name descname">trial_type</code><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.trial_type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">trial_type</code><em class="property">: Optional[str]</em><em class="property"> = Column(None, String(length=100), table=None)</em><a class="headerlink" href="#ax.storage.sqa_store.sqa_classes.SQATrial.trial_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.sqa_store.sqa_classes.SQATrial.unique_id">
@@ -2261,15 +2261,15 @@ For the SQA registry, if no int is specified, use a hash of the class name.</p>
 <p>Class for enumerating domain types.</p>
 <dl class="attribute">
 <dt id="ax.storage.utils.DomainType.CHOICE">
-<code class="sig-name descname">CHOICE</code><em class="property"> = 2</em><a class="headerlink" href="#ax.storage.utils.DomainType.CHOICE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">CHOICE</code><em class="property">: int</em><em class="property"> = 2</em><a class="headerlink" href="#ax.storage.utils.DomainType.CHOICE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.utils.DomainType.FIXED">
-<code class="sig-name descname">FIXED</code><em class="property"> = 0</em><a class="headerlink" href="#ax.storage.utils.DomainType.FIXED" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">FIXED</code><em class="property">: int</em><em class="property"> = 0</em><a class="headerlink" href="#ax.storage.utils.DomainType.FIXED" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.utils.DomainType.RANGE">
-<code class="sig-name descname">RANGE</code><em class="property"> = 1</em><a class="headerlink" href="#ax.storage.utils.DomainType.RANGE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">RANGE</code><em class="property">: int</em><em class="property"> = 1</em><a class="headerlink" href="#ax.storage.utils.DomainType.RANGE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </dd></dl>
 <dl class="class">
@@ -2299,19 +2299,19 @@ For the SQA registry, if no int is specified, use a hash of the class name.</p>
 <p>Class for enumerating metric use types.</p>
 <dl class="attribute">
 <dt id="ax.storage.utils.MetricIntent.ADDITIONAL_OBJECTIVE">
-<code class="sig-name descname">ADDITIONAL_OBJECTIVE</code><em class="property"> = 'additional_objective'</em><a class="headerlink" href="#ax.storage.utils.MetricIntent.ADDITIONAL_OBJECTIVE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">ADDITIONAL_OBJECTIVE</code><em class="property">: str</em><em class="property"> = 'additional_objective'</em><a class="headerlink" href="#ax.storage.utils.MetricIntent.ADDITIONAL_OBJECTIVE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.utils.MetricIntent.OBJECTIVE">
-<code class="sig-name descname">OBJECTIVE</code><em class="property"> = 'objective'</em><a class="headerlink" href="#ax.storage.utils.MetricIntent.OBJECTIVE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">OBJECTIVE</code><em class="property">: str</em><em class="property"> = 'objective'</em><a class="headerlink" href="#ax.storage.utils.MetricIntent.OBJECTIVE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.utils.MetricIntent.OUTCOME_CONSTRAINT">
-<code class="sig-name descname">OUTCOME_CONSTRAINT</code><em class="property"> = 'outcome_constraint'</em><a class="headerlink" href="#ax.storage.utils.MetricIntent.OUTCOME_CONSTRAINT" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">OUTCOME_CONSTRAINT</code><em class="property">: str</em><em class="property"> = 'outcome_constraint'</em><a class="headerlink" href="#ax.storage.utils.MetricIntent.OUTCOME_CONSTRAINT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.utils.MetricIntent.TRACKING">
-<code class="sig-name descname">TRACKING</code><em class="property"> = 'tracking'</em><a class="headerlink" href="#ax.storage.utils.MetricIntent.TRACKING" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">TRACKING</code><em class="property">: str</em><em class="property"> = 'tracking'</em><a class="headerlink" href="#ax.storage.utils.MetricIntent.TRACKING" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </dd></dl>
 <dl class="class">
@@ -2323,15 +2323,15 @@ For the SQA registry, if no int is specified, use a hash of the class name.</p>
 special types of linear constraints.</p>
 <dl class="attribute">
 <dt id="ax.storage.utils.ParameterConstraintType.LINEAR">
-<code class="sig-name descname">LINEAR</code><em class="property"> = 0</em><a class="headerlink" href="#ax.storage.utils.ParameterConstraintType.LINEAR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">LINEAR</code><em class="property">: int</em><em class="property"> = 0</em><a class="headerlink" href="#ax.storage.utils.ParameterConstraintType.LINEAR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.utils.ParameterConstraintType.ORDER">
-<code class="sig-name descname">ORDER</code><em class="property"> = 1</em><a class="headerlink" href="#ax.storage.utils.ParameterConstraintType.ORDER" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">ORDER</code><em class="property">: int</em><em class="property"> = 1</em><a class="headerlink" href="#ax.storage.utils.ParameterConstraintType.ORDER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="ax.storage.utils.ParameterConstraintType.SUM">
-<code class="sig-name descname">SUM</code><em class="property"> = 2</em><a class="headerlink" href="#ax.storage.utils.ParameterConstraintType.SUM" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">SUM</code><em class="property">: int</em><em class="property"> = 2</em><a class="headerlink" href="#ax.storage.utils.ParameterConstraintType.SUM" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </dd></dl>
 <dl class="function">
@@ -2396,7 +2396,7 @@ needed by its constructor, and which we therefore need to store.</p>
 </form>
 </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 </div>
 </div>
 <div class="clearer"></div>
