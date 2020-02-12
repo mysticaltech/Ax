@@ -374,8 +374,8 @@ the trial.</p>
 <em class="property">class </em><code class="sig-prename descclassname">ax.</code><code class="sig-name descname">Data</code><span class="sig-paren">(</span><em class="sig-param">df=None</em>, <em class="sig-param">description=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/core/data.html#Data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.Data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class storing data for an experiment.</p>
 <p>The dataframe is retrieved via the <cite>df</cite> property. The data can be stored
-to gluster for future use by attaching it to an experiment using
-<cite>experiment.add_data()</cite> (this requires a description to be set.)</p>
+to an external store for future use by attaching it to an experiment using
+<cite>experiment.attach_data()</cite> (this requires a description to be set.)</p>
 <dl class="attribute">
 <dt id="ax.Data.df">
 <code class="sig-name descname">df</code><a class="headerlink" href="#ax.Data.df" title="Permalink to this definition">¶</a></dt>
