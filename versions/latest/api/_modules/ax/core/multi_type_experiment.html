@@ -272,7 +272,12 @@ src="/js/documentation_options.js">
 
 <span class="sd">        Only trial types defined in the trial_type_to_runner are allowed.</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">trial_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_trial_type_to_runner</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div></div>
+        <span class="k">return</span> <span class="n">trial_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_trial_type_to_runner</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MultiTypeExperiment.reset_runners"><a class="viewcode-back" href="../../../core.html#ax.core.multi_type_experiment.MultiTypeExperiment.reset_runners">[docs]</a>    <span class="k">def</span> <span class="nf">reset_runners</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runner</span><span class="p">:</span> <span class="n">Runner</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">"MultiTypeExperiment does not support resetting all runners."</span>
+        <span class="p">)</span></div></div>
 </pre></div>
 </div>
 </div>
