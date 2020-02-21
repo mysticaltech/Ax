@@ -152,7 +152,10 @@ test configurations.</p></li>
 <li><p><strong>overwrite_existing_experiment</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – If an experiment has already been set
 on this <cite>AxClient</cite> instance, whether to reset it to the new one.
 If overwriting the experiment, generation strategy will be
-re-selected for the new experiment and restarted.</p></li>
+re-selected for the new experiment and restarted.
+To protect experiments in production, one cannot overwrite existing
+experiments if the experiment is already stored in the database,
+regardless of the value of <cite>overwrite_existing_experiment</cite>.</p></li>
 <li><p><strong>choose_generation_strategy_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]) – Keyword arguments to pass to
 <cite>choose_generation_strategy</cite> function which determines what
 generation strategy should be used when none was specified on init.</p></li>
@@ -786,17 +789,13 @@ to a TFidelityTrialEvaluation.</p>
 </dd></dl>
 <dl class="function">
 <dt id="ax.service.utils.storage.save_experiment">
-<code class="sig-prename descclassname">ax.service.utils.storage.</code><code class="sig-name descname">save_experiment</code><span class="sig-paren">(</span><em class="sig-param">experiment</em>, <em class="sig-param">db_settings</em>, <em class="sig-param">overwrite_existing_experiment=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/utils/storage.html#save_experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.utils.storage.save_experiment" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ax.service.utils.storage.</code><code class="sig-name descname">save_experiment</code><span class="sig-paren">(</span><em class="sig-param">experiment</em>, <em class="sig-param">db_settings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/utils/storage.html#save_experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.utils.storage.save_experiment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save experiment to db.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>experiment</strong> (<a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a>) – <cite>Experiment</cite> object.</p></li>
 <li><p><strong>db_settings</strong> (<a class="reference internal" href="storage.html#ax.storage.sqa_store.structs.DBSettings" title="ax.storage.sqa_store.structs.DBSettings"><code class="xref py py-class docutils literal notranslate"><span class="pre">DBSettings</span></code></a>) – Defines behavior for loading/saving experiment to/from db.</p></li>
-<li><p><strong>overwrite_existing_experiment</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – If the experiment being created
-has the same name as some experiment already stored, this flag
-determines whether to overwrite the existing experiment.
-Defaults to False.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -806,7 +805,7 @@ Defaults to False.</p></li>
 </dd></dl>
 <dl class="function">
 <dt id="ax.service.utils.storage.save_experiment_and_generation_strategy">
-<code class="sig-prename descclassname">ax.service.utils.storage.</code><code class="sig-name descname">save_experiment_and_generation_strategy</code><span class="sig-paren">(</span><em class="sig-param">experiment</em>, <em class="sig-param">generation_strategy</em>, <em class="sig-param">db_settings</em>, <em class="sig-param">overwrite_existing_experiment=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/utils/storage.html#save_experiment_and_generation_strategy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.utils.storage.save_experiment_and_generation_strategy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ax.service.utils.storage.</code><code class="sig-name descname">save_experiment_and_generation_strategy</code><span class="sig-paren">(</span><em class="sig-param">experiment</em>, <em class="sig-param">generation_strategy</em>, <em class="sig-param">db_settings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/utils/storage.html#save_experiment_and_generation_strategy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.utils.storage.save_experiment_and_generation_strategy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save experiment and generation strategy to DB.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -814,10 +813,6 @@ Defaults to False.</p></li>
 <li><p><strong>experiment</strong> (<a class="reference internal" href="core.html#ax.core.experiment.Experiment" title="ax.core.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a>) – <cite>Experiment</cite> object.</p></li>
 <li><p><strong>generation_strategy</strong> (<a class="reference internal" href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStrategy" title="ax.modelbridge.generation_strategy.GenerationStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">GenerationStrategy</span></code></a>) – Corresponding generation strategy.</p></li>
 <li><p><strong>db_settings</strong> (<a class="reference internal" href="storage.html#ax.storage.sqa_store.structs.DBSettings" title="ax.storage.sqa_store.structs.DBSettings"><code class="xref py py-class docutils literal notranslate"><span class="pre">DBSettings</span></code></a>) – Defines behavior for loading/saving experiment to/from db.</p></li>
-<li><p><strong>overwrite_existing_experiment</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – If the experiment being created
-has the same name as some experiment already stored, this flag
-determines whether to overwrite the existing experiment.
-Defaults to False.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>

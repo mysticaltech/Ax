@@ -234,6 +234,9 @@ src="/js/documentation_options.js">
 <span class="sd">                on this `AxClient` instance, whether to reset it to the new one.</span>
 <span class="sd">                If overwriting the experiment, generation strategy will be</span>
 <span class="sd">                re-selected for the new experiment and restarted.</span>
+<span class="sd">                To protect experiments in production, one cannot overwrite existing</span>
+<span class="sd">                experiments if the experiment is already stored in the database,</span>
+<span class="sd">                regardless of the value of `overwrite_existing_experiment`.</span>
 <span class="sd">            choose_generation_strategy_kwargs: Keyword arguments to pass to</span>
 <span class="sd">                `choose_generation_strategy` function which determines what</span>
 <span class="sd">                generation strategy should be used when none was specified on init.</span>
@@ -250,14 +253,13 @@ src="/js/documentation_options.js">
                 <span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>  <span class="c1"># Experiment does not exist, nothing to do.</span>
                 <span class="k">pass</span>
-            <span class="k">if</span> <span class="n">existing</span> <span class="ow">and</span> <span class="n">overwrite_existing_experiment</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Overwriting existing experiment </span><span class="si">{name}</span><span class="s2">."</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">existing</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">existing</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"Experiment </span><span class="si">{name}</span><span class="s2"> exists; set the `overwrite_existing_"</span>
-                    <span class="s2">"experiment` to `True` to overwrite with new experiment "</span>
-                    <span class="s2">"or use `ax_client.load_experiment_from_database` to "</span>
-                    <span class="s2">"continue an existing experiment."</span>
+                    <span class="sa">f</span><span class="s2">"Experiment </span><span class="si">{name}</span><span class="s2"> already exists in the database. "</span>
+                    <span class="s2">"To protect experiments that are running in production, "</span>
+                    <span class="s2">"overwriting stored experiments is not allowed. To "</span>
+                    <span class="s2">"start a new experiment and store it, change the "</span>
+                    <span class="s2">"experiment's name."</span>
                 <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">overwrite_existing_experiment</span><span class="p">:</span>
@@ -289,9 +291,7 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_generation_strategy</span><span class="p">(</span>
             <span class="n">choose_generation_strategy_kwargs</span><span class="o">=</span><span class="n">choose_generation_strategy_kwargs</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">(</span>
-            <span class="n">overwrite_existing_experiment</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="AxClient.get_next_trial"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.get_next_trial">[docs]</a>    <span class="k">def</span> <span class="nf">get_next_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">TParameterization</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
         <span class="sd">"""</span>
@@ -829,17 +829,9 @@ src="/js/documentation_options.js">
                 <span class="o">**</span><span class="n">choose_generation_strategy_kwargs</span><span class="p">,</span>
             <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">overwrite_existing_experiment</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">"""Saves attached experiment and generation strategy if DB settings are</span>
 <span class="sd">        set on this AxClient instance.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            overwrite_existing_experiment: If the experiment being created</span>
-<span class="sd">                has the same name as some experiment already stored, this flag</span>
-<span class="sd">                determines whether to overwrite the existing experiment.</span>
-<span class="sd">                Defaults to False.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: Whether the experiment was saved.</span>
@@ -851,7 +843,6 @@ src="/js/documentation_options.js">
                         <span class="n">experiment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="p">,</span>
                         <span class="n">generation_strategy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span><span class="p">,</span>
                         <span class="n">db_settings</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db_settings</span><span class="p">,</span>
-                        <span class="n">overwrite_existing_experiment</span><span class="o">=</span><span class="n">overwrite_existing_experiment</span><span class="p">,</span>
                     <span class="p">)</span>
                     <span class="k">return</span> <span class="kc">True</span>
                 <span class="k">except</span> <span class="n">OperationalError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>  <span class="c1"># pragma: no covert</span>
