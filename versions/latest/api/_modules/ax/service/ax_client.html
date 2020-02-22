@@ -92,6 +92,7 @@ src="/js/documentation_options.js">
     <span class="kn">from</span> <span class="nn">ax.service.utils.storage</span> <span class="kn">import</span> <span class="p">(</span>
         <span class="n">load_experiment_and_generation_strategy</span><span class="p">,</span>
         <span class="n">save_experiment_and_generation_strategy</span><span class="p">,</span>
+        <span class="n">save_experiment</span><span class="p">,</span>
     <span class="p">)</span>
 <span class="k">except</span> <span class="n">ModuleNotFoundError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
     <span class="n">DBSettings</span> <span class="o">=</span> <span class="kc">None</span>
@@ -291,7 +292,7 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_generation_strategy</span><span class="p">(</span>
             <span class="n">choose_generation_strategy_kwargs</span><span class="o">=</span><span class="n">choose_generation_strategy_kwargs</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_maybe_generation_strategy_to_db_if_possible</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="AxClient.get_next_trial"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.get_next_trial">[docs]</a>    <span class="k">def</span> <span class="nf">get_next_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">TParameterization</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
         <span class="sd">"""</span>
@@ -308,7 +309,7 @@ src="/js/documentation_options.js">
             <span class="sa">f</span><span class="s2">"{_round_floats_for_logging(item=not_none(trial.arm).parameters)}."</span>
         <span class="p">)</span>
         <span class="n">trial</span><span class="o">.</span><span class="n">mark_running</span><span class="p">(</span><span class="n">no_runner_required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_maybe_generation_strategy_to_db_if_possible</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">not_none</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">arm</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">index</span></div>
 
 <div class="viewcode-block" id="AxClient.complete_trial"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.complete_trial">[docs]</a>    <span class="k">def</span> <span class="nf">complete_trial</span><span class="p">(</span>
@@ -354,7 +355,9 @@ src="/js/documentation_options.js">
             <span class="sa">f</span><span class="s2">"Completed trial </span><span class="si">{trial_index}</span><span class="s2"> with data: "</span>
             <span class="sa">f</span><span class="s2">"{_round_floats_for_logging(item=data_for_logging)}."</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_maybe_generation_strategy_to_db_if_possible</span><span class="p">(</span>
+            <span class="n">save_generation_strategy</span><span class="o">=</span><span class="kc">False</span>  <span class="c1"># No changes were made to gen. strategy.</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="AxClient.update_trial_data"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.update_trial_data">[docs]</a>    <span class="k">def</span> <span class="nf">update_trial_data</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -401,7 +404,9 @@ src="/js/documentation_options.js">
             <span class="sa">f</span><span class="s2">"Added data: {_round_floats_for_logging(item=data_for_logging)} "</span>
             <span class="sa">f</span><span class="s2">"to trial </span><span class="si">{trial.index}</span><span class="s2">."</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_maybe_generation_strategy_to_db_if_possible</span><span class="p">(</span>
+            <span class="n">save_generation_strategy</span><span class="o">=</span><span class="kc">False</span>  <span class="c1"># No changes were made to gen. strategy.</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="AxClient.log_trial_failure"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.log_trial_failure">[docs]</a>    <span class="k">def</span> <span class="nf">log_trial_failure</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">trial_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -417,7 +422,9 @@ src="/js/documentation_options.js">
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Registered failure of trial </span><span class="si">{trial_index}</span><span class="s2">."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">trial</span><span class="o">.</span><span class="n">_run_metadata</span> <span class="o">=</span> <span class="n">metadata</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_maybe_generation_strategy_to_db_if_possible</span><span class="p">(</span>
+            <span class="n">save_generation_strategy</span><span class="o">=</span><span class="kc">False</span>  <span class="c1"># No changes were made to gen. strategy.</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="AxClient.attach_trial"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.attach_trial">[docs]</a>    <span class="k">def</span> <span class="nf">attach_trial</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">TParameterization</span>
@@ -437,7 +444,9 @@ src="/js/documentation_options.js">
             <span class="s2">"Attached custom parameterization "</span>
             <span class="sa">f</span><span class="s2">"{_round_floats_for_logging(item=parameters)} as trial </span><span class="si">{trial.index}</span><span class="s2">."</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_maybe_generation_strategy_to_db_if_possible</span><span class="p">(</span>
+            <span class="n">save_generation_strategy</span><span class="o">=</span><span class="kc">False</span>  <span class="c1"># No changes were made to gen. strategy.</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">not_none</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">arm</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">index</span></div>
 
 <div class="viewcode-block" id="AxClient.get_trial_parameters"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.get_trial_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">get_trial_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TParameterization</span><span class="p">:</span>
@@ -829,7 +838,9 @@ src="/js/documentation_options.js">
                 <span class="o">**</span><span class="n">choose_generation_strategy_kwargs</span><span class="p">,</span>
             <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_save_experiment_and_generation_strategy_to_db_if_possible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_save_experiment_and_maybe_generation_strategy_to_db_if_possible</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">save_generation_strategy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">"""Saves attached experiment and generation strategy if DB settings are</span>
 <span class="sd">        set on this AxClient instance.</span>
 
@@ -839,11 +850,16 @@ src="/js/documentation_options.js">
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">db_settings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">save_experiment_and_generation_strategy</span><span class="p">(</span>
-                        <span class="n">experiment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="p">,</span>
-                        <span class="n">generation_strategy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span><span class="p">,</span>
-                        <span class="n">db_settings</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db_settings</span><span class="p">,</span>
-                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">save_generation_strategy</span><span class="p">:</span>
+                        <span class="n">save_experiment_and_generation_strategy</span><span class="p">(</span>
+                            <span class="n">experiment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="p">,</span>
+                            <span class="n">generation_strategy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span><span class="p">,</span>
+                            <span class="n">db_settings</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db_settings</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">save_experiment</span><span class="p">(</span>
+                            <span class="n">experiment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="p">,</span> <span class="n">db_settings</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db_settings</span>
+                        <span class="p">)</span>
                     <span class="k">return</span> <span class="kc">True</span>
                 <span class="k">except</span> <span class="n">OperationalError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>  <span class="c1"># pragma: no covert</span>
                     <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_suppress_storage_errors</span><span class="p">:</span>
