@@ -48,6 +48,9 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
 
 
+<span class="c1"># pyre-fixme[13]: Attribute `model` is never initialized.</span>
+<span class="c1"># pyre-fixme[13]: Attribute `outcomes` is never initialized.</span>
+<span class="c1"># pyre-fixme[13]: Attribute `parameters` is never initialized.</span>
 <div class="viewcode-block" id="TorchModelBridge"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.torch.TorchModelBridge">[docs]</a><span class="k">class</span> <span class="nc">TorchModelBridge</span><span class="p">(</span><span class="n">ArrayModelBridge</span><span class="p">):</span>
     <span class="sd">"""A model bridge for using torch-based models.</span>
 
@@ -70,9 +73,6 @@ src="/js/documentation_options.js">
     <span class="c1">#  inconsistently.</span>
     <span class="n">parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
 
-    <span class="c1"># pyre-fixme[13]: Attribute `model` is never initialized.</span>
-    <span class="c1"># pyre-fixme[13]: Attribute `outcomes` is never initialized.</span>
-    <span class="c1"># pyre-fixme[13]: Attribute `parameters` is never initialized.</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span>

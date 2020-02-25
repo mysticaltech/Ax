@@ -129,6 +129,7 @@ src="/js/documentation_options.js">
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">typ</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Value was not of type </span><span class="si">{type!r}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{val!r}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="c1"># pyre-fixme[7]: Expected `T` but got `V`.</span>
     <span class="k">return</span> <span class="n">val</span></div>
 
 
