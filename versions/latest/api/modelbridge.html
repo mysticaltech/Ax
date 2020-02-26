@@ -39,7 +39,7 @@ src="/js/documentation_options.js">
 Describes the model, how many trials will be generated with this model, what
 minimum number of observations is required to proceed to the next model, etc.</p>
 <p>Model can be specified either from the model registry
-(ax.modelbridge.registry.Models or using a callable model constructor. Only
+(<cite>ax.modelbridge.registry.Models</cite> or using a callable model constructor. Only
 models from the registry can be saved, and thus optimization can only be
 resumed if interrupted when using models from the registry.</p>
 <dl class="method">
@@ -51,6 +51,11 @@ resumed if interrupted when using models from the registry.</p>
 <dt id="ax.modelbridge.generation_strategy.GenerationStep.index">
 <em class="property">property </em><code class="sig-name descname">index</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStep.index" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for field number 7</p>
+</dd></dl>
+<dl class="method">
+<dt id="ax.modelbridge.generation_strategy.GenerationStep.max_parallelism">
+<em class="property">property </em><code class="sig-name descname">max_parallelism</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStep.max_parallelism" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 3</p>
 </dd></dl>
 <dl class="method">
 <dt id="ax.modelbridge.generation_strategy.GenerationStep.min_trials_observed">
@@ -85,11 +90,6 @@ resumed if interrupted when using models from the registry.</p>
 <dt id="ax.modelbridge.generation_strategy.GenerationStep.num_trials">
 <em class="property">property </em><code class="sig-name descname">num_trials</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStep.num_trials" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for field number 1</p>
-</dd></dl>
-<dl class="method">
-<dt id="ax.modelbridge.generation_strategy.GenerationStep.recommended_max_parallelism">
-<em class="property">property </em><code class="sig-name descname">recommended_max_parallelism</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStep.recommended_max_parallelism" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias for field number 3</p>
 </dd></dl>
 </dd></dl>
 <dl class="class">
@@ -178,6 +178,17 @@ names provided in generation steps.</p>
 </dl>
 </dd></dl>
 <dl class="method">
+<dt id="ax.modelbridge.generation_strategy.GenerationStrategy.num_running_trials_for_current_step">
+<em class="property">property </em><code class="sig-name descname">num_running_trials_for_current_step</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStrategy.num_running_trials_for_current_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of trials in status <cite>RUNNING</cite> for the current generation step
+of this strategy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
 <dt id="ax.modelbridge.generation_strategy.GenerationStrategy.trial_indices_by_step">
 <em class="property">property </em><code class="sig-name descname">trial_indices_by_step</code><a class="headerlink" href="#ax.modelbridge.generation_strategy.GenerationStrategy.trial_indices_by_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find trials in experiment that are not mapped to a generation step yet
@@ -212,6 +223,15 @@ registered and therefore cannot be stored.</p>
 </dd>
 </dl>
 </dd></dl>
+</dd></dl>
+<dl class="exception">
+<dt id="ax.modelbridge.generation_strategy.MaxParallelismReachedException">
+<em class="property">exception </em><code class="sig-prename descclassname">ax.modelbridge.generation_strategy.</code><code class="sig-name descname">MaxParallelismReachedException</code><span class="sig-paren">(</span><em class="sig-param">step</em>, <em class="sig-param">num_running</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/generation_strategy.html#MaxParallelismReachedException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.generation_strategy.MaxParallelismReachedException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<p>Special exception indicating that maximum number of trials running in
+parallel set on a given step (as <cite>GenerationStep.max_parallelism</cite>) has been
+reached. Upon getting this exception, users should wait until more trials
+are completed with data, to generate new trials.</p>
 </dd></dl>
 </div>
 <div class="section" id="module-ax.modelbridge.registry">
@@ -1200,7 +1220,7 @@ arms that was launched in that trial. Defaults to the last trial.</p>
 <span id="dispatch-utilities"></span><h3>Dispatch Utilities<a class="headerlink" href="#module-ax.modelbridge.dispatch_utils" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="ax.modelbridge.dispatch_utils.choose_generation_strategy">
-<code class="sig-prename descclassname">ax.modelbridge.dispatch_utils.</code><code class="sig-name descname">choose_generation_strategy</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">use_batch_trials=False</em>, <em class="sig-param">enforce_sequential_optimization=True</em>, <em class="sig-param">random_seed=None</em>, <em class="sig-param">winsorize_botorch_model=False</em>, <em class="sig-param">winsorization_limits=None</em>, <em class="sig-param">no_bayesian_optimization=False</em>, <em class="sig-param">num_trials=None</em>, <em class="sig-param">num_initialization_trials=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/dispatch_utils.html#choose_generation_strategy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.dispatch_utils.choose_generation_strategy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ax.modelbridge.dispatch_utils.</code><code class="sig-name descname">choose_generation_strategy</code><span class="sig-paren">(</span><em class="sig-param">search_space</em>, <em class="sig-param">use_batch_trials=False</em>, <em class="sig-param">enforce_sequential_optimization=True</em>, <em class="sig-param">random_seed=None</em>, <em class="sig-param">winsorize_botorch_model=False</em>, <em class="sig-param">winsorization_limits=None</em>, <em class="sig-param">no_bayesian_optimization=False</em>, <em class="sig-param">num_trials=None</em>, <em class="sig-param">num_initialization_trials=None</em>, <em class="sig-param">no_max_parallelism=False</em>, <em class="sig-param">max_parallelism_cap=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/modelbridge/dispatch_utils.html#choose_generation_strategy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.modelbridge.dispatch_utils.choose_generation_strategy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Select an appropriate generation strategy based on the properties of
 the search space and expected settings of the experiment, such as number of
 arms per trial, optimization algorithm settings, expected number of trials
@@ -1227,6 +1247,16 @@ strategy will not be suggested and quasi-random strategy will be used.</p></li>
 known in advance.</p></li>
 <li><p><strong>num_initialization_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – Specific number of initialization trials, if wanted.
 Typically, initialization trials are generated quasi-randomly.</p></li>
+<li><p><strong>no_max_parallelism</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – If True, no limit on parallelism will be imposed. Be aware
+that parallelism is limited to improve performance of Bayesian optimization,
+so only disable its limiting if there is a good reason to do so.</p></li>
+<li><p><strong>max_parallelism_cap</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – Integer representing a cap on parallelism in this gen.
+strategy; if specified, generation strategy will not generate trials if
+more than <cite>max_parallelism_cap</cite> trials for current generation step are
+running. Note that less than <cite>max_parallelism_cap</cite> may be scheduled in
+parallel if beneficial for Bayesian optimization performance;
+<cite>max_parallelism_cap</cite> is meant to just be a hard limit on parallelism (e.g.,
+to avoid overloading machine(s) that evaluate the experiment trials).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>

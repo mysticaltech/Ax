@@ -68,7 +68,7 @@ src="/js/documentation_options.js">
 <span class="sd">    minimum number of observations is required to proceed to the next model, etc.</span>
 
 <span class="sd">    Model can be specified either from the model registry</span>
-<span class="sd">    (ax.modelbridge.registry.Models or using a callable model constructor. Only</span>
+<span class="sd">    (`ax.modelbridge.registry.Models` or using a callable model constructor. Only</span>
 <span class="sd">    models from the registry can be saved, and thus optimization can only be</span>
 <span class="sd">    resumed if interrupted when using models from the registry.</span>
 <span class="sd">    """</span>
@@ -76,7 +76,7 @@ src="/js/documentation_options.js">
     <span class="n">model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Models</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">ModelBridge</span><span class="p">]]</span>
     <span class="n">num_trials</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">min_trials_observed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">recommended_max_parallelism</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">max_parallelism</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">enforce_num_trials</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="c1"># Kwargs to pass into the Models constructor (or factory function).</span>
     <span class="n">model_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -95,6 +95,23 @@ src="/js/documentation_options.js">
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__name__</span>  <span class="c1"># pyre-fixme[16]: union has no attr __name__</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
             <span class="s2">"`model` was not a member of `Models` or a callable."</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MaxParallelismReachedException"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.generation_strategy.MaxParallelismReachedException">[docs]</a><span class="k">class</span> <span class="nc">MaxParallelismReachedException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">"""Special exception indicating that maximum number of trials running in</span>
+<span class="sd">    parallel set on a given step (as `GenerationStep.max_parallelism`) has been</span>
+<span class="sd">    reached. Upon getting this exception, users should wait until more trials</span>
+<span class="sd">    are completed with data, to generate new trials.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">GenerationStep</span><span class="p">,</span> <span class="n">num_running</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"Maximum parallelism for generation step #</span><span class="si">{step.index}</span><span class="s2"> (</span><span class="si">{step.model_name}</span><span class="s2">)"</span>
+            <span class="sa">f</span><span class="s2">" has been reached: </span><span class="si">{num_running}</span><span class="s2"> trials are currently 'running'. Some "</span>
+            <span class="s2">"trials need to be completed before more trials can be generated. See "</span>
+            <span class="s2">"https://ax.dev/docs/bayesopt.html to understand why limited parallelism "</span>
+            <span class="s2">"improves performance of Bayesian optimization."</span>
         <span class="p">)</span></div>
 
 
@@ -273,6 +290,20 @@ src="/js/documentation_options.js">
             <span class="p">]</span>
         <span class="p">)</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_running_trials_for_current_step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">"""Number of trials in status `RUNNING` for the current generation step</span>
+<span class="sd">        of this strategy.</span>
+<span class="sd">        """</span>
+        <span class="n">num_running</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">trial</span><span class="o">.</span><span class="n">_generation_step_index</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_curr</span><span class="o">.</span><span class="n">index</span>
+                <span class="ow">and</span> <span class="n">trial</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">is_running</span>
+            <span class="p">):</span>
+                <span class="n">num_running</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">num_running</span>
+
 <div class="viewcode-block" id="GenerationStrategy.gen"><a class="viewcode-back" href="../../../modelbridge.html#ax.modelbridge.generation_strategy.GenerationStrategy.gen">[docs]</a>    <span class="k">def</span> <span class="nf">gen</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span>
@@ -283,6 +314,12 @@ src="/js/documentation_options.js">
         <span class="sd">"""Produce the next points in the experiment."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span> <span class="o">=</span> <span class="n">experiment</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_model</span><span class="p">(</span><span class="n">experiment</span><span class="o">=</span><span class="n">experiment</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span> <span class="ow">or</span> <span class="n">experiment</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">())</span>
+        <span class="n">max_parallelism</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_curr</span><span class="o">.</span><span class="n">max_parallelism</span>
+        <span class="n">num_running</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_running_trials_for_current_step</span>
+        <span class="k">if</span> <span class="n">max_parallelism</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">num_running</span> <span class="o">&gt;=</span> <span class="n">max_parallelism</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">MaxParallelismReachedException</span><span class="p">(</span>
+                <span class="n">step</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_curr</span><span class="p">,</span> <span class="n">num_running</span><span class="o">=</span><span class="n">num_running</span>
+            <span class="p">)</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
         <span class="n">generator_run</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">gen</span><span class="p">(</span>
             <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>

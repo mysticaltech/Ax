@@ -260,6 +260,36 @@ as raw importance metrics.</p>
 </dl>
 </dd></dl>
 <dl class="method">
+<dt id="ax.service.ax_client.AxClient.get_max_parallelism">
+<code class="sig-name descname">get_max_parallelism</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/ax_client.html#AxClient.get_max_parallelism"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.ax_client.AxClient.get_max_parallelism" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves maximum number of trials that can be scheduled in parallel
+at different stages of optimization.</p>
+<p>Some optimization algorithms profit significantly from sequential
+optimization (i.e. suggest a few points, get updated with data for them,
+repeat, see <a class="reference external" href="https://ax.dev/docs/bayesopt.html">https://ax.dev/docs/bayesopt.html</a>).
+Parallelism setting indicates how many trials should be running simulteneously
+(generated, but not yet completed with data).</p>
+<p>The output of this method is mapping of form
+{num_trials -&gt; max_parallelism_setting}, where the max_parallelism_setting
+is used for num_trials trials. If max_parallelism_setting is -1, as
+many of the trials can be ran in parallel, as necessary. If num_trials
+in a tuple is -1, then the corresponding max_parallelism_setting
+should be used for all subsequent trials.</p>
+<p>For example, if the returned list is [(5, -1), (12, 6), (-1, 3)],
+the schedule could be: run 5 trials with any parallelism, run 6 trials in
+parallel twice, run 3 trials in parallel for as long as needed. Here,
+‘running’ a trial means obtaining a next trial from <cite>AxClient</cite> through
+get_next_trials and completing it with data when available.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Mapping of form {num_trials -&gt; max_parallelism_setting}.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="method">
 <dt id="ax.service.ax_client.AxClient.get_model_predictions">
 <code class="sig-name descname">get_model_predictions</code><span class="sig-paren">(</span><em class="sig-param">metric_names=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/ax_client.html#AxClient.get_model_predictions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.ax_client.AxClient.get_model_predictions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve model-estimated means and covariances for all metrics.
@@ -313,30 +343,10 @@ visualization.</p>
 </dd></dl>
 <dl class="method">
 <dt id="ax.service.ax_client.AxClient.get_recommended_max_parallelism">
-<code class="sig-name descname">get_recommended_max_parallelism</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/ax_client.html#AxClient.get_recommended_max_parallelism"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.ax_client.AxClient.get_recommended_max_parallelism" title="Permalink to this definition">¶</a></dt>
-<dd><p>Recommends maximum number of trials that can be scheduled in parallel
-at different stages of optimization.</p>
-<p>Some optimization algorithms profit significantly from sequential
-optimization (e.g. suggest a few points, get updated with data for them,
-repeat). This setting indicates how many trials should be in flight
-(generated, but not yet completed with data).</p>
-<p>The output of this method is mapping of form
-{num_trials -&gt; max_parallelism_setting}, where the max_parallelism_setting
-is used for num_trials trials. If max_parallelism_setting is -1, as
-many of the trials can be ran in parallel, as necessary. If num_trials
-in a tuple is -1, then the corresponding max_parallelism_setting
-should be used for all subsequent trials.</p>
-<p>For example, if the returned list is [(5, -1), (12, 6), (-1, 3)],
-the schedule could be: run 5 trials in parallel, run 6 trials in
-parallel twice, run 3 trials in parallel for as long as needed. Here,
-‘running’ a trial means obtaining a next trial from <cite>AxClient</cite> through
-get_next_trials and completing it with data when available.</p>
-<dl class="field-list simple">
+<em class="property">static </em><code class="sig-name descname">get_recommended_max_parallelism</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ax/service/ax_client.html#AxClient.get_recommended_max_parallelism"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ax.service.ax_client.AxClient.get_recommended_max_parallelism" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Mapping of form {num_trials -&gt; max_parallelism_setting}.</p>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -786,6 +796,11 @@ to a TFidelityTrialEvaluation.</p>
 <dd class="field-odd"><p>A tuple of the loaded experiment and generation strategy.</p>
 </dd>
 </dl>
+</dd></dl>
+<dl class="data">
+<dt id="ax.service.utils.storage.logger">
+<code class="sig-prename descclassname">ax.service.utils.storage.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger ax.service.utils.storage (INFO)&gt;</em><a class="headerlink" href="#ax.service.utils.storage.logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utilities for storing experiment to the database for AxClient.</p>
 </dd></dl>
 <dl class="function">
 <dt id="ax.service.utils.storage.save_experiment">

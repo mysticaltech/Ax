@@ -1584,6 +1584,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="utils.html#ax.utils.common.logger.get_logger">get_logger() (in module ax.utils.common.logger)</a>
 </li>
+<li><a href="service.html#ax.service.ax_client.AxClient.get_max_parallelism">get_max_parallelism() (ax.service.ax_client.AxClient method)</a>
+</li>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_metric">get_metric() (in module ax.utils.testing.core_stubs)</a>
 </li>
 <li><a href="core.html#ax.core.trial.Trial.get_metric_mean">get_metric_mean() (ax.core.trial.Trial method)</a>
@@ -1671,7 +1673,7 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="plot.html#ax.plot.helper.get_range_parameters">get_range_parameters() (in module ax.plot.helper)</a>
 </li>
-<li><a href="service.html#ax.service.ax_client.AxClient.get_recommended_max_parallelism">get_recommended_max_parallelism() (ax.service.ax_client.AxClient method)</a>
+<li><a href="service.html#ax.service.ax_client.AxClient.get_recommended_max_parallelism">get_recommended_max_parallelism() (ax.service.ax_client.AxClient static method)</a>
 </li>
 <li><a href="models.html#ax.models.torch.botorch.get_rounding_func">get_rounding_func() (in module ax.models.torch.botorch)</a>
 </li>
@@ -1926,6 +1928,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="core.html#ax.core.parameter.ChoiceParameter.is_ordered">is_ordered() (ax.core.parameter.ChoiceParameter property)</a>
 </li>
+<li><a href="core.html#ax.core.base_trial.TrialStatus.is_running">is_running() (ax.core.base_trial.TrialStatus property)</a>
+</li>
 <li><a href="core.html#ax.core.experiment.Experiment.is_simple_experiment">is_simple_experiment() (ax.core.experiment.Experiment property)</a>
 <ul>
 <li><a href="core.html#ax.core.simple_experiment.SimpleExperiment.is_simple_experiment">(ax.core.simple_experiment.SimpleExperiment property)</a>
@@ -2042,7 +2046,10 @@ src="/js/documentation_options.js">
 <li><a href="service.html#ax.service.ax_client.AxClient.log_trial_failure">log_trial_failure() (ax.service.ax_client.AxClient method)</a>
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.registry.logger">logger (in module ax.modelbridge.registry)</a>
+<ul>
+<li><a href="service.html#ax.service.utils.storage.logger">(in module ax.service.utils.storage)</a>
 </li>
+</ul></li>
 <li><a href="core.html#ax.core.experiment.Experiment.lookup_data_for_trial">lookup_data_for_trial() (ax.core.experiment.Experiment method)</a>
 <ul>
 <li><a href="ax.html#ax.Experiment.lookup_data_for_trial">(ax.Experiment method)</a>
@@ -2100,7 +2107,11 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="core.html#ax.core.base_trial.BaseTrial.mark_staged">mark_staged() (ax.core.base_trial.BaseTrial method)</a>
 </li>
+<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStep.max_parallelism">max_parallelism() (ax.modelbridge.generation_strategy.GenerationStep property)</a>
+</li>
 <li><a href="utils.html#ax.utils.measurement.synthetic_functions.SyntheticFunction.maximums">maximums() (ax.utils.measurement.synthetic_functions.SyntheticFunction property)</a>
+</li>
+<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.MaxParallelismReachedException">MaxParallelismReachedException</a>
 </li>
 <li><a href="ax.html#ax.Arm.md5hash">md5hash() (ax.Arm static method)</a>
 <ul>
@@ -2352,6 +2363,8 @@ src="/js/documentation_options.js">
 </li>
 </ul></li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQATrial.num_arms_created">num_arms_created (ax.storage.sqa_store.sqa_classes.SQATrial attribute)</a>
+</li>
+<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStrategy.num_running_trials_for_current_step">num_running_trials_for_current_step() (ax.modelbridge.generation_strategy.GenerationStrategy property)</a>
 </li>
 <li><a href="core.html#ax.core.experiment.Experiment.num_trials">num_trials() (ax.core.experiment.Experiment property)</a>
 <ul>
@@ -2765,8 +2778,6 @@ src="/js/documentation_options.js">
 <li><a href="models.html#ax.models.torch.botorch_defaults.recommend_best_observed_point">recommend_best_observed_point() (in module ax.models.torch.botorch_defaults)</a>
 </li>
 <li><a href="models.html#ax.models.torch.botorch_defaults.recommend_best_out_of_sample_point">recommend_best_out_of_sample_point() (in module ax.models.torch.botorch_defaults)</a>
-</li>
-<li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStep.recommended_max_parallelism">recommended_max_parallelism() (ax.modelbridge.generation_strategy.GenerationStep property)</a>
 </li>
 <li><a href="storage.html#ax.storage.metric_registry.register_metric">register_metric() (in module ax.storage.metric_registry)</a>
 </li>

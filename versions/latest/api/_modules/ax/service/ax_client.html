@@ -462,13 +462,14 @@ src="/js/documentation_options.js">
 <div class="viewcode-block" id="AxClient.get_trials_data_frame"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.get_trials_data_frame">[docs]</a>    <span class="k">def</span> <span class="nf">get_trials_data_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">exp_to_df</span><span class="p">(</span><span class="n">exp</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AxClient.get_recommended_max_parallelism"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.get_recommended_max_parallelism">[docs]</a>    <span class="k">def</span> <span class="nf">get_recommended_max_parallelism</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-        <span class="sd">"""Recommends maximum number of trials that can be scheduled in parallel</span>
+<div class="viewcode-block" id="AxClient.get_max_parallelism"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.get_max_parallelism">[docs]</a>    <span class="k">def</span> <span class="nf">get_max_parallelism</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+        <span class="sd">"""Retrieves maximum number of trials that can be scheduled in parallel</span>
 <span class="sd">        at different stages of optimization.</span>
 
 <span class="sd">        Some optimization algorithms profit significantly from sequential</span>
-<span class="sd">        optimization (e.g. suggest a few points, get updated with data for them,</span>
-<span class="sd">        repeat). This setting indicates how many trials should be in flight</span>
+<span class="sd">        optimization (i.e. suggest a few points, get updated with data for them,</span>
+<span class="sd">        repeat, see https://ax.dev/docs/bayesopt.html).</span>
+<span class="sd">        Parallelism setting indicates how many trials should be running simulteneously</span>
 <span class="sd">        (generated, but not yet completed with data).</span>
 
 <span class="sd">        The output of this method is mapping of form</span>
@@ -479,7 +480,7 @@ src="/js/documentation_options.js">
 <span class="sd">        should be used for all subsequent trials.</span>
 
 <span class="sd">        For example, if the returned list is [(5, -1), (12, 6), (-1, 3)],</span>
-<span class="sd">        the schedule could be: run 5 trials in parallel, run 6 trials in</span>
+<span class="sd">        the schedule could be: run 5 trials with any parallelism, run 6 trials in</span>
 <span class="sd">        parallel twice, run 3 trials in parallel for as long as needed. Here,</span>
 <span class="sd">        'running' a trial means obtaining a next trial from `AxClient` through</span>
 <span class="sd">        get_next_trials and completing it with data when available.</span>
@@ -490,7 +491,7 @@ src="/js/documentation_options.js">
         <span class="n">parallelism_settings</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span><span class="o">.</span><span class="n">_steps</span><span class="p">:</span>
             <span class="n">parallelism_settings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">num_trials</span><span class="p">,</span> <span class="n">step</span><span class="o">.</span><span class="n">recommended_max_parallelism</span> <span class="ow">or</span> <span class="n">step</span><span class="o">.</span><span class="n">num_trials</span><span class="p">)</span>
+                <span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">num_trials</span><span class="p">,</span> <span class="n">step</span><span class="o">.</span><span class="n">max_parallelism</span> <span class="ow">or</span> <span class="n">step</span><span class="o">.</span><span class="n">num_trials</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">parallelism_settings</span></div>
 
@@ -1000,6 +1001,14 @@ src="/js/documentation_options.js">
                 <span class="p">)</span>
 
     <span class="c1"># -------- Backward-compatibility with old save / load method names. -------</span>
+
+<div class="viewcode-block" id="AxClient.get_recommended_max_parallelism"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.get_recommended_max_parallelism">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_recommended_max_parallelism</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">"Use `get_max_parallelism` instead; parallelism levels are now "</span>
+            <span class="s2">"enforced in generation strategy, so max parallelism is no longer "</span>
+            <span class="s2">"just recommended."</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="AxClient.load_experiment"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.load_experiment">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">load_experiment</span><span class="p">(</span><span class="n">experiment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

@@ -32,6 +32,7 @@ src="/js/documentation_options.js">
 <span class="c1"># This source code is licensed under the MIT license found in the</span>
 <span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="kn">import</span> <span class="n">Experiment</span>
@@ -43,6 +44,10 @@ src="/js/documentation_options.js">
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">ax.storage.sqa_store.save</span> <span class="kn">import</span> <span class="n">_save_experiment</span><span class="p">,</span> <span class="n">_save_generation_strategy</span>
 <span class="kn">from</span> <span class="nn">ax.storage.sqa_store.structs</span> <span class="kn">import</span> <span class="n">DBSettings</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.logger</span> <span class="kn">import</span> <span class="n">_round_floats_for_logging</span><span class="p">,</span> <span class="n">get_logger</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <span class="sd">"""Utilities for storing experiment to the database for AxClient."""</span>
@@ -60,9 +65,14 @@ src="/js/documentation_options.js">
 <span class="sd">        ax.core.Experiment: Loaded experiment.</span>
 <span class="sd">    """</span>
     <span class="n">init_engine_and_session_factory</span><span class="p">(</span><span class="n">creator</span><span class="o">=</span><span class="n">db_settings</span><span class="o">.</span><span class="n">creator</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">db_settings</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">experiment</span> <span class="o">=</span> <span class="n">_load_experiment</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="n">db_settings</span><span class="o">.</span><span class="n">decoder</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="n">Experiment</span><span class="p">)</span> <span class="ow">or</span> <span class="n">experiment</span><span class="o">.</span><span class="n">is_simple_experiment</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Service API only supports Experiment"</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"Loaded experiment </span><span class="si">{name}</span><span class="s2"> in "</span>
+        <span class="sa">f</span><span class="s2">"{_round_floats_for_logging(time.time() - start_time)} seconds"</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">experiment</span></div>
 
 
@@ -75,7 +85,12 @@ src="/js/documentation_options.js">
 <span class="sd">        db_settings: Defines behavior for loading/saving experiment to/from db.</span>
 <span class="sd">    """</span>
     <span class="n">init_engine_and_session_factory</span><span class="p">(</span><span class="n">creator</span><span class="o">=</span><span class="n">db_settings</span><span class="o">.</span><span class="n">creator</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">db_settings</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
-    <span class="n">_save_experiment</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">db_settings</span><span class="o">.</span><span class="n">encoder</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">_save_experiment</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">db_settings</span><span class="o">.</span><span class="n">encoder</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"Saved experiment </span><span class="si">{experiment.name}</span><span class="s2"> in "</span>
+        <span class="sa">f</span><span class="s2">"{_round_floats_for_logging(time.time() - start_time)} seconds"</span>
+    <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="load_experiment_and_generation_strategy"><a class="viewcode-back" href="../../../../service.html#ax.service.utils.storage.load_experiment_and_generation_strategy">[docs]</a><span class="k">def</span> <span class="nf">load_experiment_and_generation_strategy</span><span class="p">(</span>

@@ -48,11 +48,14 @@ src="/js/documentation_options.js">
 <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
+<span class="n">DEFAULT_BAYESIAN_PARALLELISM</span> <span class="o">=</span> <span class="mi">3</span>
+
+
 <span class="k">def</span> <span class="nf">_make_sobol_step</span><span class="p">(</span>
     <span class="n">num_trials</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">min_trials_observed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">enforce_num_trials</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">recommended_max_parallelism</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_parallelism</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GenerationStep</span><span class="p">:</span>
     <span class="sd">"""Shortcut for creating a Sobol generation step."""</span>
@@ -62,7 +65,7 @@ src="/js/documentation_options.js">
         <span class="c1"># NOTE: ceil(-1 / 2) = 0, so this is safe to do when num trials is -1.</span>
         <span class="n">min_trials_observed</span><span class="o">=</span><span class="n">min_trials_observed</span> <span class="ow">or</span> <span class="n">ceil</span><span class="p">(</span><span class="n">num_trials</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
         <span class="n">enforce_num_trials</span><span class="o">=</span><span class="n">enforce_num_trials</span><span class="p">,</span>
-        <span class="n">recommended_max_parallelism</span><span class="o">=</span><span class="n">recommended_max_parallelism</span><span class="p">,</span>
+        <span class="n">max_parallelism</span><span class="o">=</span><span class="n">max_parallelism</span><span class="p">,</span>
         <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"deduplicate"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"seed"</span><span class="p">:</span> <span class="n">seed</span><span class="p">},</span>
     <span class="p">)</span>
 
@@ -71,7 +74,7 @@ src="/js/documentation_options.js">
     <span class="n">num_trials</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">min_trials_observed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">enforce_num_trials</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">recommended_max_parallelism</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_parallelism</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">winsorize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">winsorization_limits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GenerationStep</span><span class="p">:</span>
@@ -101,7 +104,7 @@ src="/js/documentation_options.js">
         <span class="c1"># NOTE: ceil(-1 / 2) = 0, so this is safe to do when num trials is -1.</span>
         <span class="n">min_trials_observed</span><span class="o">=</span><span class="n">min_trials_observed</span> <span class="ow">or</span> <span class="n">ceil</span><span class="p">(</span><span class="n">num_trials</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
         <span class="n">enforce_num_trials</span><span class="o">=</span><span class="n">enforce_num_trials</span><span class="p">,</span>
-        <span class="n">recommended_max_parallelism</span><span class="o">=</span><span class="n">recommended_max_parallelism</span><span class="p">,</span>
+        <span class="n">max_parallelism</span><span class="o">=</span><span class="n">max_parallelism</span><span class="p">,</span>
         <span class="n">model_kwargs</span><span class="o">=</span><span class="n">model_kwargs</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -147,6 +150,8 @@ src="/js/documentation_options.js">
     <span class="n">no_bayesian_optimization</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">num_trials</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">num_initialization_trials</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">no_max_parallelism</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">max_parallelism_cap</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GenerationStrategy</span><span class="p">:</span>
     <span class="sd">"""Select an appropriate generation strategy based on the properties of</span>
 <span class="sd">    the search space and expected settings of the experiment, such as number of</span>
@@ -173,6 +178,16 @@ src="/js/documentation_options.js">
 <span class="sd">            known in advance.</span>
 <span class="sd">        num_initialization_trials: Specific number of initialization trials, if wanted.</span>
 <span class="sd">            Typically, initialization trials are generated quasi-randomly.</span>
+<span class="sd">        no_max_parallelism: If True, no limit on parallelism will be imposed. Be aware</span>
+<span class="sd">            that parallelism is limited to improve performance of Bayesian optimization,</span>
+<span class="sd">            so only disable its limiting if there is a good reason to do so.</span>
+<span class="sd">        max_parallelism_cap: Integer representing a cap on parallelism in this gen.</span>
+<span class="sd">            strategy; if specified, generation strategy will not generate trials if</span>
+<span class="sd">            more than `max_parallelism_cap` trials for current generation step are</span>
+<span class="sd">            running. Note that less than `max_parallelism_cap` may be scheduled in</span>
+<span class="sd">            parallel if beneficial for Bayesian optimization performance;</span>
+<span class="sd">            `max_parallelism_cap` is meant to just be a hard limit on parallelism (e.g.,</span>
+<span class="sd">            to avoid overloading machine(s) that evaluate the experiment trials).</span>
 <span class="sd">    """</span>
     <span class="c1"># If there are more discrete choices than continuous parameters, Sobol</span>
     <span class="c1"># will do better than GP+EI.</span>
@@ -185,17 +200,24 @@ src="/js/documentation_options.js">
                 <span class="n">num_initialization_trials</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="k">else</span><span class="p">:</span>  <span class="c1"># 1-arm trials.</span>
                 <span class="n">num_initialization_trials</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">search_space</span><span class="o">.</span><span class="n">parameters</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">no_max_parallelism</span><span class="p">:</span>
+            <span class="n">bo_parallelism</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">max_parallelism_cap</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bo_parallelism</span> <span class="o">=</span> <span class="n">DEFAULT_BAYESIAN_PARALLELISM</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bo_parallelism</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">max_parallelism_cap</span><span class="p">,</span> <span class="n">DEFAULT_BAYESIAN_PARALLELISM</span><span class="p">)</span>
         <span class="n">gs</span> <span class="o">=</span> <span class="n">GenerationStrategy</span><span class="p">(</span>
             <span class="n">steps</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">_make_sobol_step</span><span class="p">(</span>
                     <span class="n">num_trials</span><span class="o">=</span><span class="n">num_initialization_trials</span><span class="p">,</span>
                     <span class="n">enforce_num_trials</span><span class="o">=</span><span class="n">enforce_sequential_optimization</span><span class="p">,</span>
                     <span class="n">seed</span><span class="o">=</span><span class="n">random_seed</span><span class="p">,</span>
+                    <span class="n">max_parallelism</span><span class="o">=</span><span class="n">max_parallelism_cap</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="n">_make_botorch_step</span><span class="p">(</span>
-                    <span class="n">recommended_max_parallelism</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                     <span class="n">winsorize</span><span class="o">=</span><span class="n">winsorize_botorch_model</span><span class="p">,</span>
                     <span class="n">winsorization_limits</span><span class="o">=</span><span class="n">winsorization_limits</span><span class="p">,</span>
+                    <span class="n">max_parallelism</span><span class="o">=</span><span class="n">bo_parallelism</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">]</span>
         <span class="p">)</span>
