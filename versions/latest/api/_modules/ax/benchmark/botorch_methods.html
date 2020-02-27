@@ -32,17 +32,29 @@ src="/js/documentation_options.js">
 <span class="c1"># This source code is licensed under the MIT license found in the</span>
 <span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">ax.modelbridge.generation_strategy</span> <span class="kn">import</span> <span class="n">GenerationStep</span><span class="p">,</span> <span class="n">GenerationStrategy</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.registry</span> <span class="kn">import</span> <span class="n">Cont_X_trans</span><span class="p">,</span> <span class="n">Models</span><span class="p">,</span> <span class="n">Y_trans</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.transforms.winsorize</span> <span class="kn">import</span> <span class="n">Winsorize</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.logger</span> <span class="kn">import</span> <span class="n">get_logger</span>
 <span class="kn">from</span> <span class="nn">botorch.fit</span> <span class="kn">import</span> <span class="n">fit_gpytorch_model</span>
-<span class="kn">from</span> <span class="nn">botorch.models.gp_regression</span> <span class="kn">import</span> <span class="n">FixedNoiseGP</span>
+<span class="kn">from</span> <span class="nn">botorch.models.gp_regression</span> <span class="kn">import</span> <span class="n">FixedNoiseGP</span><span class="p">,</span> <span class="n">SingleTaskGP</span>
 <span class="kn">from</span> <span class="nn">botorch.models.model</span> <span class="kn">import</span> <span class="n">Model</span>
 <span class="kn">from</span> <span class="nn">gpytorch.mlls.exact_marginal_log_likelihood</span> <span class="kn">import</span> <span class="n">ExactMarginalLogLikelihood</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
 
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="n">ACQF_MODEL_MAP</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"NEI"</span><span class="p">:</span> <span class="n">Models</span><span class="o">.</span><span class="n">BOTORCH</span><span class="p">,</span>
+    <span class="s2">"KG"</span><span class="p">:</span> <span class="n">Models</span><span class="o">.</span><span class="n">GPKG</span><span class="p">,</span>
+    <span class="s2">"MES"</span><span class="p">:</span> <span class="n">Models</span><span class="o">.</span><span class="n">GPMES</span><span class="p">,</span>
+    <span class="s2">"Sobol"</span><span class="p">:</span> <span class="n">Models</span><span class="o">.</span><span class="n">SOBOL</span><span class="p">,</span>
+    <span class="s2">"RND"</span><span class="p">:</span> <span class="n">Models</span><span class="o">.</span><span class="n">UNIFORM</span><span class="p">,</span>
+<span class="p">}</span>
 
 <span class="c1"># ------------------------- Standard model constructors ------------------------</span>
 
@@ -50,7 +62,7 @@ src="/js/documentation_options.js">
 <div class="viewcode-block" id="fixed_noise_gp_model_constructor"><a class="viewcode-back" href="../../../benchmark.html#ax.benchmark.botorch_methods.fixed_noise_gp_model_constructor">[docs]</a><span class="k">def</span> <span class="nf">fixed_noise_gp_model_constructor</span><span class="p">(</span>
     <span class="n">Xs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span>
     <span class="n">Ys</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span>
-    <span class="n">Yvars</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span>  <span class="c1"># Maybe these should be optional where irrelevant?</span>
+    <span class="n">Yvars</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span>
     <span class="n">task_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
     <span class="n">fidelity_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
     <span class="n">metric_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
@@ -67,11 +79,68 @@ src="/js/documentation_options.js">
     <span class="k">return</span> <span class="n">gp</span></div>
 
 
+<div class="viewcode-block" id="singletask_gp_model_constructor"><a class="viewcode-back" href="../../../benchmark.html#ax.benchmark.botorch_methods.singletask_gp_model_constructor">[docs]</a><span class="k">def</span> <span class="nf">singletask_gp_model_constructor</span><span class="p">(</span>
+    <span class="n">Xs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span>
+    <span class="n">Ys</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span>
+    <span class="n">Yvars</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span>
+    <span class="n">task_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">fidelity_features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">metric_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">state_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">refit_model</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Model</span><span class="p">:</span>
+    <span class="n">gp</span> <span class="o">=</span> <span class="n">SingleTaskGP</span><span class="p">(</span><span class="n">train_X</span><span class="o">=</span><span class="n">Xs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">train_Y</span><span class="o">=</span><span class="n">Ys</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">gp</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">Xs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">state_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">gp</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">state_dict</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">refit_model</span><span class="p">:</span>
+        <span class="n">fit_gpytorch_model</span><span class="p">(</span><span class="n">ExactMarginalLogLikelihood</span><span class="p">(</span><span class="n">gp</span><span class="o">.</span><span class="n">likelihood</span><span class="p">,</span> <span class="n">gp</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">gp</span></div>
+
+
+<span class="c1"># ----------------- Generation strategy constructor ----------------------------</span>
+
+
+<div class="viewcode-block" id="make_basic_generation_strategy"><a class="viewcode-back" href="../../../benchmark.html#ax.benchmark.botorch_methods.make_basic_generation_strategy">[docs]</a><span class="k">def</span> <span class="nf">make_basic_generation_strategy</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">acquisition</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">num_initial_trials</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">14</span><span class="p">,</span>
+    <span class="n">surrogate_model_constructor</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">singletask_gp_model_constructor</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GenerationStrategy</span><span class="p">:</span>
+
+    <span class="k">if</span> <span class="n">acquisition</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ACQF_MODEL_MAP</span><span class="p">:</span>
+        <span class="n">acquisition</span> <span class="o">=</span> <span class="s2">"Sobol"</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{acquisition}</span><span class="s2"> is not a supported "</span>
+            <span class="s2">"acquisition function. Defaulting to Sobol."</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">GenerationStrategy</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">steps</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">GenerationStep</span><span class="p">(</span>
+                <span class="n">model</span><span class="o">=</span><span class="n">Models</span><span class="o">.</span><span class="n">SOBOL</span><span class="p">,</span>
+                <span class="n">num_trials</span><span class="o">=</span><span class="n">num_initial_trials</span><span class="p">,</span>
+                <span class="n">min_trials_observed</span><span class="o">=</span><span class="n">num_initial_trials</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">GenerationStep</span><span class="p">(</span>
+                <span class="n">model</span><span class="o">=</span><span class="n">ACQF_MODEL_MAP</span><span class="p">[</span><span class="n">acquisition</span><span class="p">],</span>
+                <span class="n">num_trials</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">"model_constructor"</span><span class="p">:</span> <span class="n">surrogate_model_constructor</span><span class="p">,</span>
+                    <span class="s2">"transforms"</span><span class="p">:</span> <span class="n">Cont_X_trans</span> <span class="o">+</span> <span class="n">Y_trans</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">),</span>
+        <span class="p">],</span>
+    <span class="p">)</span></div>
+
+
 <span class="c1"># ----------------- Standard methods (as generation strategies) ----------------</span>
 
-
-<span class="n">winsorized_fixed_noise_GPEI</span> <span class="o">=</span> <span class="n">GenerationStrategy</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"Sobol+fixed_noise_GPEI"</span><span class="p">,</span>
+<span class="c1"># examples</span>
+<span class="n">winsorized_fixed_noise_NEI</span> <span class="o">=</span> <span class="n">GenerationStrategy</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"Sobol+fixed_noise_NEI"</span><span class="p">,</span>
     <span class="n">steps</span><span class="o">=</span><span class="p">[</span>
         <span class="n">GenerationStep</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">Models</span><span class="o">.</span><span class="n">SOBOL</span><span class="p">,</span> <span class="n">num_trials</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">min_trials_observed</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
         <span class="n">GenerationStep</span><span class="p">(</span>
@@ -79,7 +148,7 @@ src="/js/documentation_options.js">
             <span class="n">num_trials</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span>
                 <span class="s2">"model_constructor"</span><span class="p">:</span> <span class="n">fixed_noise_gp_model_constructor</span><span class="p">,</span>
-                <span class="s2">"transforms"</span><span class="p">:</span> <span class="p">[</span><span class="n">Winsorize</span><span class="p">]</span> <span class="o">+</span> <span class="n">Cont_X_trans</span> <span class="o">+</span> <span class="n">Y_trans</span><span class="p">,</span>
+                <span class="s2">"transforms"</span><span class="p">:</span> <span class="p">[</span><span class="n">Winsorize</span><span class="p">]</span> <span class="o">+</span> <span class="n">Cont_X_trans</span> <span class="o">+</span> <span class="n">Y_trans</span><span class="p">,</span>  <span class="c1"># pyre-ignore[6]</span>
                 <span class="s2">"transform_configs"</span><span class="p">:</span> <span class="p">{</span>
                     <span class="s2">"Winsorize"</span><span class="p">:</span> <span class="p">{</span>
                         <span class="sa">f</span><span class="s2">"winsorization_</span><span class="si">{t}</span><span class="s2">"</span><span class="p">:</span> <span class="n">v</span>
@@ -89,6 +158,29 @@ src="/js/documentation_options.js">
             <span class="p">},</span>
         <span class="p">),</span>
     <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">singletask_RND</span> <span class="o">=</span> <span class="n">make_basic_generation_strategy</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"RND + SingleTaskGP"</span><span class="p">,</span> <span class="n">acquisition</span><span class="o">=</span><span class="s2">"RND"</span><span class="p">,</span> <span class="n">num_initial_trials</span><span class="o">=</span><span class="mi">14</span>
+<span class="p">)</span>
+
+<span class="n">singletask_NEI</span> <span class="o">=</span> <span class="n">make_basic_generation_strategy</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"NEI + SingleTaskGP"</span><span class="p">,</span> <span class="n">acquisition</span><span class="o">=</span><span class="s2">"NEI"</span><span class="p">,</span> <span class="n">num_initial_trials</span><span class="o">=</span><span class="mi">14</span>
+<span class="p">)</span>
+
+<span class="n">singletask_KG</span> <span class="o">=</span> <span class="n">make_basic_generation_strategy</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"KG + SingleTaskGP"</span><span class="p">,</span> <span class="n">acquisition</span><span class="o">=</span><span class="s2">"KG"</span><span class="p">,</span> <span class="n">num_initial_trials</span><span class="o">=</span><span class="mi">14</span>
+<span class="p">)</span>
+
+<span class="n">singletask_MES</span> <span class="o">=</span> <span class="n">make_basic_generation_strategy</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"MES + SingleTaskGP"</span><span class="p">,</span> <span class="n">acquisition</span><span class="o">=</span><span class="s2">"MES"</span><span class="p">,</span> <span class="n">num_initial_trials</span><span class="o">=</span><span class="mi">14</span>
+<span class="p">)</span>
+
+<span class="n">fixednoise_NEI</span> <span class="o">=</span> <span class="n">make_basic_generation_strategy</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"NEI + SingleTaskGP"</span><span class="p">,</span>
+    <span class="n">acquisition</span><span class="o">=</span><span class="s2">"NEI"</span><span class="p">,</span>
+    <span class="n">num_initial_trials</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+    <span class="n">surrogate_model_constructor</span><span class="o">=</span><span class="n">fixed_noise_gp_model_constructor</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
