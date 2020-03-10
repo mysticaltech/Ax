@@ -118,7 +118,7 @@ src="/js/documentation_options.js">
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                         <span class="sa">f</span><span class="s2">"Calling list_equals on unsupported types: "</span>
-                        <span class="sa">f</span><span class="s2">"{type(x) and {type(y)}}"</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">and</span> <span class="p">{</span><span class="nb">type</span><span class="p">(</span><span class="n">y</span><span class="p">)}</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
                 <span class="k">if</span> <span class="n">equal</span><span class="p">:</span>
                     <span class="k">break</span>
@@ -151,13 +151,13 @@ src="/js/documentation_options.js">
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">types</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">"Cannot call `list_update` on lists that contain a mix of "</span>
-                <span class="sa">f</span><span class="s2">"primitive and no primitive types: (</span><span class="si">{l1}</span><span class="s2"> and </span><span class="si">{l2}</span><span class="s2">)."</span>
+                <span class="sa">f</span><span class="s2">"primitive and no primitive types: (</span><span class="si">{</span><span class="n">l1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">l2</span><span class="si">}</span><span class="s2">)."</span>
             <span class="p">)</span>
 
         <span class="n">type_</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">types</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="n">SQABase</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Calling list_update on unsupported type </span><span class="si">{type_}</span><span class="s2">."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Calling list_update on unsupported type </span><span class="si">{</span><span class="n">type_</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
 
         <span class="n">unique_id</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="s2">"unique_id"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">unique_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -221,7 +221,7 @@ src="/js/documentation_options.js">
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields_equal</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
                     <span class="k">continue</span>
                 <span class="k">raise</span> <span class="n">ImmutabilityError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"Cannot change `</span><span class="si">{field}</span><span class="s2">` of </span><span class="si">{self.__class__.__name__}</span><span class="s2">."</span>
+                    <span class="sa">f</span><span class="s2">"Cannot change `</span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2">` of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">."</span>
                 <span class="p">)</span>
             <span class="k">if</span> <span class="p">(</span>
                 <span class="n">field</span> <span class="ow">in</span> <span class="n">ignore_during_update_fields</span>

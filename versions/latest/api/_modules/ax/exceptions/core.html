@@ -92,6 +92,23 @@ src="/js/documentation_options.js">
 <span class="sd">    """</span>
 
     <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="AxWarning"><a class="viewcode-back" href="../../../exceptions.html#ax.exceptions.core.AxWarning">[docs]</a><span class="k">class</span> <span class="nc">AxWarning</span><span class="p">(</span><span class="ne">Warning</span><span class="p">):</span>
+    <span class="sd">"""Base Ax warning.</span>
+
+<span class="sd">    All warnings derived from AxWarning need to define a custom warning message.</span>
+<span class="sd">    Additionally, warnings can define a hint property that provides additional</span>
+<span class="sd">    guidance as to how to remedy the warning.</span>
+
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">hint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">hint</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"hint"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)])</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span></div>
 </pre></div>
 </div>
 </div>

@@ -32,10 +32,14 @@ src="/js/documentation_options.js">
 <span class="c1"># This source code is licensed under the MIT license found in the</span>
 <span class="c1"># LICENSE file in the root directory of this source tree.</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span> <span class="nn">ax.core.base</span> <span class="kn">import</span> <span class="n">Base</span>
 <span class="kn">from</span> <span class="nn">ax.core.metric</span> <span class="kn">import</span> <span class="n">Metric</span>
+<span class="kn">from</span> <span class="nn">ax.utils.common.logger</span> <span class="kn">import</span> <span class="n">get_logger</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Objective"><a class="viewcode-back" href="../../../core.html#ax.Objective">[docs]</a><span class="k">class</span> <span class="nc">Objective</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
@@ -76,7 +80,79 @@ src="/js/documentation_options.js">
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ScalarizedObjective"><a class="viewcode-back" href="../../../core.html#ax.ScalarizedObjective">[docs]</a><span class="k">class</span> <span class="nc">ScalarizedObjective</span><span class="p">(</span><span class="n">Objective</span><span class="p">):</span>
+<span class="c1"># TODO (jej): Support sqa_store encoding. Currenlty only single metric obj supported.</span>
+<div class="viewcode-block" id="MultiObjective"><a class="viewcode-back" href="../../../core.html#ax.MultiObjective">[docs]</a><span class="k">class</span> <span class="nc">MultiObjective</span><span class="p">(</span><span class="n">Objective</span><span class="p">):</span>
+    <span class="sd">"""Class for an objective composed of a multiple component objectives.</span>
+
+<span class="sd">    The Acquisition function determines how the objectives are weighted.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        metrics: List of metrics.</span>
+<span class="sd">    """</span>
+
+    <span class="n">weights</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Metric</span><span class="p">],</span>
+        <span class="n">minimize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">extra_kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>  <span class="c1"># Here to satisfy serialization.</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Create a new objective.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            metrics: The list of metrics to be jointly optimized.</span>
+<span class="sd">            minimize: If true, minimize the aggregate of these metrics.</span>
+
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span> <span class="o">=</span> <span class="n">metrics</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">:</span>
+            <span class="c1"># Set weights from "lower_is_better"</span>
+            <span class="k">if</span> <span class="n">metric</span><span class="o">.</span><span class="n">lower_is_better</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">"metric </span><span class="si">{metric.name}</span><span class="s2"> has not set `lower_is_better`. "</span>
+                    <span class="s2">"Treating as `False` (Metric should be maximized)."</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="o">-</span><span class="mf">1.0</span>
+                <span class="k">if</span> <span class="n">metric</span><span class="o">.</span><span class="n">lower_is_better</span> <span class="ow">is</span> <span class="kc">True</span>
+                <span class="k">else</span> <span class="mf">1.0</span>
+                <span class="k">if</span> <span class="n">metric</span><span class="o">.</span><span class="n">lower_is_better</span> <span class="ow">is</span> <span class="kc">False</span>
+                <span class="k">else</span> <span class="mf">0.0</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minimize</span> <span class="o">=</span> <span class="n">minimize</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">metric_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Metric</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+        <span class="sd">"""Get the objective metrics and weights."""</span>
+        <span class="k">return</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">metric</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Metric</span><span class="p">:</span>
+        <span class="sd">"""Override base method to error."""</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> is composed of multiple metrics"</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Metric</span><span class="p">]:</span>
+        <span class="sd">"""Get the objective metrics."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span>
+
+<div class="viewcode-block" id="MultiObjective.clone"><a class="viewcode-back" href="../../../core.html#ax.MultiObjective.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Objective"</span><span class="p">:</span>
+        <span class="sd">"""Create a copy of the objective."""</span>
+        <span class="k">return</span> <span class="n">MultiObjective</span><span class="p">(</span>
+            <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">],</span> <span class="n">minimize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">minimize</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"MultiObjective(metric_names=</span><span class="si">{}</span><span class="s2">, minimize=</span><span class="si">{}</span><span class="s2">)"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">minimize</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ScalarizedObjective"><a class="viewcode-back" href="../../../core.html#ax.ScalarizedObjective">[docs]</a><span class="k">class</span> <span class="nc">ScalarizedObjective</span><span class="p">(</span><span class="n">MultiObjective</span><span class="p">):</span>
     <span class="sd">"""Class for an objective composed of a linear scalarization of metrics.</span>
 
 <span class="sd">    Attributes:</span>
@@ -105,24 +181,8 @@ src="/js/documentation_options.js">
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">metrics</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Length of weights must equal length of metrics"</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span> <span class="o">=</span> <span class="n">metrics</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">minimize</span> <span class="o">=</span> <span class="n">minimize</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">minimize</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">metric</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Metric</span><span class="p">:</span>
-        <span class="sd">"""Override base method to error."""</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"ScalarizedObjective is composed of multiple metrics"</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Metric</span><span class="p">]:</span>
-        <span class="sd">"""Get the objective metrics."""</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">metric_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Metric</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-        <span class="sd">"""Get the objective metrics and weights."""</span>
-        <span class="k">return</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ScalarizedObjective.clone"><a class="viewcode-back" href="../../../core.html#ax.ScalarizedObjective.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Objective"</span><span class="p">:</span>
         <span class="sd">"""Create a copy of the objective."""</span>

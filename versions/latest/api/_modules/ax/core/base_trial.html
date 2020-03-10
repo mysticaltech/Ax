@@ -157,7 +157,7 @@ src="/js/documentation_options.js">
         <span class="k">if</span> <span class="n">trial_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span><span class="o">.</span><span class="n">supports_trial_type</span><span class="p">(</span><span class="n">trial_type</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"Experiment does not support trial_type </span><span class="si">{trial_type}</span><span class="s2">."</span>
+                    <span class="sa">f</span><span class="s2">"Experiment does not support trial_type </span><span class="si">{</span><span class="n">trial_type</span><span class="si">}</span><span class="s2">."</span>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">trial_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span><span class="o">.</span><span class="n">default_trial_type</span>
@@ -260,7 +260,7 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span><span class="o">.</span><span class="n">supports_trial_type</span><span class="p">(</span><span class="n">trial_type</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{trial_type}</span><span class="s2"> is not supported by the experiment."</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">trial_type</span><span class="si">}</span><span class="s2"> is not supported by the experiment."</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_trial_type</span> <span class="o">=</span> <span class="n">trial_type</span>
 
@@ -331,7 +331,7 @@ src="/js/documentation_options.js">
         <span class="sd">"""Sets name for given arm; if this arm is already in the</span>
 <span class="sd">        experiment, uses the existing arm name.</span>
 <span class="sd">        """</span>
-        <span class="n">proposed_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{self.index}</span><span class="s2">_</span><span class="si">{self._num_arms_created}</span><span class="s2">"</span>
+        <span class="n">proposed_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_arms_created</span><span class="si">}</span><span class="s2">"</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">_name_and_store_arm_if_not_exists</span><span class="p">(</span>
             <span class="n">arm</span><span class="o">=</span><span class="n">arm</span><span class="p">,</span> <span class="n">proposed_name</span><span class="o">=</span><span class="n">proposed_name</span>
         <span class="p">)</span>
@@ -440,7 +440,7 @@ src="/js/documentation_options.js">
         <span class="n">prev_step_str</span> <span class="o">=</span> <span class="s2">"staged"</span> <span class="k">if</span> <span class="n">prev_step</span> <span class="o">==</span> <span class="n">TrialStatus</span><span class="o">.</span><span class="n">STAGED</span> <span class="k">else</span> <span class="s2">"candidate"</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">!=</span> <span class="n">prev_step</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Can only mark this trial as running when </span><span class="si">{prev_step_str}</span><span class="s2">."</span>
+                <span class="sa">f</span><span class="s2">"Can only mark this trial as running when </span><span class="si">{</span><span class="n">prev_step_str</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">TrialStatus</span><span class="o">.</span><span class="n">RUNNING</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_time_run_started</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>

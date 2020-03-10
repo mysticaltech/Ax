@@ -136,11 +136,11 @@ src="/js/documentation_options.js">
         <span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="n">parameters_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"parameters=</span><span class="si">{self._parameters}</span><span class="s2">"</span>
+        <span class="n">parameters_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"parameters=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_name</span><span class="p">:</span>
-            <span class="n">name_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"name='</span><span class="si">{self.name}</span><span class="s2">'"</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s2">"Arm(</span><span class="si">{name_str}</span><span class="s2">, </span><span class="si">{parameters_str}</span><span class="s2">)"</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">"Arm(</span><span class="si">{parameters_str}</span><span class="s2">)"</span>
+            <span class="n">name_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"name='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">'"</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">"Arm(</span><span class="si">{</span><span class="n">name_str</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">parameters_str</span><span class="si">}</span><span class="s2">)"</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"Arm(</span><span class="si">{</span><span class="n">parameters_str</span><span class="si">}</span><span class="s2">)"</span>
 
     <span class="nd">@equality_typechecker</span>
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"Arm"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>

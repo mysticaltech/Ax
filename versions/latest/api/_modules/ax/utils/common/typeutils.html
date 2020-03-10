@@ -81,7 +81,7 @@ src="/js/documentation_options.js">
 <span class="sd">    .. _typing.cast: https://docs.python.org/3/library/typing.html#typing.cast</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">typ</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Value was not of type </span><span class="si">{type}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{val}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Value was not of type </span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">val</span></div>
 
 
@@ -128,7 +128,7 @@ src="/js/documentation_options.js">
 <span class="sd">        the ``val`` argument, unchanged</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">typ</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Value was not of type </span><span class="si">{type!r}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{val!r}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Value was not of type </span><span class="si">{</span><span class="nb">type</span><span class="si">!r}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">val</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
     <span class="c1"># pyre-fixme[7]: Expected `T` but got `V`.</span>
     <span class="k">return</span> <span class="n">val</span></div>
 
@@ -150,7 +150,7 @@ src="/js/documentation_options.js">
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">checked_cast</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>  <span class="c1"># pyre-fixme[16]: device has to attr. type</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Object </span><span class="si">{value}</span><span class="s2"> was of unexpected torch type."</span><span class="p">)</span></div>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Object </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> was of unexpected torch type."</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="torch_type_from_str"><a class="viewcode-back" href="../../../../utils.html#ax.utils.common.typeutils.torch_type_from_str">[docs]</a><span class="k">def</span> <span class="nf">torch_type_from_str</span><span class="p">(</span>
@@ -160,7 +160,7 @@ src="/js/documentation_options.js">
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s2">"dtype"</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">torch</span><span class="p">,</span> <span class="n">identifier</span><span class="p">[</span><span class="mi">6</span><span class="p">:])</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unexpected type: </span><span class="si">{type_name}</span><span class="s2"> for identifier: </span><span class="si">{identifier}</span><span class="s2">."</span><span class="p">)</span></div>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unexpected type: </span><span class="si">{</span><span class="n">type_name</span><span class="si">}</span><span class="s2"> for identifier: </span><span class="si">{</span><span class="n">identifier</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span></div>
 </pre></div>
 </div>
 </div>

@@ -176,7 +176,7 @@ src="/js/documentation_options.js">
         <span class="c1"># For SimpleExperiment, fetch_data just executes eval_trial.</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">()</span><span class="o">.</span><span class="n">df</span>
         <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No data was retrieved for trial </span><span class="si">{self.index}</span><span class="s2">."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No data was retrieved for trial </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
         <span class="n">opt_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">optimization_config</span>
         <span class="k">if</span> <span class="n">opt_config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
@@ -193,15 +193,15 @@ src="/js/documentation_options.js">
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">"metric_name"</span><span class="p">]</span> <span class="o">==</span> <span class="n">metric_name</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"mean"</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Metric </span><span class="si">{metric_name}</span><span class="s2"> not yet in data for trial."</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Metric </span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2"> not yet in data for trial."</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="s2">"Trial("</span>
-            <span class="sa">f</span><span class="s2">"experiment_name='</span><span class="si">{self._experiment._name}</span><span class="s2">', "</span>
-            <span class="sa">f</span><span class="s2">"index=</span><span class="si">{self._index}</span><span class="s2">, "</span>
-            <span class="sa">f</span><span class="s2">"status=</span><span class="si">{self._status}</span><span class="s2">, "</span>
-            <span class="sa">f</span><span class="s2">"arm=</span><span class="si">{self.arm}</span><span class="s2">)"</span>
+            <span class="sa">f</span><span class="s2">"experiment_name='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2">', "</span>
+            <span class="sa">f</span><span class="s2">"index=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="si">}</span><span class="s2">, "</span>
+            <span class="sa">f</span><span class="s2">"status=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="si">}</span><span class="s2">, "</span>
+            <span class="sa">f</span><span class="s2">"arm=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">arm</span><span class="si">}</span><span class="s2">)"</span>
         <span class="p">)</span></div>
 </pre></div>
 </div>

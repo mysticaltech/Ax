@@ -37,7 +37,13 @@ src="/js/documentation_options.js">
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">ax.core.types</span> <span class="kn">import</span> <span class="n">TConfig</span>
 <span class="kn">from</span> <span class="nn">ax.models.model_utils</span> <span class="kn">import</span> <span class="n">best_observed_point</span><span class="p">,</span> <span class="n">get_observed</span>
-<span class="kn">from</span> <span class="nn">ax.models.torch.utils</span> <span class="kn">import</span> <span class="n">_to_inequality_constraints</span>
+<span class="kn">from</span> <span class="nn">ax.models.torch.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">HYPERSPHERE</span><span class="p">,</span>
+    <span class="n">SIMPLEX</span><span class="p">,</span>
+    <span class="n">_to_inequality_constraints</span><span class="p">,</span>
+    <span class="n">sample_hypersphere_positive_quadrant</span><span class="p">,</span>
+    <span class="n">sample_simplex</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">ax.models.torch_base</span> <span class="kn">import</span> <span class="n">TorchModel</span>
 <span class="kn">from</span> <span class="nn">botorch.acquisition.acquisition</span> <span class="kn">import</span> <span class="n">AcquisitionFunction</span>
 <span class="kn">from</span> <span class="nn">botorch.acquisition.fixed_feature</span> <span class="kn">import</span> <span class="n">FixedFeatureAcquisitionFunction</span>
@@ -101,7 +107,7 @@ src="/js/documentation_options.js">
         <span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">task_features</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"This model only supports 1 task feature (got </span><span class="si">{task_features}</span><span class="s2">)"</span>
+            <span class="sa">f</span><span class="s2">"This model only supports 1 task feature (got </span><span class="si">{</span><span class="n">task_features</span><span class="si">}</span><span class="s2">)"</span>
         <span class="p">)</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">task_features</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">task_feature</span> <span class="o">=</span> <span class="n">task_features</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -131,6 +137,7 @@ src="/js/documentation_options.js">
                 <span class="n">fidelity_features</span><span class="o">=</span><span class="n">fidelity_features</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="p">)</span>
+    <span class="c1"># TODO: Is this equivalent an "else:" here?</span>
     <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Use a ModelListGP</span>
         <span class="n">models</span> <span class="o">=</span> <span class="p">[</span>
@@ -205,6 +212,10 @@ src="/js/documentation_options.js">
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">X_observed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"There are no feasible observed points."</span><span class="p">)</span>
+    <span class="c1"># Parse random_scalarization params</span>
+    <span class="n">objective_weights</span> <span class="o">=</span> <span class="n">_extract_random_scalarization_settings</span><span class="p">(</span>
+        <span class="n">objective_weights</span><span class="p">,</span> <span class="n">outcome_constraints</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span>
     <span class="c1"># construct Objective module</span>
     <span class="k">if</span> <span class="n">outcome_constraints</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">objective</span> <span class="o">=</span> <span class="n">LinearMCObjective</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">objective_weights</span><span class="p">)</span>
@@ -469,10 +480,14 @@ src="/js/documentation_options.js">
     <span class="n">any_nan_Yvar</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">is_nan</span><span class="p">)</span>
     <span class="n">all_nan_Yvar</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">is_nan</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">any_nan_Yvar</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">all_nan_Yvar</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">"Mix of known and unknown variances indicates valuation function "</span>
-            <span class="s2">"errors. Variances should all be specified, or none should be."</span>
-        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">task_feature</span><span class="p">:</span>
+            <span class="c1"># TODO (jej): Replace with inferred noise before making perf judgements.</span>
+            <span class="n">Yvar</span><span class="p">[</span><span class="n">Yvar</span> <span class="o">!=</span> <span class="n">Yvar</span><span class="p">]</span> <span class="o">=</span> <span class="n">MIN_OBSERVED_NOISE_LEVEL</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"Mix of known and unknown variances indicates valuation function "</span>
+                <span class="s2">"errors. Variances should all be specified, or none should be."</span>
+            <span class="p">)</span>
     <span class="k">if</span> <span class="n">fidelity_features</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fidelity_features</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fidelity_features</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -480,7 +495,7 @@ src="/js/documentation_options.js">
         <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">"linear_truncated"</span><span class="p">}</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fidelity_features</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">task_feature</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
                 <span class="s2">"multi-task multi-fidelity models not yet available"</span>
             <span class="p">)</span>
         <span class="c1"># at this point we can assume that there is only a single fidelity parameter</span>
@@ -495,13 +510,33 @@ src="/js/documentation_options.js">
         <span class="n">gp</span> <span class="o">=</span> <span class="n">MultiTaskGP</span><span class="p">(</span><span class="n">train_X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">train_Y</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">task_feature</span><span class="o">=</span><span class="n">task_feature</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">gp</span> <span class="o">=</span> <span class="n">FixedNoiseMultiTaskGP</span><span class="p">(</span>
-            <span class="n">train_X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
-            <span class="n">train_Y</span><span class="o">=</span><span class="n">Y</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
-            <span class="n">train_Yvar</span><span class="o">=</span><span class="n">Yvar</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
-            <span class="n">task_feature</span><span class="o">=</span><span class="n">task_feature</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="n">train_X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">train_Y</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">train_Yvar</span><span class="o">=</span><span class="n">Yvar</span><span class="p">,</span> <span class="n">task_feature</span><span class="o">=</span><span class="n">task_feature</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">gp</span>
+
+
+<span class="k">def</span> <span class="nf">_extract_random_scalarization_settings</span><span class="p">(</span>
+    <span class="n">objective_weights</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">outcome_constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">use_random_scalarization</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"random_scalarization"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">use_random_scalarization</span><span class="p">:</span>
+        <span class="c1"># Pareto Optimization incompatible with outcome constraints.</span>
+        <span class="k">if</span> <span class="n">outcome_constraints</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"Random scalarization for pareto frontier exploration "</span>
+                <span class="s2">"is incompatible with outcome constraints. Remove one."</span>
+            <span class="p">)</span>
+        <span class="c1"># Set distribution and sample weights.</span>
+        <span class="n">distribution</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"random_scalarization_distribution"</span><span class="p">,</span> <span class="n">SIMPLEX</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">distribution</span> <span class="o">==</span> <span class="n">SIMPLEX</span><span class="p">:</span>
+            <span class="n">objective_weights</span> <span class="o">=</span> <span class="n">sample_simplex</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">objective_weights</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">distribution</span> <span class="o">==</span> <span class="n">HYPERSPHERE</span><span class="p">:</span>
+            <span class="n">objective_weights</span> <span class="o">=</span> <span class="n">sample_hypersphere_positive_quadrant</span><span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">objective_weights</span><span class="p">)</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="n">objective_weights</span>
 </pre></div>
 </div>
 </div>

@@ -103,7 +103,7 @@ src="/js/documentation_options.js">
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">optimization_config</span><span class="o">.</span><span class="n">outcome_constraints</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">relative</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"StandardizeY transform does not support relative constraint </span><span class="si">{c}</span><span class="s2">"</span>
+                    <span class="sa">f</span><span class="s2">"StandardizeY transform does not support relative constraint </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
             <span class="n">c</span><span class="o">.</span><span class="n">bound</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
                 <span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">bound</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ymean</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span><span class="p">])</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ystd</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
@@ -135,7 +135,7 @@ src="/js/documentation_options.js">
         <span class="c1"># Don't standardize if variance is too small.</span>
         <span class="k">if</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">:</span>
             <span class="n">Ystd</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Outcome </span><span class="si">{k}</span><span class="s2"> is constant, within tolerance."</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Outcome </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> is constant, within tolerance."</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">Ymean</span><span class="p">,</span> <span class="n">Ystd</span></div>
 </pre></div>
 </div>

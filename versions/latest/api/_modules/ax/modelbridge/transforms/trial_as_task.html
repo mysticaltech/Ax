@@ -95,8 +95,8 @@ src="/js/documentation_options.js">
                 <span class="n">level_map</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">level_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">trials</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">level_map</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">"Not all trials in data (</span><span class="si">{trials}</span><span class="s2">) contained "</span>
-                        <span class="sa">f</span><span class="s2">"in trial level map for </span><span class="si">{_p_name}</span><span class="s2"> (</span><span class="si">{level_map}</span><span class="s2">)"</span>
+                        <span class="sa">f</span><span class="s2">"Not all trials in data (</span><span class="si">{</span><span class="n">trials</span><span class="si">}</span><span class="s2">) contained "</span>
+                        <span class="sa">f</span><span class="s2">"in trial level map for </span><span class="si">{</span><span class="n">_p_name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">level_map</span><span class="si">}</span><span class="s2">)"</span>
                     <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Set TRIAL_PARAM for each trial to the corresponding trial_index.</span>

@@ -97,7 +97,7 @@ src="/js/documentation_options.js">
             <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"</span><span class="si">{object.__class__}</span><span class="s2"> is missing a value for </span><span class="si">{arg}</span><span class="s2">, "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">object</span><span class="o">.</span><span class="vm">__class__</span><span class="si">}</span><span class="s2"> is missing a value for </span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s2">, "</span>
                 <span class="sa">f</span><span class="s2">"which is needed by its constructor."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">info</span><span class="o">.</span><span class="n">default</span> <span class="o">==</span> <span class="n">value</span><span class="p">:</span>

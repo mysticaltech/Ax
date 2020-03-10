@@ -541,6 +541,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="plot.html#ax.plot.base.AxPlotTypes">AxPlotTypes (class in ax.plot.base)</a>
 </li>
+<li><a href="exceptions.html#ax.exceptions.core.AxWarning">AxWarning</a>
+</li>
 </ul></td>
 </tr></table>
 <h2 id="B">B</h2>
@@ -709,6 +711,8 @@ src="/js/documentation_options.js">
 <li><a href="core.html#ax.core.generator_run.GeneratorRun.clone">(ax.core.generator_run.GeneratorRun method)</a>
 </li>
 <li><a href="core.html#ax.core.metric.Metric.clone">(ax.core.metric.Metric method)</a>
+</li>
+<li><a href="core.html#ax.core.objective.MultiObjective.clone">(ax.core.objective.MultiObjective method)</a>
 </li>
 <li><a href="core.html#ax.core.objective.Objective.clone">(ax.core.objective.Objective method)</a>
 </li>
@@ -1532,10 +1536,10 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_experiment">get_experiment() (in module ax.utils.testing.core_stubs)</a>
 </li>
-</ul></td>
-<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="utils.html#ax.utils.testing.modeling_stubs.get_experiment_for_value">get_experiment_for_value() (in module ax.utils.testing.modeling_stubs)</a>
 </li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_experiment_with_batch_and_single_trial">get_experiment_with_batch_and_single_trial() (in module ax.utils.testing.core_stubs)</a>
 </li>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_experiment_with_batch_trial">get_experiment_with_batch_trial() (in module ax.utils.testing.core_stubs)</a>
@@ -1615,6 +1619,8 @@ src="/js/documentation_options.js">
 <li><a href="core.html#ax.core.utils.get_model_times">get_model_times() (in module ax.core.utils)</a>
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.factory.get_MTGP">get_MTGP() (in module ax.modelbridge.factory)</a>
+</li>
+<li><a href="utils.html#ax.utils.testing.core_stubs.get_multi_objective">get_multi_objective() (in module ax.utils.testing.core_stubs)</a>
 </li>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_multi_type_experiment">get_multi_type_experiment() (in module ax.utils.testing.core_stubs)</a>
 </li>
@@ -2136,9 +2142,9 @@ src="/js/documentation_options.js">
 <li><a href="core.html#ax.core.metric.Metric">(class in ax.core.metric)</a>
 </li>
 </ul></li>
-<li><a href="core.html#ax.core.objective.Objective.metric">metric() (ax.core.objective.Objective property)</a>
+<li><a href="core.html#ax.core.objective.MultiObjective.metric">metric() (ax.core.objective.MultiObjective property)</a>
 <ul>
-<li><a href="core.html#ax.core.objective.ScalarizedObjective.metric">(ax.core.objective.ScalarizedObjective property)</a>
+<li><a href="core.html#ax.core.objective.Objective.metric">(ax.core.objective.Objective property)</a>
 </li>
 <li><a href="core.html#ax.core.outcome_constraint.OutcomeConstraint.metric">(ax.core.outcome_constraint.OutcomeConstraint property)</a>
 </li>
@@ -2161,24 +2167,24 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAMetric.metric_type">metric_type (ax.storage.sqa_store.sqa_classes.SQAMetric attribute)</a>
 </li>
-<li><a href="core.html#ax.core.objective.ScalarizedObjective.metric_weights">metric_weights() (ax.core.objective.ScalarizedObjective property)</a>
+<li><a href="core.html#ax.core.objective.MultiObjective.metric_weights">metric_weights() (ax.core.objective.MultiObjective property)</a>
 </li>
 <li><a href="storage.html#ax.storage.utils.MetricIntent">MetricIntent (class in ax.storage.utils)</a>
 </li>
-<li><a href="core.html#ax.core.objective.ScalarizedObjective.metrics">metrics (ax.core.objective.ScalarizedObjective attribute)</a>
+<li><a href="core.html#ax.core.objective.MultiObjective.metrics">metrics (ax.core.objective.MultiObjective attribute)</a>
 <ul>
+<li><a href="core.html#ax.core.objective.ScalarizedObjective.metrics">(ax.core.objective.ScalarizedObjective attribute)</a>
+</li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAExperiment.metrics">(ax.storage.sqa_store.sqa_classes.SQAExperiment attribute)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.metrics">(ax.storage.sqa_store.sqa_classes.SQAGeneratorRun attribute)</a>
 </li>
 </ul></li>
-</ul></td>
-<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="core.html#ax.core.experiment.Experiment.metrics">metrics() (ax.core.experiment.Experiment property)</a>
 <ul>
-<li><a href="core.html#ax.core.objective.Objective.metrics">(ax.core.objective.Objective property)</a>
+<li><a href="core.html#ax.core.objective.MultiObjective.metrics">(ax.core.objective.MultiObjective property)</a>
 </li>
-<li><a href="core.html#ax.core.objective.ScalarizedObjective.metrics">(ax.core.objective.ScalarizedObjective property)</a>
+<li><a href="core.html#ax.core.objective.Objective.metrics">(ax.core.objective.Objective property)</a>
 </li>
 <li><a href="core.html#ax.core.optimization_config.OptimizationConfig.metrics">(ax.core.optimization_config.OptimizationConfig property)</a>
 </li>
@@ -2189,6 +2195,8 @@ src="/js/documentation_options.js">
 <li><a href="plot.html#ax.plot.base.PlotData.metrics">(ax.plot.base.PlotData property)</a>
 </li>
 </ul></li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStep.min_trials_observed">min_trials_observed() (ax.modelbridge.generation_strategy.GenerationStep property)</a>
 </li>
 <li><a href="benchmark.html#ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.minimize">minimize (ax.benchmark.benchmark_problem.SimpleBenchmarkProblem attribute)</a>
@@ -2261,6 +2269,10 @@ src="/js/documentation_options.js">
 </li>
 </ul></li>
 <li><a href="modelbridge.html#ax.modelbridge.registry.ModelSetup">ModelSetup (class in ax.modelbridge.registry)</a>
+</li>
+<li><a href="storage.html#ax.storage.json_store.encoders.multi_objective_to_dict">multi_objective_to_dict() (in module ax.storage.json_store.encoders)</a>
+</li>
+<li><a href="core.html#ax.core.objective.MultiObjective">MultiObjective (class in ax.core.objective)</a>
 </li>
 <li><a href="core.html#ax.core.multi_type_experiment.MultiTypeExperiment">MultiTypeExperiment (class in ax.core.multi_type_experiment)</a>
 </li>
@@ -2894,6 +2906,10 @@ src="/js/documentation_options.js">
 <td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="utils.html#ax.utils.common.equality.same_elements">same_elements() (in module ax.utils.common.equality)</a>
 </li>
+<li><a href="models.html#ax.models.torch.utils.sample_hypersphere_positive_quadrant">sample_hypersphere_positive_quadrant() (in module ax.models.torch.utils)</a>
+</li>
+<li><a href="models.html#ax.models.torch.utils.sample_simplex">sample_simplex() (in module ax.models.torch.utils)</a>
+</li>
 <li><a href="service.html#ax.service.ax_client.AxClient.save">save() (ax.service.ax_client.AxClient static method)</a>
 <ul>
 <li><a href="ax.html#ax.save">(in module ax)</a>
@@ -2909,6 +2925,8 @@ src="/js/documentation_options.js">
 <li><a href="service.html#ax.service.utils.storage.save_experiment_and_generation_strategy">save_experiment_and_generation_strategy() (in module ax.service.utils.storage)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.save.save_generation_strategy">save_generation_strategy() (in module ax.storage.sqa_store.save)</a>
+</li>
+<li><a href="storage.html#ax.storage.sqa_store.save.save_new_trial">save_new_trial() (in module ax.storage.sqa_store.save)</a>
 </li>
 <li><a href="service.html#ax.service.ax_client.AxClient.save_to_json_file">save_to_json_file() (ax.service.ax_client.AxClient method)</a>
 </li>
@@ -3013,12 +3031,12 @@ src="/js/documentation_options.js">
 <li><a href="core.html#ax.core.simple_experiment.SimpleExperiment">(class in ax.core.simple_experiment)</a>
 </li>
 </ul></li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="benchmark.html#ax.benchmark.botorch_methods.singletask_gp_model_constructor">singletask_gp_model_constructor() (in module ax.benchmark.botorch_methods)</a>
 </li>
 <li><a href="plot.html#ax.plot.base.AxPlotTypes.SLICE">SLICE (ax.plot.base.AxPlotTypes attribute)</a>
 </li>
-</ul></td>
-<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="plot.html#ax.plot.helper.slice_config_to_trace">slice_config_to_trace() (in module ax.plot.helper)</a>
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.registry.Models.SOBOL">SOBOL (ax.modelbridge.registry.Models attribute)</a>
@@ -3511,6 +3529,8 @@ src="/js/documentation_options.js">
 <li><a href="ax.html#ax.SimpleExperiment.update_tracking_metric">(ax.SimpleExperiment method)</a>
 </li>
 </ul></li>
+<li><a href="storage.html#ax.storage.sqa_store.save.update_trial">update_trial() (in module ax.storage.sqa_store.save)</a>
+</li>
 <li><a href="service.html#ax.service.ax_client.AxClient.update_trial_data">update_trial_data() (ax.service.ax_client.AxClient method)</a>
 </li>
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAParameter.upper">upper (ax.storage.sqa_store.sqa_classes.SQAParameter attribute)</a>
@@ -3598,8 +3618,11 @@ src="/js/documentation_options.js">
 <li><a href="core.html#ax.core.generator_run.ArmWeight.weight">(ax.core.generator_run.ArmWeight property)</a>
 </li>
 </ul></li>
-<li><a href="core.html#ax.core.objective.ScalarizedObjective.weights">weights (ax.core.objective.ScalarizedObjective attribute)</a>, <a href="core.html#ax.core.objective.ScalarizedObjective.weights">[1]</a>
+<li><a href="core.html#ax.core.objective.MultiObjective.weights">weights (ax.core.objective.MultiObjective attribute)</a>
+<ul>
+<li><a href="core.html#ax.core.objective.ScalarizedObjective.weights">(ax.core.objective.ScalarizedObjective attribute)</a>, <a href="core.html#ax.core.objective.ScalarizedObjective.weights">[1]</a>
 </li>
+</ul></li>
 <li><a href="ax.html#ax.BatchTrial.weights">weights() (ax.BatchTrial property)</a>
 <ul>
 <li><a href="core.html#ax.core.batch_trial.BatchTrial.weights">(ax.core.batch_trial.BatchTrial property)</a>

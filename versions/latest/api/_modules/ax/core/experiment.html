@@ -176,7 +176,7 @@ src="/js/documentation_options.js">
             <span class="k">for</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">search_space</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">param_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">"Cannot add new parameter `</span><span class="si">{param_name}</span><span class="s2">` because "</span>
+                        <span class="sa">f</span><span class="s2">"Cannot add new parameter `</span><span class="si">{</span><span class="n">param_name</span><span class="si">}</span><span class="s2">` because "</span>
                         <span class="s2">"it is not defined in the existing search space."</span>
                     <span class="p">)</span>
                 <span class="k">elif</span> <span class="p">(</span>
@@ -184,9 +184,9 @@ src="/js/documentation_options.js">
                     <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span><span class="o">.</span><span class="n">parameter_type</span>
                 <span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">"Expected parameter `</span><span class="si">{param_name}</span><span class="s2">` to be of type "</span>
-                        <span class="sa">f</span><span class="s2">"</span><span class="si">{self._search_space.parameters[param_name].parameter_type}</span><span class="s2">, "</span>
-                        <span class="sa">f</span><span class="s2">"got </span><span class="si">{parameter.parameter_type}</span><span class="s2">."</span>
+                        <span class="sa">f</span><span class="s2">"Expected parameter `</span><span class="si">{</span><span class="n">param_name</span><span class="si">}</span><span class="s2">` to be of type "</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span><span class="o">.</span><span class="n">parameter_type</span><span class="si">}</span><span class="s2">, "</span>
+                        <span class="sa">f</span><span class="s2">"got </span><span class="si">{</span><span class="n">parameter</span><span class="o">.</span><span class="n">parameter_type</span><span class="si">}</span><span class="s2">."</span>
                     <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span> <span class="o">=</span> <span class="n">search_space</span>
@@ -206,7 +206,7 @@ src="/js/documentation_options.js">
             <span class="n">sq_idx</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">arms_by_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arms_by_name</span>
             <span class="k">while</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">arms_by_name</span><span class="p">:</span>
-                <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"status_quo_e</span><span class="si">{sq_idx}</span><span class="s2">"</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"status_quo_e</span><span class="si">{</span><span class="n">sq_idx</span><span class="si">}</span><span class="s2">"</span>
                 <span class="n">sq_idx</span> <span class="o">+=</span> <span class="mi">1</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">_name_and_store_arm_if_not_exists</span><span class="p">(</span><span class="n">arm</span><span class="o">=</span><span class="n">status_quo</span><span class="p">,</span> <span class="n">proposed_name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
@@ -285,13 +285,13 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="n">metric</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracking_metrics</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Metric `</span><span class="si">{metric.name}</span><span class="s2">` already defined on experiment. "</span>
+                <span class="sa">f</span><span class="s2">"Metric `</span><span class="si">{</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">` already defined on experiment. "</span>
                 <span class="s2">"Use `update_tracking_metric` to update an existing metric definition."</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimization_config</span> <span class="ow">and</span> <span class="n">metric</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimization_config</span><span class="o">.</span><span class="n">metrics</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Metric `</span><span class="si">{metric.name}</span><span class="s2">` already present in experiment's "</span>
+                <span class="sa">f</span><span class="s2">"Metric `</span><span class="si">{</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">` already present in experiment's "</span>
                 <span class="s2">"OptimizationConfig. Set a new OptimizationConfig without this metric "</span>
                 <span class="s2">"before adding it to tracking metrics."</span>
             <span class="p">)</span>
@@ -306,7 +306,7 @@ src="/js/documentation_options.js">
 <span class="sd">            metric: New metric definition.</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="n">metric</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracking_metrics</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Metric `</span><span class="si">{metric.name}</span><span class="s2">` doesn't exist on experiment."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Metric `</span><span class="si">{</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">` doesn't exist on experiment."</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_tracking_metrics</span><span class="p">[</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric</span>
         <span class="k">return</span> <span class="bp">self</span></div>
@@ -318,7 +318,7 @@ src="/js/documentation_options.js">
 <span class="sd">            metric_name: Unique name of metric to remove.</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="n">metric_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracking_metrics</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Metric `</span><span class="si">{metric_name}</span><span class="s2">` doesn't exist on experiment."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Metric `</span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">` doesn't exist on experiment."</span><span class="p">)</span>
 
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracking_metrics</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span></div>
@@ -396,18 +396,30 @@ src="/js/documentation_options.js">
             <span class="k">return</span> <span class="n">Data</span><span class="p">()</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Data</span><span class="o">.</span><span class="n">from_multiple_data</span><span class="p">(</span>
-                <span class="p">[</span>
-                    <span class="n">metric_cls</span><span class="o">.</span><span class="n">fetch_trial_data_multi</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">metric_list</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">metric_cls</span><span class="p">,</span> <span class="n">metric_list</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metrics_by_class</span><span class="p">(</span>
-                        <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span>
-                    <span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-                <span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_trial_data_no_lookup</span><span class="p">(</span>
+                <span class="n">trial_index</span><span class="o">=</span><span class="n">trial_index</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span>
             <span class="p">)</span>
         <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
             <span class="c1"># If some of the metrics do not implement data fetching, we should</span>
             <span class="c1"># fall back to data that has been attached.</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_data_for_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">trial_index</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_fetch_trial_data_no_lookup</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">trial_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">metrics</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Metric</span><span class="p">]],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Data</span><span class="p">:</span>
+        <span class="sd">"""Fetches data explicitly from metric logic, does not look up attached</span>
+<span class="sd">        data on experiment.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">Data</span><span class="o">.</span><span class="n">from_multiple_data</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">metric_cls</span><span class="o">.</span><span class="n">fetch_trial_data_multi</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">trials</span><span class="p">[</span><span class="n">trial_index</span><span class="p">],</span> <span class="n">metric_list</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">metric_cls</span><span class="p">,</span> <span class="n">metric_list</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metrics_by_class</span><span class="p">(</span>
+                    <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="Experiment.attach_data"><a class="viewcode-back" href="../../../core.html#ax.Experiment.attach_data">[docs]</a>    <span class="k">def</span> <span class="nf">attach_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Data</span><span class="p">,</span> <span class="n">combine_with_last_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">"""Attach data to experiment. Stores data in `experiment._data_by_trial`,</span>
@@ -448,8 +460,8 @@ src="/js/documentation_options.js">
                 <span class="p">)</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">merged</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">"Last data for trial </span><span class="si">{trial_index}</span><span class="s2"> already contained an "</span>
-                        <span class="sa">f</span><span class="s2">"observation for metric {merged.head()['metric_name']}."</span>
+                        <span class="sa">f</span><span class="s2">"Last data for trial </span><span class="si">{</span><span class="n">trial_index</span><span class="si">}</span><span class="s2"> already contained an "</span>
+                        <span class="sa">f</span><span class="s2">"observation for metric </span><span class="si">{</span><span class="n">merged</span><span class="o">.</span><span class="n">head</span><span class="p">()[</span><span class="s1">'metric_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">."</span>
                     <span class="p">)</span>
                 <span class="n">current_trial_data</span><span class="p">[</span><span class="n">cur_time_millis</span><span class="p">]</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">from_multiple_data</span><span class="p">(</span>
                     <span class="p">[</span><span class="n">last_data</span><span class="p">,</span> <span class="n">Data</span><span class="p">(</span><span class="n">trial_df</span><span class="p">)]</span>
@@ -581,8 +593,8 @@ src="/js/documentation_options.js">
             <span class="k">if</span> <span class="n">arm</span><span class="o">.</span><span class="n">has_name</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">arm</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">existing_arm</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">"Arm already exists with name </span><span class="si">{existing_arm.name}</span><span class="s2">, "</span>
-                        <span class="sa">f</span><span class="s2">"which doesn't match given arm name of </span><span class="si">{arm.name}</span><span class="s2">."</span>
+                        <span class="sa">f</span><span class="s2">"Arm already exists with name </span><span class="si">{</span><span class="n">existing_arm</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, "</span>
+                        <span class="sa">f</span><span class="s2">"which doesn't match given arm name of </span><span class="si">{</span><span class="n">arm</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">."</span>
                     <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">arm</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">existing_arm</span><span class="o">.</span><span class="n">name</span>
@@ -603,7 +615,7 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">runner</span> <span class="o">=</span> <span class="n">runner</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"(</span><span class="si">{self._name}</span><span class="s2">)"</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2">)"</span>
 
     <span class="c1"># --- MultiTypeExperiment convenience functions ---</span>
     <span class="c1">#</span>

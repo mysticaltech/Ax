@@ -127,6 +127,11 @@ src="/js/documentation_options.js">
     <span class="n">TaskEncode</span><span class="p">,</span>
 <span class="p">]</span>
 
+<span class="c1"># Single-type MTGP transforms</span>
+<span class="n">Specified_Task_ST_MTGP_trans</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">Transform</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">Cont_X_trans</span> <span class="o">+</span> <span class="p">[</span><span class="n">Derelativize</span><span class="p">,</span> <span class="n">StratifiedStandardizeY</span><span class="p">,</span> <span class="n">TaskEncode</span><span class="p">]</span>
+<span class="p">)</span>
+
 <span class="n">STANDARD_TORCH_BRIDGE_KWARGS</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"torch_dtype"</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">double</span><span class="p">,</span>
     <span class="s2">"torch_device"</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cpu"</span><span class="p">),</span>
@@ -239,7 +244,7 @@ src="/js/documentation_options.js">
         <span class="n">silently_filter_kwargs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># TODO[Lena]: default to False</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModelBridge</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="n">MODEL_KEY_TO_MODEL_SETUP</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Unknown model </span><span class="si">{self.value}</span><span class="s2">"</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="n">MODEL_KEY_TO_MODEL_SETUP</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Unknown model </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span>
         <span class="c1"># All model bridges require either a search space or an experiment.</span>
         <span class="k">assert</span> <span class="n">search_space</span> <span class="ow">or</span> <span class="n">experiment</span><span class="p">,</span> <span class="s2">"Search space or experiment required."</span>
         <span class="n">model_setup_info</span> <span class="o">=</span> <span class="n">MODEL_KEY_TO_MODEL_SETUP</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
@@ -390,8 +395,8 @@ src="/js/documentation_options.js">
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">model_keywords</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">bridge_kwargs</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Keyword argument `</span><span class="si">{key}</span><span class="s2">` occurs in both model and model bridge "</span>
-                <span class="sa">f</span><span class="s2">"kwargs stored in the generator run. Assuming the `</span><span class="si">{key}</span><span class="s2">` kwarg "</span>
+                <span class="sa">f</span><span class="s2">"Keyword argument `</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">` occurs in both model and model bridge "</span>
+                <span class="sa">f</span><span class="s2">"kwargs stored in the generator run. Assuming the `</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">` kwarg "</span>
                 <span class="s2">"is passed into the model by the model bridge and removing its "</span>
                 <span class="s2">"value from the model kwargs."</span>
             <span class="p">)</span>

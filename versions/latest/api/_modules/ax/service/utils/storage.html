@@ -70,8 +70,8 @@ src="/js/documentation_options.js">
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="n">Experiment</span><span class="p">)</span> <span class="ow">or</span> <span class="n">experiment</span><span class="o">.</span><span class="n">is_simple_experiment</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Service API only supports Experiment"</span><span class="p">)</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">"Loaded experiment </span><span class="si">{name}</span><span class="s2"> in "</span>
-        <span class="sa">f</span><span class="s2">"{_round_floats_for_logging(time.time() - start_time)} seconds"</span>
+        <span class="sa">f</span><span class="s2">"Loaded experiment </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> in "</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_round_floats_for_logging</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span><span class="si">}</span><span class="s2"> seconds"</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">experiment</span></div>
 
@@ -88,8 +88,8 @@ src="/js/documentation_options.js">
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">_save_experiment</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">db_settings</span><span class="o">.</span><span class="n">encoder</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">"Saved experiment </span><span class="si">{experiment.name}</span><span class="s2"> in "</span>
-        <span class="sa">f</span><span class="s2">"{_round_floats_for_logging(time.time() - start_time)} seconds"</span>
+        <span class="sa">f</span><span class="s2">"Saved experiment </span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> in "</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_round_floats_for_logging</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span><span class="si">}</span><span class="s2"> seconds"</span>
     <span class="p">)</span></div>
 
 

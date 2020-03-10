@@ -68,12 +68,12 @@ src="/js/documentation_options.js">
 
     <span class="k">if</span> <span class="n">src</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># pyre-fixme[16]: `_T` has no attribute `__qualname__`.</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{src.__qualname__}</span><span class="s2"> has no docstring to copy"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">src</span><span class="o">.</span><span class="vm">__qualname__</span><span class="si">}</span><span class="s2"> has no docstring to copy"</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">copy_doc</span><span class="p">(</span><span class="n">dst</span><span class="p">:</span> <span class="n">_T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">dst</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># pyre-fixme[16]: `_T` has no attribute `__qualname__`.</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{dst.__qualname__}</span><span class="s2"> already has a docstring"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">dst</span><span class="o">.</span><span class="vm">__qualname__</span><span class="si">}</span><span class="s2"> already has a docstring"</span><span class="p">)</span>
         <span class="n">dst</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="vm">__doc__</span>
         <span class="k">return</span> <span class="n">dst</span>
 

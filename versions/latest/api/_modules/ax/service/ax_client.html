@@ -94,7 +94,7 @@ src="/js/documentation_options.js">
         <span class="n">save_experiment_and_generation_strategy</span><span class="p">,</span>
         <span class="n">save_experiment</span><span class="p">,</span>
     <span class="p">)</span>
-<span class="k">except</span> <span class="n">ModuleNotFoundError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
     <span class="n">DBSettings</span> <span class="o">=</span> <span class="kc">None</span>
 
 
@@ -185,7 +185,7 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">_suppress_storage_errors</span> <span class="o">=</span> <span class="n">suppress_storage_errors</span>
         <span class="k">if</span> <span class="n">random_seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Random seed set to </span><span class="si">{random_seed}</span><span class="s2">. Note that this setting "</span>
+                <span class="sa">f</span><span class="s2">"Random seed set to </span><span class="si">{</span><span class="n">random_seed</span><span class="si">}</span><span class="s2">. Note that this setting "</span>
                 <span class="s2">"only affects the Sobol quasi-random generator "</span>
                 <span class="s2">"and BoTorch-powered Bayesian optimization models. For the latter "</span>
                 <span class="s2">"models, setting random seed to the same number for two optimizations "</span>
@@ -256,7 +256,7 @@ src="/js/documentation_options.js">
                 <span class="k">pass</span>
             <span class="k">if</span> <span class="n">existing</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"Experiment </span><span class="si">{name}</span><span class="s2"> already exists in the database. "</span>
+                    <span class="sa">f</span><span class="s2">"Experiment </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> already exists in the database. "</span>
                     <span class="s2">"To protect experiments that are running in production, "</span>
                     <span class="s2">"overwriting stored experiments is not allowed. To "</span>
                     <span class="s2">"start a new experiment and store it, change the "</span>
@@ -267,8 +267,8 @@ src="/js/documentation_options.js">
                 <span class="n">exp_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">_name</span> <span class="ow">or</span> <span class="s2">"untitled"</span>
                 <span class="n">new_exp_name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="s2">"untitled"</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"Overwriting existing experiment (</span><span class="si">{exp_name}</span><span class="s2">) on this client "</span>
-                    <span class="sa">f</span><span class="s2">"with new experiment (</span><span class="si">{new_exp_name}</span><span class="s2">) and restarting the "</span>
+                    <span class="sa">f</span><span class="s2">"Overwriting existing experiment (</span><span class="si">{</span><span class="n">exp_name</span><span class="si">}</span><span class="s2">) on this client "</span>
+                    <span class="sa">f</span><span class="s2">"with new experiment (</span><span class="si">{</span><span class="n">new_exp_name</span><span class="si">}</span><span class="s2">) and restarting the "</span>
                     <span class="s2">"generation strategy."</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_generation_strategy</span> <span class="o">=</span> <span class="kc">None</span>
@@ -305,8 +305,8 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="n">trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">new_trial</span><span class="p">(</span><span class="n">generator_run</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_gen_new_generator_run</span><span class="p">())</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"Generated new trial </span><span class="si">{trial.index}</span><span class="s2"> with parameters "</span>
-            <span class="sa">f</span><span class="s2">"{_round_floats_for_logging(item=not_none(trial.arm).parameters)}."</span>
+            <span class="sa">f</span><span class="s2">"Generated new trial </span><span class="si">{</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="si">}</span><span class="s2"> with parameters "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_round_floats_for_logging</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">not_none</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">arm</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
         <span class="n">trial</span><span class="o">.</span><span class="n">mark_running</span><span class="p">(</span><span class="n">no_runner_required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_maybe_generation_strategy_to_db_if_possible</span><span class="p">()</span>
@@ -336,7 +336,7 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="c1"># Validate that trial can be completed.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trial_index</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Trial index must be an int, got: </span><span class="si">{trial_index}</span><span class="s2">."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Trial index must be an int, got: </span><span class="si">{</span><span class="n">trial_index</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
         <span class="n">trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">trial_index</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_can_complete_trial</span><span class="p">(</span><span class="n">trial</span><span class="o">=</span><span class="n">trial</span><span class="p">)</span>
 
@@ -352,8 +352,8 @@ src="/js/documentation_options.js">
             <span class="n">item</span><span class="o">=</span><span class="n">evaluations</span><span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">evaluations</span><span class="o">.</span><span class="n">keys</span><span class="p">()))]</span>
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"Completed trial </span><span class="si">{trial_index}</span><span class="s2"> with data: "</span>
-            <span class="sa">f</span><span class="s2">"{_round_floats_for_logging(item=data_for_logging)}."</span>
+            <span class="sa">f</span><span class="s2">"Completed trial </span><span class="si">{</span><span class="n">trial_index</span><span class="si">}</span><span class="s2"> with data: "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_round_floats_for_logging</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">data_for_logging</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_maybe_generation_strategy_to_db_if_possible</span><span class="p">(</span>
             <span class="n">save_generation_strategy</span><span class="o">=</span><span class="kc">False</span>  <span class="c1"># No changes were made to gen. strategy.</span>
@@ -384,11 +384,11 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span>
             <span class="n">trial_index</span><span class="p">,</span> <span class="nb">int</span>
-        <span class="p">),</span> <span class="sa">f</span><span class="s2">"Trial index must be an int, got: </span><span class="si">{trial_index}</span><span class="s2">."</span>  <span class="c1"># pragma: no cover</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s2">"Trial index must be an int, got: </span><span class="si">{</span><span class="n">trial_index</span><span class="si">}</span><span class="s2">."</span>  <span class="c1"># pragma: no cover</span>
         <span class="n">trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">trial_index</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">trial</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">is_completed</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Trial </span><span class="si">{trial.index}</span><span class="s2"> has not yet been completed with data."</span>
+                <span class="sa">f</span><span class="s2">"Trial </span><span class="si">{</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="si">}</span><span class="s2"> has not yet been completed with data."</span>
                 <span class="s2">"To complete it, use `ax_client.complete_trial`."</span>
             <span class="p">)</span>
         <span class="n">sample_sizes</span> <span class="o">=</span> <span class="p">{</span><span class="n">not_none</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">arm</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">sample_size</span><span class="p">}</span> <span class="k">if</span> <span class="n">sample_size</span> <span class="k">else</span> <span class="p">{}</span>
@@ -401,8 +401,8 @@ src="/js/documentation_options.js">
             <span class="n">item</span><span class="o">=</span><span class="n">evaluations</span><span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">evaluations</span><span class="o">.</span><span class="n">keys</span><span class="p">()))]</span>
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"Added data: {_round_floats_for_logging(item=data_for_logging)} "</span>
-            <span class="sa">f</span><span class="s2">"to trial </span><span class="si">{trial.index}</span><span class="s2">."</span>
+            <span class="sa">f</span><span class="s2">"Added data: </span><span class="si">{</span><span class="n">_round_floats_for_logging</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">data_for_logging</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span>
+            <span class="sa">f</span><span class="s2">"to trial </span><span class="si">{</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_maybe_generation_strategy_to_db_if_possible</span><span class="p">(</span>
             <span class="n">save_generation_strategy</span><span class="o">=</span><span class="kc">False</span>  <span class="c1"># No changes were made to gen. strategy.</span>
@@ -419,7 +419,7 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="n">trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="p">[</span><span class="n">trial_index</span><span class="p">]</span>
         <span class="n">trial</span><span class="o">.</span><span class="n">mark_failed</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Registered failure of trial </span><span class="si">{trial_index}</span><span class="s2">."</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Registered failure of trial </span><span class="si">{</span><span class="n">trial_index</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">trial</span><span class="o">.</span><span class="n">_run_metadata</span> <span class="o">=</span> <span class="n">metadata</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_maybe_generation_strategy_to_db_if_possible</span><span class="p">(</span>
@@ -442,7 +442,7 @@ src="/js/documentation_options.js">
         <span class="n">trial</span><span class="o">.</span><span class="n">mark_running</span><span class="p">(</span><span class="n">no_runner_required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="s2">"Attached custom parameterization "</span>
-            <span class="sa">f</span><span class="s2">"{_round_floats_for_logging(item=parameters)} as trial </span><span class="si">{trial.index}</span><span class="s2">."</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_round_floats_for_logging</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span><span class="si">}</span><span class="s2"> as trial </span><span class="si">{</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_experiment_and_maybe_generation_strategy_to_db_if_possible</span><span class="p">(</span>
             <span class="n">save_generation_strategy</span><span class="o">=</span><span class="kc">False</span>  <span class="c1"># No changes were made to gen. strategy.</span>
@@ -576,21 +576,21 @@ src="/js/documentation_options.js">
 
         <span class="k">if</span> <span class="n">param_x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">'Parameter "</span><span class="si">{param_x}</span><span class="s1">" not found in the optimization search space.'</span>
+                <span class="sa">f</span><span class="s1">'Parameter "</span><span class="si">{</span><span class="n">param_x</span><span class="si">}</span><span class="s1">" not found in the optimization search space.'</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">param_y</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">'Parameter "</span><span class="si">{param_y}</span><span class="s1">" not found in the optimization search space.'</span>
+                <span class="sa">f</span><span class="s1">'Parameter "</span><span class="si">{</span><span class="n">param_y</span><span class="si">}</span><span class="s1">" not found in the optimization search space.'</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">metric_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">metrics</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">'Metric "</span><span class="si">{metric_name}</span><span class="s1">" is not associated with this optimization.'</span>
+                <span class="sa">f</span><span class="s1">'Metric "</span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s1">" is not associated with this optimization.'</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"Retrieving contour plot with parameter '</span><span class="si">{param_x}</span><span class="s2">' on X-axis "</span>
-                    <span class="sa">f</span><span class="s2">"and '</span><span class="si">{param_y}</span><span class="s2">' on Y-axis, for metric '</span><span class="si">{metric_name}</span><span class="s2">'. "</span>
+                    <span class="sa">f</span><span class="s2">"Retrieving contour plot with parameter '</span><span class="si">{</span><span class="n">param_x</span><span class="si">}</span><span class="s2">' on X-axis "</span>
+                    <span class="sa">f</span><span class="s2">"and '</span><span class="si">{</span><span class="n">param_y</span><span class="si">}</span><span class="s2">' on Y-axis, for metric '</span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">'. "</span>
                     <span class="s2">"Ramaining parameters are affixed to the middle of their range."</span>
                 <span class="p">)</span>
                 <span class="k">return</span> <span class="n">plot_contour</span><span class="p">(</span>
@@ -604,13 +604,13 @@ src="/js/documentation_options.js">
                 <span class="c1"># Some models don't implement '_predict', which is needed</span>
                 <span class="c1"># for the contour plots.</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"Model </span><span class="si">{self.generation_strategy.model}</span><span class="s2"> does not implement "</span>
+                    <span class="sa">f</span><span class="s2">"Model </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span><span class="o">.</span><span class="n">model</span><span class="si">}</span><span class="s2"> does not implement "</span>
                     <span class="s2">"`predict`, so it cannot be used to generate a response "</span>
                     <span class="s2">"surface plot."</span>
                 <span class="p">)</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">'Could not obtain contour plot of "</span><span class="si">{metric_name}</span><span class="s1">" for parameters '</span>
-            <span class="sa">f</span><span class="s1">'"</span><span class="si">{param_x}</span><span class="s1">" and "</span><span class="si">{param_y}</span><span class="s1">", as a model with predictive ability, '</span>
+            <span class="sa">f</span><span class="s1">'Could not obtain contour plot of "</span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s1">" for parameters '</span>
+            <span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="n">param_x</span><span class="si">}</span><span class="s1">" and "</span><span class="si">{</span><span class="n">param_y</span><span class="si">}</span><span class="s1">", as a model with predictive ability, '</span>
             <span class="s2">"such as a Gaussian Process, has not yet been trained in the course "</span>
             <span class="s2">"of this optimization."</span>
         <span class="p">)</span></div>
@@ -633,7 +633,7 @@ src="/js/documentation_options.js">
                 <span class="k">return</span> <span class="n">plot_feature_importance_by_feature</span><span class="p">(</span><span class="n">cur_model</span><span class="p">,</span> <span class="n">relative</span><span class="o">=</span><span class="n">relative</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"Model </span><span class="si">{self.generation_strategy.model}</span><span class="s2"> does not implement "</span>
+                    <span class="sa">f</span><span class="s2">"Model </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">generation_strategy</span><span class="o">.</span><span class="n">model</span><span class="si">}</span><span class="s2"> does not implement "</span>
                     <span class="s2">"`feature_importances`, so it cannot be used to generate "</span>
                     <span class="s2">"this plot. Only certain models, specifically GPEI, implement "</span>
                     <span class="s2">"feature importances."</span>
@@ -669,7 +669,7 @@ src="/js/documentation_options.js">
             <span class="n">experiment_name</span><span class="o">=</span><span class="n">experiment_name</span><span class="p">,</span> <span class="n">db_settings</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">db_settings</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_experiment</span> <span class="o">=</span> <span class="n">experiment</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loaded </span><span class="si">{experiment}</span><span class="s2">."</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loaded </span><span class="si">{</span><span class="n">experiment</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">generation_strategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_generation_strategy</span><span class="p">(</span>
                 <span class="n">choose_generation_strategy_kwargs</span><span class="o">=</span><span class="n">choose_generation_strategy_kwargs</span>
@@ -678,7 +678,7 @@ src="/js/documentation_options.js">
             <span class="bp">self</span><span class="o">.</span><span class="n">_generation_strategy</span> <span class="o">=</span> <span class="n">generation_strategy</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"Using generation strategy associated with the loaded experiment:"</span>
-                <span class="sa">f</span><span class="s2">" </span><span class="si">{generation_strategy}</span><span class="s2">."</span>
+                <span class="sa">f</span><span class="s2">" </span><span class="si">{</span><span class="n">generation_strategy</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span></div>
 
 <div class="viewcode-block" id="AxClient.get_model_predictions"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.get_model_predictions">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_predictions</span><span class="p">(</span>
@@ -745,7 +745,7 @@ src="/js/documentation_options.js">
 <span class="sd">        """</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">"w+"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_json_snapshot</span><span class="p">()))</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Saved JSON-serialized state of optimization to `</span><span class="si">{filepath}</span><span class="s2">`."</span><span class="p">)</span></div>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Saved JSON-serialized state of optimization to `</span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2">`."</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AxClient.load_from_json_file"><a class="viewcode-back" href="../../../service.html#ax.service.ax_client.AxClient.load_from_json_file">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">load_from_json_file</span><span class="p">(</span>
@@ -901,7 +901,7 @@ src="/js/documentation_options.js">
                     <span class="s2">"`AxClient` only supports `Trial`, not `BatchTrial`."</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="n">trial</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Trial </span><span class="si">{trial_index}</span><span class="s2"> does not yet exist."</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Trial </span><span class="si">{</span><span class="n">trial_index</span><span class="si">}</span><span class="s2"> does not yet exist."</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_find_last_trial_with_parameterization</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">parameterization</span><span class="p">:</span> <span class="n">TParameterization</span>
@@ -913,7 +913,7 @@ src="/js/documentation_options.js">
             <span class="k">if</span> <span class="n">not_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_trial</span><span class="p">(</span><span class="n">trial_idx</span><span class="p">)</span><span class="o">.</span><span class="n">arm</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span> <span class="o">==</span> <span class="n">parameterization</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">trial_idx</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"No trial on experiment matches parameterization </span><span class="si">{parameterization}</span><span class="s2">."</span>
+            <span class="sa">f</span><span class="s2">"No trial on experiment matches parameterization </span><span class="si">{</span><span class="n">parameterization</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_make_evaluations_and_data</span><span class="p">(</span>
@@ -943,7 +943,7 @@ src="/js/documentation_options.js">
             <span class="n">arm_name</span> <span class="o">=</span> <span class="n">not_none</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">arm</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
             <span class="n">raw_data</span> <span class="o">=</span> <span class="p">{</span><span class="n">arm_name</span><span class="p">:</span> <span class="n">raw_data</span><span class="p">}</span>  <span class="c1"># pyre-ignore[9]</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unexpected trial type: {type(trial)}."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unexpected trial type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
         <span class="n">evaluations</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">arm_name</span><span class="p">:</span> <span class="n">raw_data_to_evaluation</span><span class="p">(</span>
@@ -974,13 +974,13 @@ src="/js/documentation_options.js">
     <span class="k">def</span> <span class="nf">_validate_can_complete_trial</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">BaseTrial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">is_completed</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Trial </span><span class="si">{trial.index}</span><span class="s2"> has already been completed with data."</span>
+                <span class="sa">f</span><span class="s2">"Trial </span><span class="si">{</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="si">}</span><span class="s2"> has already been completed with data."</span>
                 <span class="s2">"To add more data to it (for example, for a different metric), "</span>
                 <span class="s2">"use `ax_client.update_trial_data`."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">is_abandoned</span> <span class="ow">or</span> <span class="n">trial</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">is_failed</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Trial </span><span class="si">{trial.index}</span><span class="s2"> has been marked </span><span class="si">{trial.status.name}</span><span class="s2">, so it "</span>
+                <span class="sa">f</span><span class="s2">"Trial </span><span class="si">{</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="si">}</span><span class="s2"> has been marked </span><span class="si">{</span><span class="n">trial</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, so it "</span>
                 <span class="s2">"no longer expects data."</span>
             <span class="p">)</span>
 
@@ -994,9 +994,9 @@ src="/js/documentation_options.js">
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="n">p_name</span><span class="p">],</span> <span class="n">parameter</span><span class="o">.</span><span class="n">python_type</span><span class="p">):</span>
                 <span class="n">typ</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="n">p_name</span><span class="p">])</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"Value for parameter </span><span class="si">{p_name}</span><span class="s2"> is of type </span><span class="si">{typ}</span><span class="s2">, expected "</span>
-                    <span class="sa">f</span><span class="s2">"</span><span class="si">{parameter.python_type}</span><span class="s2">. If the intention was to have the "</span>
-                    <span class="sa">f</span><span class="s2">"parameter on experiment be of type </span><span class="si">{typ}</span><span class="s2">, set `value_type` "</span>
+                    <span class="sa">f</span><span class="s2">"Value for parameter </span><span class="si">{</span><span class="n">p_name</span><span class="si">}</span><span class="s2"> is of type </span><span class="si">{</span><span class="n">typ</span><span class="si">}</span><span class="s2">, expected "</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">parameter</span><span class="o">.</span><span class="n">python_type</span><span class="si">}</span><span class="s2">. If the intention was to have the "</span>
+                    <span class="sa">f</span><span class="s2">"parameter on experiment be of type </span><span class="si">{</span><span class="n">typ</span><span class="si">}</span><span class="s2">, set `value_type` "</span>
                     <span class="s2">"on experiment creation for </span><span class="si">{p_name}</span><span class="s2">."</span>
                 <span class="p">)</span>
 

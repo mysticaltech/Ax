@@ -267,7 +267,7 @@ src="/js/documentation_options.js">
             <span class="k">for</span> <span class="n">metric_name</span> <span class="ow">in</span> <span class="n">obsd</span><span class="o">.</span><span class="n">metric_names</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">metric_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metric_names</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">"Unrecognised metric </span><span class="si">{metric_name}</span><span class="s2">; cannot update "</span>
+                        <span class="sa">f</span><span class="s2">"Unrecognised metric </span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">; cannot update "</span>
                         <span class="s2">"training data with metrics that were not in the original "</span>
                         <span class="s2">"training data."</span>
                     <span class="p">)</span>
@@ -341,10 +341,10 @@ src="/js/documentation_options.js">
             <span class="p">]</span>
 
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sq_obs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Status quo </span><span class="si">{status_quo_name}</span><span class="s2"> not present in data"</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Status quo </span><span class="si">{</span><span class="n">status_quo_name</span><span class="si">}</span><span class="s2"> not present in data"</span><span class="p">)</span>
             <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">sq_obs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
-                    <span class="sa">f</span><span class="s2">"Status quo </span><span class="si">{status_quo_name}</span><span class="s2"> found in data with multiple "</span>
+                    <span class="sa">f</span><span class="s2">"Status quo </span><span class="si">{</span><span class="n">status_quo_name</span><span class="si">}</span><span class="s2"> found in data with multiple "</span>
                     <span class="s2">"features. Use status_quo_features to specify which to use."</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
@@ -360,7 +360,7 @@ src="/js/documentation_options.js">
 
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sq_obs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"Status quo features </span><span class="si">{status_quo_features}</span><span class="s2"> not found in data."</span>
+                    <span class="sa">f</span><span class="s2">"Status quo features </span><span class="si">{</span><span class="n">status_quo_features</span><span class="si">}</span><span class="s2"> not found in data."</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># len(sq_obs) will not be &gt; 1,</span>
@@ -399,8 +399,8 @@ src="/js/documentation_options.js">
     <span class="k">def</span> <span class="nf">training_in_design</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">training_in_design</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">training_in_design</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_training_data</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"In-design indicators not same length ({len(training_in_design)})"</span>
-                <span class="sa">f</span><span class="s2">" as training data ({len(self._training_data)})."</span>
+                <span class="sa">f</span><span class="s2">"In-design indicators not same length (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">training_in_design</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span>
+                <span class="sa">f</span><span class="s2">" as training data (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_training_data</span><span class="p">)</span><span class="si">}</span><span class="s2">)."</span>
             <span class="p">)</span>
         <span class="c1"># Identify out-of-design arms</span>
         <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">training_in_design</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">training_in_design</span><span class="p">):</span>
@@ -409,7 +409,7 @@ src="/js/documentation_options.js">
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">training_in_design</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">and</span> <span class="n">obs</span><span class="o">.</span><span class="n">arm_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">ood_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">arm_name</span><span class="p">)</span>
             <span class="n">ood_str</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ood_names</span><span class="p">))</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Leaving out out-of-design observations for arms: </span><span class="si">{ood_str}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Leaving out out-of-design observations for arms: </span><span class="si">{</span><span class="n">ood_str</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_training_in_design</span> <span class="o">=</span> <span class="n">training_in_design</span>
 
     <span class="k">def</span> <span class="nf">_fit</span><span class="p">(</span>

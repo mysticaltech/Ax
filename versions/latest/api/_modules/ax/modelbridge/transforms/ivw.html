@@ -126,7 +126,7 @@ src="/js/documentation_options.js">
     <span class="n">means_noiseless</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">metric_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">conflicting_noiseless</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">means_noiseless</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Conflicting noiseless measurements for </span><span class="si">{metric_name}</span><span class="s2">."</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Conflicting noiseless measurements for </span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">."</span>
         <span class="k">if</span> <span class="n">conflicting_noiseless</span> <span class="o">==</span> <span class="s2">"warn"</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">conflicting_noiseless</span> <span class="o">==</span> <span class="s2">"raise"</span><span class="p">:</span>

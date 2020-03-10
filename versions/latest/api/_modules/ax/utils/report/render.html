@@ -85,9 +85,9 @@ src="/js/documentation_options.js">
 <div class="viewcode-block" id="table_cell_html"><a class="viewcode-back" href="../../../../utils.html#ax.utils.report.render.table_cell_html">[docs]</a><span class="k">def</span> <span class="nf">table_cell_html</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">"""Embed text or an HTML element into table cell tag."""</span>
     <span class="k">if</span> <span class="n">width</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">"&lt;td width=</span><span class="si">{width}</span><span class="s2">&gt;</span><span class="si">{text}</span><span class="s2">&lt;/td&gt;"</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"&lt;td width=</span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&lt;/td&gt;"</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">"&lt;td&gt;</span><span class="si">{text}</span><span class="s2">&lt;/td&gt;"</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"&lt;td&gt;</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&lt;/td&gt;"</span></div>
 
 
 <div class="viewcode-block" id="table_heading_cell_html"><a class="viewcode-back" href="../../../../utils.html#ax.utils.report.render.table_heading_cell_html">[docs]</a><span class="k">def</span> <span class="nf">table_heading_cell_html</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>

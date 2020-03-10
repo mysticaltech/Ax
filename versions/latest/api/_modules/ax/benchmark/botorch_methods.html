@@ -112,7 +112,7 @@ src="/js/documentation_options.js">
     <span class="k">if</span> <span class="n">acquisition</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ACQF_MODEL_MAP</span><span class="p">:</span>
         <span class="n">acquisition</span> <span class="o">=</span> <span class="s2">"Sobol"</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="si">{acquisition}</span><span class="s2"> is not a supported "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">acquisition</span><span class="si">}</span><span class="s2"> is not a supported "</span>
             <span class="s2">"acquisition function. Defaulting to Sobol."</span>
         <span class="p">)</span>
 
@@ -151,7 +151,7 @@ src="/js/documentation_options.js">
                 <span class="s2">"transforms"</span><span class="p">:</span> <span class="p">[</span><span class="n">Winsorize</span><span class="p">]</span> <span class="o">+</span> <span class="n">Cont_X_trans</span> <span class="o">+</span> <span class="n">Y_trans</span><span class="p">,</span>  <span class="c1"># pyre-ignore[6]</span>
                 <span class="s2">"transform_configs"</span><span class="p">:</span> <span class="p">{</span>
                     <span class="s2">"Winsorize"</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="sa">f</span><span class="s2">"winsorization_</span><span class="si">{t}</span><span class="s2">"</span><span class="p">:</span> <span class="n">v</span>
+                        <span class="sa">f</span><span class="s2">"winsorization_</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">"</span><span class="p">:</span> <span class="n">v</span>
                         <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">((</span><span class="s2">"lower"</span><span class="p">,</span> <span class="s2">"upper"</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
                     <span class="p">}</span>
                 <span class="p">},</span>

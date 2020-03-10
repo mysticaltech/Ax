@@ -133,8 +133,8 @@ src="/js/documentation_options.js">
     <span class="k">if</span> <span class="n">successful_draws</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
         <span class="c1"># Only possible if attempted_draws &gt;= max_draws.</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"Specified maximum draws (</span><span class="si">{max_draws}</span><span class="s2">) exhausted, without "</span>
-            <span class="sa">f</span><span class="s2">"finding sufficiently many (</span><span class="si">{n}</span><span class="s2">) candidates."</span>
+            <span class="sa">f</span><span class="s2">"Specified maximum draws (</span><span class="si">{</span><span class="n">max_draws</span><span class="si">}</span><span class="s2">) exhausted, without "</span>
+            <span class="sa">f</span><span class="s2">"finding sufficiently many (</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">) candidates."</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">attempted_draws</span><span class="p">)</span></div>
@@ -309,7 +309,7 @@ src="/js/documentation_options.js">
 <span class="sd">        A d-array of the best point, or None if no feasible point exists.</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">"Xs"</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Model must store training data Xs, but </span><span class="si">{model}</span><span class="s2"> does not."</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Model must store training data Xs, but </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2"> does not."</span><span class="p">)</span>
     <span class="c1"># Parse options</span>
     <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>

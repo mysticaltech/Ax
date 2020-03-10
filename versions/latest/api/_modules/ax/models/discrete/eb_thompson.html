@@ -72,7 +72,7 @@ src="/js/documentation_options.js">
             <span class="n">npY</span><span class="p">,</span> <span class="n">npYsem</span> <span class="o">=</span> <span class="n">positive_part_james_stein</span><span class="p">(</span><span class="n">means</span><span class="o">=</span><span class="n">npY</span><span class="p">,</span> <span class="n">sems</span><span class="o">=</span><span class="n">npYsem</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">" Raw (unshrunk) estimates used for outcome: </span><span class="si">{outcome}</span><span class="s2">"</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">" Raw (unshrunk) estimates used for outcome: </span><span class="si">{</span><span class="n">outcome</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="n">Y</span> <span class="o">=</span> <span class="n">npY</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="n">npYvar</span> <span class="o">=</span> <span class="n">npYsem</span> <span class="o">**</span> <span class="mi">2</span>

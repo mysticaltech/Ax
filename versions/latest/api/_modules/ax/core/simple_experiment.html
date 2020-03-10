@@ -138,7 +138,7 @@ src="/js/documentation_options.js">
         <span class="n">evaluations</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_evaluation_function</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
-                <span class="sa">f</span><span class="s2">"Cannot evaluate trial </span><span class="si">{trial.index}</span><span class="s2"> as no attached data was "</span>
+                <span class="sa">f</span><span class="s2">"Cannot evaluate trial </span><span class="si">{</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="si">}</span><span class="s2"> as no attached data was "</span>
                 <span class="s2">"found and no evaluation function is set on this `SimpleExperiment.`"</span>
                 <span class="s2">"`SimpleExperiment` is geared to synchronous and sequential cases "</span>
                 <span class="s2">"where each trial is evaluated before more trials are created. "</span>

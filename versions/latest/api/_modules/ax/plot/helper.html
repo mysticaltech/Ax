@@ -380,9 +380,9 @@ src="/js/documentation_options.js">
 
     <span class="n">range_param</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">model_space</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">param_name</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">range_param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parameter `</span><span class="si">{param_name}</span><span class="s2">` does not exist."</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parameter `</span><span class="si">{</span><span class="n">param_name</span><span class="si">}</span><span class="s2">` does not exist."</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">range_param</span><span class="p">,</span> <span class="n">RangeParameter</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{param_name}</span><span class="s2"> is not a RangeParameter"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">param_name</span><span class="si">}</span><span class="s2"> is not a RangeParameter"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">range_param</span></div>
 

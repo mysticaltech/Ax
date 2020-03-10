@@ -85,7 +85,7 @@ src="/js/documentation_options.js">
             <span class="bp">self</span><span class="o">.</span><span class="n">p_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">"parameter_name"</span><span class="p">]</span>
             <span class="n">strat_p</span> <span class="o">=</span> <span class="n">search_space</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">p_name</span><span class="p">]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">strat_p</span><span class="p">,</span> <span class="n">ChoiceParameter</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{self.p_name}</span><span class="s2"> not a ChoiceParameter"</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">p_name</span><span class="si">}</span><span class="s2"> not a ChoiceParameter"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># See if there is a task parameter</span>
             <span class="n">task_parameters</span> <span class="o">=</span> <span class="p">[</span>
@@ -142,7 +142,7 @@ src="/js/documentation_options.js">
             <span class="k">return</span> <span class="n">optimization_config</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fixed_features</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"StratifiedStandardizeY transform requires </span><span class="si">{self.p_name}</span><span class="s2"> to be fixed "</span>
+                <span class="sa">f</span><span class="s2">"StratifiedStandardizeY transform requires </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">p_name</span><span class="si">}</span><span class="s2"> to be fixed "</span>
                 <span class="s2">"during generation."</span>
             <span class="p">)</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">fixed_features</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">p_name</span><span class="p">]</span>

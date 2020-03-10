@@ -128,7 +128,7 @@ src="/js/documentation_options.js">
         <span class="n">optimization_trace_all_methods</span><span class="p">(</span>
             <span class="n">y_dict</span><span class="o">=</span><span class="n">benchmark_result</span><span class="o">.</span><span class="n">objective_at_true_best</span><span class="p">,</span>
             <span class="n">optimum</span><span class="o">=</span><span class="n">benchmark_result</span><span class="o">.</span><span class="n">optimum</span><span class="p">,</span>
-            <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{problem_name}</span><span class="s2">: cumulative best objective"</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">problem_name</span><span class="si">}</span><span class="s2">: cumulative best objective"</span><span class="p">,</span>
             <span class="n">ylabel</span><span class="o">=</span><span class="s2">"Objective at best-feasible point observed so far"</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
@@ -140,7 +140,7 @@ src="/js/documentation_options.js">
                     <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
                     <span class="n">optimum</span><span class="o">=</span><span class="n">benchmark_result</span><span class="o">.</span><span class="n">optimum</span><span class="p">,</span>
                     <span class="c1"># model_transitions=benchmark_result.model_transitions[m],</span>
-                    <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{problem_name}</span><span class="s2">, </span><span class="si">{m}</span><span class="s2">: cumulative best objective"</span><span class="p">,</span>
+                    <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">problem_name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">: cumulative best objective"</span><span class="p">,</span>
                     <span class="n">ylabel</span><span class="o">=</span><span class="s2">"Objective at best-feasible point observed so far"</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
@@ -149,7 +149,7 @@ src="/js/documentation_options.js">
         <span class="n">optimization_times</span><span class="p">(</span>
             <span class="n">fit_times</span><span class="o">=</span><span class="n">benchmark_result</span><span class="o">.</span><span class="n">fit_times</span><span class="p">,</span>
             <span class="n">gen_times</span><span class="o">=</span><span class="n">benchmark_result</span><span class="o">.</span><span class="n">gen_times</span><span class="p">,</span>
-            <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{problem_name}</span><span class="s2">: optimization times"</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">problem_name</span><span class="si">}</span><span class="s2">: optimization times"</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">plots</span></div>
@@ -163,7 +163,7 @@ src="/js/documentation_options.js">
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="n">html_elements</span> <span class="o">=</span> <span class="p">[</span><span class="n">h2_html</span><span class="p">(</span><span class="s2">"Bayesian Optimization benchmarking suite report"</span><span class="p">)]</span>
     <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">benchmark_result</span> <span class="ow">in</span> <span class="n">benchmark_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">html_elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h3_html</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{p}</span><span class="s2">:"</span><span class="p">))</span>
+        <span class="n">html_elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h3_html</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">:"</span><span class="p">))</span>
         <span class="n">plots</span> <span class="o">=</span> <span class="n">make_plots</span><span class="p">(</span>
             <span class="n">benchmark_result</span><span class="p">,</span>
             <span class="n">problem_name</span><span class="o">=</span><span class="n">p</span><span class="p">,</span>

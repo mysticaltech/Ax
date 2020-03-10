@@ -34,6 +34,7 @@ src="/js/documentation_options.js">
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 
+<span class="kn">from</span> <span class="nn">ax.core.base_trial</span> <span class="kn">import</span> <span class="n">BaseTrial</span>
 <span class="kn">from</span> <span class="nn">ax.core.experiment</span> <span class="kn">import</span> <span class="n">Experiment</span>
 <span class="kn">from</span> <span class="nn">ax.modelbridge.generation_strategy</span> <span class="kn">import</span> <span class="n">GenerationStrategy</span>
 <span class="kn">from</span> <span class="nn">ax.storage.sqa_store.db</span> <span class="kn">import</span> <span class="n">session_scope</span>
@@ -86,7 +87,7 @@ src="/js/documentation_options.js">
         <span class="p">):</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
                 <span class="s2">"An experiment already exists with the name "</span>
-                <span class="sa">f</span><span class="s2">"</span><span class="si">{new_sqa_experiment.name}</span><span class="s2">. To overwrite, specify "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">new_sqa_experiment</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. To overwrite, specify "</span>
                 <span class="s2">"`overwrite = True` when calling `save_experiment`."</span>
             <span class="p">)</span>
 
@@ -141,23 +142,26 @@ src="/js/documentation_options.js">
         <span class="n">generation_strategy</span><span class="o">=</span><span class="n">generation_strategy</span><span class="p">,</span> <span class="n">experiment_id</span><span class="o">=</span><span class="n">experiment_id</span>
     <span class="p">)</span>
 
-    <span class="k">with</span> <span class="n">session_scope</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">generation_strategy</span><span class="o">.</span><span class="n">_db_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">gs_sqa</span><span class="p">)</span>
-            <span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>  <span class="c1"># Ensures generation strategy id is set.</span>
-            <span class="n">generation_strategy</span><span class="o">.</span><span class="n">_db_id</span> <span class="o">=</span> <span class="n">gs_sqa</span><span class="o">.</span><span class="n">id</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">gs_sqa_class</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">class_to_sqa_class</span><span class="p">[</span><span class="n">GenerationStrategy</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">generation_strategy</span><span class="o">.</span><span class="n">_db_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">gs_sqa_class</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">class_to_sqa_class</span><span class="p">[</span><span class="n">GenerationStrategy</span><span class="p">]</span>
+        <span class="k">with</span> <span class="n">session_scope</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="n">existing_gs_sqa</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">gs_sqa_class</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
                 <span class="n">generation_strategy</span><span class="o">.</span><span class="n">_db_id</span>
             <span class="p">)</span>
-            <span class="n">existing_gs_sqa</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">gs_sqa</span><span class="p">)</span>
-            <span class="c1"># our update logic ignores foreign keys, i.e. fields ending in _id,</span>
-            <span class="c1"># because we want SQLAlchemy to handle those relationships for us</span>
-            <span class="c1"># however, generation_strategy.experiment_id is an exception, so we</span>
-            <span class="c1"># need to update that manually</span>
-            <span class="n">existing_gs_sqa</span><span class="o">.</span><span class="n">experiment_id</span> <span class="o">=</span> <span class="n">gs_sqa</span><span class="o">.</span><span class="n">experiment_id</span>
 
+        <span class="n">existing_gs_sqa</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">gs_sqa</span><span class="p">)</span>
+        <span class="c1"># our update logic ignores foreign keys, i.e. fields ending in _id,</span>
+        <span class="c1"># because we want SQLAlchemy to handle those relationships for us</span>
+        <span class="c1"># however, generation_strategy.experiment_id is an exception, so we</span>
+        <span class="c1"># need to update that manually</span>
+        <span class="n">existing_gs_sqa</span><span class="o">.</span><span class="n">experiment_id</span> <span class="o">=</span> <span class="n">gs_sqa</span><span class="o">.</span><span class="n">experiment_id</span>
+        <span class="n">gs_sqa</span> <span class="o">=</span> <span class="n">existing_gs_sqa</span>
+
+    <span class="k">with</span> <span class="n">session_scope</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">gs_sqa</span><span class="p">)</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>  <span class="c1"># Ensures generation strategy id is set.</span>
+
+    <span class="n">generation_strategy</span><span class="o">.</span><span class="n">_db_id</span> <span class="o">=</span> <span class="n">gs_sqa</span><span class="o">.</span><span class="n">id</span>
     <span class="c1"># pyre-fixme[7]: Expected `int` but got `Optional[int]`.</span>
     <span class="k">return</span> <span class="n">generation_strategy</span><span class="o">.</span><span class="n">_db_id</span>
 
@@ -173,6 +177,84 @@ src="/js/documentation_options.js">
             <span class="s2">"The undelying experiment must be saved before the generation strategy."</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">sqa_experiment</span><span class="o">.</span><span class="n">id</span>
+
+
+<div class="viewcode-block" id="save_new_trial"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.save.save_new_trial">[docs]</a><span class="k">def</span> <span class="nf">save_new_trial</span><span class="p">(</span>
+    <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">BaseTrial</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SQAConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">"""Add new trial to the experiment (using default SQAConfig)."""</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="n">SQAConfig</span><span class="p">()</span>
+    <span class="n">encoder</span> <span class="o">=</span> <span class="n">Encoder</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">_save_new_trial</span><span class="p">(</span><span class="n">experiment</span><span class="o">=</span><span class="n">experiment</span><span class="p">,</span> <span class="n">trial</span><span class="o">=</span><span class="n">trial</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">encoder</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_save_new_trial</span><span class="p">(</span><span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">BaseTrial</span><span class="p">,</span> <span class="n">encoder</span><span class="p">:</span> <span class="n">Encoder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">"""Add new trial to the experiment, using given Encoder instance."""</span>
+    <span class="n">exp_sqa_class</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">class_to_sqa_class</span><span class="p">[</span><span class="n">Experiment</span><span class="p">]</span>
+    <span class="k">with</span> <span class="n">session_scope</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+        <span class="n">existing_sqa_experiment</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">exp_sqa_class</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">one_or_none</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">existing_sqa_experiment</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Must save experiment before adding a new trial."</span><span class="p">)</span>
+
+    <span class="n">existing_trial_indices</span> <span class="o">=</span> <span class="p">{</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">existing_sqa_experiment</span><span class="o">.</span><span class="n">trials</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">index</span> <span class="ow">in</span> <span class="n">existing_trial_indices</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Trial </span><span class="si">{</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="si">}</span><span class="s2"> already attached to experiment."</span><span class="p">)</span>
+
+    <span class="n">new_sqa_trial</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">trial_to_sqa</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">session_scope</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+        <span class="n">existing_sqa_experiment</span><span class="o">.</span><span class="n">trials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_sqa_trial</span><span class="p">)</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">existing_sqa_experiment</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="update_trial"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.save.update_trial">[docs]</a><span class="k">def</span> <span class="nf">update_trial</span><span class="p">(</span>
+    <span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">BaseTrial</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SQAConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">"""Update trial and attach data (using default SQAConfig)."""</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="n">SQAConfig</span><span class="p">()</span>
+    <span class="n">encoder</span> <span class="o">=</span> <span class="n">Encoder</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">_update_trial</span><span class="p">(</span><span class="n">experiment</span><span class="o">=</span><span class="n">experiment</span><span class="p">,</span> <span class="n">trial</span><span class="o">=</span><span class="n">trial</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">encoder</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_update_trial</span><span class="p">(</span><span class="n">experiment</span><span class="p">:</span> <span class="n">Experiment</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">BaseTrial</span><span class="p">,</span> <span class="n">encoder</span><span class="p">:</span> <span class="n">Encoder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">"""Update trial and attach data, using given Encoder instance."""</span>
+    <span class="n">exp_sqa_class</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">class_to_sqa_class</span><span class="p">[</span><span class="n">Experiment</span><span class="p">]</span>
+    <span class="k">with</span> <span class="n">session_scope</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+        <span class="n">existing_sqa_experiment</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">exp_sqa_class</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">one_or_none</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">existing_sqa_experiment</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Must save experiment before updating a trial."</span><span class="p">)</span>
+
+    <span class="n">existing_trial_indices</span> <span class="o">=</span> <span class="p">{</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">existing_sqa_experiment</span><span class="o">.</span><span class="n">trials</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">index</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">existing_trial_indices</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Trial </span><span class="si">{</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="si">}</span><span class="s2"> is not attached to the experiment."</span><span class="p">)</span>
+
+    <span class="c1"># There should only be one existing trial with the same index</span>
+    <span class="n">existing_sqa_trials</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">sqa_trial</span>
+        <span class="k">for</span> <span class="n">sqa_trial</span> <span class="ow">in</span> <span class="n">existing_sqa_experiment</span><span class="o">.</span><span class="n">trials</span>
+        <span class="k">if</span> <span class="n">sqa_trial</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="n">trial</span><span class="o">.</span><span class="n">index</span>
+    <span class="p">]</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">existing_sqa_trials</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="n">existing_sqa_trial</span> <span class="o">=</span> <span class="n">existing_sqa_trials</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">new_sqa_trial</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">trial_to_sqa</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
+    <span class="n">existing_sqa_trial</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_sqa_trial</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">session_scope</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">existing_sqa_trial</span><span class="p">)</span>
+
+    <span class="n">data</span><span class="p">,</span> <span class="n">ts</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">lookup_data_for_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ts</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">sqa_data</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">data_to_sqa</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">trial_index</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">ts</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">session_scope</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+            <span class="n">existing_sqa_experiment</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sqa_data</span><span class="p">)</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">existing_sqa_experiment</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

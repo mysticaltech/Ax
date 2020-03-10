@@ -73,7 +73,7 @@ src="/js/documentation_options.js">
             <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">SQAExperiment</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">experiment_name</span><span class="p">)</span><span class="o">.</span><span class="n">one_or_none</span><span class="p">()</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">sqa_experiment</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Experiment `</span><span class="si">{experiment_name}</span><span class="s2">` not found."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Experiment `</span><span class="si">{</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2">` not found."</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">sqa_experiment</span>
 
 
@@ -107,7 +107,7 @@ src="/js/documentation_options.js">
     <span class="k">with</span> <span class="n">session_scope</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
         <span class="n">gs_sqa</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">SQAGenerationStrategy</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">gs_id</span><span class="p">)</span><span class="o">.</span><span class="n">one_or_none</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">gs_sqa</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Generation strategy with ID #</span><span class="si">{gs_id}</span><span class="s2"> not found."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Generation strategy with ID #</span><span class="si">{</span><span class="n">gs_id</span><span class="si">}</span><span class="s2"> not found."</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">decoder</span><span class="o">.</span><span class="n">generation_strategy_from_sqa</span><span class="p">(</span><span class="n">gs_sqa</span><span class="o">=</span><span class="n">gs_sqa</span><span class="p">)</span>
 
 
@@ -123,7 +123,7 @@ src="/js/documentation_options.js">
     <span class="n">experiment_sqa</span> <span class="o">=</span> <span class="n">_get_experiment_sqa</span><span class="p">(</span><span class="n">experiment_name</span><span class="o">=</span><span class="n">experiment_name</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">experiment_sqa</span><span class="o">.</span><span class="n">generation_strategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"Experiment </span><span class="si">{experiment_name}</span><span class="s2"> does not have a generation strategy "</span>
+            <span class="sa">f</span><span class="s2">"Experiment </span><span class="si">{</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2"> does not have a generation strategy "</span>
             <span class="s2">"attached to it."</span>
         <span class="p">)</span>
     <span class="n">gs_sqa</span> <span class="o">=</span> <span class="n">experiment_sqa</span><span class="o">.</span><span class="n">generation_strategy</span>

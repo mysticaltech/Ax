@@ -129,7 +129,7 @@ src="/js/documentation_options.js">
 <span class="sd">            runner: The default runner for trials of this type.</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">supports_trial_type</span><span class="p">(</span><span class="n">trial_type</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Experiment already contains trial_type `</span><span class="si">{trial_type}</span><span class="s2">`"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Experiment already contains trial_type `</span><span class="si">{</span><span class="n">trial_type</span><span class="si">}</span><span class="s2">`"</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_trial_type_to_runner</span><span class="p">[</span><span class="n">trial_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">runner</span>
         <span class="k">return</span> <span class="bp">self</span></div>
@@ -142,7 +142,7 @@ src="/js/documentation_options.js">
 <span class="sd">            runner: The new runner for trials of this type.</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">supports_trial_type</span><span class="p">(</span><span class="n">trial_type</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Experiment does not contain trial_type `</span><span class="si">{trial_type}</span><span class="s2">`"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Experiment does not contain trial_type `</span><span class="si">{</span><span class="n">trial_type</span><span class="si">}</span><span class="s2">`"</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_trial_type_to_runner</span><span class="p">[</span><span class="n">trial_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">runner</span>
         <span class="k">return</span> <span class="bp">self</span></div>
@@ -158,7 +158,7 @@ src="/js/documentation_options.js">
 <span class="sd">            canonical_name: The default metric for which this metric is a proxy.</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">supports_trial_type</span><span class="p">(</span><span class="n">trial_type</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"`</span><span class="si">{trial_type}</span><span class="s2">` is not a supported trial type."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"`</span><span class="si">{</span><span class="n">trial_type</span><span class="si">}</span><span class="s2">` is not a supported trial type."</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">(</span><span class="n">MultiTypeExperiment</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">add_tracking_metric</span><span class="p">(</span><span class="n">metric</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_metric_to_trial_type</span><span class="p">[</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">trial_type</span>
@@ -180,11 +180,11 @@ src="/js/documentation_options.js">
         <span class="n">oc_metrics</span> <span class="o">=</span> <span class="n">oc</span><span class="o">.</span><span class="n">metrics</span> <span class="k">if</span> <span class="n">oc</span> <span class="k">else</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">metric</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">oc_metrics</span> <span class="ow">and</span> <span class="n">trial_type</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_trial_type</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Metric `</span><span class="si">{metric.name}</span><span class="s2">` must remain a `</span><span class="si">{self._default_trial_type}</span><span class="s2">` "</span>
+                <span class="sa">f</span><span class="s2">"Metric `</span><span class="si">{</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">` must remain a `</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_default_trial_type</span><span class="si">}</span><span class="s2">` "</span>
                 <span class="s2">"metric because it is part of the optimization_config."</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">supports_trial_type</span><span class="p">(</span><span class="n">trial_type</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"`</span><span class="si">{trial_type}</span><span class="s2">` is not a supported trial type."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"`</span><span class="si">{</span><span class="n">trial_type</span><span class="si">}</span><span class="s2">` is not a supported trial type."</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">(</span><span class="n">MultiTypeExperiment</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">update_tracking_metric</span><span class="p">(</span><span class="n">metric</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_metric_to_trial_type</span><span class="p">[</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">trial_type</span>
@@ -195,7 +195,7 @@ src="/js/documentation_options.js">
 <div class="viewcode-block" id="MultiTypeExperiment.remove_tracking_metric"><a class="viewcode-back" href="../../../core.html#ax.core.multi_type_experiment.MultiTypeExperiment.remove_tracking_metric">[docs]</a>    <span class="nd">@copy_doc</span><span class="p">(</span><span class="n">Experiment</span><span class="o">.</span><span class="n">remove_tracking_metric</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">remove_tracking_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"MultiTypeExperiment"</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">metric_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracking_metrics</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Metric `</span><span class="si">{metric_name}</span><span class="s2">` doesn't exist on experiment."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Metric `</span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">` doesn't exist on experiment."</span><span class="p">)</span>
 
         <span class="c1"># Required fields</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracking_metrics</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]</span>
@@ -263,7 +263,7 @@ src="/js/documentation_options.js">
 <span class="sd">        Looks up the appropriate runner for this trial type in the trial_type_to_runner.</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">trial_type</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">supports_trial_type</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">trial_type</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Batch type `</span><span class="si">{trial.trial_type}</span><span class="s2">` is not supported."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Batch type `</span><span class="si">{</span><span class="n">trial</span><span class="o">.</span><span class="n">trial_type</span><span class="si">}</span><span class="s2">` is not supported."</span><span class="p">)</span>
         <span class="c1"># pyre-fixme[6]: Expected `str` for 1st param but got `Optional[str]`.</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_trial_type_to_runner</span><span class="p">[</span><span class="n">trial</span><span class="o">.</span><span class="n">trial_type</span><span class="p">]</span></div>
 

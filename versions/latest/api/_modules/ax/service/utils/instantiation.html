@@ -83,7 +83,7 @@ src="/js/documentation_options.js">
     <span class="k">for</span> <span class="n">param_type</span><span class="p">,</span> <span class="n">py_type</span> <span class="ow">in</span> <span class="n">PARAMETER_PYTHON_TYPE_MAP</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">py_type</span> <span class="ow">is</span> <span class="n">python_type</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">param_type</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No AE parameter type corresponding to </span><span class="si">{python_type}</span><span class="s2">."</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No AE parameter type corresponding to </span><span class="si">{</span><span class="n">python_type</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_to_parameter_type</span><span class="p">(</span>
@@ -93,8 +93,8 @@ src="/js/documentation_options.js">
         <span class="n">typ</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">not_none</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
         <span class="n">parameter_type</span> <span class="o">=</span> <span class="n">_get_parameter_type</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span>  <span class="c1"># pyre-ignore[6]</span>
         <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">typ</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vals</span><span class="p">),</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"Values in `</span><span class="si">{field_name}</span><span class="s2">` not of the same type and no `value_type` was "</span>
-            <span class="sa">f</span><span class="s2">"explicitly specified; cannot infer value type for parameter </span><span class="si">{param_name}</span><span class="s2">."</span>
+            <span class="sa">f</span><span class="s2">"Values in `</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2">` not of the same type and no `value_type` was "</span>
+            <span class="sa">f</span><span class="s2">"explicitly specified; cannot infer value type for parameter </span><span class="si">{</span><span class="n">param_name</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">parameter_type</span>
     <span class="k">return</span> <span class="n">_get_parameter_type</span><span class="p">(</span><span class="n">PARAM_TYPES</span><span class="p">[</span><span class="n">typ</span><span class="p">])</span>  <span class="c1"># pyre-ignore[6]</span>
@@ -106,7 +106,7 @@ src="/js/documentation_options.js">
     <span class="k">assert</span> <span class="s2">"bounds"</span> <span class="ow">in</span> <span class="n">representation</span><span class="p">,</span> <span class="s2">"Bounds are required for range parameters."</span>
     <span class="n">bounds</span> <span class="o">=</span> <span class="n">representation</span><span class="p">[</span><span class="s2">"bounds"</span><span class="p">]</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s2">"Cannot parse parameter </span><span class="si">{name}</span><span class="s2">: for range parameters, json representation "</span>
+        <span class="sa">f</span><span class="s2">"Cannot parse parameter </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: for range parameters, json representation "</span>
         <span class="s2">"should include a list of two values, lower and upper bounds of the range."</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">RangeParameter</span><span class="p">(</span>
@@ -126,7 +126,7 @@ src="/js/documentation_options.js">
     <span class="k">assert</span> <span class="s2">"values"</span> <span class="ow">in</span> <span class="n">representation</span><span class="p">,</span> <span class="s2">"Values are required for choice parameters."</span>
     <span class="n">values</span> <span class="o">=</span> <span class="n">representation</span><span class="p">[</span><span class="s2">"values"</span><span class="p">]</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s2">"Cannot parse parameter </span><span class="si">{name}</span><span class="s2">: for choice parameters, json representation"</span>
+        <span class="sa">f</span><span class="s2">"Cannot parse parameter </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: for choice parameters, json representation"</span>
         <span class="s2">" should include a list of two or more values."</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">ChoiceParameter</span><span class="p">(</span>
@@ -135,6 +135,7 @@ src="/js/documentation_options.js">
         <span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span>
         <span class="n">is_ordered</span><span class="o">=</span><span class="n">checked_cast</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">representation</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"is_ordered"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)),</span>
         <span class="n">is_fidelity</span><span class="o">=</span><span class="n">checked_cast</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">representation</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"is_fidelity"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)),</span>
+        <span class="n">is_task</span><span class="o">=</span><span class="n">checked_cast</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">representation</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"is_task"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)),</span>
         <span class="n">target_value</span><span class="o">=</span><span class="n">representation</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"target_value"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>  <span class="c1"># pyre-ignore[6]</span>
     <span class="p">)</span>
 
@@ -145,7 +146,7 @@ src="/js/documentation_options.js">
     <span class="k">assert</span> <span class="s2">"value"</span> <span class="ow">in</span> <span class="n">representation</span><span class="p">,</span> <span class="s2">"Value is required for fixed parameters."</span>
     <span class="n">value</span> <span class="o">=</span> <span class="n">representation</span><span class="p">[</span><span class="s2">"value"</span><span class="p">]</span>
     <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">PARAM_TYPES</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s2">"Cannot parse fixed parameter </span><span class="si">{name}</span><span class="s2">: for fixed parameters, json "</span>
+        <span class="sa">f</span><span class="s2">"Cannot parse fixed parameter </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: for fixed parameters, json "</span>
         <span class="s2">"representation should include a single value."</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">FixedParameter</span><span class="p">(</span>
@@ -196,7 +197,7 @@ src="/js/documentation_options.js">
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>  <span class="c1"># pragma: no cover (this is unreachable)</span>
-            <span class="sa">f</span><span class="s2">"Unrecognized parameter type </span><span class="si">{parameter_class}</span><span class="s2">."</span>
+            <span class="sa">f</span><span class="s2">"Unrecognized parameter type </span><span class="si">{</span><span class="n">parameter_class</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span></div>
 
 
@@ -221,8 +222,8 @@ src="/js/documentation_options.js">
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># Case "x1 &gt;= x2" =&gt; order constraint.</span>
         <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-        <span class="k">assert</span> <span class="n">left</span> <span class="ow">in</span> <span class="n">parameter_names</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Parameter </span><span class="si">{left}</span><span class="s2"> not in </span><span class="si">{parameter_names}</span><span class="s2">."</span>
-        <span class="k">assert</span> <span class="n">right</span> <span class="ow">in</span> <span class="n">parameter_names</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Parameter </span><span class="si">{right}</span><span class="s2"> not in </span><span class="si">{parameter_names}</span><span class="s2">."</span>
+        <span class="k">assert</span> <span class="n">left</span> <span class="ow">in</span> <span class="n">parameter_names</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Parameter </span><span class="si">{</span><span class="n">left</span><span class="si">}</span><span class="s2"> not in </span><span class="si">{</span><span class="n">parameter_names</span><span class="si">}</span><span class="s2">."</span>
+        <span class="k">assert</span> <span class="n">right</span> <span class="ow">in</span> <span class="n">parameter_names</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Parameter </span><span class="si">{</span><span class="n">right</span><span class="si">}</span><span class="s2"> not in </span><span class="si">{</span><span class="n">parameter_names</span><span class="si">}</span><span class="s2">."</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">OrderConstraint</span><span class="p">(</span>
                 <span class="n">lower_parameter</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="n">left</span><span class="p">],</span> <span class="n">upper_parameter</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="n">right</span><span class="p">]</span>
@@ -235,7 +236,7 @@ src="/js/documentation_options.js">
     <span class="k">try</span><span class="p">:</span>  <span class="c1"># Case "x1 - 2*x2 + x3 &gt;= 2" =&gt; parameter constraint.</span>
         <span class="n">bound</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Bound for the constraint must be a number; got </span><span class="si">{tokens[-1]}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Bound for the constraint must be a number; got </span><span class="si">{</span><span class="n">tokens</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">token</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"*"</span> <span class="ow">or</span> <span class="n">token</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"*"</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="s2">"A linear constraint should be the form a*x + b*y - c*z &lt;= d"</span>
@@ -258,7 +259,7 @@ src="/js/documentation_options.js">
                     <span class="n">multiplier</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">split_token</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
                 <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">"Multiplier should be float; got </span><span class="si">{split_token[0]}</span><span class="s2">"</span>
+                        <span class="sa">f</span><span class="s2">"Multiplier should be float; got </span><span class="si">{</span><span class="n">split_token</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
                 <span class="n">parameter</span> <span class="o">=</span> <span class="n">split_token</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_token</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># The multiplier is either -1 or 1</span>
@@ -270,12 +271,12 @@ src="/js/documentation_options.js">
                     <span class="n">multiplier</span> <span class="o">=</span> <span class="mf">1.0</span>
             <span class="k">assert</span> <span class="p">(</span>
                 <span class="n">parameter</span> <span class="ow">in</span> <span class="n">parameter_names</span>
-            <span class="p">),</span> <span class="sa">f</span><span class="s2">"Parameter </span><span class="si">{parameter}</span><span class="s2"> not in </span><span class="si">{parameter_names}</span><span class="s2">."</span>
+            <span class="p">),</span> <span class="sa">f</span><span class="s2">"Parameter </span><span class="si">{</span><span class="n">parameter</span><span class="si">}</span><span class="s2"> not in </span><span class="si">{</span><span class="n">parameter_names</span><span class="si">}</span><span class="s2">."</span>
             <span class="n">parameter_weight</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span> <span class="o">=</span> <span class="n">operator_sign</span> <span class="o">*</span> <span class="n">multiplier</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">assert</span> <span class="p">(</span>
                 <span class="n">token</span> <span class="o">==</span> <span class="s2">"+"</span> <span class="ow">or</span> <span class="n">token</span> <span class="o">==</span> <span class="s2">"-"</span>
-            <span class="p">),</span> <span class="sa">f</span><span class="s2">"Expected a mixed constraint, found operator </span><span class="si">{token}</span><span class="s2">."</span>
+            <span class="p">),</span> <span class="sa">f</span><span class="s2">"Expected a mixed constraint, found operator </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">."</span>
             <span class="n">operator_sign</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">token</span> <span class="o">==</span> <span class="s2">"+"</span> <span class="k">else</span> <span class="o">-</span><span class="mf">1.0</span>
     <span class="k">return</span> <span class="n">ParameterConstraint</span><span class="p">(</span>
         <span class="n">constraint_dict</span><span class="o">=</span><span class="p">{</span>

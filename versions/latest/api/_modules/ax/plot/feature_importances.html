@@ -83,7 +83,7 @@ src="/js/documentation_options.js">
             <span class="n">importances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Model for </span><span class="si">{metric_name}</span><span class="s2"> does not support feature importances."</span>
+                <span class="sa">f</span><span class="s2">"Model for </span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2"> does not support feature importances."</span>
             <span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">importances</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
@@ -112,7 +112,7 @@ src="/js/documentation_options.js">
             <span class="n">importances</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">feature_importances</span><span class="p">(</span><span class="n">metric_name</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Model for </span><span class="si">{metric_name}</span><span class="s2"> does not support feature importances."</span>
+                <span class="sa">f</span><span class="s2">"Model for </span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2"> does not support feature importances."</span>
             <span class="p">)</span>
             <span class="k">continue</span>
 

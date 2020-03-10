@@ -253,7 +253,7 @@ src="/js/documentation_options.js">
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">FixedParameter</span><span class="p">):</span>
             <span class="n">parameter_values</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">value</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{p}</span><span class="s2"> not ChoiceParameter or FixedParameter"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2"> not ChoiceParameter or FixedParameter"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">parameter_values</span>
 </pre></div>
 </div>

@@ -123,7 +123,7 @@ src="/js/documentation_options.js">
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expected_line</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expected_line</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
             <span class="c1"># pyre-ignore [16]: ... has no attribute `_raiseFailure`.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_raiseFailure</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"</span><span class="si">{self._expected_line!r}</span><span class="s2"> was not found in the traceback: </span><span class="si">{lines!r}</span><span class="s2">"</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_expected_line</span><span class="si">!r}</span><span class="s2"> was not found in the traceback: </span><span class="si">{</span><span class="n">lines</span><span class="si">!r}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="kc">True</span>
@@ -136,7 +136,7 @@ src="/js/documentation_options.js">
 <span class="k">def</span> <span class="nf">_deprecate</span><span class="p">(</span><span class="n">original_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">_deprecated_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"This function is deprecated please use </span><span class="si">{original_func.__name__}</span><span class="s2"> "</span>
+            <span class="sa">f</span><span class="s2">"This function is deprecated please use </span><span class="si">{</span><span class="n">original_func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> "</span>
             <span class="s2">"instead."</span>
         <span class="p">)</span>
 

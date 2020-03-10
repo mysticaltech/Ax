@@ -26,7 +26,7 @@ src="/js/documentation_options.js">
 <div class="bodywrapper">
 <div class="body" role="main">
 <h1>Source code for logging</h1><div class="highlight"><pre>
-<span></span><span class="c1"># Copyright 2001-2016 by Vinay Sajip. All Rights Reserved.</span>
+<span></span><span class="c1"># Copyright 2001-2017 by Vinay Sajip. All Rights Reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># Permission to use, copy, modify, and distribute this software and its</span>
 <span class="c1"># documentation for any purpose and without fee is hereby granted,</span>
@@ -46,12 +46,12 @@ src="/js/documentation_options.js">
 <span class="sd">Logging package for Python. Based on PEP 282 and comments thereto in</span>
 <span class="sd">comp.lang.python.</span>
 
-<span class="sd">Copyright (C) 2001-2016 Vinay Sajip. All Rights Reserved.</span>
+<span class="sd">Copyright (C) 2001-2017 Vinay Sajip. All Rights Reserved.</span>
 
 <span class="sd">To use, simply 'import logging' and log away!</span>
 <span class="sd">"""</span>
 
-<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">time</span><span class="o">,</span> <span class="nn">io</span><span class="o">,</span> <span class="nn">traceback</span><span class="o">,</span> <span class="nn">warnings</span><span class="o">,</span> <span class="nn">weakref</span><span class="o">,</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">time</span><span class="o">,</span> <span class="nn">io</span><span class="o">,</span> <span class="nn">traceback</span><span class="o">,</span> <span class="nn">warnings</span><span class="o">,</span> <span class="nn">weakref</span><span class="o">,</span> <span class="nn">collections.abc</span>
 
 <span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">Template</span>
 
@@ -65,10 +65,7 @@ src="/js/documentation_options.js">
            <span class="s1">'warn'</span><span class="p">,</span> <span class="s1">'warning'</span><span class="p">,</span> <span class="s1">'getLogRecordFactory'</span><span class="p">,</span> <span class="s1">'setLogRecordFactory'</span><span class="p">,</span>
            <span class="s1">'lastResort'</span><span class="p">,</span> <span class="s1">'raiseExceptions'</span><span class="p">]</span>
 
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">threading</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span> <span class="c1">#pragma: no cover</span>
-    <span class="n">threading</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="kn">import</span> <span class="nn">threading</span>
 
 <span class="n">__author__</span>  <span class="o">=</span> <span class="s2">"Vinay Sajip &lt;vinay_sajip@red-dove.com&gt;"</span>
 <span class="n">__status__</span>  <span class="o">=</span> <span class="s2">"production"</span>
@@ -238,11 +235,7 @@ src="/js/documentation_options.js">
 <span class="c1">#the lock would already have been acquired - so we need an RLock.</span>
 <span class="c1">#The same argument applies to Loggers and Manager.loggerDict.</span>
 <span class="c1">#</span>
-<span class="k">if</span> <span class="n">threading</span><span class="p">:</span>
-    <span class="n">_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
-<span class="k">else</span><span class="p">:</span> <span class="c1">#pragma: no cover</span>
-    <span class="n">_lock</span> <span class="o">=</span> <span class="kc">None</span>
-
+<span class="n">_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
 
 <span class="k">def</span> <span class="nf">_acquireLock</span><span class="p">():</span>
     <span class="sd">"""</span>
@@ -259,6 +252,55 @@ src="/js/documentation_options.js">
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">_lock</span><span class="p">:</span>
         <span class="n">_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+
+<span class="c1"># Prevent a held logging lock from blocking a child from logging.</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">os</span><span class="p">,</span> <span class="s1">'register_at_fork'</span><span class="p">):</span>  <span class="c1"># Windows and friends.</span>
+    <span class="k">def</span> <span class="nf">_register_at_fork_acquire_release</span><span class="p">(</span><span class="n">instance</span><span class="p">):</span>
+        <span class="k">pass</span>  <span class="c1"># no-op when os.register_at_fork does not exist.</span>
+<span class="k">else</span><span class="p">:</span>  <span class="c1"># The os.register_at_fork API exists</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">register_at_fork</span><span class="p">(</span><span class="n">before</span><span class="o">=</span><span class="n">_acquireLock</span><span class="p">,</span>
+                        <span class="n">after_in_child</span><span class="o">=</span><span class="n">_releaseLock</span><span class="p">,</span>
+                        <span class="n">after_in_parent</span><span class="o">=</span><span class="n">_releaseLock</span><span class="p">)</span>
+
+    <span class="c1"># A collection of instances with acquire and release methods (logging.Handler)</span>
+    <span class="c1"># to be called before and after fork.  The weakref avoids us keeping discarded</span>
+    <span class="c1"># Handler instances alive forever in case an odd program creates and destroys</span>
+    <span class="c1"># many over its lifetime.</span>
+    <span class="n">_at_fork_acquire_release_weakset</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">WeakSet</span><span class="p">()</span>
+
+
+    <span class="k">def</span> <span class="nf">_register_at_fork_acquire_release</span><span class="p">(</span><span class="n">instance</span><span class="p">):</span>
+        <span class="c1"># We put the instance itself in a single WeakSet as we MUST have only</span>
+        <span class="c1"># one atomic weak ref. used by both before and after atfork calls to</span>
+        <span class="c1"># guarantee matched pairs of acquire and release calls.</span>
+        <span class="n">_at_fork_acquire_release_weakset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_at_fork_weak_calls</span><span class="p">(</span><span class="n">method_name</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">instance</span> <span class="ow">in</span> <span class="n">_at_fork_acquire_release_weakset</span><span class="p">:</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">method_name</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">method</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="c1"># Similar to what PyErr_WriteUnraisable does.</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"Ignoring exception from logging atfork"</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span>
+                      <span class="n">method_name</span><span class="p">,</span> <span class="s2">"method:"</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_before_at_fork_weak_calls</span><span class="p">():</span>
+        <span class="n">_at_fork_weak_calls</span><span class="p">(</span><span class="s1">'acquire'</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_after_at_fork_weak_calls</span><span class="p">():</span>
+        <span class="n">_at_fork_weak_calls</span><span class="p">(</span><span class="s1">'release'</span><span class="p">)</span>
+
+
+    <span class="n">os</span><span class="o">.</span><span class="n">register_at_fork</span><span class="p">(</span><span class="n">before</span><span class="o">=</span><span class="n">_before_at_fork_weak_calls</span><span class="p">,</span>
+                        <span class="n">after_in_child</span><span class="o">=</span><span class="n">_after_at_fork_weak_calls</span><span class="p">,</span>
+                        <span class="n">after_in_parent</span><span class="o">=</span><span class="n">_after_at_fork_weak_calls</span><span class="p">)</span>
+
 
 <span class="c1">#---------------------------------------------------------------------------</span>
 <span class="c1">#   The logging record</span>
@@ -301,8 +343,8 @@ src="/js/documentation_options.js">
         <span class="c1"># to hasattr(args[0], '__getitem__'). However, the docs on string</span>
         <span class="c1"># formatting still seem to suggest a mapping object is required.</span>
         <span class="c1"># Thus, while not removing the isinstance check, it does now look</span>
-        <span class="c1"># for collections.Mapping rather than, as before, dict.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">args</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">collections</span><span class="o">.</span><span class="n">Mapping</span><span class="p">)</span>
+        <span class="c1"># for collections.abc.Mapping rather than, as before, dict.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">args</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Mapping</span><span class="p">)</span>
             <span class="ow">and</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
             <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
@@ -323,7 +365,7 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">created</span> <span class="o">=</span> <span class="n">ct</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">msecs</span> <span class="o">=</span> <span class="p">(</span><span class="n">ct</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">ct</span><span class="p">))</span> <span class="o">*</span> <span class="mi">1000</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">relativeCreated</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">created</span> <span class="o">-</span> <span class="n">_startTime</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
-        <span class="k">if</span> <span class="n">logThreads</span> <span class="ow">and</span> <span class="n">threading</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">logThreads</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">get_ident</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">threadName</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">current_thread</span><span class="p">()</span><span class="o">.</span><span class="n">name</span>
         <span class="k">else</span><span class="p">:</span> <span class="c1"># pragma: no cover</span>
@@ -829,10 +871,8 @@ src="/js/documentation_options.js">
         <span class="sd">"""</span>
 <span class="sd">        Acquire a thread lock for serializing access to the underlying I/O.</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="n">threading</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span> <span class="c1">#pragma: no cover</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
+        <span class="n">_register_at_fork_acquire_release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">acquire</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""</span>
@@ -1026,6 +1066,26 @@ src="/js/documentation_options.js">
             <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">handleError</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setStream</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Sets the StreamHandler's stream to the specified value,</span>
+<span class="sd">        if it is different.</span>
+
+<span class="sd">        Returns the old stream, if the stream was changed, or None</span>
+<span class="sd">        if it wasn't.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">stream</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stream</span> <span class="o">=</span> <span class="n">stream</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">result</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">level</span> <span class="o">=</span> <span class="n">getLevelName</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">)</span>
@@ -1274,6 +1334,19 @@ src="/js/documentation_options.js">
                 <span class="n">alogger</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">parent</span>
                 <span class="n">c</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">alogger</span>
 
+    <span class="k">def</span> <span class="nf">_clear_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Clear the cache for all loggers in loggerDict</span>
+<span class="sd">        Called when level changes are made</span>
+<span class="sd">        """</span>
+
+        <span class="n">_acquireLock</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">logger</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">loggerDict</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">Logger</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="n">_releaseLock</span><span class="p">()</span>
+
 <span class="c1">#---------------------------------------------------------------------------</span>
 <span class="c1">#   Logger classes and functions</span>
 <span class="c1">#---------------------------------------------------------------------------</span>
@@ -1304,12 +1377,14 @@ src="/js/documentation_options.js">
         <span class="bp">self</span><span class="o">.</span><span class="n">propagate</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handlers</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">disabled</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">def</span> <span class="nf">setLevel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Set the logging level of this logger.  level must be an int or a str.</span>
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">_checkLevel</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">_clear_cache</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">debug</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
@@ -1573,9 +1648,17 @@ src="/js/documentation_options.js">
         <span class="sd">"""</span>
 <span class="sd">        Is this logger enabled for level 'level'?</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">disable</span> <span class="o">&gt;=</span> <span class="n">level</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="n">level</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getEffectiveLevel</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">level</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">_acquireLock</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">disable</span> <span class="o">&gt;=</span> <span class="n">level</span><span class="p">:</span>
+                <span class="n">is_enabled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">level</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">is_enabled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">level</span><span class="p">]</span> <span class="o">=</span> <span class="n">level</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getEffectiveLevel</span><span class="p">()</span>
+            <span class="n">_releaseLock</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="n">is_enabled</span>
 
     <span class="k">def</span> <span class="nf">getChild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">suffix</span><span class="p">):</span>
         <span class="sd">"""</span>
@@ -1600,6 +1683,14 @@ src="/js/documentation_options.js">
         <span class="n">level</span> <span class="o">=</span> <span class="n">getLevelName</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getEffectiveLevel</span><span class="p">())</span>
         <span class="k">return</span> <span class="s1">'&lt;</span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">)&gt;'</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># In general, only the root logger will not be accessible via its name.</span>
+        <span class="c1"># However, the root logger's class has its own __reduce__ method.</span>
+        <span class="k">if</span> <span class="n">getLogger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">pickle</span>
+            <span class="k">raise</span> <span class="n">pickle</span><span class="o">.</span><span class="n">PicklingError</span><span class="p">(</span><span class="s1">'logger cannot be pickled'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">getLogger</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,)</span>
+
 
 <span class="k">class</span> <span class="nc">RootLogger</span><span class="p">(</span><span class="n">Logger</span><span class="p">):</span>
     <span class="sd">"""</span>
@@ -1612,6 +1703,9 @@ src="/js/documentation_options.js">
 <span class="sd">        Initialize the logger with the name "root".</span>
 <span class="sd">        """</span>
         <span class="n">Logger</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"root"</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">getLogger</span><span class="p">,</span> <span class="p">()</span>
 
 <span class="n">_loggerClass</span> <span class="o">=</span> <span class="n">Logger</span>
 
@@ -1705,9 +1799,7 @@ src="/js/documentation_options.js">
         <span class="sd">"""</span>
 <span class="sd">        Is this logger enabled for level 'level'?</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">disable</span> <span class="o">&gt;=</span> <span class="n">level</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="n">level</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getEffectiveLevel</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">setLevel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
         <span class="sd">"""</span>
@@ -1949,11 +2041,12 @@ src="/js/documentation_options.js">
         <span class="n">basicConfig</span><span class="p">()</span>
     <span class="n">root</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">disable</span><span class="p">(</span><span class="n">level</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">disable</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">CRITICAL</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    Disable all logging calls of severity 'level' and below.</span>
 <span class="sd">    """</span>
     <span class="n">root</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">disable</span> <span class="o">=</span> <span class="n">level</span>
+    <span class="n">root</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">_clear_cache</span><span class="p">()</span>
 
 <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="n">handlerList</span><span class="o">=</span><span class="n">_handlerList</span><span class="p">):</span>
     <span class="sd">"""</span>

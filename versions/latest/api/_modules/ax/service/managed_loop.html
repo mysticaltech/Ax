@@ -163,7 +163,7 @@ src="/js/documentation_options.js">
         <span class="sd">"""Run a single step of the optimization plan."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_trial</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_trials</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Optimization is complete, cannot run another trial."</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Running optimization trial {self.current_trial + 1}..."</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Running optimization trial </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_trial</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
         <span class="n">arms_per_trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arms_per_trial</span>
         <span class="k">if</span> <span class="n">arms_per_trial</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiment</span><span class="o">.</span><span class="n">new_trial</span><span class="p">(</span>
@@ -181,7 +181,7 @@ src="/js/documentation_options.js">
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid number of arms per trial: </span><span class="si">{arms_per_trial}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid number of arms per trial: </span><span class="si">{</span><span class="n">arms_per_trial</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">trial</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_trial</span> <span class="o">+=</span> <span class="mi">1</span></div>
 
@@ -189,7 +189,7 @@ src="/js/documentation_options.js">
         <span class="sd">"""Runs full optimization loop as defined in the provided optimization</span>
 <span class="sd">        plan."""</span>
         <span class="n">num_steps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_trials</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Started full optimization with </span><span class="si">{num_steps}</span><span class="s2"> steps."</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Started full optimization with </span><span class="si">{</span><span class="n">num_steps</span><span class="si">}</span><span class="s2"> steps."</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">run_trial</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span></div>

@@ -150,9 +150,9 @@ src="/js/documentation_options.js">
 <span class="sd">            considered failed and aborted. Defaults to 5.</span>
 <span class="sd">    """</span>
     <span class="n">trial_exceptions</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">experiment_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{method.name}</span><span class="s2">_on_</span><span class="si">{problem.name}</span><span class="s2">"</span>
+    <span class="n">experiment_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">method</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_on_</span><span class="si">{</span><span class="n">problem</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span>
     <span class="k">if</span> <span class="n">replication_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">experiment_name</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"__v</span><span class="si">{replication_index}</span><span class="s2">"</span>
+        <span class="n">experiment_name</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"__v</span><span class="si">{</span><span class="n">replication_index</span><span class="si">}</span><span class="s2">"</span>
     <span class="c1"># Make sure the generation strategy starts from the beginning.</span>
     <span class="n">method</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="n">clone_reset</span><span class="p">()</span>
 
@@ -247,7 +247,7 @@ src="/js/documentation_options.js">
             <span class="n">replication_exceptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>  <span class="c1"># TODO[T53975770]: test</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">replication_exceptions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">failed_replications_tolerated</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>  <span class="c1"># TODO[T53975770]: test</span>
-                <span class="sa">f</span><span class="s2">"More than </span><span class="si">{failed_replications_tolerated}</span><span class="s2"> failed for "</span>
+                <span class="sa">f</span><span class="s2">"More than </span><span class="si">{</span><span class="n">failed_replications_tolerated</span><span class="si">}</span><span class="s2"> failed for "</span>
                 <span class="s2">"</span><span class="si">{method.name}</span><span class="s2">_on_</span><span class="si">{problem.name}</span><span class="s2">."</span>
             <span class="p">)</span>
     <span class="k">return</span> <span class="n">test_replications</span></div>
@@ -336,7 +336,7 @@ src="/js/documentation_options.js">
                 <span class="k">if</span> <span class="n">raise_all_exceptions</span><span class="p">:</span>
                     <span class="k">raise</span>
                 <span class="n">exceptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>  <span class="c1"># TODO[T53975770]: test</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Obtained benchmarking test experiments: </span><span class="si">{tests}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Obtained benchmarking test experiments: </span><span class="si">{</span><span class="n">tests</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">tests</span></div>
 
 
@@ -387,8 +387,8 @@ src="/js/documentation_options.js">
                 <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">()</span> <span class="o">*</span> <span class="n">problem</span><span class="o">.</span><span class="n">noise_sd</span>
                 <span class="n">sem</span> <span class="o">=</span> <span class="p">(</span><span class="n">sem</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">problem</span><span class="o">.</span><span class="n">noise_sd</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"Adding noise of </span><span class="si">{noise}</span><span class="s2"> to the measurement mean (</span><span class="si">{mean}</span><span class="s2">)."</span>
-                    <span class="sa">f</span><span class="s2">"Problem noise SD setting: </span><span class="si">{problem.noise_sd}</span><span class="s2">."</span>
+                    <span class="sa">f</span><span class="s2">"Adding noise of </span><span class="si">{</span><span class="n">noise</span><span class="si">}</span><span class="s2"> to the measurement mean (</span><span class="si">{</span><span class="n">mean</span><span class="si">}</span><span class="s2">)."</span>
+                    <span class="sa">f</span><span class="s2">"Problem noise SD setting: </span><span class="si">{</span><span class="n">problem</span><span class="o">.</span><span class="n">noise_sd</span><span class="si">}</span><span class="s2">."</span>
                 <span class="p">)</span>
                 <span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span> <span class="o">+</span> <span class="n">noise</span>
             <span class="n">ax_client</span><span class="o">.</span><span class="n">complete_trial</span><span class="p">(</span><span class="n">trial_index</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">raw_data</span><span class="o">=</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">sem</span><span class="p">))</span>
@@ -398,7 +398,7 @@ src="/js/documentation_options.js">
             <span class="n">exceptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">exceptions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">failed_trials_tolerated</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>  <span class="c1"># TODO[T53975770]: test</span>
-                <span class="sa">f</span><span class="s2">"More than </span><span class="si">{failed_trials_tolerated}</span><span class="s2"> failed for </span><span class="si">{experiment_name}</span><span class="s2">."</span>
+                <span class="sa">f</span><span class="s2">"More than </span><span class="si">{</span><span class="n">failed_trials_tolerated</span><span class="si">}</span><span class="s2"> failed for </span><span class="si">{</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
     <span class="k">return</span> <span class="n">ax_client</span><span class="o">.</span><span class="n">experiment</span><span class="p">,</span> <span class="n">exceptions</span>
 
@@ -440,7 +440,7 @@ src="/js/documentation_options.js">
             <span class="n">exceptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">exceptions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">failed_trials_tolerated</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>  <span class="c1"># TODO[T53975770]: test</span>
-                <span class="sa">f</span><span class="s2">"More than </span><span class="si">{failed_trials_tolerated}</span><span class="s2"> failed for </span><span class="si">{experiment_name}</span><span class="s2">."</span>
+                <span class="sa">f</span><span class="s2">"More than </span><span class="si">{</span><span class="n">failed_trials_tolerated</span><span class="si">}</span><span class="s2"> failed for </span><span class="si">{</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
     <span class="k">return</span> <span class="n">experiment</span><span class="p">,</span> <span class="n">exceptions</span>
 
@@ -492,9 +492,9 @@ src="/js/documentation_options.js">
         <span class="k">raise</span> <span class="n">NonRetryableBenchmarkingError</span><span class="p">(</span><span class="s2">"Log-scale parameters not supported."</span><span class="p">)</span>
 
     <span class="c1"># Create Ax experiment</span>
-    <span class="n">experiment_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{method_name}</span><span class="s2">_on_</span><span class="si">{problem.name}</span><span class="s2">"</span>
+    <span class="n">experiment_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">method_name</span><span class="si">}</span><span class="s2">_on_</span><span class="si">{</span><span class="n">problem</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span>
     <span class="k">if</span> <span class="n">replication_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">experiment_name</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"__v</span><span class="si">{replication_index}</span><span class="s2">"</span>
+        <span class="n">experiment_name</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"__v</span><span class="si">{</span><span class="n">replication_index</span><span class="si">}</span><span class="s2">"</span>
     <span class="n">experiment</span> <span class="o">=</span> <span class="n">Experiment</span><span class="p">(</span>
         <span class="n">name</span><span class="o">=</span><span class="n">experiment_name</span><span class="p">,</span>
         <span class="n">search_space</span><span class="o">=</span><span class="n">problem</span><span class="o">.</span><span class="n">search_space</span><span class="p">,</span>
@@ -507,7 +507,7 @@ src="/js/documentation_options.js">
     <span class="k">def</span> <span class="nf">evaluation_function</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="c1"># Check if we have exhuasted the evaluation budget</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">trials</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">max_trials</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Evaluation budget (</span><span class="si">{max_trials}</span><span class="s2"> trials) exhuasted."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Evaluation budget (</span><span class="si">{</span><span class="n">max_trials</span><span class="si">}</span><span class="s2"> trials) exhuasted."</span><span class="p">)</span>
 
         <span class="c1"># Create an ObservationFeatures</span>
         <span class="n">param_dict</span> <span class="o">=</span> <span class="p">{</span>

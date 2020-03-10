@@ -155,8 +155,8 @@ src="/js/documentation_options.js">
                     <span class="n">obsf</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">p_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">rounded_parameters</span><span class="p">[</span><span class="n">p_name</span><span class="p">]</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_space</span><span class="o">.</span><span class="n">check_membership</span><span class="p">(</span><span class="n">rounded_parameters</span><span class="p">):</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">"Unable to round </span><span class="si">{obsf.parameters}</span><span class="s2">"</span>
-                        <span class="sa">f</span><span class="s2">"to meet constraints of </span><span class="si">{self.search_space}</span><span class="s2">"</span>
+                        <span class="sa">f</span><span class="s2">"Unable to round </span><span class="si">{</span><span class="n">obsf</span><span class="o">.</span><span class="n">parameters</span><span class="si">}</span><span class="s2">"</span>
+                        <span class="sa">f</span><span class="s2">"to meet constraints of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">search_space</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
         <span class="k">return</span> <span class="n">observation_features</span></div></div>
 </pre></div>

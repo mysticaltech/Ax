@@ -187,7 +187,7 @@ src="/js/documentation_options.js">
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Cannot take log when min &lt;= 0."</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_valid_type</span><span class="p">(</span><span class="n">lower</span><span class="p">))</span> <span class="ow">or</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_valid_type</span><span class="p">(</span><span class="n">upper</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"[</span><span class="si">{lower}</span><span class="s2">, </span><span class="si">{upper}</span><span class="s2">] is an invalid range for this parameter."</span>
+                <span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">lower</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">upper</span><span class="si">}</span><span class="s2">] is an invalid range for this parameter."</span>
             <span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -262,7 +262,7 @@ src="/js/documentation_options.js">
         <span class="n">cast_upper</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_upper</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">cast_lower</span> <span class="o">&gt;=</span> <span class="n">cast_upper</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Lower bound </span><span class="si">{cast_lower}</span><span class="s2"> is &gt;= upper bound </span><span class="si">{cast_upper}</span><span class="s2">."</span>
+                <span class="sa">f</span><span class="s2">"Lower bound </span><span class="si">{</span><span class="n">cast_lower</span><span class="si">}</span><span class="s2"> is &gt;= upper bound </span><span class="si">{</span><span class="n">cast_upper</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_lower</span> <span class="o">=</span> <span class="n">cast_lower</span>
@@ -327,19 +327,19 @@ src="/js/documentation_options.js">
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">ret_val</span> <span class="o">=</span> <span class="p">(</span>
             <span class="sa">f</span><span class="s2">"RangeParameter("</span>
-            <span class="sa">f</span><span class="s2">"name='</span><span class="si">{self._name}</span><span class="s2">', "</span>
-            <span class="sa">f</span><span class="s2">"parameter_type=</span><span class="si">{self.parameter_type.name}</span><span class="s2">, "</span>
-            <span class="sa">f</span><span class="s2">"range=[</span><span class="si">{self._lower}</span><span class="s2">, </span><span class="si">{self._upper}</span><span class="s2">]"</span>
+            <span class="sa">f</span><span class="s2">"name='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2">', "</span>
+            <span class="sa">f</span><span class="s2">"parameter_type=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">parameter_type</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, "</span>
+            <span class="sa">f</span><span class="s2">"range=[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_lower</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_upper</span><span class="si">}</span><span class="s2">]"</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_scale</span><span class="p">:</span>
-            <span class="n">ret_val</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">", log_scale=</span><span class="si">{self._log_scale}</span><span class="s2">"</span>
+            <span class="n">ret_val</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">", log_scale=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_scale</span><span class="si">}</span><span class="s2">"</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_digits</span><span class="p">:</span>
-            <span class="n">ret_val</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">", digits=</span><span class="si">{self._digits}</span><span class="s2">"</span>
+            <span class="n">ret_val</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">", digits=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_digits</span><span class="si">}</span><span class="s2">"</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_fidelity</span><span class="p">:</span>
             <span class="n">ret_val</span> <span class="o">+=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">", fidelity=</span><span class="si">{self.is_fidelity}</span><span class="s2">, target_value=</span><span class="si">{self.target_value}</span><span class="s2">"</span>
+                <span class="sa">f</span><span class="s2">", fidelity=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">is_fidelity</span><span class="si">}</span><span class="s2">, target_value=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">target_value</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">ret_val</span> <span class="o">+</span> <span class="s2">")"</span></div>
@@ -459,15 +459,15 @@ src="/js/documentation_options.js">
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">ret_val</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s2">"ChoiceParameter("</span>
-            <span class="sa">f</span><span class="s2">"name='</span><span class="si">{self._name}</span><span class="s2">', "</span>
-            <span class="sa">f</span><span class="s2">"parameter_type=</span><span class="si">{self.parameter_type.name}</span><span class="s2">, "</span>
-            <span class="sa">f</span><span class="s2">"values=</span><span class="si">{self._values}</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"name='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2">', "</span>
+            <span class="sa">f</span><span class="s2">"parameter_type=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">parameter_type</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, "</span>
+            <span class="sa">f</span><span class="s2">"values=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_fidelity</span><span class="p">:</span>
             <span class="n">tval_rep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_value</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_type</span> <span class="o">==</span> <span class="n">ParameterType</span><span class="o">.</span><span class="n">STRING</span><span class="p">:</span>
-                <span class="n">tval_rep</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"'</span><span class="si">{tval_rep}</span><span class="s2">'"</span>
-            <span class="n">ret_val</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">", fidelity=</span><span class="si">{self.is_fidelity}</span><span class="s2">, target_value=</span><span class="si">{tval_rep}</span><span class="s2">"</span>
+                <span class="n">tval_rep</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="n">tval_rep</span><span class="si">}</span><span class="s2">'"</span>
+            <span class="n">ret_val</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">", fidelity=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">is_fidelity</span><span class="si">}</span><span class="s2">, target_value=</span><span class="si">{</span><span class="n">tval_rep</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">return</span> <span class="n">ret_val</span> <span class="o">+</span> <span class="s2">")"</span></div>
 
 
@@ -543,13 +543,13 @@ src="/js/documentation_options.js">
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">ret_val</span> <span class="o">=</span> <span class="p">(</span>
             <span class="sa">f</span><span class="s2">"FixedParameter("</span>
-            <span class="sa">f</span><span class="s2">"name='</span><span class="si">{self._name}</span><span class="s2">', "</span>
-            <span class="sa">f</span><span class="s2">"parameter_type=</span><span class="si">{self.parameter_type.name}</span><span class="s2">, "</span>
-            <span class="sa">f</span><span class="s2">"value=</span><span class="si">{self._value}</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"name='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2">', "</span>
+            <span class="sa">f</span><span class="s2">"parameter_type=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">parameter_type</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, "</span>
+            <span class="sa">f</span><span class="s2">"value=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_fidelity</span><span class="p">:</span>
             <span class="n">ret_val</span> <span class="o">+=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">", fidelity=</span><span class="si">{self.is_fidelity}</span><span class="s2">, target_value=</span><span class="si">{self.target_value}</span><span class="s2">"</span>
+                <span class="sa">f</span><span class="s2">", fidelity=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">is_fidelity</span><span class="si">}</span><span class="s2">, target_value=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">target_value</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">ret_val</span> <span class="o">+</span> <span class="s2">")"</span></div>
 </pre></div>
