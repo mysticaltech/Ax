@@ -47,7 +47,7 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="kn">import</span> <span class="n">GeneratorRun</span><span class="p">,</span> <span class="n">GeneratorRunType</span>
 <span class="kn">from</span> <span class="nn">ax.core.metric</span> <span class="kn">import</span> <span class="n">Metric</span>
 <span class="kn">from</span> <span class="nn">ax.core.multi_type_experiment</span> <span class="kn">import</span> <span class="n">MultiTypeExperiment</span>
-<span class="kn">from</span> <span class="nn">ax.core.objective</span> <span class="kn">import</span> <span class="n">Objective</span>
+<span class="kn">from</span> <span class="nn">ax.core.objective</span> <span class="kn">import</span> <span class="n">Objective</span><span class="p">,</span> <span class="n">ScalarizedObjective</span>
 <span class="kn">from</span> <span class="nn">ax.core.optimization_config</span> <span class="kn">import</span> <span class="n">OptimizationConfig</span>
 <span class="kn">from</span> <span class="nn">ax.core.outcome_constraint</span> <span class="kn">import</span> <span class="n">OutcomeConstraint</span>
 <span class="kn">from</span> <span class="nn">ax.core.parameter</span> <span class="kn">import</span> <span class="n">ChoiceParameter</span><span class="p">,</span> <span class="n">FixedParameter</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">RangeParameter</span>
@@ -426,23 +426,28 @@ src="/js/documentation_options.js">
             <span class="n">args</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">return</span> <span class="n">args</span></div>
 
-<div class="viewcode-block" id="Decoder.metric_from_sqa"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.decoder.Decoder.metric_from_sqa">[docs]</a>    <span class="k">def</span> <span class="nf">metric_from_sqa</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">metric_sqa</span><span class="p">:</span> <span class="n">SQAMetric</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Metric</span><span class="p">,</span> <span class="n">Objective</span><span class="p">,</span> <span class="n">OutcomeConstraint</span><span class="p">]:</span>
-        <span class="sd">"""Convert SQLAlchemy Metric to Ax Metric, Objective, or OutcomeConstraint."""</span>
+<div class="viewcode-block" id="Decoder.metric_from_sqa_util"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.decoder.Decoder.metric_from_sqa_util">[docs]</a>    <span class="k">def</span> <span class="nf">metric_from_sqa_util</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric_sqa</span><span class="p">:</span> <span class="n">SQAMetric</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Metric</span><span class="p">:</span>
+        <span class="sd">"""Convert SQLAlchemy Metric to Ax Metric"""</span>
         <span class="n">metric_class</span> <span class="o">=</span> <span class="n">REVERSE_METRIC_REGISTRY</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">metric_sqa</span><span class="o">.</span><span class="n">metric_type</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">metric_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">SQADecodeError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"Cannot decode SQAMetric because </span><span class="si">{</span><span class="n">metric_sqa</span><span class="o">.</span><span class="n">metric_type</span><span class="si">}</span><span class="s2"> "</span>
                 <span class="sa">f</span><span class="s2">"is an invalid type."</span>
             <span class="p">)</span>
-
         <span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_init_args_from_properties</span><span class="p">(</span>
             <span class="c1"># pyre-fixme[6]: Expected `SQABase` for ...es` but got `SQAMetric`.</span>
             <span class="n">object_sqa</span><span class="o">=</span><span class="n">metric_sqa</span><span class="p">,</span>
             <span class="n">class_</span><span class="o">=</span><span class="n">metric_class</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">metric</span> <span class="o">=</span> <span class="n">metric_class</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">metric</span></div>
+
+<div class="viewcode-block" id="Decoder.metric_from_sqa"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.decoder.Decoder.metric_from_sqa">[docs]</a>    <span class="k">def</span> <span class="nf">metric_from_sqa</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">metric_sqa</span><span class="p">:</span> <span class="n">SQAMetric</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Metric</span><span class="p">,</span> <span class="n">Objective</span><span class="p">,</span> <span class="n">OutcomeConstraint</span><span class="p">]:</span>
+        <span class="sd">"""Convert SQLAlchemy Metric to Ax Metric, Objective, or OutcomeConstraint."""</span>
+
+        <span class="n">metric</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric_from_sqa_util</span><span class="p">(</span><span class="n">metric_sqa</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">metric_sqa</span><span class="o">.</span><span class="n">intent</span> <span class="o">==</span> <span class="n">MetricIntent</span><span class="o">.</span><span class="n">TRACKING</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">metric</span>
@@ -451,8 +456,45 @@ src="/js/documentation_options.js">
                 <span class="k">raise</span> <span class="n">SQADecodeError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
                     <span class="s2">"Cannot decode SQAMetric to Objective because minimize is None."</span>
                 <span class="p">)</span>
+            <span class="k">if</span> <span class="n">metric_sqa</span><span class="o">.</span><span class="n">scalarized_objective_weight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">SQADecodeError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
+                    <span class="s2">"The metric corresponding to regular objective does not </span><span class="se">\</span>
+<span class="s2">                    have weight attribute"</span>
+                <span class="p">)</span>
             <span class="c1"># pyre-fixme[6]: Expected `bool` for 2nd param but got `Optional[bool]`.</span>
             <span class="k">return</span> <span class="n">Objective</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span> <span class="n">minimize</span><span class="o">=</span><span class="n">metric_sqa</span><span class="o">.</span><span class="n">minimize</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span>
+            <span class="n">metric_sqa</span><span class="o">.</span><span class="n">intent</span> <span class="o">==</span> <span class="n">MetricIntent</span><span class="o">.</span><span class="n">SCALARIZED_OBJECTIVE</span>
+        <span class="p">):</span>  <span class="c1"># metric_sqa is a parent whose children are individual</span>
+            <span class="c1"># metrics in Scalarized Objective</span>
+            <span class="k">if</span> <span class="n">metric_sqa</span><span class="o">.</span><span class="n">minimize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">SQADecodeError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
+                    <span class="s2">"Cannot decode SQAMetric to Scalarized Objective </span><span class="se">\</span>
+<span class="s2">                    because minimize is None."</span>
+                <span class="p">)</span>
+            <span class="n">metrics_sqa_children</span> <span class="o">=</span> <span class="n">metric_sqa</span><span class="o">.</span><span class="n">scalarized_objective_children_metrics</span>
+            <span class="k">if</span> <span class="n">metrics_sqa_children</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">SQADecodeError</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
+                    <span class="s2">"Cannot decode SQAMetric to Scalarized Objective </span><span class="se">\</span>
+<span class="s2">                    because the parent metric has no children metrics."</span>
+                <span class="p">)</span>
+
+            <span class="c1"># Extracting metric and weight for each child</span>
+            <span class="n">metrics</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span>
+                <span class="o">*</span><span class="p">[</span>
+                    <span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">metric_from_sqa_util</span><span class="p">(</span><span class="n">child</span><span class="p">),</span>
+                        <span class="n">child</span><span class="o">.</span><span class="n">scalarized_objective_weight</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">metrics_sqa_children</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">ScalarizedObjective</span><span class="p">(</span>
+                <span class="n">metrics</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">metrics</span><span class="p">),</span>
+                <span class="n">weights</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">weights</span><span class="p">),</span>
+                <span class="c1"># pyre-fixme[6]: Expected `bool` for 3nd param but got `Optional[bool]`.</span>
+                <span class="n">minimize</span><span class="o">=</span><span class="n">metric_sqa</span><span class="o">.</span><span class="n">minimize</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">elif</span> <span class="n">metric_sqa</span><span class="o">.</span><span class="n">intent</span> <span class="o">==</span> <span class="n">MetricIntent</span><span class="o">.</span><span class="n">OUTCOME_CONSTRAINT</span><span class="p">:</span>
             <span class="k">if</span> <span class="p">(</span>
                 <span class="n">metric_sqa</span><span class="o">.</span><span class="n">bound</span> <span class="ow">is</span> <span class="kc">None</span>

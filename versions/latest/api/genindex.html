@@ -1548,6 +1548,8 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_experiment_with_repeated_arms">get_experiment_with_repeated_arms() (in module ax.utils.testing.core_stubs)</a>
 </li>
+<li><a href="utils.html#ax.utils.testing.core_stubs.get_experiment_with_scalarized_objective">get_experiment_with_scalarized_objective() (in module ax.utils.testing.core_stubs)</a>
+</li>
 <li><a href="modelbridge.html#ax.modelbridge.factory.get_factorial">get_factorial() (in module ax.modelbridge.factory)</a>
 </li>
 <li><a href="utils.html#ax.utils.testing.core_stubs.get_factorial_experiment">get_factorial_experiment() (in module ax.utils.testing.core_stubs)</a>
@@ -2155,6 +2157,8 @@ src="/js/documentation_options.js">
 </ul></li>
 <li><a href="storage.html#ax.storage.sqa_store.decoder.Decoder.metric_from_sqa">metric_from_sqa() (ax.storage.sqa_store.decoder.Decoder method)</a>
 </li>
+<li><a href="storage.html#ax.storage.sqa_store.decoder.Decoder.metric_from_sqa_util">metric_from_sqa_util() (ax.storage.sqa_store.decoder.Decoder method)</a>
+</li>
 <li><a href="core.html#ax.core.observation.ObservationData.metric_names">metric_names (ax.core.observation.ObservationData attribute)</a>
 </li>
 <li><a href="modelbridge.html#ax.modelbridge.base.ModelBridge.metric_names">metric_names() (ax.modelbridge.base.ModelBridge property)</a>
@@ -2180,6 +2184,8 @@ src="/js/documentation_options.js">
 <li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAGeneratorRun.metrics">(ax.storage.sqa_store.sqa_classes.SQAGeneratorRun attribute)</a>
 </li>
 </ul></li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="core.html#ax.core.experiment.Experiment.metrics">metrics() (ax.core.experiment.Experiment property)</a>
 <ul>
 <li><a href="core.html#ax.core.objective.MultiObjective.metrics">(ax.core.objective.MultiObjective property)</a>
@@ -2195,8 +2201,6 @@ src="/js/documentation_options.js">
 <li><a href="plot.html#ax.plot.base.PlotData.metrics">(ax.plot.base.PlotData property)</a>
 </li>
 </ul></li>
-</ul></td>
-<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="modelbridge.html#ax.modelbridge.generation_strategy.GenerationStep.min_trials_observed">min_trials_observed() (ax.modelbridge.generation_strategy.GenerationStep property)</a>
 </li>
 <li><a href="benchmark.html#ax.benchmark.benchmark_problem.SimpleBenchmarkProblem.minimize">minimize (ax.benchmark.benchmark_problem.SimpleBenchmarkProblem attribute)</a>
@@ -2930,7 +2934,17 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="service.html#ax.service.ax_client.AxClient.save_to_json_file">save_to_json_file() (ax.service.ax_client.AxClient method)</a>
 </li>
+<li><a href="storage.html#ax.storage.utils.MetricIntent.SCALARIZED_OBJECTIVE">SCALARIZED_OBJECTIVE (ax.storage.utils.MetricIntent attribute)</a>
+</li>
+<li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAMetric.scalarized_objective_children_metrics">scalarized_objective_children_metrics (ax.storage.sqa_store.sqa_classes.SQAMetric attribute)</a>
+</li>
+<li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAMetric.scalarized_objective_id">scalarized_objective_id (ax.storage.sqa_store.sqa_classes.SQAMetric attribute)</a>
+</li>
 <li><a href="storage.html#ax.storage.json_store.encoders.scalarized_objective_to_dict">scalarized_objective_to_dict() (in module ax.storage.json_store.encoders)</a>
+</li>
+<li><a href="storage.html#ax.storage.sqa_store.encoder.Encoder.scalarized_objective_to_sqa">scalarized_objective_to_sqa() (ax.storage.sqa_store.encoder.Encoder method)</a>
+</li>
+<li><a href="storage.html#ax.storage.sqa_store.sqa_classes.SQAMetric.scalarized_objective_weight">scalarized_objective_weight (ax.storage.sqa_store.sqa_classes.SQAMetric attribute)</a>
 </li>
 <li><a href="core.html#ax.core.objective.ScalarizedObjective">ScalarizedObjective (class in ax.core.objective)</a>
 </li>
@@ -3026,13 +3040,13 @@ src="/js/documentation_options.js">
 </li>
 <li><a href="benchmark.html#ax.benchmark.benchmark_problem.SimpleBenchmarkProblem">SimpleBenchmarkProblem (class in ax.benchmark.benchmark_problem)</a>
 </li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="ax.html#ax.SimpleExperiment">SimpleExperiment (class in ax)</a>
 <ul>
 <li><a href="core.html#ax.core.simple_experiment.SimpleExperiment">(class in ax.core.simple_experiment)</a>
 </li>
 </ul></li>
-</ul></td>
-<td style="width: 33%; vertical-align: top;"><ul>
 <li><a href="benchmark.html#ax.benchmark.botorch_methods.singletask_gp_model_constructor">singletask_gp_model_constructor() (in module ax.benchmark.botorch_methods)</a>
 </li>
 <li><a href="plot.html#ax.plot.base.AxPlotTypes.SLICE">SLICE (ax.plot.base.AxPlotTypes attribute)</a>

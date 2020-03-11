@@ -863,6 +863,19 @@ src="/js/documentation_options.js">
 <span class="sd">          the full set of related objects, to prevent modifications of the</span>
 <span class="sd">          collection from resulting in persistence operations.</span>
 
+<span class="sd">          .. warning:: The viewonly=True relationship should not be mutated</span>
+<span class="sd">             in Python; that means, elements should not be added or removed</span>
+<span class="sd">             from collections nor should a many-to-one or one-to-one attribute</span>
+<span class="sd">             be altered in Python.  The viewonly=True relationship should only</span>
+<span class="sd">             be accessed via read.   Towards this behavior, it is also not</span>
+<span class="sd">             appropriate for the viewonly=True relationship to have any kind</span>
+<span class="sd">             of persistence cascade settings, nor should it be the target of</span>
+<span class="sd">             either :paramref:`.relationship.backref` or</span>
+<span class="sd">             :paramref:`.relationship.back_populates`, as backrefs imply</span>
+<span class="sd">             in-Python mutation of the attribute.  SQLAlchemy may emit</span>
+<span class="sd">             warnings for some or all of these conditions as of the 1.3 and</span>
+<span class="sd">             1.4 series of SQLAlchemy and will eventually be disallowed.</span>
+
 <span class="sd">        :param omit_join:</span>
 <span class="sd">          Allows manual control over the "selectin" automatic join</span>
 <span class="sd">          optimization.  Set to ``False`` to disable the "omit join" feature</span>
@@ -1875,6 +1888,14 @@ src="/js/documentation_options.js">
 
     <span class="k">def</span> <span class="nf">_add_reverse_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="n">other</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapper</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">_configure_mappers</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">viewonly</span><span class="p">:</span>
+            <span class="n">util</span><span class="o">.</span><span class="n">warn_limited</span><span class="p">(</span>
+                <span class="s2">"Setting backref / back_populates on relationship </span><span class="si">%s</span><span class="s2"> to refer "</span>
+                <span class="s2">"to viewonly relationship </span><span class="si">%s</span><span class="s2"> will be deprecated in SQLAlchemy "</span>
+                <span class="s2">"1.4, and will be disallowed in a future release.  "</span>
+                <span class="s2">"viewonly relationships should not be mutated"</span><span class="p">,</span>
+                <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">),</span>
+            <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reverse_property</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
         <span class="n">other</span><span class="o">.</span><span class="n">_reverse_property</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
@@ -2481,50 +2502,64 @@ src="/js/documentation_options.js">
                         <span class="n">a_subset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parent_local_selectable</span><span class="p">,</span>
                         <span class="n">consider_as_foreign_keys</span><span class="o">=</span><span class="n">consider_as_foreign_keys</span><span class="p">,</span>
                     <span class="p">)</span>
-        <span class="k">except</span> <span class="n">sa_exc</span><span class="o">.</span><span class="n">NoForeignKeysError</span><span class="p">:</span>
+        <span class="k">except</span> <span class="n">sa_exc</span><span class="o">.</span><span class="n">NoForeignKeysError</span> <span class="k">as</span> <span class="n">nfe</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">secondary</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">sa_exc</span><span class="o">.</span><span class="n">NoForeignKeysError</span><span class="p">(</span>
-                    <span class="s2">"Could not determine join "</span>
-                    <span class="s2">"condition between parent/child tables on "</span>
-                    <span class="s2">"relationship </span><span class="si">%s</span><span class="s2"> - there are no foreign keys "</span>
-                    <span class="s2">"linking these tables via secondary table '</span><span class="si">%s</span><span class="s2">'.  "</span>
-                    <span class="s2">"Ensure that referencing columns are associated "</span>
-                    <span class="s2">"with a ForeignKey or ForeignKeyConstraint, or "</span>
-                    <span class="s2">"specify 'primaryjoin' and 'secondaryjoin' "</span>
-                    <span class="s2">"expressions."</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prop</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">secondary</span><span class="p">)</span>
+                <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span>
+                    <span class="n">sa_exc</span><span class="o">.</span><span class="n">NoForeignKeysError</span><span class="p">(</span>
+                        <span class="s2">"Could not determine join "</span>
+                        <span class="s2">"condition between parent/child tables on "</span>
+                        <span class="s2">"relationship </span><span class="si">%s</span><span class="s2"> - there are no foreign keys "</span>
+                        <span class="s2">"linking these tables via secondary table '</span><span class="si">%s</span><span class="s2">'.  "</span>
+                        <span class="s2">"Ensure that referencing columns are associated "</span>
+                        <span class="s2">"with a ForeignKey or ForeignKeyConstraint, or "</span>
+                        <span class="s2">"specify 'primaryjoin' and 'secondaryjoin' "</span>
+                        <span class="s2">"expressions."</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prop</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">secondary</span><span class="p">)</span>
+                    <span class="p">),</span>
+                    <span class="n">from_</span><span class="o">=</span><span class="n">nfe</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">sa_exc</span><span class="o">.</span><span class="n">NoForeignKeysError</span><span class="p">(</span>
-                    <span class="s2">"Could not determine join "</span>
-                    <span class="s2">"condition between parent/child tables on "</span>
-                    <span class="s2">"relationship </span><span class="si">%s</span><span class="s2"> - there are no foreign keys "</span>
-                    <span class="s2">"linking these tables.  "</span>
-                    <span class="s2">"Ensure that referencing columns are associated "</span>
-                    <span class="s2">"with a ForeignKey or ForeignKeyConstraint, or "</span>
-                    <span class="s2">"specify a 'primaryjoin' expression."</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">prop</span>
+                <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span>
+                    <span class="n">sa_exc</span><span class="o">.</span><span class="n">NoForeignKeysError</span><span class="p">(</span>
+                        <span class="s2">"Could not determine join "</span>
+                        <span class="s2">"condition between parent/child tables on "</span>
+                        <span class="s2">"relationship </span><span class="si">%s</span><span class="s2"> - there are no foreign keys "</span>
+                        <span class="s2">"linking these tables.  "</span>
+                        <span class="s2">"Ensure that referencing columns are associated "</span>
+                        <span class="s2">"with a ForeignKey or ForeignKeyConstraint, or "</span>
+                        <span class="s2">"specify a 'primaryjoin' expression."</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">prop</span>
+                    <span class="p">),</span>
+                    <span class="n">from_</span><span class="o">=</span><span class="n">nfe</span><span class="p">,</span>
                 <span class="p">)</span>
-        <span class="k">except</span> <span class="n">sa_exc</span><span class="o">.</span><span class="n">AmbiguousForeignKeysError</span><span class="p">:</span>
+        <span class="k">except</span> <span class="n">sa_exc</span><span class="o">.</span><span class="n">AmbiguousForeignKeysError</span> <span class="k">as</span> <span class="n">afe</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">secondary</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">sa_exc</span><span class="o">.</span><span class="n">AmbiguousForeignKeysError</span><span class="p">(</span>
-                    <span class="s2">"Could not determine join "</span>
-                    <span class="s2">"condition between parent/child tables on "</span>
-                    <span class="s2">"relationship </span><span class="si">%s</span><span class="s2"> - there are multiple foreign key "</span>
-                    <span class="s2">"paths linking the tables via secondary table '</span><span class="si">%s</span><span class="s2">'.  "</span>
-                    <span class="s2">"Specify the 'foreign_keys' "</span>
-                    <span class="s2">"argument, providing a list of those columns which "</span>
-                    <span class="s2">"should be counted as containing a foreign key "</span>
-                    <span class="s2">"reference from the secondary table to each of the "</span>
-                    <span class="s2">"parent and child tables."</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prop</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">secondary</span><span class="p">)</span>
+                <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span>
+                    <span class="n">sa_exc</span><span class="o">.</span><span class="n">AmbiguousForeignKeysError</span><span class="p">(</span>
+                        <span class="s2">"Could not determine join "</span>
+                        <span class="s2">"condition between parent/child tables on "</span>
+                        <span class="s2">"relationship </span><span class="si">%s</span><span class="s2"> - there are multiple foreign key "</span>
+                        <span class="s2">"paths linking the tables via secondary table '</span><span class="si">%s</span><span class="s2">'.  "</span>
+                        <span class="s2">"Specify the 'foreign_keys' "</span>
+                        <span class="s2">"argument, providing a list of those columns which "</span>
+                        <span class="s2">"should be counted as containing a foreign key "</span>
+                        <span class="s2">"reference from the secondary table to each of the "</span>
+                        <span class="s2">"parent and child tables."</span>
+                        <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prop</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">secondary</span><span class="p">)</span>
+                    <span class="p">),</span>
+                    <span class="n">from_</span><span class="o">=</span><span class="n">afe</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">sa_exc</span><span class="o">.</span><span class="n">AmbiguousForeignKeysError</span><span class="p">(</span>
-                    <span class="s2">"Could not determine join "</span>
-                    <span class="s2">"condition between parent/child tables on "</span>
-                    <span class="s2">"relationship </span><span class="si">%s</span><span class="s2"> - there are multiple foreign key "</span>
-                    <span class="s2">"paths linking the tables.  Specify the "</span>
-                    <span class="s2">"'foreign_keys' argument, providing a list of those "</span>
-                    <span class="s2">"columns which should be counted as containing a "</span>
-                    <span class="s2">"foreign key reference to the parent table."</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">prop</span>
+                <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span>
+                    <span class="n">sa_exc</span><span class="o">.</span><span class="n">AmbiguousForeignKeysError</span><span class="p">(</span>
+                        <span class="s2">"Could not determine join "</span>
+                        <span class="s2">"condition between parent/child tables on "</span>
+                        <span class="s2">"relationship </span><span class="si">%s</span><span class="s2"> - there are multiple foreign key "</span>
+                        <span class="s2">"paths linking the tables.  Specify the "</span>
+                        <span class="s2">"'foreign_keys' argument, providing a list of those "</span>
+                        <span class="s2">"columns which should be counted as containing a "</span>
+                        <span class="s2">"foreign key reference to the parent table."</span>
+                        <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">prop</span>
+                    <span class="p">),</span>
+                    <span class="n">from_</span><span class="o">=</span><span class="n">afe</span><span class="p">,</span>
                 <span class="p">)</span>
 
     <span class="nd">@property</span>

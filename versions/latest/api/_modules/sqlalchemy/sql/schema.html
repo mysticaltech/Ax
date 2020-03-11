@@ -134,12 +134,13 @@ src="/js/documentation_options.js">
             <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">spwd</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">_set_parent_with_dispatch</span>
-                <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-                    <span class="n">util</span><span class="o">.</span><span class="n">raise_from_cause</span><span class="p">(</span>
+                <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                    <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span>
                         <span class="n">exc</span><span class="o">.</span><span class="n">ArgumentError</span><span class="p">(</span>
                             <span class="s2">"'SchemaItem' object, such as a 'Column' or a "</span>
                             <span class="s2">"'Constraint' expected, got </span><span class="si">%r</span><span class="s2">"</span> <span class="o">%</span> <span class="n">item</span>
-                        <span class="p">)</span>
+                        <span class="p">),</span>
+                        <span class="n">replace_context</span><span class="o">=</span><span class="n">err</span><span class="p">,</span>
                     <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">spwd</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -1643,15 +1644,16 @@ src="/js/documentation_options.js">
                 <span class="n">_proxies</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="p">],</span>
                 <span class="o">*</span><span class="n">fk</span>
             <span class="p">)</span>
-        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-            <span class="n">util</span><span class="o">.</span><span class="n">raise_from_cause</span><span class="p">(</span>
+        <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span>
                 <span class="ne">TypeError</span><span class="p">(</span>
                     <span class="s2">"Could not create a copy of this </span><span class="si">%r</span><span class="s2"> object.  "</span>
                     <span class="s2">"Ensure the class includes a _constructor() "</span>
                     <span class="s2">"attribute or method which accepts the "</span>
                     <span class="s2">"standard Column constructor arguments, or "</span>
                     <span class="s2">"references the Column class itself."</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span>
-                <span class="p">)</span>
+                <span class="p">),</span>
+                <span class="n">from_</span><span class="o">=</span><span class="n">err</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="n">c</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">selectable</span>
@@ -3308,10 +3310,13 @@ src="/js/documentation_options.js">
         <span class="k">try</span><span class="p">:</span>
             <span class="n">ColumnCollectionConstraint</span><span class="o">.</span><span class="n">_set_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">ke</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">exc</span><span class="o">.</span><span class="n">ArgumentError</span><span class="p">(</span>
-                <span class="s2">"Can't create ForeignKeyConstraint "</span>
-                <span class="s2">"on table '</span><span class="si">%s</span><span class="s2">': no column "</span>
-                <span class="s2">"named '</span><span class="si">%s</span><span class="s2">' is present."</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="n">ke</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span>
+                <span class="n">exc</span><span class="o">.</span><span class="n">ArgumentError</span><span class="p">(</span>
+                    <span class="s2">"Can't create ForeignKeyConstraint "</span>
+                    <span class="s2">"on table '</span><span class="si">%s</span><span class="s2">': no column "</span>
+                    <span class="s2">"named '</span><span class="si">%s</span><span class="s2">' is present."</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="n">ke</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="p">),</span>
+                <span class="n">from_</span><span class="o">=</span><span class="n">ke</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">fk</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">):</span>

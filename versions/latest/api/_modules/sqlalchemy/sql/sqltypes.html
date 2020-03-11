@@ -208,7 +208,7 @@ src="/js/documentation_options.js">
 <span class="sd">          E.g.::</span>
 
 <span class="sd">            &gt;&gt;&gt; from sqlalchemy import cast, select, String</span>
-<span class="sd">            &gt;&gt;&gt; print select([cast('some string', String(collation='utf8'))])</span>
+<span class="sd">            &gt;&gt;&gt; print(select([cast('some string', String(collation='utf8'))]))</span>
 <span class="sd">            SELECT CAST(:param_1 AS VARCHAR COLLATE utf8) AS anon_1</span>
 
 <span class="sd">        :param convert_unicode: When set to ``True``, the</span>
@@ -1505,7 +1505,7 @@ src="/js/documentation_options.js">
     <span class="k">def</span> <span class="nf">_db_value_for_elem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elem</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_valid_lookup</span><span class="p">[</span><span class="n">elem</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="c1"># for unknown string values, we return as is.  While we can</span>
             <span class="c1"># validate these if we wanted, that does not allow for lesser-used</span>
             <span class="c1"># end-user use cases, such as using a LIKE comparison with an enum,</span>
@@ -1519,8 +1519,11 @@ src="/js/documentation_options.js">
             <span class="p">):</span>
                 <span class="k">return</span> <span class="n">elem</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">LookupError</span><span class="p">(</span>
-                    <span class="s1">'"</span><span class="si">%s</span><span class="s1">" is not among the defined enum values'</span> <span class="o">%</span> <span class="n">elem</span>
+                <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span>
+                    <span class="ne">LookupError</span><span class="p">(</span>
+                        <span class="s1">'"</span><span class="si">%s</span><span class="s1">" is not among the defined enum values'</span> <span class="o">%</span> <span class="n">elem</span>
+                    <span class="p">),</span>
+                    <span class="n">replace_context</span><span class="o">=</span><span class="n">err</span><span class="p">,</span>
                 <span class="p">)</span>
 
     <span class="k">class</span> <span class="nc">Comparator</span><span class="p">(</span><span class="n">String</span><span class="o">.</span><span class="n">Comparator</span><span class="p">):</span>
@@ -1539,9 +1542,12 @@ src="/js/documentation_options.js">
     <span class="k">def</span> <span class="nf">_object_value_for_elem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elem</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_object_lookup</span><span class="p">[</span><span class="n">elem</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">LookupError</span><span class="p">(</span>
-                <span class="s1">'"</span><span class="si">%s</span><span class="s1">" is not among the defined enum values'</span> <span class="o">%</span> <span class="n">elem</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span>
+                <span class="ne">LookupError</span><span class="p">(</span>
+                    <span class="s1">'"</span><span class="si">%s</span><span class="s1">" is not among the defined enum values'</span> <span class="o">%</span> <span class="n">elem</span>
+                <span class="p">),</span>
+                <span class="n">replace_context</span><span class="o">=</span><span class="n">err</span><span class="p">,</span>
             <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1665,7 +1671,7 @@ src="/js/documentation_options.js">
 
 <span class="sd">        :param pickler: defaults to cPickle.pickle or pickle.pickle if</span>
 <span class="sd">          cPickle is not available.  May be any object with</span>
-<span class="sd">          pickle-compatible ``dumps` and ``loads`` methods.</span>
+<span class="sd">          pickle-compatible ``dumps`` and ``loads`` methods.</span>
 
 <span class="sd">        :param comparator: a 2-arg callable predicate used</span>
 <span class="sd">          to compare values of this type.  If left as ``None``,</span>

@@ -149,7 +149,20 @@ src="/js/documentation_options.js">
     <span class="n">canonical_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="n">NAME_OR_TYPE_FIELD_LENGTH</span><span class="p">))</span>
 
     <span class="n">immutable_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"name"</span><span class="p">]</span>
-    <span class="n">unique_id</span> <span class="o">=</span> <span class="s2">"name"</span></div>
+    <span class="n">unique_id</span> <span class="o">=</span> <span class="s2">"name"</span>
+
+    <span class="n">scalarized_objective_id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="s2">"metric_v2.id"</span><span class="p">))</span>
+
+    <span class="c1"># Relationship containing SQAMetric(s) only defined for the parent metric</span>
+    <span class="c1"># of Scalarized Objective contains all children of the parent metric</span>
+    <span class="c1"># join_depth argument: used for loading self-referential relationships</span>
+    <span class="c1"># https://docs.sqlalchemy.org/en/13/orm/self_referential.html#configuring-self-referential-eager-loading</span>
+    <span class="n">scalarized_objective_children_metrics</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span>
+        <span class="s2">"SQAMetric"</span><span class="p">,</span> <span class="n">cascade</span><span class="o">=</span><span class="s2">"all, delete-orphan"</span><span class="p">,</span> <span class="n">lazy</span><span class="o">=</span><span class="s2">"selectin"</span><span class="p">,</span> <span class="n">join_depth</span><span class="o">=</span><span class="mi">4</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Attribute only defined for the children of Scalarized Objective</span>
+    <span class="n">scalarized_objective_weight</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Float</span><span class="p">)</span></div>
 
 
 <span class="c1"># pyre-fixme[11]: Type `Base` is not defined.</span>

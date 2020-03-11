@@ -44,7 +44,7 @@ src="/js/documentation_options.js">
 <span class="kn">from</span> <span class="nn">ax.core.generator_run</span> <span class="kn">import</span> <span class="n">GeneratorRun</span><span class="p">,</span> <span class="n">GeneratorRunType</span>
 <span class="kn">from</span> <span class="nn">ax.core.metric</span> <span class="kn">import</span> <span class="n">Metric</span>
 <span class="kn">from</span> <span class="nn">ax.core.multi_type_experiment</span> <span class="kn">import</span> <span class="n">MultiTypeExperiment</span>
-<span class="kn">from</span> <span class="nn">ax.core.objective</span> <span class="kn">import</span> <span class="n">Objective</span>
+<span class="kn">from</span> <span class="nn">ax.core.objective</span> <span class="kn">import</span> <span class="n">Objective</span><span class="p">,</span> <span class="n">ScalarizedObjective</span>
 <span class="kn">from</span> <span class="nn">ax.core.optimization_config</span> <span class="kn">import</span> <span class="n">OptimizationConfig</span>
 <span class="kn">from</span> <span class="nn">ax.core.outcome_constraint</span> <span class="kn">import</span> <span class="n">OutcomeConstraint</span>
 <span class="kn">from</span> <span class="nn">ax.core.parameter</span> <span class="kn">import</span> <span class="n">ChoiceParameter</span><span class="p">,</span> <span class="n">FixedParameter</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">RangeParameter</span>
@@ -338,6 +338,10 @@ src="/js/documentation_options.js">
 
 <div class="viewcode-block" id="Encoder.objective_to_sqa"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.encoder.Encoder.objective_to_sqa">[docs]</a>    <span class="k">def</span> <span class="nf">objective_to_sqa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">objective</span><span class="p">:</span> <span class="n">Objective</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SQAMetric</span><span class="p">:</span>
         <span class="sd">"""Convert Ax Objective to SQLAlchemy."""</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">ScalarizedObjective</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalarized_objective_to_sqa</span><span class="p">(</span><span class="n">objective</span><span class="p">)</span>
+
         <span class="n">metric</span> <span class="o">=</span> <span class="n">objective</span><span class="o">.</span><span class="n">metric</span>
         <span class="n">metric_type</span><span class="p">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_metric_type_and_properties</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span>
 
@@ -352,6 +356,68 @@ src="/js/documentation_options.js">
             <span class="n">properties</span><span class="o">=</span><span class="n">properties</span><span class="p">,</span>
             <span class="n">lower_is_better</span><span class="o">=</span><span class="n">metric</span><span class="o">.</span><span class="n">lower_is_better</span><span class="p">,</span>
         <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Encoder.scalarized_objective_to_sqa"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.encoder.Encoder.scalarized_objective_to_sqa">[docs]</a>    <span class="k">def</span> <span class="nf">scalarized_objective_to_sqa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">objective</span><span class="p">:</span> <span class="n">ScalarizedObjective</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SQAMetric</span><span class="p">:</span>
+        <span class="sd">"""Convert Ax Scalarized Objective to SQLAlchemy. Returns a parent</span>
+<span class="sd">        SQAMetric, whose children are the SQAMetrics corresponding to</span>
+<span class="sd">        metrics attribute of Scalarized Objective. The parent is used as a placeholder</span>
+<span class="sd">        for storage purposes."""</span>
+        <span class="n">metrics</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">objective</span><span class="o">.</span><span class="n">metrics</span><span class="p">,</span> <span class="n">objective</span><span class="o">.</span><span class="n">weights</span>
+
+        <span class="k">if</span> <span class="n">metrics</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">SQAEncodeError</span><span class="p">(</span>
+                <span class="s2">"Metrics and weights in scalarized objective </span><span class="se">\</span>
+<span class="s2">                must be lists of equal length."</span>
+            <span class="p">)</span>  <span class="c1"># pragma: no cover</span>
+
+        <span class="c1"># pyre-fixme[9]: Expected SQABase type of an attribute;</span>
+        <span class="c1"># re-defined to be SQAMetric.</span>
+        <span class="n">metrics_by_name</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span>
+            <span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Metric</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">SQAMetric</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">metric</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="p">(</span>
+                <span class="n">metric</span><span class="p">,</span>
+                <span class="n">weight</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">class_to_sqa_class</span><span class="p">[</span><span class="n">Metric</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_metric_type_and_properties</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">weight</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Constructing children SQAMetric classes</span>
+        <span class="n">children_metrics</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="c1"># pyre-fixme[29]: `SQAMetric` is not a function.</span>
+            <span class="n">metric_class</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">metric_name</span><span class="p">,</span>
+                <span class="n">metric_type</span><span class="o">=</span><span class="n">metrics_type_and_properties</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">intent</span><span class="o">=</span><span class="n">MetricIntent</span><span class="o">.</span><span class="n">OBJECTIVE</span><span class="p">,</span>
+                <span class="n">minimize</span><span class="o">=</span><span class="n">objective</span><span class="o">.</span><span class="n">minimize</span><span class="p">,</span>
+                <span class="n">properties</span><span class="o">=</span><span class="n">metrics_type_and_properties</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">lower_is_better</span><span class="o">=</span><span class="n">metric</span><span class="o">.</span><span class="n">lower_is_better</span><span class="p">,</span>
+                <span class="n">scalarized_objective_weight</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">metric_name</span><span class="p">,</span> <span class="p">(</span>
+                <span class="n">metric</span><span class="p">,</span>
+                <span class="n">weight</span><span class="p">,</span>
+                <span class="n">metric_class</span><span class="p">,</span>
+                <span class="n">metrics_type_and_properties</span><span class="p">,</span>
+            <span class="p">)</span> <span class="ow">in</span> <span class="n">metrics_by_name</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Constructing a parent SQAMetric class</span>
+        <span class="c1"># pyre-fixme: Expected `Base` for 1st...t `typing.Type[Metric]`.</span>
+        <span class="n">parent_metric</span><span class="p">:</span> <span class="n">SQAMetric</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">class_to_sqa_class</span><span class="p">[</span><span class="n">Metric</span><span class="p">]</span>
+        <span class="c1"># pyre-fixme[29]: `SQAMetric` is not a function.</span>
+        <span class="n">parent_metric</span> <span class="o">=</span> <span class="n">parent_metric</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">"scalarized_objective"</span><span class="p">,</span>
+            <span class="n">metric_type</span><span class="o">=</span><span class="n">METRIC_REGISTRY</span><span class="p">[</span><span class="n">Metric</span><span class="p">],</span>
+            <span class="n">intent</span><span class="o">=</span><span class="n">MetricIntent</span><span class="o">.</span><span class="n">SCALARIZED_OBJECTIVE</span><span class="p">,</span>
+            <span class="n">minimize</span><span class="o">=</span><span class="n">objective</span><span class="o">.</span><span class="n">minimize</span><span class="p">,</span>
+            <span class="n">lower_is_better</span><span class="o">=</span><span class="n">objective</span><span class="o">.</span><span class="n">minimize</span><span class="p">,</span>
+            <span class="n">scalarized_objective_children_metrics</span><span class="o">=</span><span class="n">children_metrics</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">parent_metric</span></div>
 
 <div class="viewcode-block" id="Encoder.outcome_constraint_to_sqa"><a class="viewcode-back" href="../../../../storage.html#ax.storage.sqa_store.encoder.Encoder.outcome_constraint_to_sqa">[docs]</a>    <span class="k">def</span> <span class="nf">outcome_constraint_to_sqa</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">outcome_constraint</span><span class="p">:</span> <span class="n">OutcomeConstraint</span>
