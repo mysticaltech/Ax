@@ -378,7 +378,7 @@ function slice_config_to_trace(
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:17] ipy_plotting: Injecting Plotly library into cell. Do not overwrite or delete cell.
+<pre>[INFO 03-16 05:57:00] ipy_plotting: Injecting Plotly library into cell. Do not overwrite or delete cell.
 </pre>
 </div>
 </div>
@@ -432,7 +432,7 @@ function slice_config_to_trace(
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:17] ax.service.ax_client: Starting optimization with verbose logging. To disable logging, set the `verbose_logging` argument to `False`. Note that float values in the logs are rounded to 2 decimal points.
+<pre>[INFO 03-16 05:57:00] ax.service.ax_client: Starting optimization with verbose logging. To disable logging, set the `verbose_logging` argument to `False`. Note that float values in the logs are rounded to 2 decimal points.
 </pre>
 </div>
 </div>
@@ -468,7 +468,7 @@ function slice_config_to_trace(
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:17] ax.modelbridge.dispatch_utils: Using Bayesian Optimization generation strategy: GenerationStrategy(name='Sobol+GPEI', steps=[Sobol for 5 trials, GPEI for subsequent trials]). Iterations after 5 will take longer to generate due to  model-fitting.
+<pre>[INFO 03-16 05:57:00] ax.modelbridge.dispatch_utils: Using Bayesian Optimization generation strategy: GenerationStrategy(name='Sobol+GPEI', steps=[Sobol for 5 trials, GPEI for subsequent trials]). Iterations after 5 will take longer to generate due to  model-fitting.
 </pre>
 </div>
 </div>
@@ -532,263 +532,109 @@ function slice_config_to_trace(
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>2020-03-15 05:56:17,983	WARNING services.py:586 -- setpgrp failed, processes may not be cleaned up properly: [Errno 1] Operation not permitted.
-2020-03-15 05:56:17,985	INFO resource_spec.py:212 -- Starting Ray with 4.35 GiB memory available for workers and up to 2.18 GiB for objects. You can adjust these settings with ray.init(memory=&lt;bytes&gt;, object_store_memory=&lt;bytes&gt;).
-2020-03-15 05:56:18,346	INFO services.py:1078 -- View the Ray dashboard at <span class="ansi-green-intense-fg ansi-bold">localhost:8265</span>
-[INFO 03-15 05:56:18] ax.service.ax_client: Generated new trial 0 with parameters {'lr': 0.0, 'momentum': 0.66}.
-[INFO 03-15 05:56:19] ax.service.ax_client: Generated new trial 1 with parameters {'lr': 0.0, 'momentum': 0.89}.
-[INFO 03-15 05:56:19] ax.service.ax_client: Generated new trial 2 with parameters {'lr': 0.01, 'momentum': 0.27}.
-[INFO 03-15 05:56:19] ax.service.ax_client: Generated new trial 3 with parameters {'lr': 0.34, 'momentum': 0.83}.
-[INFO 03-15 05:56:19] ax.service.ax_client: Generated new trial 4 with parameters {'lr': 0.1, 'momentum': 0.43}.
-[INFO 03-15 05:56:19] ax.service.ax_client: Generated new trial 5 with parameters {'lr': 0.0, 'momentum': 0.77}.
-[INFO 03-15 05:56:19] ax.service.ax_client: Generated new trial 6 with parameters {'lr': 0.02, 'momentum': 0.02}.
-[INFO 03-15 05:56:20] ax.service.ax_client: Generated new trial 7 with parameters {'lr': 0.01, 'momentum': 0.62}.
-[INFO 03-15 05:56:20] ax.service.ax_client: Generated new trial 8 with parameters {'lr': 0.0, 'momentum': 0.41}.
-[INFO 03-15 05:56:20] ax.service.ax_client: Generated new trial 9 with parameters {'lr': 0.0, 'momentum': 0.13}.
+<pre>2020-03-16 05:57:00,617	WARNING services.py:586 -- setpgrp failed, processes may not be cleaned up properly: [Errno 1] Operation not permitted.
+2020-03-16 05:57:00,619	INFO resource_spec.py:212 -- Starting Ray with 4.35 GiB memory available for workers and up to 2.18 GiB for objects. You can adjust these settings with ray.init(memory=&lt;bytes&gt;, object_store_memory=&lt;bytes&gt;).
+2020-03-16 05:57:00,981	INFO services.py:1078 -- View the Ray dashboard at <span class="ansi-green-intense-fg ansi-bold">localhost:8265</span>
+[INFO 03-16 05:57:01] ax.service.ax_client: Generated new trial 0 with parameters {'lr': 0.0, 'momentum': 0.17}.
+[INFO 03-16 05:57:01] ax.service.ax_client: Generated new trial 1 with parameters {'lr': 0.0, 'momentum': 0.63}.
+[INFO 03-16 05:57:01] ax.service.ax_client: Generated new trial 2 with parameters {'lr': 0.0, 'momentum': 0.79}.
+[INFO 03-16 05:57:01] ax.service.ax_client: Generated new trial 3 with parameters {'lr': 0.0, 'momentum': 0.31}.
+[INFO 03-16 05:57:01] ax.service.ax_client: Generated new trial 4 with parameters {'lr': 0.0, 'momentum': 0.62}.
+[INFO 03-16 05:57:02] ax.service.ax_client: Generated new trial 5 with parameters {'lr': 0.0, 'momentum': 0.41}.
+[INFO 03-16 05:57:02] ax.service.ax_client: Generated new trial 6 with parameters {'lr': 0.17, 'momentum': 0.72}.
+[INFO 03-16 05:57:02] ax.service.ax_client: Generated new trial 7 with parameters {'lr': 0.01, 'momentum': 0.89}.
+[INFO 03-16 05:57:02] ax.service.ax_client: Generated new trial 8 with parameters {'lr': 0.0, 'momentum': 0.51}.
+[INFO 03-16 05:57:03] ax.service.ax_client: Generated new trial 9 with parameters {'lr': 0.0, 'momentum': 0.36}.
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4138)</span> Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz to /home/travis/.data/MNIST/raw/train-images-idx3-ubyte.gz
-<span class="ansi-cyan-fg">(pid=4137)</span> Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz to /home/travis/.data/MNIST/raw/train-images-idx3-ubyte.gz
+<pre><span class="ansi-cyan-fg">(pid=4228)</span> Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz to /home/travis/.data/MNIST/raw/train-images-idx3-ubyte.gz
+<span class="ansi-cyan-fg">(pid=4227)</span> Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz to /home/travis/.data/MNIST/raw/train-images-idx3-ubyte.gz
 0.1%
+0.1%
+0.2%
+0.3%
+0.4%
 0.9%
-0.1%
-6.1%
-1.7%
-6.3%
-1.8%
-6.4%
-1.9%
-6.5%
-6.9%
-2.0%
-7.1%
+0.8%
+0.9%
+2.6%
 2.1%
-21.2%
-12.1%
-21.9%
-13.0%
-37.9%
-53.6%
-38.0%
-54.0%
-38.5%
-54.5%
-55.0%
-55.9%
-56.4%
-56.9%
-38.6%
-57.5%
-38.9%
-57.9%
-58.3%
-58.8%
-39.5%
-64.9%
-40.0%
-65.9%
-40.5%
-66.2%
-40.7%
-40.9%
-41.1%
-41.2%
-59.8%
+8.8%
+7.0%
+7.4%
+26.1%
+17.6%
+27.4%
+28.4%
+28.8%
+28.8%
+29.7%
+56.6%
+50.2%
+50.6%
+50.7%
+52.5%
+52.7%
+92.2%
+76.4%
+95.1%
+77.0%
+96.6%
+97.0%
 100.1%
-<span class="ansi-cyan-fg">(pid=4137)</span> Extracting /home/travis/.data/MNIST/raw/train-images-idx3-ubyte.gz to /home/travis/.data/MNIST/raw
-79.2%
 100.1%
-<span class="ansi-cyan-fg">(pid=4138)</span> Extracting /home/travis/.data/MNIST/raw/train-images-idx3-ubyte.gz to /home/travis/.data/MNIST/raw
-<span class="ansi-cyan-fg">(pid=4137)</span> Downloading http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz to /home/travis/.data/MNIST/raw/train-labels-idx1-ubyte.gz
-<span class="ansi-cyan-fg">(pid=4138)</span> Downloading http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz to /home/travis/.data/MNIST/raw/train-labels-idx1-ubyte.gz
-<span class="ansi-cyan-fg">(pid=4137)</span> Extracting /home/travis/.data/MNIST/raw/train-labels-idx1-ubyte.gz to /home/travis/.data/MNIST/raw
-<span class="ansi-cyan-fg">(pid=4137)</span> Downloading http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz to /home/travis/.data/MNIST/raw/t10k-images-idx3-ubyte.gz
-<span class="ansi-cyan-fg">(pid=4138)</span> Extracting /home/travis/.data/MNIST/raw/train-labels-idx1-ubyte.gz to /home/travis/.data/MNIST/raw
-<span class="ansi-cyan-fg">(pid=4138)</span> Downloading http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz to /home/travis/.data/MNIST/raw/t10k-images-idx3-ubyte.gz
+<span class="ansi-cyan-fg">(pid=4228)</span> Extracting /home/travis/.data/MNIST/raw/train-images-idx3-ubyte.gz to /home/travis/.data/MNIST/raw
+<span class="ansi-cyan-fg">(pid=4227)</span> Extracting /home/travis/.data/MNIST/raw/train-images-idx3-ubyte.gz to /home/travis/.data/MNIST/raw
+<span class="ansi-cyan-fg">(pid=4228)</span> Downloading http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz to /home/travis/.data/MNIST/raw/train-labels-idx1-ubyte.gz
+<span class="ansi-cyan-fg">(pid=4227)</span> Downloading http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz to /home/travis/.data/MNIST/raw/train-labels-idx1-ubyte.gz
 113.5%
+<span class="ansi-cyan-fg">(pid=4228)</span> Extracting /home/travis/.data/MNIST/raw/train-labels-idx1-ubyte.gz to /home/travis/.data/MNIST/raw
+<span class="ansi-cyan-fg">(pid=4228)</span> Downloading http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz to /home/travis/.data/MNIST/raw/t10k-images-idx3-ubyte.gz
 113.5%
+<span class="ansi-cyan-fg">(pid=4227)</span> Extracting /home/travis/.data/MNIST/raw/train-labels-idx1-ubyte.gz to /home/travis/.data/MNIST/raw
+<span class="ansi-cyan-fg">(pid=4227)</span> Downloading http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz to /home/travis/.data/MNIST/raw/t10k-images-idx3-ubyte.gz
 0.5%
 0.5%
 2.5%
 2.5%
-13.9%
-19.4%
-20.4%
-14.4%
-20.9%
-14.9%
-15.4%
-21.9%
-16.4%
-22.9%
-17.4%
-23.4%
-18.4%
-18.9%
-24.3%
-19.4%
-24.8%
-22.4%
+7.5%
+5.5%
+7.9%
 25.8%
-<span class="ansi-cyan-fg">(pid=4137)</span> Extracting /home/travis/.data/MNIST/raw/t10k-images-idx3-ubyte.gz to /home/travis/.data/MNIST/raw
-<span class="ansi-cyan-fg">(pid=4138)</span> Extracting /home/travis/.data/MNIST/raw/t10k-images-idx3-ubyte.gz to /home/travis/.data/MNIST/raw
+25.8%
+79.5%
+59.1%
+87.4%
+63.6%
+91.4%
+68.6%
+95.4%
+73.5%
 100.4%
+76.5%
+82.0%
+82.5%
+86.9%
+88.9%
+89.9%
 100.4%
-<span class="ansi-cyan-fg">(pid=4137)</span> Downloading http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz to /home/travis/.data/MNIST/raw/t10k-labels-idx1-ubyte.gz
-<span class="ansi-cyan-fg">(pid=4138)</span> Downloading http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz to /home/travis/.data/MNIST/raw/t10k-labels-idx1-ubyte.gz
-<span class="ansi-cyan-fg">(pid=4137)</span> Extracting /home/travis/.data/MNIST/raw/t10k-labels-idx1-ubyte.gz to /home/travis/.data/MNIST/raw
-<span class="ansi-cyan-fg">(pid=4137)</span> Processing...
-<span class="ansi-cyan-fg">(pid=4138)</span> Extracting /home/travis/.data/MNIST/raw/t10k-labels-idx1-ubyte.gz to /home/travis/.data/MNIST/raw
-<span class="ansi-cyan-fg">(pid=4138)</span> Processing...
+<span class="ansi-cyan-fg">(pid=4228)</span> Extracting /home/travis/.data/MNIST/raw/t10k-images-idx3-ubyte.gz to /home/travis/.data/MNIST/raw
+<span class="ansi-cyan-fg">(pid=4227)</span> Extracting /home/travis/.data/MNIST/raw/t10k-images-idx3-ubyte.gz to /home/travis/.data/MNIST/raw
+<span class="ansi-cyan-fg">(pid=4228)</span> Downloading http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz to /home/travis/.data/MNIST/raw/t10k-labels-idx1-ubyte.gz
+<span class="ansi-cyan-fg">(pid=4227)</span> Downloading http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz to /home/travis/.data/MNIST/raw/t10k-labels-idx1-ubyte.gz
 180.4%
+<span class="ansi-cyan-fg">(pid=4228)</span> Extracting /home/travis/.data/MNIST/raw/t10k-labels-idx1-ubyte.gz to /home/travis/.data/MNIST/raw
+<span class="ansi-cyan-fg">(pid=4228)</span> Processing...
 180.4%
-<span class="ansi-cyan-fg">(pid=4137)</span> Done!
-<span class="ansi-cyan-fg">(pid=4138)</span> Done!
-<span class="ansi-cyan-fg">(pid=4137)</span> 2020-03-15 05:56:24,528	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4137)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4137)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4137)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4137)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4137)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4137)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4137)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4137)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4137)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4137)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4137)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4137)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4137)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4137)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4137)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4137)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4137)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4137)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4137)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4137)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4137)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4137)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4137)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4137)</span> 
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:24] ax.service.ax_client: Generated new trial 10 with parameters {'lr': 0.02, 'momentum': 0.29}.
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4138)</span> 2020-03-15 05:56:24,623	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4138)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4138)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4138)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4138)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4138)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4138)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4138)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4138)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4138)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4138)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4138)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4138)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4138)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4138)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4138)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4138)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4138)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4138)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4138)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4138)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4138)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4138)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4138)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4138)</span> 
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:24] ax.service.ax_client: Generated new trial 11 with parameters {'lr': 0.08, 'momentum': 0.97}.
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4217)</span> 2020-03-15 05:56:28,424	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4217)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4217)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4217)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4217)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4217)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4217)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4217)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4217)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4217)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4217)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4217)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4217)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4217)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4217)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4217)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4217)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4217)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4217)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4217)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4217)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4217)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4217)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4217)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4217)</span> 
-<span class="ansi-cyan-fg">(pid=4216)</span> 2020-03-15 05:56:28,515	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4216)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4216)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4216)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4216)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4216)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4216)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4216)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4216)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4216)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4216)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4216)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4216)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4216)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4216)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4216)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4216)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4216)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4216)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4216)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4216)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4216)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4216)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4216)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4216)</span> 
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:28] ax.service.ax_client: Generated new trial 12 with parameters {'lr': 0.0, 'momentum': 0.4}.
-[INFO 03-15 05:56:28] ax.service.ax_client: Generated new trial 13 with parameters {'lr': 0.0, 'momentum': 0.49}.
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4228)</span> 2020-03-15 05:56:31,459	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4227)</span> Extracting /home/travis/.data/MNIST/raw/t10k-labels-idx1-ubyte.gz to /home/travis/.data/MNIST/raw
+<span class="ansi-cyan-fg">(pid=4227)</span> Processing...
+<span class="ansi-cyan-fg">(pid=4228)</span> Done!
+<span class="ansi-cyan-fg">(pid=4227)</span> Done!
+<span class="ansi-cyan-fg">(pid=4228)</span> 2020-03-16 05:57:07,513	ERROR function_runner.py:99 -- Runner Thread raised error.
 <span class="ansi-cyan-fg">(pid=4228)</span> Traceback (most recent call last):
 <span class="ansi-cyan-fg">(pid=4228)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
 <span class="ansi-cyan-fg">(pid=4228)</span>     self._entrypoint()
@@ -813,160 +659,46 @@ function slice_config_to_trace(
 <span class="ansi-cyan-fg">(pid=4228)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
 <span class="ansi-cyan-fg">(pid=4228)</span> TypeError: train() missing 1 required positional argument: 'net'
 <span class="ansi-cyan-fg">(pid=4228)</span> 
+<span class="ansi-cyan-fg">(pid=4227)</span> 2020-03-16 05:57:07,476	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4227)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4227)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4227)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4227)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4227)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4227)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4227)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4227)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4227)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4227)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4227)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4227)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4227)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4227)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4227)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4227)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4227)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4227)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4227)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4227)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4227)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4227)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4227)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4227)</span> 
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:31] ax.service.ax_client: Generated new trial 14 with parameters {'lr': 0.0, 'momentum': 0.42}.
+<pre>[INFO 03-16 05:57:07] ax.service.ax_client: Generated new trial 10 with parameters {'lr': 0.0, 'momentum': 0.37}.
+[INFO 03-16 05:57:07] ax.service.ax_client: Generated new trial 11 with parameters {'lr': 0.0, 'momentum': 0.07}.
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4250)</span> 2020-03-15 05:56:32,220	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4250)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4250)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4250)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4250)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4250)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4250)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4250)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4250)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4250)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4250)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4250)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4250)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4250)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4250)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4250)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4250)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4250)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4250)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4250)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4250)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4250)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4250)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4250)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4250)</span> 
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:32] ax.service.ax_client: Generated new trial 15 with parameters {'lr': 0.0, 'momentum': 0.94}.
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4264)</span> 2020-03-15 05:56:35,533	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4264)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4264)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4264)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4264)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4264)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4264)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4264)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4264)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4264)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4264)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4264)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4264)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4264)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4264)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4264)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4264)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4264)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4264)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4264)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4264)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4264)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4264)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4264)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4264)</span> 
-<span class="ansi-cyan-fg">(pid=4265)</span> 2020-03-15 05:56:35,718	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4265)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4265)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4265)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4265)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4265)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4265)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4265)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4265)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4265)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4265)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4265)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4265)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4265)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4265)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4265)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4265)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4265)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4265)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4265)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4265)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4265)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4265)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4265)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4265)</span> 
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:35] ax.service.ax_client: Generated new trial 16 with parameters {'lr': 0.01, 'momentum': 0.01}.
-[INFO 03-15 05:56:36] ax.service.ax_client: Generated new trial 17 with parameters {'lr': 0.0, 'momentum': 0.29}.
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4273)</span> 2020-03-15 05:56:38,487	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4273)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4273)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4273)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4273)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4273)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4273)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4273)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4273)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4273)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4273)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4273)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4273)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4273)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4273)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4273)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4273)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4273)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4273)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4273)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4273)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4273)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4273)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4273)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4273)</span> 
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:38] ax.service.ax_client: Generated new trial 18 with parameters {'lr': 0.01, 'momentum': 0.45}.
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4299)</span> 2020-03-15 05:56:39,712	ERROR function_runner.py:99 -- Runner Thread raised error.
+<pre><span class="ansi-cyan-fg">(pid=4299)</span> 2020-03-16 05:57:11,350	ERROR function_runner.py:99 -- Runner Thread raised error.
 <span class="ansi-cyan-fg">(pid=4299)</span> Traceback (most recent call last):
 <span class="ansi-cyan-fg">(pid=4299)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
 <span class="ansi-cyan-fg">(pid=4299)</span>     self._entrypoint()
@@ -991,649 +723,879 @@ function slice_config_to_trace(
 <span class="ansi-cyan-fg">(pid=4299)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
 <span class="ansi-cyan-fg">(pid=4299)</span> TypeError: train() missing 1 required positional argument: 'net'
 <span class="ansi-cyan-fg">(pid=4299)</span> 
+<span class="ansi-cyan-fg">(pid=4300)</span> 2020-03-16 05:57:11,405	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4300)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4300)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4300)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4300)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4300)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4300)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4300)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4300)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4300)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4300)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4300)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4300)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4300)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4300)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4300)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4300)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4300)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4300)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4300)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4300)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4300)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4300)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4300)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4300)</span> 
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:40] ax.service.ax_client: Generated new trial 19 with parameters {'lr': 0.28, 'momentum': 0.81}.
+<pre>[INFO 03-16 05:57:11] ax.service.ax_client: Generated new trial 12 with parameters {'lr': 0.0, 'momentum': 0.14}.
+[INFO 03-16 05:57:11] ax.service.ax_client: Generated new trial 13 with parameters {'lr': 0.0, 'momentum': 0.04}.
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4313)</span> 2020-03-15 05:56:42,665	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4313)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4313)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4313)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4313)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4313)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4313)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4313)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4313)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4313)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4313)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4313)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4313)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4313)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4313)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4313)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4313)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4313)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4313)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4313)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4313)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4313)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4313)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4313)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4313)</span> 
+<pre><span class="ansi-cyan-fg">(pid=4310)</span> 2020-03-16 05:57:14,303	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4310)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4310)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4310)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4310)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4310)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4310)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4310)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4310)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4310)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4310)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4310)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4310)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4310)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4310)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4310)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4310)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4310)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4310)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4310)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4310)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4310)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4310)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4310)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4310)</span> 
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:43] ax.service.ax_client: Generated new trial 20 with parameters {'lr': 0.0, 'momentum': 0.58}.
+<pre>[INFO 03-16 05:57:14] ax.service.ax_client: Generated new trial 14 with parameters {'lr': 0.0, 'momentum': 1.0}.
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4314)</span> 2020-03-15 05:56:43,442	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4314)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4314)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4314)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4314)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4314)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4314)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4314)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4314)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4314)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4314)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4314)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4314)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4314)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4314)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4314)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4314)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4314)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4314)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4314)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4314)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4314)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4314)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4314)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4314)</span> 
+<pre><span class="ansi-cyan-fg">(pid=4332)</span> 2020-03-16 05:57:15,063	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4332)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4332)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4332)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4332)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4332)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4332)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4332)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4332)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4332)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4332)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4332)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4332)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4332)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4332)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4332)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4332)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4332)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4332)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4332)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4332)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4332)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4332)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4332)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4332)</span> 
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:43] ax.service.ax_client: Generated new trial 21 with parameters {'lr': 0.0, 'momentum': 0.8}.
+<pre>[INFO 03-16 05:57:15] ax.service.ax_client: Generated new trial 15 with parameters {'lr': 0.05, 'momentum': 0.28}.
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4324)</span> 2020-03-15 05:56:45,635	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4324)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4324)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4324)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4324)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4324)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4324)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4324)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4324)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4324)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4324)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4324)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4324)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4324)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4324)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4324)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4324)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4324)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4324)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4324)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4324)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4324)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4324)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4324)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4324)</span> 
+<pre><span class="ansi-cyan-fg">(pid=4346)</span> 2020-03-16 05:57:18,531	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4346)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4346)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4346)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4346)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4346)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4346)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4346)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4346)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4346)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4346)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4346)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4346)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4346)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4346)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4346)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4346)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4346)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4346)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4346)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4346)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4346)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4346)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4346)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4346)</span> 
+<span class="ansi-cyan-fg">(pid=4347)</span> 2020-03-16 05:57:18,554	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4347)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4347)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4347)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4347)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4347)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4347)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4347)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4347)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4347)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4347)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4347)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4347)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4347)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4347)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4347)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4347)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4347)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4347)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4347)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4347)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4347)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4347)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4347)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4347)</span> 
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:46] ax.service.ax_client: Generated new trial 22 with parameters {'lr': 0.0, 'momentum': 0.19}.
+<pre>[INFO 03-16 05:57:18] ax.service.ax_client: Generated new trial 16 with parameters {'lr': 0.03, 'momentum': 0.46}.
+[INFO 03-16 05:57:19] ax.service.ax_client: Generated new trial 17 with parameters {'lr': 0.0, 'momentum': 0.54}.
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4349)</span> 2020-03-15 05:56:47,026	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4349)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4349)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4349)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4349)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4349)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4349)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4349)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4349)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4349)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4349)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4349)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4349)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4349)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4349)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4349)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4349)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4349)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4349)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4349)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4349)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4349)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4349)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4349)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4349)</span> 
+<pre><span class="ansi-cyan-fg">(pid=4354)</span> 2020-03-16 05:57:21,426	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4354)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4354)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4354)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4354)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4354)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4354)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4354)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4354)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4354)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4354)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4354)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4354)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4354)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4354)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4354)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4354)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4354)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4354)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4354)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4354)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4354)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4354)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4354)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4354)</span> 
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:47] ax.service.ax_client: Generated new trial 23 with parameters {'lr': 0.0, 'momentum': 0.13}.
+<pre>[INFO 03-16 05:57:21] ax.service.ax_client: Generated new trial 18 with parameters {'lr': 0.0, 'momentum': 0.22}.
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4361)</span> 2020-03-15 05:56:49,256	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4361)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4361)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4361)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4361)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4361)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4361)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4361)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4361)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4361)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4361)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4361)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4361)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4361)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4361)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4361)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4361)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4361)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4361)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4361)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4361)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4361)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4361)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4361)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4361)</span> 
+<pre><span class="ansi-cyan-fg">(pid=4381)</span> 2020-03-16 05:57:22,583	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4381)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4381)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4381)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4381)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4381)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4381)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4381)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4381)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4381)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4381)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4381)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4381)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4381)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4381)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4381)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4381)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4381)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4381)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4381)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4381)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4381)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4381)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4381)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4381)</span> 
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:49] ax.service.ax_client: Generated new trial 24 with parameters {'lr': 0.01, 'momentum': 0.6}.
+<pre>[INFO 03-16 05:57:23] ax.service.ax_client: Generated new trial 19 with parameters {'lr': 0.0, 'momentum': 0.55}.
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4373)</span> 2020-03-15 05:56:50,795	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4373)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4373)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4373)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4373)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4373)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4373)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4373)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4373)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4373)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4373)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4373)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4373)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4373)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4373)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4373)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4373)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4373)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4373)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4373)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4373)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4373)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4373)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4373)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4373)</span> 
+<pre><span class="ansi-cyan-fg">(pid=4395)</span> 2020-03-16 05:57:25,793	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4395)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4395)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4395)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4395)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4395)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4395)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4395)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4395)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4395)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4395)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4395)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4395)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4395)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4395)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4395)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4395)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4395)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4395)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4395)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4395)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4395)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4395)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4395)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4395)</span> 
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:51] ax.service.ax_client: Generated new trial 25 with parameters {'lr': 0.0, 'momentum': 0.88}.
+<pre>[INFO 03-16 05:57:26] ax.service.ax_client: Generated new trial 20 with parameters {'lr': 0.0, 'momentum': 0.27}.
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4385)</span> 2020-03-15 05:56:53,038	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4385)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4385)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4385)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4385)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4385)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4385)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4385)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4385)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4385)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4385)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4385)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4385)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4385)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4385)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4385)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4385)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4385)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4385)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4385)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4385)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4385)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4385)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4385)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4385)</span> 
+<pre><span class="ansi-cyan-fg">(pid=4396)</span> 2020-03-16 05:57:25,980	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4396)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4396)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4396)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4396)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4396)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4396)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4396)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4396)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4396)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4396)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4396)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4396)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4396)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4396)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4396)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4396)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4396)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4396)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4396)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4396)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4396)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4396)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4396)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4396)</span> 
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:53] ax.service.ax_client: Generated new trial 26 with parameters {'lr': 0.0, 'momentum': 0.62}.
+<pre>[INFO 03-16 05:57:26] ax.service.ax_client: Generated new trial 21 with parameters {'lr': 0.0, 'momentum': 0.09}.
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4397)</span> 2020-03-15 05:56:54,525	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4397)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4397)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4397)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4397)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4397)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4397)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4397)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4397)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4397)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4397)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4397)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4397)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4397)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4397)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4397)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4397)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4397)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4397)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4397)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4397)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4397)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4397)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4397)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4397)</span> 
+<pre><span class="ansi-cyan-fg">(pid=4406)</span> 2020-03-16 05:57:28,833	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4406)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4406)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4406)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4406)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4406)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4406)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4406)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4406)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4406)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4406)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4406)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4406)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4406)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4406)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4406)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4406)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4406)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4406)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4406)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4406)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4406)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4406)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4406)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4406)</span> 
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:55] ax.service.ax_client: Generated new trial 27 with parameters {'lr': 0.0, 'momentum': 0.48}.
+<pre>[INFO 03-16 05:57:29] ax.service.ax_client: Generated new trial 22 with parameters {'lr': 0.0, 'momentum': 0.04}.
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4409)</span> 2020-03-15 05:56:56,765	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4409)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4409)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4409)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4409)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4409)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4409)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4409)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4409)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4409)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4409)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4409)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4409)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4409)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4409)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4409)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4409)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4409)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4409)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4409)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4409)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4409)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4409)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4409)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4409)</span> 
+<pre><span class="ansi-cyan-fg">(pid=4429)</span> 2020-03-16 05:57:29,776	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4429)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4429)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4429)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4429)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4429)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4429)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4429)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4429)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4429)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4429)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4429)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4429)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4429)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4429)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4429)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4429)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4429)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4429)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4429)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4429)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4429)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4429)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4429)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4429)</span> 
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:57] ax.service.ax_client: Generated new trial 28 with parameters {'lr': 0.01, 'momentum': 0.07}.
+<pre>[INFO 03-16 05:57:30] ax.service.ax_client: Generated new trial 23 with parameters {'lr': 0.0, 'momentum': 0.67}.
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4421)</span> 2020-03-15 05:56:58,476	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4421)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4421)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4421)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4421)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4421)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4421)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4421)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4421)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4421)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4421)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4421)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4421)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4421)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4421)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4421)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4421)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4421)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4421)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4421)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4421)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4421)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4421)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4421)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4421)</span> 
+<pre><span class="ansi-cyan-fg">(pid=4460)</span> 2020-03-16 05:57:33,265	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4460)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4460)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4460)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4460)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4460)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4460)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4460)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4460)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4460)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4460)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4460)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4460)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4460)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4460)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4460)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4460)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4460)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4460)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4460)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4460)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4460)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4460)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4460)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4460)</span> 
+<span class="ansi-cyan-fg">(pid=4461)</span> 2020-03-16 05:57:33,276	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4461)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4461)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4461)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4461)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4461)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4461)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4461)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4461)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4461)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4461)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4461)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4461)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4461)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4461)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4461)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4461)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4461)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4461)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4461)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4461)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4461)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4461)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4461)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4461)</span> 
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>[INFO 03-15 05:56:59] ax.service.ax_client: Generated new trial 29 with parameters {'lr': 0.09, 'momentum': 0.88}.
+<pre>[INFO 03-16 05:57:33] ax.service.ax_client: Generated new trial 24 with parameters {'lr': 0.07, 'momentum': 0.22}.
+[INFO 03-16 05:57:34] ax.service.ax_client: Generated new trial 25 with parameters {'lr': 0.0, 'momentum': 0.34}.
 </pre>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-cyan-fg">(pid=4453)</span> 2020-03-15 05:57:00,575	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4453)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4453)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4453)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4453)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4453)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4453)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4453)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4453)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4453)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4453)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4453)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4453)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4453)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4453)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4453)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4453)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4453)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4453)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4453)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4453)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4453)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4453)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4453)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4453)</span> 
-<span class="ansi-cyan-fg">(pid=4465)</span> 2020-03-15 05:57:02,255	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4465)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4465)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4465)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4465)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4465)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4465)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4465)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4465)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4465)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4465)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4465)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4465)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4465)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4465)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4465)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4465)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4465)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4465)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4465)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4465)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4465)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4465)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4465)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4465)</span> 
-<span class="ansi-cyan-fg">(pid=4477)</span> 2020-03-15 05:57:04,214	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4477)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4477)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4477)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4477)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4477)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4477)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4477)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4477)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4477)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4477)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4477)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4477)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4477)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4477)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4477)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4477)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4477)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4477)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4477)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4477)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4477)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4477)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4477)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4477)</span> 
-<span class="ansi-cyan-fg">(pid=4489)</span> 2020-03-15 05:57:05,901	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4489)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4489)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4489)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4489)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4489)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4489)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4489)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4489)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4489)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4489)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4489)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4489)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4489)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4489)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4489)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4489)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4489)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4489)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4489)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4489)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4489)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4489)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4489)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4489)</span> 
-<span class="ansi-cyan-fg">(pid=4501)</span> 2020-03-15 05:57:07,732	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4501)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4501)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4501)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4501)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4501)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4501)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4501)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4501)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4501)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4501)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4501)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4501)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4501)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4501)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4501)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4501)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4501)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4501)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4501)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4501)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4501)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4501)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4501)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4501)</span> 
-<span class="ansi-cyan-fg">(pid=4513)</span> 2020-03-15 05:57:09,542	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4513)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4513)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4513)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4513)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4513)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4513)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4513)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4513)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4513)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4513)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4513)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4513)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4513)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4513)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4513)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4513)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4513)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4513)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4513)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4513)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4513)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4513)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4513)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4513)</span> 
-<span class="ansi-cyan-fg">(pid=4525)</span> 2020-03-15 05:57:11,191	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4525)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4525)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4525)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4525)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4525)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4525)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4525)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4525)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4525)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4525)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4525)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4525)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4525)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4525)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4525)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4525)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4525)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4525)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4525)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4525)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4525)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4525)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4525)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4525)</span> 
-<span class="ansi-cyan-fg">(pid=4537)</span> 2020-03-15 05:57:13,114	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4537)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4537)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4537)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4537)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4537)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4537)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4537)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4537)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4537)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4537)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4537)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4537)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4537)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4537)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4537)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4537)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4537)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4537)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4537)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4537)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4537)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4537)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4537)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4537)</span> 
-<span class="ansi-cyan-fg">(pid=4549)</span> 2020-03-15 05:57:14,819	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4549)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4549)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4549)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4549)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4549)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4549)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4549)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4549)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4549)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4549)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4549)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4549)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4549)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4549)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4549)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4549)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4549)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4549)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4549)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4549)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4549)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4549)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4549)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4549)</span> 
-<span class="ansi-cyan-fg">(pid=4561)</span> 2020-03-15 05:57:16,134	ERROR function_runner.py:99 -- Runner Thread raised error.
-<span class="ansi-cyan-fg">(pid=4561)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4561)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4561)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4561)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4561)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4561)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4561)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4561)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4561)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4561)</span> Exception in thread Thread-1:
-<span class="ansi-cyan-fg">(pid=4561)</span> Traceback (most recent call last):
-<span class="ansi-cyan-fg">(pid=4561)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
-<span class="ansi-cyan-fg">(pid=4561)</span>     self.run()
-<span class="ansi-cyan-fg">(pid=4561)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
-<span class="ansi-cyan-fg">(pid=4561)</span>     raise e
-<span class="ansi-cyan-fg">(pid=4561)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
-<span class="ansi-cyan-fg">(pid=4561)</span>     self._entrypoint()
-<span class="ansi-cyan-fg">(pid=4561)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
-<span class="ansi-cyan-fg">(pid=4561)</span>     return self._trainable_func(config, self._status_reporter)
-<span class="ansi-cyan-fg">(pid=4561)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
-<span class="ansi-cyan-fg">(pid=4561)</span>     output = train_func(config)
-<span class="ansi-cyan-fg">(pid=4561)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
-<span class="ansi-cyan-fg">(pid=4561)</span> TypeError: train() missing 1 required positional argument: 'net'
-<span class="ansi-cyan-fg">(pid=4561)</span> 
+<pre><span class="ansi-cyan-fg">(pid=4469)</span> 2020-03-16 05:57:36,258	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4469)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4469)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4469)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4469)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4469)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4469)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4469)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4469)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4469)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4469)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4469)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4469)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4469)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4469)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4469)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4469)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4469)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4469)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4469)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4469)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4469)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4469)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4469)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4469)</span> 
+</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>[INFO 03-16 05:57:36] ax.service.ax_client: Generated new trial 26 with parameters {'lr': 0.0, 'momentum': 0.26}.
+</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-cyan-fg">(pid=4495)</span> 2020-03-16 05:57:37,284	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4495)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4495)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4495)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4495)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4495)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4495)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4495)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4495)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4495)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4495)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4495)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4495)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4495)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4495)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4495)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4495)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4495)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4495)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4495)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4495)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4495)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4495)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4495)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4495)</span> 
+</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>[INFO 03-16 05:57:37] ax.service.ax_client: Generated new trial 27 with parameters {'lr': 0.0, 'momentum': 0.76}.
+</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-cyan-fg">(pid=4509)</span> 2020-03-16 05:57:40,740	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4509)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4509)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4509)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4509)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4509)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4509)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4509)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4509)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4509)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4509)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4509)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4509)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4509)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4509)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4509)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4509)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4509)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4509)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4509)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4509)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4509)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4509)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4509)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4509)</span> 
+</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>[INFO 03-16 05:57:41] ax.service.ax_client: Generated new trial 28 with parameters {'lr': 0.2, 'momentum': 0.75}.
+</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-cyan-fg">(pid=4510)</span> 2020-03-16 05:57:40,977	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4510)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4510)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4510)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4510)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4510)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4510)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4510)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4510)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4510)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4510)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4510)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4510)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4510)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4510)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4510)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4510)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4510)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4510)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4510)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4510)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4510)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4510)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4510)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4510)</span> 
+</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>[INFO 03-16 05:57:41] ax.service.ax_client: Generated new trial 29 with parameters {'lr': 0.0, 'momentum': 0.09}.
+</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-cyan-fg">(pid=4518)</span> 2020-03-16 05:57:43,802	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4518)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4518)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4518)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4518)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4518)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4518)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4518)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4518)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4518)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4518)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4518)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4518)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4518)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4518)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4518)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4518)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4518)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4518)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4518)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4518)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4518)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4518)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4518)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4518)</span> 
+<span class="ansi-cyan-fg">(pid=4543)</span> 2020-03-16 05:57:44,982	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4543)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4543)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4543)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4543)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4543)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4543)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4543)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4543)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4543)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4543)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4543)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4543)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4543)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4543)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4543)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4543)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4543)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4543)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4543)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4543)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4543)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4543)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4543)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4543)</span> 
+<span class="ansi-cyan-fg">(pid=4558)</span> 2020-03-16 05:57:47,179	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4558)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4558)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4558)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4558)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4558)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4558)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4558)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4558)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4558)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4558)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4558)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4558)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4558)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4558)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4558)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4558)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4558)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4558)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4558)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4558)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4558)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4558)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4558)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4558)</span> 
+<span class="ansi-cyan-fg">(pid=4570)</span> 2020-03-16 05:57:48,549	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4570)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4570)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4570)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4570)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4570)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4570)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4570)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4570)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4570)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4570)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4570)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4570)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4570)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4570)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4570)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4570)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4570)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4570)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4570)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4570)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4570)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4570)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4570)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4570)</span> 
+<span class="ansi-cyan-fg">(pid=4582)</span> 2020-03-16 05:57:50,594	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4582)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4582)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4582)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4582)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4582)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4582)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4582)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4582)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4582)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4582)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4582)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4582)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4582)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4582)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4582)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4582)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4582)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4582)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4582)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4582)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4582)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4582)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4582)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4582)</span> 
+<span class="ansi-cyan-fg">(pid=4594)</span> 2020-03-16 05:57:51,974	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4594)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4594)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4594)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4594)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4594)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4594)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4594)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4594)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4594)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4594)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4594)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4594)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4594)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4594)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4594)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4594)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4594)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4594)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4594)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4594)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4594)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4594)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4594)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4594)</span> 
+<span class="ansi-cyan-fg">(pid=4606)</span> 2020-03-16 05:57:54,161	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4606)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4606)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4606)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4606)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4606)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4606)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4606)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4606)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4606)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4606)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4606)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4606)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4606)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4606)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4606)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4606)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4606)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4606)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4606)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4606)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4606)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4606)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4606)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4606)</span> 
+<span class="ansi-cyan-fg">(pid=4618)</span> 2020-03-16 05:57:55,425	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4618)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4618)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4618)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4618)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4618)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4618)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4618)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4618)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4618)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4618)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4618)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4618)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4618)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4618)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4618)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4618)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4618)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4618)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4618)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4618)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4618)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4618)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4618)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4618)</span> 
+<span class="ansi-cyan-fg">(pid=4630)</span> 2020-03-16 05:57:57,600	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4630)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4630)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4630)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4630)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4630)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4630)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4630)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4630)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4630)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4630)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4630)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4630)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4630)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4630)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4630)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4630)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4630)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4630)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4630)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4630)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4630)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4630)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4630)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4630)</span> 
+<span class="ansi-cyan-fg">(pid=4642)</span> 2020-03-16 05:57:58,558	ERROR function_runner.py:99 -- Runner Thread raised error.
+<span class="ansi-cyan-fg">(pid=4642)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4642)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4642)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4642)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4642)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4642)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4642)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4642)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4642)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4642)</span> Exception in thread Thread-1:
+<span class="ansi-cyan-fg">(pid=4642)</span> Traceback (most recent call last):
+<span class="ansi-cyan-fg">(pid=4642)</span>   File "/opt/python/3.7.1/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+<span class="ansi-cyan-fg">(pid=4642)</span>     self.run()
+<span class="ansi-cyan-fg">(pid=4642)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 112, in run
+<span class="ansi-cyan-fg">(pid=4642)</span>     raise e
+<span class="ansi-cyan-fg">(pid=4642)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 93, in run
+<span class="ansi-cyan-fg">(pid=4642)</span>     self._entrypoint()
+<span class="ansi-cyan-fg">(pid=4642)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 141, in entrypoint
+<span class="ansi-cyan-fg">(pid=4642)</span>     return self._trainable_func(config, self._status_reporter)
+<span class="ansi-cyan-fg">(pid=4642)</span>   File "/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ray/tune/function_runner.py", line 267, in _trainable_func
+<span class="ansi-cyan-fg">(pid=4642)</span>     output = train_func(config)
+<span class="ansi-cyan-fg">(pid=4642)</span>   File "&lt;ipython-input-5-ff8e06f677c6&gt;", line 4, in train_evaluate
+<span class="ansi-cyan-fg">(pid=4642)</span> TypeError: train() missing 1 required positional argument: 'net'
+<span class="ansi-cyan-fg">(pid=4642)</span> 
 </pre>
 </div>
 </div>
@@ -1657,7 +1619,7 @@ function slice_config_to_trace(
 <span class="ansi-green-intense-fg ansi-bold">    346</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
 <span class="ansi-green-intense-fg ansi-bold">    347</span>             logger<span class="ansi-blue-fg">.</span>error<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">"Trials did not complete: %s"</span><span class="ansi-blue-fg">,</span> errored_trials<span class="ansi-blue-fg">)</span>
 
-<span class="ansi-red-fg">TuneError</span>: ('Trials did not complete', [train_evaluate_b0a6e4ea, train_evaluate_b0a6e4eb, train_evaluate_b0a6e4ec, train_evaluate_b0a6e4ed, train_evaluate_b0a6e4ee, train_evaluate_b0a6e4ef, train_evaluate_b0a6e4f0, train_evaluate_b0a6e4f1, train_evaluate_b168a846, train_evaluate_b168a847, train_evaluate_b168a848, train_evaluate_b415227c, train_evaluate_b415227d, train_evaluate_b68008ce, train_evaluate_b68008cf, train_evaluate_b8610878, train_evaluate_b8610879, train_evaluate_bac49134, train_evaluate_bac49135, train_evaluate_bc95381a, train_evaluate_bd5b76f6, train_evaluate_bf0afaee, train_evaluate_bf0afaef, train_evaluate_c0e4014e, train_evaluate_c0e4014f, train_evaluate_c30a5f54, train_evaluate_c3ffebd6, train_evaluate_c55b2ee6, train_evaluate_c65508bc, train_evaluate_c7880144])</pre>
+<span class="ansi-red-fg">TuneError</span>: ('Trials did not complete', [train_evaluate_f47b4034, train_evaluate_f47b4035, train_evaluate_f47b4036, train_evaluate_f47b4037, train_evaluate_f47b4038, train_evaluate_f47b4039, train_evaluate_f47b403a, train_evaluate_f47b403b, train_evaluate_f47b403c, train_evaluate_f47b403d, train_evaluate_f56a5ffc, train_evaluate_f8209e96, train_evaluate_f8209e97, train_evaluate_fa7e5df4, train_evaluate_fa7e5df5, train_evaluate_fc55673a, train_evaluate_fc55673b, train_evaluate_fec99f22, train_evaluate_fec99f23, train_evaluate_009433da, train_evaluate_0156398a, train_evaluate_0329211e, train_evaluate_0329211f, train_evaluate_05167490, train_evaluate_05167491, train_evaluate_079f37d8, train_evaluate_079f37d9, train_evaluate_098aeaba, train_evaluate_098aeabb, train_evaluate_0c2305d2])</pre>
 </div>
 </div>
 </div>
