@@ -111,7 +111,7 @@ src="/js/documentation_options.js">
             <span class="c1"># Set weights from "lower_is_better"</span>
             <span class="k">if</span> <span class="n">metric</span><span class="o">.</span><span class="n">lower_is_better</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="s2">"metric </span><span class="si">{metric.name}</span><span class="s2"> has not set `lower_is_better`. "</span>
+                    <span class="sa">f</span><span class="s2">"metric </span><span class="si">{</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> has not set `lower_is_better`. "</span>
                     <span class="s2">"Treating as `False` (Metric should be maximized)."</span>
                 <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
